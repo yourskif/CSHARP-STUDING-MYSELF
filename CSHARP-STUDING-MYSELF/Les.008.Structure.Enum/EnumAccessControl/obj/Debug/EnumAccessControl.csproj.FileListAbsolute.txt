@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\EnumAccessControl\bin\Debug\EnumAccessControl.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\EnumAccessControl\bin\Debug\EnumAccessControl.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\EnumAccessControl\bin\Debug\EnumAccessControl.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\EnumAccessControl\obj\Debug\EnumAccessControl.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\EnumAccessControl\obj\Debug\EnumAccessControl.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\EnumAccessControl\obj\Debug\EnumAccessControl.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\EnumAccessControl\obj\Debug\EnumAccessControl.pdb

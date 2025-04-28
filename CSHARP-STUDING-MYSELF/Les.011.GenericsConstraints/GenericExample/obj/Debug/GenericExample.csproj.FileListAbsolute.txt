@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.011.GenericsConstraints\GenericExample\bin\Debug\GenericExample.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.011.GenericsConstraints\GenericExample\bin\Debug\GenericExample.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.011.GenericsConstraints\GenericExample\bin\Debug\GenericExample.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.011.GenericsConstraints\GenericExample\obj\Debug\GenericExample.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.011.GenericsConstraints\GenericExample\obj\Debug\GenericExample.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.011.GenericsConstraints\GenericExample\obj\Debug\GenericExample.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.011.GenericsConstraints\GenericExample\obj\Debug\GenericExample.pdb

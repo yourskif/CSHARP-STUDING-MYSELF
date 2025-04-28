@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollectionsYield\bin\Debug\MyCollectionsYield.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollectionsYield\bin\Debug\MyCollectionsYield.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollectionsYield\bin\Debug\MyCollectionsYield.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollectionsYield\obj\Debug\MyCollectionsYield.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollectionsYield\obj\Debug\MyCollectionsYield.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollectionsYield\obj\Debug\MyCollectionsYield.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollectionsYield\obj\Debug\MyCollectionsYield.pdb

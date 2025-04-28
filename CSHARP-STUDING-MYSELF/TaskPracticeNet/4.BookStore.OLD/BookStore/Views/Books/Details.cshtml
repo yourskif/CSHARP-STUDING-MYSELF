@@ -1,0 +1,18 @@
+﻿@model BookStore.Models.Book
+
+<h2>@Model.Title</h2>
+
+<dl class="row">
+    <dt class="col-sm-2">Жанр</dt>
+    <dd class="col-sm-10">@Model.Genre</dd>
+    <dt class="col-sm-2">Кількість сторінок</dt>
+    <dd class="col-sm-10">@Model.PageCount</dd>
+    <dt class="col-sm-2">Автор</dt>
+    <dd class="col-sm-10">@Model.Author?.LastName @Model.Author?.FirstName</dd>
+</dl>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-returnUrl="@Context.Request.Headers["Referer"]" class="btn btn-warning">Редагувати</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Видалити</a>
+    <a href="@Context.Request.Headers["Referer"]" class="btn btn-secondary">Назад</a>
+</div>

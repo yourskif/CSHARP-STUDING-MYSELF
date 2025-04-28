@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\Product.IEnumerable\bin\Debug\Product.IEnumerable.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\Product.IEnumerable\bin\Debug\Product.IEnumerable.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\Product.IEnumerable\bin\Debug\Product.IEnumerable.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\Product.IEnumerable\obj\Debug\Product.IEnumerable.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\Product.IEnumerable\obj\Debug\Product.IEnumerable.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\Product.IEnumerable\obj\Debug\Product.IEnumerable.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\Product.IEnumerable\obj\Debug\Product.IEnumerable.pdb

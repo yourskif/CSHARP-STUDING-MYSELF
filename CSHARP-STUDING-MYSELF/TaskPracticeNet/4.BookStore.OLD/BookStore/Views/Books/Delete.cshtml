@@ -1,0 +1,27 @@
+﻿@model BookStore.Models.Book
+
+@{
+    string returnUrl = ViewBag.ReturnUrl as string;
+}
+
+<h2>Видалити книгу</h2>
+
+<h3>Ви впевнені, що хочете видалити цю книгу?</h3>
+<div>
+    <h4>@Model.Title</h4>
+    <dl class="row">
+        <dt class="col-sm-2">Назва</dt>
+        <dd class="col-sm-10">@Model.Title</dd>
+        <dt class="col-sm-2">Жанр</dt>
+        <dd class="col-sm-10">@Model.Genre</dd>
+        <dt class="col-sm-2">Сторінок</dt>
+        <dd class="col-sm-10">@Model.PageCount</dd>
+    </dl>
+
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" name="returnUrl" value="@returnUrl" />
+        <button type="submit" class="btn btn-danger">Видалити</button>
+        <a href="@returnUrl" class="btn btn-secondary">Скасувати</a>
+    </form>
+</div>

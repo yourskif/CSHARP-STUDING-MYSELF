@@ -1,0 +1,142 @@
+﻿@model BookStore.Models.Book
+
+@{
+    ViewData["Title"] = "Додати книгу";
+    var authorId = Context.Request.Query["authorId"];
+}
+
+<div class="container">
+    <h2>Додати книгу</h2>
+    <hr />
+
+    <!-- Форма для додавання книг -->
+    <form id="addBookForm">
+        <input type="hidden" id="authorId" value="@authorId" />
+        <div class="form-group">
+            <label for="title">Назва</label>
+            <input type="text" id="title" name="title" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="genre">Жанр</label>
+            <select id="genre" name="genre" class="form-control">
+                @foreach (var genre in Enum.GetValues(typeof(BookStore.Models.GenreEnum)))
+                {
+                    <option value="@((int)genre)">@genre</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="pageCount">Кількість сторінок</label>
+            <input type="number" id="pageCount" name="pageCount" class="form-control" />
+        </div>
+        <button type="button" id="addBookButton" class="btn btn-success">Додати книгу</button>
+    </form>
+
+    <!-- Список доданих книг -->
+    <h3>Додані книги</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Назва</th>
+                <th>Жанр</th>
+                <th>Сторінок</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody id="bookTable">
+            <!-- Тут будуть відображатися додані книги -->
+        </tbody>
+    </table>
+
+    <!-- Кнопка для збереження всіх книг -->
+    <div class="mt-4">
+        <button type="button" id="saveBooksButton" class="btn btn-primary">Зберегти книги</button>
+        <a href="@Url.Action("Edit", "Authors", new { id = authorId })" class="btn btn-secondary">Повернутись до автора</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Логіка для додавання книг
+        const addBookButton = document.getElementById("addBookButton");
+        const bookTable = document.getElementById("bookTable");
+
+        addBookButton.onclick = () => {
+            const title = document.getElementById("title").value;
+            const genre = document.getElementById("genre").value;
+            const pageCount = document.getElementById("pageCount").value;
+
+            if (!title || !pageCount) {
+                alert("Заповніть усі обов'язкові поля!");
+                return;
+            }
+
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${title}</td>
+                <td>${document.getElementById("genre").options[genre - 1].text}</td>
+                <td>${pageCount}</td>
+                <td>
+                    <button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">Видалити</button>
+                </td>
+            `;
+            bookTable.appendChild(newRow);
+
+            // Очистити поля форми
+            document.getElementById("title").value = "";
+            document.getElementById("pageCount").value = "";
+        };
+
+        // Логіка для збереження всіх книг
+        const saveBooksButton = document.getElementById("saveBooksButton");
+        saveBooksButton.onclick = async () => {
+            const books = [];
+            document.querySelectorAll('#bookTable tr').forEach(row => {
+                const title = row.querySelector('td:nth-child(1)').innerText;
+                const genre = row.querySelector('td:nth-child(2)').innerText;
+                const pageCount = row.querySelector('td:nth-child(3)').innerText;
+
+                books.push({
+                    Title: title,
+                    Genre: parseInt(genre),
+                    PageCount: parseInt(pageCount),
+                    AuthorId: @authorId
+                });
+            });
+
+            if (books.length === 0) {
+                alert("Додайте хоча б одну книгу перед збереженням!");
+                return;
+            }
+
+            const requestData = {
+                AuthorId: @authorId,
+                Books: books
+            };
+
+            console.log("Відправляємо дані:", JSON.stringify(requestData));
+
+            try {
+                const response = await fetch('/Authors/SaveBooks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("Книжки успішно збережено!");
+                    window.location.href = `/Authors/Edit/@authorId`; // Перенаправлення на сторінку редагування автора
+                } else {
+                    alert("Помилка: " + result.message);
+                }
+            } catch (error) {
+                console.error("Помилка під час відправки даних:", error);
+                alert("Сталася помилка під час збереження книжок.");
+            }
+        };
+    </script>
+}

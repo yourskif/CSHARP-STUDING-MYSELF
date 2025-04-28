@@ -1,0 +1,13 @@
+
+# All files
+[*]
+indent_style = space
+
+# Xml files
+[*.xml]
+indent_size = 2
+
+# Вимикає всі помилки, пов'язані з правописом
+[*]
+dotnet_diagnostic.CA1704.severity = none
+dotnet_diagnostic.SpellChecker.severity = none

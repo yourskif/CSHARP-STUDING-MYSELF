@@ -1,0 +1,76 @@
+﻿@model IEnumerable<BookStore.Models.Book>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Книги автора</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between mb-3">
+            <h2>Книги автора</h2>
+            <div>
+                <a href="@Url.Action("Index", "Authors")" class="btn btn-secondary me-2">Повернутись до авторів</a>
+            </div>
+        </div>
+
+        <!-- Фільтр за жанром -->
+        <div class="mb-3">
+            <form asp-action="Index" method="get">
+                <div class="input-group">
+                    <select name="genreFilter" class="form-control" onchange="this.form.submit()">
+                        <option value="">Всі жанри</option>
+                        @foreach (var genre in Enum.GetValues(typeof(GenreEnum)))
+                        {
+                            string genreString = genre.ToString();
+                            bool isSelected = ViewBag.GenreFilter != null && ViewBag.GenreFilter.ToString() == genreString;
+                            if (isSelected)
+                            {
+                                <option value="@genreString" selected>@genreString</option>
+                            }
+                            else
+                            {
+                                <option value="@genreString">@genreString</option>
+                            }
+                        }
+                    </select>
+                    <input type="hidden" name="authorId" value="@Model.FirstOrDefault()?.AuthorId" />
+                </div>
+            </form>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Назва</th>
+                    <th>Кількість сторінок</th>
+                    <th>Жанр</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.PageCount</td>
+                        <td>@book.Genre</td>
+                        <td>
+                            <a href="@Url.Action("Details", "Books", new { id = book.Id })" class="btn btn-info btn-sm">Деталі</a>
+                            <a href="@Url.Action("Edit", "Books", new { id = book.Id })" class="btn btn-warning btn-sm ms-1">Редагувати</a>
+                            <a href="@Url.Action("Delete", "Books", new { id = book.Id })" class="btn btn-danger btn-sm ms-1">Видалити</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a href="@Url.Action("Create", "Books", new { authorId = Model.FirstOrDefault()?.AuthorId })" class="btn btn-primary mt-3">Додати книгу</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

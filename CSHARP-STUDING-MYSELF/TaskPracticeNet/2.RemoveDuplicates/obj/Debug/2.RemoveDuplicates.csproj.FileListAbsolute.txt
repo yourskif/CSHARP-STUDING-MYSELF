@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\2.RemoveDuplicates\bin\Debug\2.RemoveDuplicates.exe.config
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\2.RemoveDuplicates\bin\Debug\2.RemoveDuplicates.exe
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\2.RemoveDuplicates\bin\Debug\2.RemoveDuplicates.pdb
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\2.RemoveDuplicates\obj\Debug\2.RemoveDuplicates.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\2.RemoveDuplicates\obj\Debug\2.RemoveDuplicates.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\2.RemoveDuplicates\obj\Debug\2.RemoveDuplicates.exe
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\2.RemoveDuplicates\obj\Debug\2.RemoveDuplicates.pdb

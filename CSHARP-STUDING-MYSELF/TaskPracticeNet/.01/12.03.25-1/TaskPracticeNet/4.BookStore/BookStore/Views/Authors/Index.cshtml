@@ -1,0 +1,101 @@
+﻿@model IEnumerable<BookStore.Models.Author>
+
+<h2>Автори</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <label for="authorFilter">Автор</label>
+        <select id="authorFilter" class="form-control">
+            @{
+                if (string.IsNullOrEmpty(ViewBag.AuthorFilter))
+                {
+                    <option value="" selected>Всі автори</option>
+                }
+                else
+                {
+                    <option value="">Всі автори</option>
+                }
+            }
+            @foreach (var author in Model)
+            {
+                if (ViewBag.AuthorFilter == author.Id.ToString())
+                {
+                    <option value="@author.Id" selected>@author.LastName @author.FirstName</option>
+                }
+                else
+                {
+                    <option value="@author.Id">@author.LastName @author.FirstName</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label for="genreFilter">Жанр</label>
+        <select id="genreFilter" class="form-control">
+            @{
+                if (string.IsNullOrEmpty(ViewBag.GenreFilter))
+                {
+                    <option value="" selected>Всі жанри</option>
+                }
+                else
+                {
+                    <option value="">Всі жанри</option>
+                }
+            }
+            @foreach (var genre in Enum.GetValues(typeof(BookStore.Models.GenreEnum)))
+            {
+                if (ViewBag.GenreFilter == genre.ToString())
+                {
+                    <option value="@genre" selected>@genre</option>
+                }
+                else
+                {
+                    <option value="@genre">@genre</option>
+                }
+            }
+        </select>
+    </div>
+</div>
+
+<a asp-action="Create" class="btn btn-success mt-3">Додати автора</a>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Автор</th>
+            <th>Кількість книг</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author.LastName @author.FirstName</td>
+                <td>@author.Books?.Count</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@author.Id" class="btn btn-warning">Редагувати</a>
+                    <a asp-action="Delete" asp-route-id="@author.Id" class="btn btn-danger">Видалити</a>
+                    <a asp-action="Details" asp-route-id="@author.Id" class="btn btn-info">Деталі</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        const authorFilter = document.getElementById("authorFilter");
+        const genreFilter = document.getElementById("genreFilter");
+
+        authorFilter.addEventListener("change", () => filterAuthors());
+        genreFilter.addEventListener("change", () => filterAuthors());
+
+        function filterAuthors() {
+            const authorId = authorFilter.value;
+            const genre = genreFilter.value;
+
+            window.location.href = `/Authors/Index?authorFilter=${authorId}&genreFilter=${genre}`;
+        }
+    </script>
+}

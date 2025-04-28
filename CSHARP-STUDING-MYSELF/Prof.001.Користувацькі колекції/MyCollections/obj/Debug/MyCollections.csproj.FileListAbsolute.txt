@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollections\bin\Debug\MyCollections.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollections\bin\Debug\MyCollections.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollections\bin\Debug\MyCollections.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollections\obj\Debug\MyCollections.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollections\obj\Debug\MyCollections.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollections\obj\Debug\MyCollections.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyCollections\obj\Debug\MyCollections.pdb

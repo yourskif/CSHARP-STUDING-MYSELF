@@ -1,0 +1,31 @@
+﻿@model BookStore.Models.Book
+
+@{
+    ViewData["Title"] = "Додати книгу";
+}
+
+<div class="container">
+    <h2>Додати книгу</h2>
+    <hr />
+
+    <form asp-action="Create">
+        <input type="hidden" asp-for="AuthorId" />
+
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <!-- Додайте інші поля книги -->
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Додати</button>
+            <a asp-action="Edit" asp-controller="Authors" asp-route-id="@Model.AuthorId" class="btn btn-secondary">Скасувати</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

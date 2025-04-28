@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\Ручна реалізація IEnumerator\bin\Debug\Ручна реалізація IEnumerator.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\Ручна реалізація IEnumerator\bin\Debug\Ручна реалізація IEnumerator.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\Ручна реалізація IEnumerator\bin\Debug\Ручна реалізація IEnumerator.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\Ручна реалізація IEnumerator\obj\Debug\Ручна реалізація IEnumerator.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\Ручна реалізація IEnumerator\obj\Debug\Ручна реалізація IEnumerator.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\Ручна реалізація IEnumerator\obj\Debug\Ручна реалізація IEnumerator.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\Ручна реалізація IEnumerator\obj\Debug\Ручна реалізація IEnumerator.pdb

@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskPracticeNet", "TaskPracticeNet.csproj", "{F79BD8B9-12B8-4ACD-875D-8D8DBBE6A5BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.Group the unique words", "..\1.Group the unique words\1.Group the unique words.csproj", "{FCD016A7-AF09-4F0F-9DA5-0293823FCFC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.RemoveDuplicates", "..\2.RemoveDuplicates\2.RemoveDuplicates.csproj", "{1BEAE686-91DF-450F-85DF-5A02C3C3B94D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3.FindFibonacciNumberIteractive", "..\3.FindFibonacciNumber\3.FindFibonacciNumberIteractive.csproj", "{4E7D1607-8ED4-46AE-B3CD-01E66DD74E34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3.FindFibonacciNumberRecursive", "..\3.FindFibonacciNumberRecursive\3.FindFibonacciNumberRecursive.csproj", "{FF322E78-6DD4-42C0-92D3-17924249106B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F79BD8B9-12B8-4ACD-875D-8D8DBBE6A5BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F79BD8B9-12B8-4ACD-875D-8D8DBBE6A5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F79BD8B9-12B8-4ACD-875D-8D8DBBE6A5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F79BD8B9-12B8-4ACD-875D-8D8DBBE6A5BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCD016A7-AF09-4F0F-9DA5-0293823FCFC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCD016A7-AF09-4F0F-9DA5-0293823FCFC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCD016A7-AF09-4F0F-9DA5-0293823FCFC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCD016A7-AF09-4F0F-9DA5-0293823FCFC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BEAE686-91DF-450F-85DF-5A02C3C3B94D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BEAE686-91DF-450F-85DF-5A02C3C3B94D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BEAE686-91DF-450F-85DF-5A02C3C3B94D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BEAE686-91DF-450F-85DF-5A02C3C3B94D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E7D1607-8ED4-46AE-B3CD-01E66DD74E34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E7D1607-8ED4-46AE-B3CD-01E66DD74E34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E7D1607-8ED4-46AE-B3CD-01E66DD74E34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E7D1607-8ED4-46AE-B3CD-01E66DD74E34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF322E78-6DD4-42C0-92D3-17924249106B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF322E78-6DD4-42C0-92D3-17924249106B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF322E78-6DD4-42C0-92D3-17924249106B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF322E78-6DD4-42C0-92D3-17924249106B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

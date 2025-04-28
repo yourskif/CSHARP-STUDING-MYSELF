@@ -1,0 +1,54 @@
+﻿@model BookStore.Models.Author
+@{
+    ViewData["Title"] = "Редагувати автора";
+}
+<div class="container">
+    <h2>Редагувати автора</h2>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <!-- Поля автора -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <!-- Список книг -->
+        <h3>Книги</h3>
+        <div id="books-container">
+            @for (int i = 0; i < Model.Books.Count; i++)
+            {
+                <div class="book-item">
+                    <input type="hidden" asp-for="Books[i].Id" />
+                    <div class="form-group">
+                        <label asp-for="Books[i].Title"></label>
+                        <input asp-for="Books[i].Title" class="form-control" />
+                    </div>
+                </div>
+            }
+        </div>
+        <button type="button" id="add-book" class="btn btn-success">Додати книгу</button>
+        <button type="submit" class="btn btn-primary">Зберегти разом</button>
+    </form>
+</div>
+@section Scripts {
+    <script>
+        document.getElementById('add-book').addEventListener('click', function () {
+            const container = document.getElementById('books-container');
+            const index = container.children.length;
+            const html = `
+                <div class="book-item">
+                    <input type="hidden" name="Books[${index}].Id" value="0" />
+                    <div class="form-group">
+                        <label>Назва книги</label>
+                        <input type="text" name="Books[${index}].Title" class="form-control" />
+                    </div>
+                </div>`;
+            container.insertAdjacentHTML('beforeend', html);
+        });
+    </script>
+}

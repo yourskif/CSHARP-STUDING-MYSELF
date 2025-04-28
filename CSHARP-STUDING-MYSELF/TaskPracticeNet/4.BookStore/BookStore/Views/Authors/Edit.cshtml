@@ -1,0 +1,145 @@
+﻿@model BookStore.Models.Author
+
+@{
+    ViewData["Title"] = "Редагувати автора";
+}
+
+<h2>Редагувати автора</h2>
+
+<form asp-action="Edit" method="post" id="editForm">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MiddleName"></label>
+                <input asp-for="MiddleName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDate"></label>
+                <input asp-for="BirthDate" type="date" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Список книг -->
+    <h3>Книги автора</h3>
+    <div id="bookList">
+        @foreach (var book in Model.Books)
+        {
+            <div class="book-item" data-book-id="@book.Id">
+                <input type="hidden" name="Books[@book.Id].Id" value="@book.Id" />
+                <input type="hidden" name="Books[@book.Id].Title" value="@book.Title" />
+                <input type="hidden" name="Books[@book.Id].Genre" value="@book.Genre" />
+                <input type="hidden" name="Books[@book.Id].PageCount" value="@book.PageCount" />
+                <p>@book.Title (@book.Genre, @book.PageCount сторінок)</p>
+            </div>
+        }
+    </div>
+
+    <!-- Кнопки управління -->
+    <div class="mt-4">
+        <button type="button" id="addBookButton" class="btn btn-success">Додати книгу</button>
+        <button type="button" id="saveAllButton" class="btn btn-primary">Зберегти разом</button>
+        <a asp-action="Index" class="btn btn-secondary">Повернутись до списку</a>
+    </div>
+</form>
+
+<!-- Модальне вікно для додавання книги -->
+<div id="addBookModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Додати книгу</h3>
+        <form id="addBookForm">
+            <div class="form-group">
+                <label for="title">Назва</label>
+                <input type="text" id="title" name="title" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="genre">Жанр</label>
+                <select id="genre" name="genre" class="form-control" required>
+                    @foreach (var genre in Enum.GetValues(typeof(BookStore.Models.GenreEnum)))
+                    {
+                        <option value="@genre">@genre</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pageCount">Кількість сторінок</label>
+                <input type="number" id="pageCount" name="pageCount" class="form-control" required />
+            </div>
+            <button type="button" id="saveBookButton" class="btn btn-primary">Додати</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Логіка для модального вікна
+        const modal = document.getElementById("addBookModal");
+        const addBookButton = document.getElementById("addBookButton");
+        const closeButton = document.querySelector(".close");
+        const saveBookButton = document.getElementById("saveBookButton");
+        const bookList = document.getElementById("bookList");
+        const saveAllButton = document.getElementById("saveAllButton");
+
+        let books = []; // Тимчасовий список книг
+
+        addBookButton.onclick = () => modal.style.display = "block";
+        closeButton.onclick = () => modal.style.display = "none";
+
+        saveBookButton.onclick = () => {
+            const title = document.getElementById("title").value;
+            const genre = document.getElementById("genre").value;
+            const pageCount = document.getElementById("pageCount").value;
+
+            if (title && genre && pageCount) {
+                const book = {
+                    Title: title,
+                    Genre: genre,
+                    PageCount: pageCount,
+                    AuthorId: @Model.Id
+                };
+
+                books.push(book); // Додаємо книгу до тимчасового списку
+
+                const bookItem = document.createElement("div");
+                bookItem.className = "book-item";
+                bookItem.innerHTML = `
+                    <p>${title} (${genre}, ${pageCount} сторінок)</p>
+                `;
+                bookList.appendChild(bookItem);
+                modal.style.display = "none";
+            }
+        };
+
+        // Асинхронне збереження всіх книг
+        saveAllButton.onclick = async () => {
+            const authorId = @Model.Id;
+
+            const response = await fetch("/Authors/SaveBooks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": document.querySelector("input[name='__RequestVerificationToken']").value
+                },
+                body: JSON.stringify({ AuthorId: authorId, Books: books })
+            });
+
+            if (response.ok) {
+                window.location.href = "/Authors/Index";
+            } else {
+                alert("Помилка при збереженні книг");
+            }
+        };
+    </script>
+}

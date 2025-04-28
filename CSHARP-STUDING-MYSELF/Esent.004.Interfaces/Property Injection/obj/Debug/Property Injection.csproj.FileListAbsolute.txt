@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\Property Injection\bin\Debug\Property Injection.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\Property Injection\bin\Debug\Property Injection.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\Property Injection\bin\Debug\Property Injection.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\Property Injection\obj\Debug\Property Injection.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\Property Injection\obj\Debug\Property Injection.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\Property Injection\obj\Debug\Property Injection.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\Property Injection\obj\Debug\Property Injection.pdb

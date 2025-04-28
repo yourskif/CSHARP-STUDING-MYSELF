@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventExample\bin\Debug\EventExample.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventExample\bin\Debug\EventExample.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventExample\bin\Debug\EventExample.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventExample\obj\Debug\EventExample.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventExample\obj\Debug\EventExample.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventExample\obj\Debug\EventExample.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventExample\obj\Debug\EventExample.pdb

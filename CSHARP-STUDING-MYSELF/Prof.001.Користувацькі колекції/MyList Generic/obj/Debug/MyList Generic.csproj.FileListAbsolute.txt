@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyList Generic\bin\Debug\MyList Generic.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyList Generic\bin\Debug\MyList Generic.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyList Generic\bin\Debug\MyList Generic.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyList Generic\obj\Debug\MyList Generic.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyList Generic\obj\Debug\MyList Generic.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyList Generic\obj\Debug\MyList Generic.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Prof.001.Користувацькі колекції\MyList Generic\obj\Debug\MyList Generic.pdb

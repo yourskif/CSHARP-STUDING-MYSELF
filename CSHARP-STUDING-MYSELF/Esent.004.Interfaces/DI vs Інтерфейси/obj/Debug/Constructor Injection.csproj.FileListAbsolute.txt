@@ -1,0 +1,18 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\DI vs Інтерфейси.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\DI vs Інтерфейси.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\DI vs Інтерфейси.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\Microsoft.Extensions.DependencyInjection.xml
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\obj\Debug\Constructor Injection.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\obj\Debug\Constructor Injection.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\obj\Debug\Construc.F73C4D48.Up2Date
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\obj\Debug\DI vs Інтерфейси.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Esent.004.Interfaces\DI vs Інтерфейси\obj\Debug\DI vs Інтерфейси.pdb

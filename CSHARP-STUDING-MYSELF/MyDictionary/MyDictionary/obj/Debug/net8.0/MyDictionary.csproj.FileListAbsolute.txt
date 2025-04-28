@@ -1,0 +1,15 @@
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\bin\Debug\net8.0\MyDictionary.exe
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\bin\Debug\net8.0\MyDictionary.deps.json
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\bin\Debug\net8.0\MyDictionary.runtimeconfig.json
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\bin\Debug\net8.0\MyDictionary.dll
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\bin\Debug\net8.0\MyDictionary.pdb
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\MyDictionary.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\MyDictionary.AssemblyInfoInputs.cache
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\MyDictionary.AssemblyInfo.cs
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\MyDictionary.csproj.CoreCompileInputs.cache
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\MyDictionary.sourcelink.json
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\MyDictionary.dll
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\refint\MyDictionary.dll
+c:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\MyDictionary.pdb
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\MyDictionary.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\MyDictionary\MyDictionary\obj\Debug\net8.0\ref\MyDictionary.dll

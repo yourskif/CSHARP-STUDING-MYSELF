@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.007\BookInfo\bin\Debug\BookInfo.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.007\BookInfo\bin\Debug\BookInfo.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.007\BookInfo\bin\Debug\BookInfo.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.007\BookInfo\obj\Debug\BookInfo.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.007\BookInfo\obj\Debug\BookInfo.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.007\BookInfo\obj\Debug\BookInfo.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.007\BookInfo\obj\Debug\BookInfo.pdb

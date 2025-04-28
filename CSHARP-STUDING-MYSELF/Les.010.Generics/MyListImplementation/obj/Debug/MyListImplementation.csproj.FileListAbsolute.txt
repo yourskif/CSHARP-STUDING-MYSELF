@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyListImplementation\bin\Debug\MyListImplementation.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyListImplementation\bin\Debug\MyListImplementation.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyListImplementation\bin\Debug\MyListImplementation.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyListImplementation\obj\Debug\MyListImplementation.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyListImplementation\obj\Debug\MyListImplementation.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyListImplementation\obj\Debug\MyListImplementation.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyListImplementation\obj\Debug\MyListImplementation.pdb

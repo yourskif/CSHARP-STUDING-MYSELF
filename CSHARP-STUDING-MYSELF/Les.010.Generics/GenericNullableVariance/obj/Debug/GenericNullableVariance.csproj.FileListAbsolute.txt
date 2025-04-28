@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\GenericNullableVariance\bin\Debug\GenericNullableVariance.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\GenericNullableVariance\bin\Debug\GenericNullableVariance.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\GenericNullableVariance\bin\Debug\GenericNullableVariance.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\GenericNullableVariance\obj\Debug\GenericNullableVariance.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\GenericNullableVariance\obj\Debug\GenericNullableVariance.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\GenericNullableVariance\obj\Debug\GenericNullableVariance.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\GenericNullableVariance\obj\Debug\GenericNullableVariance.pdb

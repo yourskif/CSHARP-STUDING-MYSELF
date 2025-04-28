@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\bin\Debug\Les.010.Generics.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\bin\Debug\Les.010.Generics.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\bin\Debug\Les.010.Generics.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\obj\Debug\Les.010.Generics.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\obj\Debug\Les.010.Generics.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\obj\Debug\Les.010.Generics.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\obj\Debug\Les.010.Generics.pdb

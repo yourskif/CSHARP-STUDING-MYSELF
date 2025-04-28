@@ -1,0 +1,69 @@
+﻿@model BookStore.Models.Author
+
+@{
+    ViewData["Title"] = "Редагувати автора";
+}
+
+<div class="container">
+    <h2>Редагувати автора</h2>
+    <hr />
+
+    <!-- Форма автора -->
+    <form asp-action="Edit">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MiddleName" class="control-label"></label>
+                    <input asp-for="MiddleName" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Список книг -->
+        <h3>Книги автора</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Назва</th>
+                    <th>Жанр</th>
+                    <th>Сторінок</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model.Books)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.Genre</td>
+                        <td>@book.PageCount</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Books", new { id = book.Id })"
+                               class="btn btn-sm btn-warning">Редагувати</a>
+                            <a href="@Url.Action("Delete", "Books", new { id = book.Id })"
+                               class="btn btn-sm btn-danger">Видалити</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Кнопки управління -->
+        <div class="mt-4">
+            <a href="@Url.Action("Create", "Books", new { authorId = Model.Id })"
+               class="btn btn-success">Додати книгу</a>
+            <input type="submit" value="Зберегти зміни" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-secondary">Повернутись назад</a>
+        </div>
+    </form>
+</div>

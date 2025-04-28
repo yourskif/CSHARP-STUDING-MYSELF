@@ -1,0 +1,67 @@
+﻿@model BookStore.Models.Author
+
+@{
+    ViewData["Title"] = "Редагування автора";
+}
+
+<h2>Редагування автора</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MiddleName"></label>
+        <input asp-for="MiddleName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthDate"></label>
+        <input asp-for="BirthDate" type="date" class="form-control" />
+        <span asp-validation-for="BirthDate" class="text-danger"></span>
+    </div>
+
+    <h3>Книги автора</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Назва</th>
+                <th>Жанр</th>
+                <th>Сторінок</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.Genre</td>
+                    <td>@book.PageCount</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Books", new { id = book.Id })" class="btn btn-warning">Редагувати</a>
+                        <a href="@Url.Action("Delete", "Books", new { id = book.Id })" class="btn btn-danger">Видалити</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Кнопка "Додати книгу" -->
+    <div class="mt-4">
+        <a href="@Url.Action("Create", "Books", new { authorId = Model.Id })" class="btn btn-success">Додати книгу</a>
+        <button type="submit" class="btn btn-primary">Зберегти</button>
+        <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

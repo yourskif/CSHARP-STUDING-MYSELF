@@ -1,0 +1,54 @@
+﻿@model BookStore.Models.Author
+
+@{
+    ViewData["Title"] = "Деталі автора";
+}
+
+<h2>@Model.LastName @Model.FirstName</h2>
+
+<dl class="row">
+    <dt class="col-sm-2">Прізвище</dt>
+    <dd class="col-sm-10">@Model.LastName</dd>
+
+    <dt class="col-sm-2">Ім’я</dt>
+    <dd class="col-sm-10">@Model.FirstName</dd>
+
+    <dt class="col-sm-2">По батькові</dt>
+    <dd class="col-sm-10">@(Model.MiddleName ?? "Не вказано")</dd>
+
+    <dt class="col-sm-2">Дата народження</dt>
+    <dd class="col-sm-10">@Model.BirthDate.ToShortDateString()</dd>
+</dl>
+
+<h3>Книги автора</h3>
+@if (Model.Books.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Назва</th>
+                <th>Жанр</th>
+                <th>Сторінок</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.Genre</td>
+                    <td>@book.PageCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Книги відсутні.</p>
+}
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редагувати</a>
+    <a asp-action="Index" class="btn btn-secondary">Повернутись до списку</a>
+</div>

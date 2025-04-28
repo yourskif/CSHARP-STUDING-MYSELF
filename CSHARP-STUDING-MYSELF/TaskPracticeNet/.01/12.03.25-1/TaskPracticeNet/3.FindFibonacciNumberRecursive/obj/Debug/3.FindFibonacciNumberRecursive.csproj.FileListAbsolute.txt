@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumberRecursive\bin\Debug\3.FindFibonacciNumberRecursive.exe.config
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumberRecursive\bin\Debug\3.FindFibonacciNumberRecursive.exe
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumberRecursive\bin\Debug\3.FindFibonacciNumberRecursive.pdb
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumberRecursive\obj\Debug\3.FindFibonacciNumberRecursive.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumberRecursive\obj\Debug\3.FindFibonacciNumberRecursive.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumberRecursive\obj\Debug\3.FindFibonacciNumberRecursive.exe
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumberRecursive\obj\Debug\3.FindFibonacciNumberRecursive.pdb

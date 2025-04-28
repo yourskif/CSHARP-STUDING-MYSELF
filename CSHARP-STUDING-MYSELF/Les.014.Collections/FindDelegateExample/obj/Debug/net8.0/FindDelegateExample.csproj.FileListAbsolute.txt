@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\bin\Debug\net8.0\FindDelegateExample.exe
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\bin\Debug\net8.0\FindDelegateExample.deps.json
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\bin\Debug\net8.0\FindDelegateExample.runtimeconfig.json
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\bin\Debug\net8.0\FindDelegateExample.dll
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\bin\Debug\net8.0\FindDelegateExample.pdb
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\FindDelegateExample.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\FindDelegateExample.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\FindDelegateExample.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\FindDelegateExample.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\FindDelegateExample.sourcelink.json
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\FindDelegateExample.dll
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\refint\FindDelegateExample.dll
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\FindDelegateExample.pdb
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\FindDelegateExample.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\FindDelegateExample\obj\Debug\net8.0\ref\FindDelegateExample.dll

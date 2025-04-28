@@ -1,0 +1,55 @@
+﻿@model BookStore.Models.Author
+
+@{
+    ViewData["Title"] = "Деталі автора";
+}
+
+<div class="container">
+    <h2>@Model.LastName @Model.FirstName @Model.MiddleName</h2>
+    <hr />
+
+    <!-- Інформація про автора -->
+    <dl class="row">
+        <dt class="col-sm-2">Прізвище</dt>
+        <dd class="col-sm-10">@Model.LastName</dd>
+        <dt class="col-sm-2">Ім’я</dt>
+        <dd class="col-sm-10">@Model.FirstName</dd>
+        <dt class="col-sm-2">По батькові</dt>
+        <dd class="col-sm-10">@(Model.MiddleName ?? "Не вказано")</dd>
+        <dt class="col-sm-2">Дата народження</dt>
+        <dd class="col-sm-10">@Model.BirthDate.ToShortDateString()</dd>
+    </dl>
+
+    <!-- Список книг -->
+    <h3>Книги автора</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Назва</th>
+                <th>Жанр</th>
+                <th>Кількість сторінок</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.Genre</td>
+                    <td>@book.PageCount</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Books", new { id = book.Id })" class="btn btn-sm btn-warning">Редагувати</a>
+                        <a href="@Url.Action("Delete", "Books", new { id = book.Id })" class="btn btn-sm btn-danger">Видалити</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Кнопка "Додати книгу" -->
+    <div class="mt-4">
+        <a href="@Url.Action("Create", "Books", new { authorId = Model.Id })" class="btn btn-success">Додати книгу</a>
+        <a asp-action="Index" class="btn btn-secondary">Повернутись до списку авторів</a>
+    </div>
+</div>

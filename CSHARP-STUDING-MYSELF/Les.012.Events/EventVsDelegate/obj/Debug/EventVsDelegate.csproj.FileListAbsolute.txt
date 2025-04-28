@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventVsDelegate\bin\Debug\EventVsDelegate.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventVsDelegate\bin\Debug\EventVsDelegate.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventVsDelegate\bin\Debug\EventVsDelegate.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventVsDelegate\obj\Debug\EventVsDelegate.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventVsDelegate\obj\Debug\EventVsDelegate.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventVsDelegate\obj\Debug\EventVsDelegate.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.012.Events\EventVsDelegate\obj\Debug\EventVsDelegate.pdb

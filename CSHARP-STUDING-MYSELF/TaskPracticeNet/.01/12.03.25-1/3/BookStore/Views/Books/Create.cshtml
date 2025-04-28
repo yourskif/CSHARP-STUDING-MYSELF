@@ -1,0 +1,111 @@
+﻿@model BookStore.Models.Book
+
+@{
+    ViewData["Title"] = "Додати книгу";
+    var authorId = Context.Request.Query["authorId"];
+}
+
+<h2>Додати книгу</h2>
+
+<form id="addBookForm">
+    <input type="hidden" id="authorId" value="@authorId" />
+    <div class="form-group">
+        <label for="title">Назва</label>
+        <input type="text" id="title" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="genre">Жанр</label>
+        <select id="genre" class="form-control" required>
+            @foreach (var genre in Enum.GetValues(typeof(BookStore.Models.GenreEnum)))
+            {
+                <option value="@((int)genre)">@genre</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="pageCount">Сторінок</label>
+        <input type="number" id="pageCount" class="form-control" min="1" max="5000" required />
+    </div>
+    <button type="button" id="addBookButton" class="btn btn-success">Додати до списку</button>
+</form>
+
+<h3 class="mt-4">Додані книги</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Жанр</th>
+            <th>Сторінок</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody id="bookTable"></tbody>
+</table>
+
+<button type="button" id="saveBooksButton" class="btn btn-primary">Зберегти всі</button>
+<a href="@Url.Action("Edit", "Authors", new { id = authorId })" class="btn btn-secondary">Повернутись</a>
+
+@section Scripts {
+    <script>
+        document.getElementById("addBookButton").addEventListener("click", () => {
+            const title = document.getElementById("title").value;
+            const genre = document.getElementById("genre").value;
+            const pageCount = document.getElementById("pageCount").value;
+
+            if (!title || !pageCount) {
+                alert("Заповніть всі поля!");
+                return;
+            }
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${title}</td>
+                <td data-genre="${genre}">${document.getElementById("genre").options[genre - 1].text}</td>
+                <td>${pageCount}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">Видалити</button></td>
+            `;
+
+            document.getElementById("bookTable").appendChild(row);
+
+            // Очистити поля
+            document.getElementById("title").value = "";
+            document.getElementById("pageCount").value = "";
+        });
+
+        document.getElementById("saveBooksButton").addEventListener("click", async () => {
+            const authorId = document.getElementById("authorId").value;
+            const books = Array.from(document.querySelectorAll("#bookTable tr")).map(row => ({
+                Title: row.cells[0].innerText,
+                Genre: parseInt(row.cells[1].getAttribute("data-genre")),
+                PageCount: parseInt(row.cells[2].innerText),
+                AuthorId: parseInt(authorId)
+            }));
+
+            if (books.length === 0) {
+                alert("Додайте книги!");
+                return;
+            }
+
+            try {
+                const response = await fetch("/Authors/SaveBooks", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({ AuthorId: authorId, Books: books })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("Успішно збережено!");
+                    window.location.href = `/Authors/Edit/${authorId}`;
+                } else {
+                    alert("Помилка: " + result.message);
+                }
+            } catch (error) {
+                alert("Помилка: " + error.message);
+            }
+        });
+    </script>
+}

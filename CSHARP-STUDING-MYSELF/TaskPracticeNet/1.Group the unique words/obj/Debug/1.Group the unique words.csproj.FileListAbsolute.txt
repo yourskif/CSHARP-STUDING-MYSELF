@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\1.Group the unique words\bin\Debug\1.Group the unique words.exe.config
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\1.Group the unique words\bin\Debug\1.Group the unique words.exe
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\1.Group the unique words\bin\Debug\1.Group the unique words.pdb
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\1.Group the unique words\obj\Debug\1.Group the unique words.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\1.Group the unique words\obj\Debug\1.Group the unique words.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\1.Group the unique words\obj\Debug\1.Group the unique words.exe
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\1.Group the unique words\obj\Debug\1.Group the unique words.pdb

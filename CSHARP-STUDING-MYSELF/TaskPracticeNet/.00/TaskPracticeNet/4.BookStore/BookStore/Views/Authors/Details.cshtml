@@ -1,0 +1,218 @@
+﻿@model BookStore.Models.Author
+
+<h2>@Model.LastName @Model.FirstName @Model.MiddleName</h2>
+
+<h3>Книги</h3>
+
+@if (Model.Books.Any())
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div style="max-height: 300px; overflow-y: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Назва</th>
+                            <th>Жанр</th>
+                            <th>Кі-ть сторінок</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTable">
+                        @foreach (var book in Model.Books)
+                        {
+                            <tr>
+                                <td>@book.Title</td>
+                                <td>@book.Genre</td>
+                                <td>@book.PageCount</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4 text-right">
+            <button id="addBookButton" class="btn btn-success">Додати книгу</button>
+        </div>
+    </div>
+}
+else
+{
+    <p>Книги відсутні.</p>
+    <div class="col-md-4 text-right">
+        <button id="addBookButton" class="btn btn-success">Додати книгу</button>
+    </div>
+    <table class="table" style="display: none;">
+        <thead>
+            <tr>
+                <th>Назва</th>
+                <th>Жанр</th>
+                <th>Кі-ть сторінок</th>
+            </tr>
+        </thead>
+        <tbody id="bookTable"></tbody>
+    </table>
+}
+
+<div id="addBookModal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <form id="addBookForm">
+            <input type="hidden" id="authorId" value="@Model.Id" />
+            <div class="form-group">
+                <label for="title">Назва</label>
+                <input type="text" id="title" name="title" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="genre">Жанр</label>
+                <select id="genre" name="genre" class="form-control">
+                    @foreach (var genre in Enum.GetValues(typeof(BookStore.Models.GenreEnum)))
+                    {
+                        <option value="@((int)genre)">@genre</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pageCount">Кількість сторінок</label>
+                <input type="number" id="pageCount" name="pageCount" class="form-control" />
+            </div>
+            <button type="button" id="saveBookButton" class="btn btn-primary">Додати</button>
+        </form>
+    </div>
+</div>
+
+<div class="text-right mt-3">
+    @Html.AntiForgeryToken()
+    <button id="saveButton" class="btn btn-primary">Зберегти</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Повернутись до списку авторів</a>
+</div>
+
+@section Scripts {
+    <script>
+        console.log("Скрипт завантажено");
+        console.log("Model.Id: @Model.Id");
+
+        const modal = document.getElementById("addBookModal");
+        const addBookButton = document.getElementById("addBookButton");
+        const closeButton = document.querySelector(".close");
+        const saveBookButton = document.getElementById("saveBookButton");
+        const saveButton = document.getElementById("saveButton");
+        const bookTable = document.getElementById("bookTable");
+
+        if (addBookButton) {
+            addBookButton.onclick = () => {
+                console.log("Клік на 'Додати книгу'");
+                if (modal) modal.style.display = "block";
+            };
+        }
+
+        if (closeButton) {
+            closeButton.onclick = () => {
+                console.log("Клік на 'Закрити'");
+                if (modal) modal.style.display = "none";
+            };
+        }
+
+        if (saveBookButton) {
+            saveBookButton.onclick = () => {
+                console.log("Клік на 'Додати' у формі");
+                const title = document.getElementById("title").value;
+                const genre = document.getElementById("genre").value || 1; // Якщо жанр не вибрано, ставимо 1 (Fiction)
+                const pageCount = document.getElementById("pageCount").value;
+
+                if (!title || !pageCount) {
+                    console.log("Заповніть усі обов'язкові поля!");
+                    return;
+                }
+
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td>${title}</td>
+                    <td>${document.getElementById("genre").options[genre - 1].text}</td>
+                    <td>${pageCount}</td>
+                `;
+                bookTable.appendChild(newRow);
+                bookTable.parentElement.style.display = "table";
+                console.log("Додано рядок у bookTable:", newRow);
+
+                if (modal) modal.style.display = "none";
+            };
+        }
+
+        if (saveButton) {
+            saveButton.onclick = async () => {
+                console.log("Клік на 'Зберегти'");
+                const books = [];
+                const bookRows = bookTable.querySelectorAll("tr");
+                const authorIdInput = document.getElementById("authorId");
+                const authorId = authorIdInput ? parseInt(authorIdInput.value) : @Model.Id;
+
+                console.log("AuthorId: " + authorId);
+                console.log("Кількість рядків у таблиці: " + bookRows.length);
+
+                bookRows.forEach(row => {
+                    const title = row.querySelector("td:nth-child(1)")?.innerText;
+                    const genre = row.querySelector("td:nth-child(2)")?.innerText;
+                    const pageCount = row.querySelector("td:nth-child(3)")?.innerText;
+
+                    if (title && genre && pageCount) {
+                        console.log(`Рядок: Title=${title}, Genre=${genre}, PageCount=${pageCount}`);
+                        books.push({
+                            Title: title,
+                            Genre: parseInt(document.getElementById("genre").value || 1), // Якщо жанр не вибрано, ставимо 1 (Fiction)
+                            PageCount: parseInt(pageCount),
+                            AuthorId: authorId
+                        });
+                    }
+                });
+
+                if (books.length === 0) {
+                    console.log("Додайте хоча б одну книгу перед збереженням!");
+                    alert("Додайте хоча б одну книгу перед збереженням!");
+                    return;
+                }
+
+                const requestData = {
+                    AuthorId: authorId,
+                    Books: books
+                };
+
+                console.log("Відправляємо дані: " + JSON.stringify(requestData));
+
+                const token = document.querySelector("input[name='__RequestVerificationToken']");
+                try {
+                    const response = await fetch("/Authors/SaveBooks", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "RequestVerificationToken": token ? token.value : ""
+                        },
+                        body: JSON.stringify(requestData)
+                    });
+
+                    const resultText = await response.text();
+                    console.log("Отримана відповідь: " + resultText);
+                    let result;
+                    try {
+                        result = JSON.parse(resultText);
+                    } catch (e) {
+                        console.error("Помилка парсингу відповіді:", e, "Отриманий текст:", resultText);
+                        alert("Помилка при збереженні. Спробуйте ще раз.");
+                        return;
+                    }
+
+                    console.log("Відповідь від сервера: " + JSON.stringify(result));
+
+                    if (response.ok && result.success) {
+                        window.location.reload();
+                    } else {
+                        console.log("Помилка при збереженні: " + result.message);
+                        alert("Помилка при збереженні: " + result.message);
+                    }
+                } catch (error) {
+                    console.error("Помилка під час fetch:", error);
+                    alert("Помилка під час збереження. Спробуйте ще раз.");
+                }
+            };
+        }
+    </script>
+}

@@ -1,0 +1,28 @@
+﻿@model BookStore.Models.Book
+
+<h2>Деталі книги</h2>
+
+<div>
+    <h4>@Model.Title</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Назва</dt>
+        <dd class="col-sm-10">@Model.Title</dd>
+        <dt class="col-sm-2">Жанр</dt>
+        <dd class="col-sm-10">@Model.Genre</dd>
+        <dt class="col-sm-2">Кількість сторінок</dt>
+        <dd class="col-sm-10">@Model.PageCount</dd>
+        <dt class="col-sm-2">Автор</dt>
+        <dd class="col-sm-10">
+            @if (Model.Author != null)
+            {
+                @($"{Model.Author.LastName} {Model.Author.FirstName}")
+            }
+            else
+            {
+                <p>Автор не вказаний</p>
+            }
+        </dd>
+    </dl>
+    <a asp-action="Index" asp-route-authorId="@Model.AuthorId">Повернутися до списку книг</a>
+</div>

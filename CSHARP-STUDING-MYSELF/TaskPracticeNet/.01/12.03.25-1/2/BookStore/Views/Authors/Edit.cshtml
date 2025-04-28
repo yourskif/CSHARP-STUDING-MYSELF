@@ -1,0 +1,46 @@
+﻿@model BookStore.Models.Author
+
+@section Scripts {
+    <script>
+        const saveBooks = async () => {
+            const books = [];
+            document.querySelectorAll('.book-row').forEach(row => {
+                const title = row.querySelector('td:nth-child(1)').innerText;
+                const genre = row.querySelector('td:nth-child(2)').getAttribute('data-genre-value'); // Отримуємо числове значення жанру
+                const pageCount = row.querySelector('td:nth-child(3)').innerText;
+
+                books.push({
+                    Title: title,
+                    Genre: parseInt(genre), // Конвертація в число
+                    PageCount: parseInt(pageCount),
+                    AuthorId: @Model.Id
+                });
+            });
+
+            try {
+                const response = await fetch('/Authors/SaveBooks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        AuthorId: @Model.Id,
+                        Books: books
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("Успішно збережено!");
+                    window.location.reload();
+                } else {
+                    alert("Помилка: " + result.message);
+                }
+            } catch (error) {
+                console.error("Помилка:", error);
+                alert("Сталася помилка під час збереження.");
+            }
+        };
+    </script>
+}

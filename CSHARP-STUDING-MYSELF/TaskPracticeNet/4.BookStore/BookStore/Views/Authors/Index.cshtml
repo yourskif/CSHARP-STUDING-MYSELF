@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BookStore.Models.Author>
+
+<h2>Автори</h2>
+
+<p>
+    <a asp-action="Create">Додати нового автора</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Прізвище</th>
+            <th>Ім'я</th>
+            <th>По батькові</th>
+            <th>Дата народження</th>
+            <th>Кількість книг</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author.LastName</td>
+                <td>@author.FirstName</td>
+                <td>@author.MiddleName</td>
+                <td>@author.BirthDate.ToShortDateString()</td>
+                <td>@author.Books.Count</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@author.Id">Редагувати</a> |
+                    <a asp-action="Details" asp-route-id="@author.Id">Деталі</a> |
+                    <a asp-action="Delete" asp-route-id="@author.Id">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

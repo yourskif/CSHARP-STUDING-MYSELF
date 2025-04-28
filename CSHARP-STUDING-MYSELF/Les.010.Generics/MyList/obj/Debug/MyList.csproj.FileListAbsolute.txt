@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyList\obj\Debug\MyList.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyList\obj\Debug\MyList.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyList\bin\Debug\MyList.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyList\bin\Debug\MyList.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyList\bin\Debug\MyList.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyList\obj\Debug\MyList.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.010.Generics\MyList\obj\Debug\MyList.pdb

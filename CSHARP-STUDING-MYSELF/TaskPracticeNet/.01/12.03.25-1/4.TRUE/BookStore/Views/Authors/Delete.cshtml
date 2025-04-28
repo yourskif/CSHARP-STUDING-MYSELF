@@ -1,0 +1,22 @@
+﻿@model BookStore.Models.Author
+
+<h2>Видалити автора</h2>
+
+<h3>Ви впевнені, що хочете видалити цього автора?</h3>
+<div>
+    <h4>@Model.LastName @Model.FirstName</h4>
+    <dl class="row">
+        <dt class="col-sm-2">Прізвище</dt>
+        <dd class="col-sm-10">@Model.LastName</dd>
+        <dt class="col-sm-2">Ім’я</dt>
+        <dd class="col-sm-10">@Model.FirstName</dd>
+        <dt class="col-sm-2">По батькові</dt>
+        <dd class="col-sm-10">@(Model.MiddleName ?? "Не вказано")</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Видалити</button>
+        <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+    </form>
+</div>

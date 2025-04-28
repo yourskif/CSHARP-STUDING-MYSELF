@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\bin\Debug\net8.0\Les.014.Collections.exe
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\bin\Debug\net8.0\Les.014.Collections.deps.json
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\bin\Debug\net8.0\Les.014.Collections.runtimeconfig.json
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\bin\Debug\net8.0\Les.014.Collections.dll
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\bin\Debug\net8.0\Les.014.Collections.pdb
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\Les.014.Collections.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\Les.014.Collections.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\Les.014.Collections.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\Les.014.Collections.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\Les.014.Collections.sourcelink.json
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\Les.014.Collections.dll
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\refint\Les.014.Collections.dll
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\Les.014.Collections.pdb
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\Les.014.Collections.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\C-STUDING-MYSELF\Les.014.Collections\obj\Debug\net8.0\ref\Les.014.Collections.dll

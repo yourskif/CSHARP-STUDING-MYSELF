@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumber\bin\Debug\3.FindFibonacciNumber.exe.config
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumber\bin\Debug\3.FindFibonacciNumber.exe
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumber\bin\Debug\3.FindFibonacciNumber.pdb
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumber\obj\Debug\3.FindFibonacciNumber.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumber\obj\Debug\3.FindFibonacciNumber.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumber\obj\Debug\3.FindFibonacciNumber.exe
+C:\Users\Admin\source\repos\C#\Projects\TaskPracticeNet\3.FindFibonacciNumber\obj\Debug\3.FindFibonacciNumber.pdb

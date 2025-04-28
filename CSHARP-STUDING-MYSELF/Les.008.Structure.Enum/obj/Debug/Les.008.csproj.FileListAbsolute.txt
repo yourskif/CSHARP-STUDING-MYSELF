@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\bin\Debug\Les.008.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\bin\Debug\Les.008.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\bin\Debug\Les.008.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\obj\Debug\Les.008.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\obj\Debug\Les.008.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\obj\Debug\Les.008.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.008\obj\Debug\Les.008.pdb

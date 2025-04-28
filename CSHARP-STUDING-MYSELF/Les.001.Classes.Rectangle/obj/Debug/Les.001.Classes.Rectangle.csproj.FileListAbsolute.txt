@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.001.Classes.Rectangle\bin\Debug\Les.001.Classes.Rectangle.exe.config
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.001.Classes.Rectangle\bin\Debug\Les.001.Classes.Rectangle.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.001.Classes.Rectangle\bin\Debug\Les.001.Classes.Rectangle.pdb
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.001.Classes.Rectangle\obj\Debug\Les.001.Classes.Rectangle.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.001.Classes.Rectangle\obj\Debug\Les.001.Classes.Rectangle.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.001.Classes.Rectangle\obj\Debug\Les.001.Classes.Rectangle.exe
+C:\Users\Admin\source\repos\C#\C# STUDING MYSELF\Les.001.Classes.Rectangle\obj\Debug\Les.001.Classes.Rectangle.pdb

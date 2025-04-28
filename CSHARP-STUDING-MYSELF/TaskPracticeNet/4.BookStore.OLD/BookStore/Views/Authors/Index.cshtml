@@ -1,0 +1,36 @@
+﻿@* Шлях: BookStore/Views/Authors/Index.cshtml *@
+@model IEnumerable<BookStore.Models.Author>
+
+@{
+    ViewData["Title"] = "Список авторів";
+}
+
+<h2>Автори</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Прізвище</th>
+            <th>Ім'я</th>
+            <th>Кількість книг</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author.LastName</td>
+                <td>@author.FirstName</td>
+                <td>@author.Books.Count</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@author.Id" class="btn btn-warning">Редагувати</a>
+                    <a asp-action="Details" asp-route-id="@author.Id" class="btn btn-info">Деталі</a>
+                    <a asp-action="Delete" asp-route-id="@author.Id" class="btn btn-danger">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Додати автора</a>
