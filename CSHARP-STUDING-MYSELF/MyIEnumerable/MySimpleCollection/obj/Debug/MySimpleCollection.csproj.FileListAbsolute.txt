@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection\bin\Debug\MySimpleCollection.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection\bin\Debug\MySimpleCollection.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection\bin\Debug\MySimpleCollection.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection\obj\Debug\MySimpleCollection.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection\obj\Debug\MySimpleCollection.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection\obj\Debug\MySimpleCollection.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection\obj\Debug\MySimpleCollection.pdb

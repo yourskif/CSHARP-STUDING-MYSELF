@@ -1,0 +1,6 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorLibrary\bin\Debug\CalculatorLibrary.dll
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorLibrary\bin\Debug\CalculatorLibrary.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorLibrary\obj\Debug\CalculatorLibrary.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorLibrary\obj\Debug\CalculatorLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorLibrary\obj\Debug\CalculatorLibrary.dll
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorLibrary\obj\Debug\CalculatorLibrary.pdb

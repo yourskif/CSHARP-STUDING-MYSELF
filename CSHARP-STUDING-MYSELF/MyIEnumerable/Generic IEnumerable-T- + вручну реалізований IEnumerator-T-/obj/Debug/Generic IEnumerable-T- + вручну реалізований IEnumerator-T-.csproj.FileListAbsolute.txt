@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-\bin\Debug\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-\bin\Debug\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-\bin\Debug\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-\obj\Debug\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-\obj\Debug\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-\obj\Debug\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-\obj\Debug\Generic IEnumerable-T- + вручну реалізований IEnumerator-T-.pdb

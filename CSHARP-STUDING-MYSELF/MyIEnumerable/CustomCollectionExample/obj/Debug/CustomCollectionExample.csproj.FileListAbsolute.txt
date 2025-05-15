@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\CustomCollectionExample\bin\Debug\CustomCollectionExample.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\CustomCollectionExample\bin\Debug\CustomCollectionExample.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\CustomCollectionExample\bin\Debug\CustomCollectionExample.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\CustomCollectionExample\obj\Debug\CustomCollectionExample.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\CustomCollectionExample\obj\Debug\CustomCollectionExample.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\CustomCollectionExample\obj\Debug\CustomCollectionExample.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\CustomCollectionExample\obj\Debug\CustomCollectionExample.pdb

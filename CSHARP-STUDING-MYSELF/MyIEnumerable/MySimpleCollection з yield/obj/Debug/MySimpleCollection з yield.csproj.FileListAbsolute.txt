@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection з yield\bin\Debug\MySimpleCollection з yield.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection з yield\bin\Debug\MySimpleCollection з yield.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection з yield\bin\Debug\MySimpleCollection з yield.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection з yield\obj\Debug\MySimpleCollection з yield.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection з yield\obj\Debug\MySimpleCollection з yield.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection з yield\obj\Debug\MySimpleCollection з yield.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyIEnumerable\MySimpleCollection з yield\obj\Debug\MySimpleCollection з yield.pdb

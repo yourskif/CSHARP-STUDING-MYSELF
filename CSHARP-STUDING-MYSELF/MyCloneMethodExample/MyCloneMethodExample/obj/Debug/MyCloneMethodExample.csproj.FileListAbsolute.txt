@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\MyCloneMethodExample\bin\Debug\MyCloneMethodExample.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\MyCloneMethodExample\bin\Debug\MyCloneMethodExample.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\MyCloneMethodExample\bin\Debug\MyCloneMethodExample.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\MyCloneMethodExample\obj\Debug\MyCloneMethodExample.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\MyCloneMethodExample\obj\Debug\MyCloneMethodExample.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\MyCloneMethodExample\obj\Debug\MyCloneMethodExample.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\MyCloneMethodExample\obj\Debug\MyCloneMethodExample.pdb

@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\2. Створення об'єкта.CreateInstance (пізнє зв’язування)\bin\Debug\_2.Створення_об_єкта.CreateInstance__пізнє_зв_язування_.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\2. Створення об'єкта.CreateInstance (пізнє зв’язування)\bin\Debug\_2.Створення_об_єкта.CreateInstance__пізнє_зв_язування_.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\2. Створення об'єкта.CreateInstance (пізнє зв’язування)\bin\Debug\_2.Створення_об_єкта.CreateInstance__пізнє_зв_язування_.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\2. Створення об'єкта.CreateInstance (пізнє зв’язування)\obj\Debug\2. Створення об'єкта.CreateInstance (пізнє зв’язування).csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\2. Створення об'єкта.CreateInstance (пізнє зв’язування)\obj\Debug\2. Створення об'єкта.CreateInstance (пізнє зв’язування).csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\2. Створення об'єкта.CreateInstance (пізнє зв’язування)\obj\Debug\_2.Створення_об_єкта.CreateInstance__пізнє_зв_язування_.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\2. Створення об'єкта.CreateInstance (пізнє зв’язування)\obj\Debug\_2.Створення_об_єкта.CreateInstance__пізнє_зв_язування_.pdb

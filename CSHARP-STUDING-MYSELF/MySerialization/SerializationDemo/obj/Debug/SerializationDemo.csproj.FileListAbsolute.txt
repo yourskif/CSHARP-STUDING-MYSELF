@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\SerializationDemo\obj\Debug\SerializationDemo.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\SerializationDemo\obj\Debug\SerializationDemo.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\SerializationDemo\bin\Debug\SerializationDemo.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\SerializationDemo\bin\Debug\SerializationDemo.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\SerializationDemo\bin\Debug\SerializationDemo.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\SerializationDemo\obj\Debug\SerializationDemo.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\SerializationDemo\obj\Debug\SerializationDemo.pdb

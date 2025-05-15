@@ -1,0 +1,24 @@
+﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
+public static class BinarySerializerDemo
+{
+    public static void Serialize(string filePath, Person person)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+#pragma warning disable SYSLIB0011
+        using FileStream fs = new FileStream(filePath, FileMode.Create);
+        formatter.Serialize(fs, person);
+#pragma warning restore SYSLIB0011
+    }
+
+    public static Person Deserialize(string filePath)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+#pragma warning disable SYSLIB0011
+        using FileStream fs = new FileStream(filePath, FileMode.Open);
+        return (Person)formatter.Deserialize(fs);
+#pragma warning restore SYSLIB0011
+    }
+}

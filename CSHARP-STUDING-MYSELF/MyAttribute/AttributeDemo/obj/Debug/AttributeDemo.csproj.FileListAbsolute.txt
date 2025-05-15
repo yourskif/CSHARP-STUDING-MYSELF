@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyAttribute\AttributeDemo\bin\Debug\AttributeDemo.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyAttribute\AttributeDemo\bin\Debug\AttributeDemo.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyAttribute\AttributeDemo\bin\Debug\AttributeDemo.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyAttribute\AttributeDemo\obj\Debug\AttributeDemo.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyAttribute\AttributeDemo\obj\Debug\AttributeDemo.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyAttribute\AttributeDemo\obj\Debug\AttributeDemo.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyAttribute\AttributeDemo\obj\Debug\AttributeDemo.pdb

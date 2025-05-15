@@ -1,0 +1,10 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\obj\Debug\MyDataExamples.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\obj\Debug\MyDataExamples.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\bin\Debug\MyDataExamples.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\bin\Debug\MyDataExamples.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\bin\Debug\MyDataExamples.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\obj\Debug\MyDataEx.4381224D.Up2Date
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\obj\Debug\MyDataExamples.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyDataExamples\MyDataExamples\obj\Debug\MyDataExamples.pdb

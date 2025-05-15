@@ -1,0 +1,48 @@
+﻿using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
+public static class CustomSerializerDemo
+{
+    [Serializable]
+    public class CustomPerson : ISerializable
+    {
+        public string Name;
+        public int Age;
+
+        public CustomPerson() { }
+
+        protected CustomPerson(SerializationInfo info, StreamingContext context)
+        {
+            Name = info.GetString("FullName");
+            Age = info.GetInt32("AgeYears");
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("FullName", Name);
+            info.AddValue("AgeYears", Age);
+        }
+
+        public override string ToString() => $"CustomPerson -> Name: {Name}, Age: {Age}";
+    }
+
+    public static void Serialize(string filePath, CustomPerson person)
+    {
+        var formatter = new BinaryFormatter();
+#pragma warning disable SYSLIB0011
+        using FileStream fs = new FileStream(filePath, FileMode.Create);
+        formatter.Serialize(fs, person);
+#pragma warning restore SYSLIB0011
+    }
+
+    public static CustomPerson Deserialize(string filePath)
+    {
+        var formatter = new BinaryFormatter();
+#pragma warning disable SYSLIB0011
+        using FileStream fs = new FileStream(filePath, FileMode.Open);
+        return (CustomPerson)formatter.Deserialize(fs);
+#pragma warning restore SYSLIB0011
+    }
+}

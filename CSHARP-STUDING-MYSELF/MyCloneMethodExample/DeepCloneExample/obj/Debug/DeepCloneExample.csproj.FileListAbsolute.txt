@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\DeepCloneExample\bin\Debug\DeepCloneExample.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\DeepCloneExample\bin\Debug\DeepCloneExample.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\DeepCloneExample\bin\Debug\DeepCloneExample.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\DeepCloneExample\obj\Debug\DeepCloneExample.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\DeepCloneExample\obj\Debug\DeepCloneExample.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\DeepCloneExample\obj\Debug\DeepCloneExample.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCloneMethodExample\DeepCloneExample\obj\Debug\DeepCloneExample.pdb

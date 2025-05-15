@@ -1,0 +1,10 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\bin\Debug\CalculatorApp.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\bin\Debug\CalculatorApp.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\bin\Debug\CalculatorApp.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\bin\Debug\CalculatorLibrary.dll
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\bin\Debug\CalculatorLibrary.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\obj\Debug\CalculatorApp.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\obj\Debug\CalculatorApp.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\obj\Debug\Calculat.C0507999.Up2Date
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\obj\Debug\CalculatorApp.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCalculator\CalculatorApp\obj\Debug\CalculatorApp.pdb
