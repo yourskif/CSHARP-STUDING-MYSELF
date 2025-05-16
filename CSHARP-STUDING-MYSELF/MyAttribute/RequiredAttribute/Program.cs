@@ -1,9 +1,6 @@
-﻿using System;
+﻿// Користувацький атрибут: Required
 using System.Text;
-using System.Reflection;
 
-// Користувацький атрибут: Required
-[AttributeUsage(AttributeTargets.Property)]
 public class RequiredAttribute : Attribute
 {
 }
@@ -55,7 +52,7 @@ public class UserService
     [Log("Користувача збережено в систему.")]
     public void SaveUser(User user)
     {
-        var method = MethodBase.GetCurrentMethod();
+        var method = System.Reflection.MethodBase.GetCurrentMethod();
         var attr = (LogAttribute)Attribute.GetCustomAttribute(method, typeof(LogAttribute));
         if (attr != null)
         {
@@ -68,7 +65,7 @@ public class UserService
     [Log("Звіт сформовано.")]
     public void GenerateReport()
     {
-        var method = MethodBase.GetCurrentMethod();
+        var method = System.Reflection.MethodBase.GetCurrentMethod();
         var attr = (LogAttribute)Attribute.GetCustomAttribute(method, typeof(LogAttribute));
         if (attr != null)
         {
@@ -76,6 +73,12 @@ public class UserService
         }
 
         Console.WriteLine("📄 Звіт сформовано.");
+    }
+
+    [Obsolete("Цей метод застарілий. Використовуйте GenerateReport.")]
+    public void OldReportMethod()
+    {
+        Console.WriteLine("⚠️ Старий метод звітування більше не використовується.");
     }
 }
 
@@ -97,5 +100,8 @@ public class Program
         var service = new UserService();
         service.SaveUser(user);
         service.GenerateReport();
+
+        // Виклик застарілого методу
+        service.OldReportMethod();
     }
 }
