@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyGarbageCollector\IDisposableExample\bin\Debug\IDisposableExample.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyGarbageCollector\IDisposableExample\bin\Debug\IDisposableExample.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyGarbageCollector\IDisposableExample\bin\Debug\IDisposableExample.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyGarbageCollector\IDisposableExample\obj\Debug\IDisposableExample.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyGarbageCollector\IDisposableExample\obj\Debug\IDisposableExample.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyGarbageCollector\IDisposableExample\obj\Debug\IDisposableExample.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyGarbageCollector\IDisposableExample\obj\Debug\IDisposableExample.pdb

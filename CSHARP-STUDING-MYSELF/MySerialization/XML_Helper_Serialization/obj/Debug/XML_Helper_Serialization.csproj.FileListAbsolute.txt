@@ -1,0 +1,2 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XML_Helper_Serialization\obj\Debug\XML_Helper_Serialization.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XML_Helper_Serialization\obj\Debug\XML_Helper_Serialization.csproj.CoreCompileInputs.cache

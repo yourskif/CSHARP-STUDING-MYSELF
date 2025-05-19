@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<People xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Person years="30">
+    <FullName>Alice</FullName>
+  </Person>
+  <Person years="40">
+    <FullName>Bob</FullName>
+  </Person>
+</People>

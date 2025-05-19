@@ -1,0 +1,12 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\bin\Debug\net8.0\XML_Helper_Serialization.deps.json
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\bin\Debug\net8.0\XML_Helper_Serialization.dll
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\bin\Debug\net8.0\XML_Helper_Serialization.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\obj\Debug\net8.0\XML_Helper_Serialization.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\obj\Debug\net8.0\XML_Helper_Serialization.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\obj\Debug\net8.0\XML_Helper_Serialization.AssemblyInfo.cs
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\obj\Debug\net8.0\XML_Helper_Serialization.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\obj\Debug\net8.0\XML_Helper_Serialization.sourcelink.json
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\obj\Debug\net8.0\XML_Helper_Serialization.dll
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\obj\Debug\net8.0\refint\XML_Helper_Serialization.dll
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\obj\Debug\net8.0\XML_Helper_Serialization.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MySerialization\XMLHelper\obj\Debug\net8.0\ref\XML_Helper_Serialization.dll

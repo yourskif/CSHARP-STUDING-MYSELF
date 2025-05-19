@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationDemo", "Serial
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSerialization", "..\SimpleSerialization\SimpleSerialization.csproj", "{52418E96-CCA9-4B3D-A70C-A74608058703}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLHelper", "..\XMLHelper\XMLHelper.csproj", "{9C61B320-8219-48A2-AC6A-41E781333433}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlSerializationDemo", "..\XmlSerializationDemo\XmlSerializationDemo.csproj", "{87080A59-C218-49D0-BD3A-5DC6044C8649}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{52418E96-CCA9-4B3D-A70C-A74608058703}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52418E96-CCA9-4B3D-A70C-A74608058703}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52418E96-CCA9-4B3D-A70C-A74608058703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C61B320-8219-48A2-AC6A-41E781333433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C61B320-8219-48A2-AC6A-41E781333433}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C61B320-8219-48A2-AC6A-41E781333433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C61B320-8219-48A2-AC6A-41E781333433}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87080A59-C218-49D0-BD3A-5DC6044C8649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87080A59-C218-49D0-BD3A-5DC6044C8649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87080A59-C218-49D0-BD3A-5DC6044C8649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87080A59-C218-49D0-BD3A-5DC6044C8649}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
