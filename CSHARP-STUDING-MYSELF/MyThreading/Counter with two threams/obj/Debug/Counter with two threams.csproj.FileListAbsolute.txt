@@ -1,0 +1,8 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\Counter with two threams\bin\Debug\Counter with two threams.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\Counter with two threams\bin\Debug\Counter with two threams.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\Counter with two threams\bin\Debug\Counter with two threams.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\Counter with two threams\obj\Debug\Counter with two threams.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\Counter with two threams\obj\Debug\Counter with two threams.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\Counter with two threams\obj\Debug\Counter with two threams.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\Counter with two threams\obj\Debug\Counter with two threams.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\Counter with two threams\obj\Debug\Counter with two threams.exe.config
