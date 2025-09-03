@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\POST-запросы и отправка форм.props" />
+</Project>

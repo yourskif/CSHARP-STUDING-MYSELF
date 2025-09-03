@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\bin\Debug\net8.0\EPAM.Reflection.MyMethodInfo.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\bin\Debug\net8.0\EPAM.Reflection.MyMethodInfo.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\bin\Debug\net8.0\EPAM.Reflection.MyMethodInfo.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\bin\Debug\net8.0\EPAM.Reflection.MyMethodInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\bin\Debug\net8.0\EPAM.Reflection.MyMethodInfo.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\EPAM.Reflection.MyMethodInfo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\EPAM.Reflection.MyMethodInfo.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\EPAM.Reflection.MyMethodInfo.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\EPAM.Reflection.MyMethodInfo.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\EPAM.Reflection.MyMethodInfo.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\EPAM.Reflection.MyMethodInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\refint\EPAM.Reflection.MyMethodInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\EPAM.Reflection.MyMethodInfo.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\EPAM.Reflection.MyMethodInfo.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MyMethodInfo\obj\Debug\net8.0\ref\EPAM.Reflection.MyMethodInfo.dll

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Отправка статусных кодов в Results API.props" />
+</Project>

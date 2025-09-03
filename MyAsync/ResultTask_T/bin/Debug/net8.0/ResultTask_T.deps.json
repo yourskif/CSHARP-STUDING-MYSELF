@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ResultTask_T/1.0.0": {
+        "runtime": {
+          "ResultTask_T.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ResultTask_T/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

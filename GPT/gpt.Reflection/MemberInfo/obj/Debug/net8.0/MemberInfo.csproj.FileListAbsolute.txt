@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\bin\Debug\net8.0\MemberInfo.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\bin\Debug\net8.0\MemberInfo.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\bin\Debug\net8.0\MemberInfo.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\bin\Debug\net8.0\MemberInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\bin\Debug\net8.0\MemberInfo.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\MemberInfo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\MemberInfo.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\MemberInfo.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\MemberInfo.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\MemberInfo.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\MemberInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\refint\MemberInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\MemberInfo.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\MemberInfo.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\MemberInfo\obj\Debug\net8.0\ref\MemberInfo.dll

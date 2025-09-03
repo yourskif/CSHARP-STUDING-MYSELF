@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\bin\Debug\net8.0\Хранение сложных объектов.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\bin\Debug\net8.0\Хранение сложных объектов.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\bin\Debug\net8.0\Хранение сложных объектов.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\bin\Debug\net8.0\Хранение сложных объектов.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\bin\Debug\net8.0\Хранение сложных объектов.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\bin\Debug\net8.0\Хранение сложных объектов.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\Хранение сложных объектов.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\Хранение сложных объектов.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\Хранение сложных объектов.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\Хранение сложных объектов.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\Хранение сложных объектов.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\Хранение сложных объектов.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\scopedcss\bundle\Хранение сложных объектов.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets\msbuild.Хранение сложных объектов.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets\msbuild.Хранение сложных объектов.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets\msbuild.build.Хранение сложных объектов.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Хранение сложных объектов.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Хранение сложных объектов.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\Хранение сложных объектов.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\refint\Хранение сложных объектов.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\Хранение сложных объектов.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\Хранение сложных объектов.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyState\Хранение сложных объектов\obj\Debug\net8.0\ref\Хранение сложных объектов.dll

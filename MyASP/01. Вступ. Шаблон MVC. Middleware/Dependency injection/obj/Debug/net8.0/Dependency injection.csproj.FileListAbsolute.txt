@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\Dependency injection.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\Dependency injection.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\Dependency injection.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\Dependency injection.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\Dependency injection.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\Dependency injection.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\bin\Debug\net8.0\Dependency injection.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\bin\Debug\net8.0\Dependency injection.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\bin\Debug\net8.0\Dependency injection.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\bin\Debug\net8.0\Dependency injection.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\bin\Debug\net8.0\Dependency injection.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\bin\Debug\net8.0\Dependency injection.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\scopedcss\bundle\Dependency injection.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets\msbuild.Dependency injection.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets\msbuild.Dependency injection.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets\msbuild.build.Dependency injection.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Dependency injection.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Dependency injection.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\Dependency injection.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\refint\Dependency injection.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\Dependency injection.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\Dependency injection.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Dependency injection\obj\Debug\net8.0\ref\Dependency injection.dll

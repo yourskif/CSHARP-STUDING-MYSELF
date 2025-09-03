@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Возвращение результата в Razor Pages.props" />
+</Project>

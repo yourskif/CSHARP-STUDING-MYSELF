@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\bin\Debug\net8.0\Переадресация в Results API.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\bin\Debug\net8.0\Переадресация в Results API.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\bin\Debug\net8.0\Переадресация в Results API.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\bin\Debug\net8.0\Переадресация в Results API.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\bin\Debug\net8.0\Переадресация в Results API.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\bin\Debug\net8.0\Переадресация в Results API.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\Переадресация в Results API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\Переадресация в Results API.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\Переадресация в Results API.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\Переадресация в Results API.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\Переадресация в Results API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\Переадресация в Results API.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\scopedcss\bundle\Переадресация в Results API.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets\msbuild.Переадресация в Results API.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets\msbuild.Переадресация в Results API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets\msbuild.build.Переадресация в Results API.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Переадресация в Results API.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Переадресация в Results API.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\Переадресация в Results API.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\refint\Переадресация в Results API.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\Переадресация в Results API.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\Переадресация в Results API.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Переадресация в Results API\obj\Debug\net8.0\ref\Переадресация в Results API.dll

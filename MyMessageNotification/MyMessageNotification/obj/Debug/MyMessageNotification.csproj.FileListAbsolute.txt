@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyMessageNotification\MyMessageNotification\bin\Debug\MyMessageNotification.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyMessageNotification\MyMessageNotification\bin\Debug\MyMessageNotification.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyMessageNotification\MyMessageNotification\bin\Debug\MyMessageNotification.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyMessageNotification\MyMessageNotification\obj\Debug\MyMessageNotification.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyMessageNotification\MyMessageNotification\obj\Debug\MyMessageNotification.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyMessageNotification\MyMessageNotification\obj\Debug\MyMessageNotification.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyMessageNotification\MyMessageNotification\obj\Debug\MyMessageNotification.pdb

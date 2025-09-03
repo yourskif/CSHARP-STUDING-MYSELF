@@ -1,0 +1,10 @@
+﻿@* Views/Home/Index.cshtml *@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Головна сторінка</h1>
+<p>Ласкаво просимо до нашого вебзастосунку!</p>
+
+@* Відображення часткового представлення *@
+@await Html.PartialAsync("_CurrentDateTime")

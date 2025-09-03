@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\bin\Debug\net8.0\DI  через Middleware Constructor.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\bin\Debug\net8.0\DI  через Middleware Constructor.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\bin\Debug\net8.0\DI  через Middleware Constructor.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\bin\Debug\net8.0\DI  через Middleware Constructor.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\bin\Debug\net8.0\DI  через Middleware Constructor.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\bin\Debug\net8.0\DI  через Middleware Constructor.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\DI  через Middleware Constructor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\DI  через Middleware Constructor.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\DI  через Middleware Constructor.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\DI  через Middleware Constructor.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\DI  через Middleware Constructor.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\DI  через Middleware Constructor.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\scopedcss\bundle\DI  через Middleware Constructor.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets\msbuild.DI  через Middleware Constructor.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets\msbuild.DI  через Middleware Constructor.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets\msbuild.build.DI  через Middleware Constructor.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.DI  через Middleware Constructor.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.DI  через Middleware Constructor.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\DI  через Middleware Constructor.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\refint\DI  через Middleware Constructor.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\DI  через Middleware Constructor.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\DI  через Middleware Constructor.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\DI  через Middleware Constructor\obj\Debug\net8.0\ref\DI  через Middleware Constructor.dll

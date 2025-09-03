@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Обработчики страницы в Razor Pages/1.0.0": {
+        "runtime": {
+          "Обработчики страницы в Razor Pages.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Обработчики страницы в Razor Pages/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

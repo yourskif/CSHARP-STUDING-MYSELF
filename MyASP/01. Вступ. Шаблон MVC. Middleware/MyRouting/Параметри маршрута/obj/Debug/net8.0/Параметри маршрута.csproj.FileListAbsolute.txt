@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\bin\Debug\net8.0\Параметри маршрута.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\bin\Debug\net8.0\Параметри маршрута.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\bin\Debug\net8.0\Параметри маршрута.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\bin\Debug\net8.0\Параметри маршрута.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\bin\Debug\net8.0\Параметри маршрута.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\bin\Debug\net8.0\Параметри маршрута.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\Параметри маршрута.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\Параметри маршрута.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\Параметри маршрута.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\Параметри маршрута.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\Параметри маршрута.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\Параметри маршрута.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\scopedcss\bundle\Параметри маршрута.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets\msbuild.Параметри маршрута.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets\msbuild.Параметри маршрута.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets\msbuild.build.Параметри маршрута.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Параметри маршрута.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Параметри маршрута.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\Параметри маршрута.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\refint\Параметри маршрута.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\Параметри маршрута.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\Параметри маршрута.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyRouting\Параметри маршрута\obj\Debug\net8.0\ref\Параметри маршрута.dll

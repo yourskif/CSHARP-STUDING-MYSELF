@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Обработчики страницы в Razor Pages.props" />
+</Project>

@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\scopedcss\bundle\01. Вступ. Шаблон MVC. Middleware.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.01. Вступ. Шаблон MVC. Middleware.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.01. Вступ. Шаблон MVC. Middleware.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.build.01. Вступ. Шаблон MVC. Middleware.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.01. Вступ. Шаблон MVC. Middleware.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.01. Вступ. Шаблон MVC. Middleware.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\refint\01. Вступ. Шаблон MVC. Middleware.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\ref\01. Вступ. Шаблон MVC. Middleware.dll

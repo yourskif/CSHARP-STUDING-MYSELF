@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+    @model IEnumerable<dynamic>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Home Controller. Index View</title>
+</head>
+<body>
+@*
+    @{
+        int counter = 1;
+
+        foreach (var item in Model)
+        {
+            <p>
+                <a href="@item">Link @counter</a>
+            </p>
+            counter++;
+        }
+    }
+*@
+
+
+    <ul>
+        @foreach (var link in Model)
+        {
+            <li><a href="@link.Url">@link.Text</a></li>
+        }
+    </ul>
+
+</body>
+</html>

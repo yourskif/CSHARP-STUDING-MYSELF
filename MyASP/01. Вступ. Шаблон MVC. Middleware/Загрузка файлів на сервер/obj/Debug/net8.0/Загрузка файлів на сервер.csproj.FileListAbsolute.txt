@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\bin\Debug\net8.0\Загрузка файлів на сервер.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\bin\Debug\net8.0\Загрузка файлів на сервер.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\bin\Debug\net8.0\Загрузка файлів на сервер.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\bin\Debug\net8.0\Загрузка файлів на сервер.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\bin\Debug\net8.0\Загрузка файлів на сервер.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\bin\Debug\net8.0\Загрузка файлів на сервер.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\Загрузка файлів на сервер.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\Загрузка файлів на сервер.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\Загрузка файлів на сервер.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\Загрузка файлів на сервер.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\Загрузка файлів на сервер.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\Загрузка файлів на сервер.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\scopedcss\bundle\Загрузка файлів на сервер.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets\msbuild.Загрузка файлів на сервер.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets\msbuild.Загрузка файлів на сервер.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets\msbuild.build.Загрузка файлів на сервер.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Загрузка файлів на сервер.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Загрузка файлів на сервер.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\Загрузка файлів на сервер.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\refint\Загрузка файлів на сервер.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\Загрузка файлів на сервер.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\Загрузка файлів на сервер.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Загрузка файлів на сервер\obj\Debug\net8.0\ref\Загрузка файлів на сервер.dll

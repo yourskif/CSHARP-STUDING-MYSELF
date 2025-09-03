@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\bin\Debug\net8.0\ShapesAreaExample.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\bin\Debug\net8.0\ShapesAreaExample.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\bin\Debug\net8.0\ShapesAreaExample.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\bin\Debug\net8.0\ShapesAreaExample.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\bin\Debug\net8.0\ShapesAreaExample.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\ShapesAreaExample.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\ShapesAreaExample.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\ShapesAreaExample.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\ShapesAreaExample.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\ShapesAreaExample.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\ShapesAreaExample.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\refint\ShapesAreaExample.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\ShapesAreaExample.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\ShapesAreaExample.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\ShapesAreaExample\obj\Debug\net8.0\ref\ShapesAreaExample.dll

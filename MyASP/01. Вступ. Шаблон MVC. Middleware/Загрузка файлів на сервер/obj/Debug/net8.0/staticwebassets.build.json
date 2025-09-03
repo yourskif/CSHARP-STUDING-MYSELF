@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "OWaFOxgEr+XTrGB2Oa1SSkHAIZ1l06+ucPXDgbBUNfE=",
+  "Source": "Загрузка файлів на сервер",
+  "BasePath": "_content/Загрузка файлів на сервер",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

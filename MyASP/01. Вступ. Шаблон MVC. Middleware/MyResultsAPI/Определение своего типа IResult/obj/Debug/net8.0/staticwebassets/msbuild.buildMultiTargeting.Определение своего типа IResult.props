@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Определение своего типа IResult.props" />
+</Project>

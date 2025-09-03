@@ -1,0 +1,40 @@
+﻿ @model IEnumerable<TD1.ContollerProduct.Product>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+<body>
+    <h1>Products List</h1>
+    <h2>Суворо типізоване представлення</h2>
+    <ul>
+        @foreach (var product in Model)
+
+        {
+            <li>@product.Id - @product.Name - $@product.Price</li>
+        }
+    </ul>
+
+    <h2>Через ViewBag</h2>
+    <ul>
+        @foreach (var product in ViewBag.Products) // as IEnumerable<TD1.ContollerProduct.Product>)
+        {
+            <li>@product.Id - @product.Name - $@product.Price</li>
+        }
+    </ul>
+
+@*     <h2>Суворо типізоване представлення</h2>
+    <ul>
+        @foreach (var product in ViewBag.Products as IEnumerable<TD1.ContollerProduct.Product>)
+
+        {
+            <li>@product.Id - @product.Name - $@product.Price</li>
+        }
+    </ul>
+
+
+ *@</body>
+</html>

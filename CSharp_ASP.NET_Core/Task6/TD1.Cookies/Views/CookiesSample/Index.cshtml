@@ -1,0 +1,81 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Cookies Sample</title>
+</head>
+<body>
+    <h1>Зберігання стану в cookies</h1>
+
+    <form asp-controller="cookiessample" asp-action="index" method="post">
+        <div>
+            <label>Value:</label>
+            <input type="text" name="value" required />
+        </div>
+        <div>
+            <label>Expiration Date:</label>
+            <input type="datetime-local" name="expirationDate" required />
+        </div>
+        <div>
+            <input type="submit" value="Save to Cookies" />
+        </div>
+    </form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* 
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/site.css" rel="stylesheet" />
+    <title>Cookies Sample</title>
+</head>
+<body>
+    <h1>Зберігання стану в cookies</h1>
+    
+    <form asp-controller="cookiessample" asp-action="index" method="post">
+        <div>
+            <label>Value</label>
+            <input type="text" name="value" />
+        </div>
+        <div>
+            <label>Date</label>
+            <input type="date" name="value" />
+        </div>
+
+        <div>
+            <input type="submit" />
+        </div>
+
+        <div>
+            <a asp-controller="cookiessample" asp-action="test">Test View</a>
+        </div>
+    </form>
+</body>
+</html>
+ *@

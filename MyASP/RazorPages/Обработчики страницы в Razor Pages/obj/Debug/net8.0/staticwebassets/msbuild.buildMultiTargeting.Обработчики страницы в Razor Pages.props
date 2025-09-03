@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Обработчики страницы в Razor Pages.props" />
+</Project>

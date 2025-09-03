@@ -1,0 +1,32 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\bin\Debug\net8.0\ViewBag обєкт.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\bin\Debug\net8.0\ViewBag обєкт.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\bin\Debug\net8.0\ViewBag обєкт.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\bin\Debug\net8.0\ViewBag обєкт.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\bin\Debug\net8.0\ViewBag обєкт.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\bin\Debug\net8.0\ViewBag обєкт.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.RazorAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.RazorAssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\scopedcss\bundle\ViewBag обєкт.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets\msbuild.ViewBag обєкт.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets\msbuild.ViewBag обєкт.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets\msbuild.build.ViewBag обєкт.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.ViewBag обєкт.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.ViewBag обєкт.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\refint\ViewBag обєкт.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ViewBag обєкт.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\ViewBag обєкт\obj\Debug\net8.0\ref\ViewBag обєкт.dll

@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorPages", "RazorPages.csproj", "{238202FB-3C2C-4096-A181-244D4F854796}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Добавление RazorPages в пустой проект", "..\Добавление RazorPages в пустой проект\Добавление RazorPages в пустой проект.csproj", "{81847F7C-DEBD-46CF-862B-34B3FCBA1C30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Определение страниц Razor", "..\Определение страниц Razor\Определение страниц Razor.csproj", "{BAEAF3B8-38B6-440A-8B75-2739578C4A5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Модель страницы Razor", "..\Модель страницы Razor\Модель страницы Razor.csproj", "{0AC349D1-E067-4694-A49E-4F49F7D0BC40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Передача данных на страницу Razor в GET-запросе", "..\Передача данных на страницу Razor в GET-запросе\Передача данных на страницу Razor в GET-запросе.csproj", "{D6116BE5-C36B-47D3-8FC5-E15F28253AA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POST-запросы и отправка форм", "..\POST-запросы и отправка форм\POST-запросы и отправка форм.csproj", "{F6A404F2-19C1-4D60-A8FB-785899D8036E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Обработчики страницы в Razor Pages", "..\Обработчики страницы в Razor Pages\Обработчики страницы в Razor Pages.csproj", "{68EA4CEF-D726-4DA6-A878-5416542353C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Возвращение результата в Razor Pages", "..\Возвращение результата в Razor Pages\Возвращение результата в Razor Pages.csproj", "{09381C49-2114-422B-BC05-2EC1CBD986D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewData", "..\ViewBag и ViewData\ViewData.csproj", "{EDFA0467-128F-4873-9F51-365C7DF4F137}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewBag обєкт", "..\ViewBag обєкт\ViewBag обєкт.csproj", "{579ACA70-D670-4BC5-B0C7-7AC9CFF089F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{238202FB-3C2C-4096-A181-244D4F854796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{238202FB-3C2C-4096-A181-244D4F854796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{238202FB-3C2C-4096-A181-244D4F854796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{238202FB-3C2C-4096-A181-244D4F854796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81847F7C-DEBD-46CF-862B-34B3FCBA1C30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81847F7C-DEBD-46CF-862B-34B3FCBA1C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81847F7C-DEBD-46CF-862B-34B3FCBA1C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81847F7C-DEBD-46CF-862B-34B3FCBA1C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAEAF3B8-38B6-440A-8B75-2739578C4A5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAEAF3B8-38B6-440A-8B75-2739578C4A5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAEAF3B8-38B6-440A-8B75-2739578C4A5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAEAF3B8-38B6-440A-8B75-2739578C4A5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC349D1-E067-4694-A49E-4F49F7D0BC40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC349D1-E067-4694-A49E-4F49F7D0BC40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC349D1-E067-4694-A49E-4F49F7D0BC40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC349D1-E067-4694-A49E-4F49F7D0BC40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6116BE5-C36B-47D3-8FC5-E15F28253AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6116BE5-C36B-47D3-8FC5-E15F28253AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6116BE5-C36B-47D3-8FC5-E15F28253AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6116BE5-C36B-47D3-8FC5-E15F28253AA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A404F2-19C1-4D60-A8FB-785899D8036E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A404F2-19C1-4D60-A8FB-785899D8036E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A404F2-19C1-4D60-A8FB-785899D8036E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A404F2-19C1-4D60-A8FB-785899D8036E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68EA4CEF-D726-4DA6-A878-5416542353C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68EA4CEF-D726-4DA6-A878-5416542353C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68EA4CEF-D726-4DA6-A878-5416542353C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68EA4CEF-D726-4DA6-A878-5416542353C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09381C49-2114-422B-BC05-2EC1CBD986D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09381C49-2114-422B-BC05-2EC1CBD986D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09381C49-2114-422B-BC05-2EC1CBD986D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09381C49-2114-422B-BC05-2EC1CBD986D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDFA0467-128F-4873-9F51-365C7DF4F137}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDFA0467-128F-4873-9F51-365C7DF4F137}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDFA0467-128F-4873-9F51-365C7DF4F137}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDFA0467-128F-4873-9F51-365C7DF4F137}.Release|Any CPU.Build.0 = Release|Any CPU
+		{579ACA70-D670-4BC5-B0C7-7AC9CFF089F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{579ACA70-D670-4BC5-B0C7-7AC9CFF089F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{579ACA70-D670-4BC5-B0C7-7AC9CFF089F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{579ACA70-D670-4BC5-B0C7-7AC9CFF089F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BBDD1831-0BC8-4CFD-A6DF-0F113552FF44}
+	EndGlobalSection
+EndGlobal

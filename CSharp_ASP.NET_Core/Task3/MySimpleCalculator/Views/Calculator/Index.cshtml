@@ -1,0 +1,42 @@
+﻿@model MyNewSimpleCalculator.Models.CalculatorModel
+
+<h2>Калькулятор</h2>
+
+<form method="post" asp-controller="MyCalculator" asp-action="Index">
+    <div>
+        <label>Число 1:</label>
+        <input asp-for="Number1" />
+        <span asp-validation-for="Number1" style="color:red"></span>
+    </div>
+
+    <div>
+        <label>Операція:</label>
+        <select asp-for="Operation">
+            <option value="+">+ (Додавання)</option>
+            <option value="-">- (Віднімання)</option>
+            <option value="*">* (Множення)</option>
+            <option value="/">/ (Ділення)</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Число 2:</label>
+        <input asp-for="Number2" />
+        <span asp-validation-for="Number2" style="color:red"></span>
+    </div>
+
+    <button type="submit">Обчислити</button>
+
+    <div>
+        <label>Результат:</label>
+        <input type="text" readonly value="@(double.IsNaN(Model.Result) ? "Помилка" : Model.Result.ToString())" />
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div style="color:red">@Model.ErrorMessage</div>
+        }
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

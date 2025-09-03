@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "4kZ1KnTrEhWU8wzndsWf3Wk4X6Zqr6OJ1ylM5ycyAUg=",
+  "Source": "MySimpleCalculator",
+  "BasePath": "_content/MySimpleCalculator",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

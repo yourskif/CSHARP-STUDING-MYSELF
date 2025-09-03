@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "EPAM.Reflection.ListMembers/1.0.0": {
+        "runtime": {
+          "EPAM.Reflection.ListMembers.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "EPAM.Reflection.ListMembers/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

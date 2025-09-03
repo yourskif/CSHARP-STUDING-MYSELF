@@ -1,0 +1,16 @@
+﻿@page
+
+@using Обработчики_страницы_в_Razor_Pages.Pages
+@model Обработчики_страницы_в_Razor_Pages.Pages.IndexModel
+
+<h2>Список пользователей</h2>
+<table>
+    <tr><th>Name</th><th>Age</th></tr>
+    @foreach (Person person in Model.DisplayedPeople)
+    {
+        <tr>
+            <td>@person.Name</td>
+            <td>@person.Age</td>
+        </tr>
+    }
+</table>

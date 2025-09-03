@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\bin\Debug\net8.0\Сервис как конкретный класс.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\bin\Debug\net8.0\Сервис как конкретный класс.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\bin\Debug\net8.0\Сервис как конкретный класс.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\bin\Debug\net8.0\Сервис как конкретный класс.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\bin\Debug\net8.0\Сервис как конкретный класс.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\bin\Debug\net8.0\Сервис как конкретный класс.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\Сервис как конкретный класс.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\Сервис как конкретный класс.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\Сервис как конкретный класс.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\Сервис как конкретный класс.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\Сервис как конкретный класс.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\Сервис как конкретный класс.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\scopedcss\bundle\Сервис как конкретный класс.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets\msbuild.Сервис как конкретный класс.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets\msbuild.Сервис как конкретный класс.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets\msbuild.build.Сервис как конкретный класс.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Сервис как конкретный класс.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Сервис как конкретный класс.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\Сервис как конкретный класс.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\refint\Сервис как конкретный класс.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\Сервис как конкретный класс.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\Сервис как конкретный класс.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Сервис как конкретный класс\obj\Debug\net8.0\ref\Сервис как конкретный класс.dll

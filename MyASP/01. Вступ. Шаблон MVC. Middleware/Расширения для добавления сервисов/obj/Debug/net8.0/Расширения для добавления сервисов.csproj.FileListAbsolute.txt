@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\bin\Debug\net8.0\Расширения для добавления сервисов.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\bin\Debug\net8.0\Расширения для добавления сервисов.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\bin\Debug\net8.0\Расширения для добавления сервисов.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\bin\Debug\net8.0\Расширения для добавления сервисов.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\bin\Debug\net8.0\Расширения для добавления сервисов.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\bin\Debug\net8.0\Расширения для добавления сервисов.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\Расширения для добавления сервисов.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\Расширения для добавления сервисов.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\Расширения для добавления сервисов.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\Расширения для добавления сервисов.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\Расширения для добавления сервисов.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\Расширения для добавления сервисов.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\scopedcss\bundle\Расширения для добавления сервисов.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets\msbuild.Расширения для добавления сервисов.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets\msbuild.Расширения для добавления сервисов.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets\msbuild.build.Расширения для добавления сервисов.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Расширения для добавления сервисов.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Расширения для добавления сервисов.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\Расширения для добавления сервисов.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\refint\Расширения для добавления сервисов.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\Расширения для добавления сервисов.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\Расширения для добавления сервисов.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\Расширения для добавления сервисов\obj\Debug\net8.0\ref\Расширения для добавления сервисов.dll

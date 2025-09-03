@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "DI  через Middleware Constructor/1.0.0": {
+        "runtime": {
+          "DI  через Middleware Constructor.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DI  через Middleware Constructor/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

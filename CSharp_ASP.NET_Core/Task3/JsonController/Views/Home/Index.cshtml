@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Clients JSON";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    <button id="loadClients">Load Clients</button>
+
+    <div id="clientsList">
+        <!-- Сюди буде додаватися список клієнтів -->
+    </div>
+
+    <script>
+        document.getElementById('loadClients').addEventListener('click', function () {
+            // Виконати GET запит до методу Clients контролера
+            fetch('/Json/Clients')
+                .then(response => response.json()) // Отримати JSON
+                .then(data => {
+                    const clientsList = document.getElementById('clientsList');
+                    clientsList.innerHTML = ''; // Очищаємо список перед додаванням нових елементів
+
+                    // Додаємо кожного клієнта в список
+                    data.forEach(client => {
+                        const clientDiv = document.createElement('div');
+                        clientDiv.innerHTML = `<p>ID: ${client.id}, Login: ${client.login}, Email: ${client.email}</p>`;
+                        clientsList.appendChild(clientDiv);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>

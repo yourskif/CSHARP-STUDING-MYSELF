@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\EndpointDataSource. Получение конечних точек.props" />
+</Project>

@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\bin\Debug\net8.0\EPAM.Reflection.MemberInfo.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\bin\Debug\net8.0\EPAM.Reflection.MemberInfo.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\bin\Debug\net8.0\EPAM.Reflection.MemberInfo.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\bin\Debug\net8.0\EPAM.Reflection.MemberInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\bin\Debug\net8.0\EPAM.Reflection.MemberInfo.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\EPAM.Reflection.MemberInfo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\EPAM.Reflection.MemberInfo.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\EPAM.Reflection.MemberInfo.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\EPAM.Reflection.MemberInfo.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\EPAM.Reflection.MemberInfo.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\EPAM.Reflection.MemberInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\refint\EPAM.Reflection.MemberInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\EPAM.Reflection.MemberInfo.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\EPAM.Reflection.MemberInfo.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.MemberInfo\obj\Debug\net8.0\ref\EPAM.Reflection.MemberInfo.dll

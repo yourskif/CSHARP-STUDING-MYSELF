@@ -1,0 +1,61 @@
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\bin\Debug\net8.0\appsettings.Development.json
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\bin\Debug\net8.0\appsettings.json
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.staticwebassets.runtime.json
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.exe
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.deps.json
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.runtimeconfig.json
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.dll
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.pdb
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.GeneratedMSBuildEditorConfig.editorconfig
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.AssemblyInfoInputs.cache
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.AssemblyInfo.cs
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.csproj.CoreCompileInputs.cache
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.MvcApplicationPartsAssemblyInfo.cache
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.RazorAssemblyInfo.cache
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.RazorAssemblyInfo.cs
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\staticwebassets.build.json
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\staticwebassets.development.json
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\staticwebassets\msbuild.001_SimpleApp.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\staticwebassets\msbuild.build.001_SimpleApp.props
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.001_SimpleApp.props
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.001_SimpleApp.props
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\staticwebassets.pack.json
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\scopedcss\bundle\001_SimpleApp.styles.css
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.dll
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\refint\001_SimpleApp.dll
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.pdb
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.genruntimeconfig.cache
+D:\Cources\ASP.NET Core MVC_new_25.03.2024\01. Вступ. Шаблон MVC. Middleware\001_Introduction\001_SimpleApp\obj\Debug\net8.0\ref\001_SimpleApp.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.staticwebassets.runtime.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\bin\Debug\net8.0\001_SimpleApp.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.RazorAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.RazorAssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\scopedcss\bundle\001_SimpleApp.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets\msbuild.001_SimpleApp.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets\msbuild.001_SimpleApp.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets\msbuild.build.001_SimpleApp.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.001_SimpleApp.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.001_SimpleApp.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\refint\001_SimpleApp.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\001_SimpleApp.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\001_SimpleApp\obj\Debug\net8.0\ref\001_SimpleApp.dll

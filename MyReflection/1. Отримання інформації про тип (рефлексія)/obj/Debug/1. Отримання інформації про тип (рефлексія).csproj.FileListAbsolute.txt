@@ -1,0 +1,14 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\bin\Debug\_1.Отримання_інформації_про_тип__рефлексія_.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\bin\Debug\_1.Отримання_інформації_про_тип__рефлексія_.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\bin\Debug\_1.Отримання_інформації_про_тип__рефлексія_.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\obj\Debug\1. Отримання інформації про тип (рефлексія).csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\obj\Debug\1. Отримання інформації про тип (рефлексія).csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\obj\Debug\_1.Отримання_інформації_про_тип__рефлексія_.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\obj\Debug\_1.Отримання_інформації_про_тип__рефлексія_.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\bin\Debug\_1.Отримання_інформації_про_тип__рефлексія_.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\obj\Debug\1. Отримання інформації про тип (рефлексія).csproj.AssemblyReference.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\obj\Debug\1. Отримання інформації про тип (рефлексія).csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\obj\Debug\_1.Отримання_інформації_про_тип__рефлексія_.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\bin\Debug\_1.Отримання_інформації_про_тип__рефлексія_.dll.config
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\bin\Debug\_1.Отримання_інформації_про_тип__рефлексія_.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\1. Отримання інформації про тип (рефлексія)\obj\Debug\_1.Отримання_інформації_про_тип__рефлексія_.dll

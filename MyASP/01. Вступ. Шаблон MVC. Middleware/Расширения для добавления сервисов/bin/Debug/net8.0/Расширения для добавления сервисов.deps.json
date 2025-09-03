@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Расширения для добавления сервисов/1.0.0": {
+        "runtime": {
+          "Расширения для добавления сервисов.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Расширения для добавления сервисов/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

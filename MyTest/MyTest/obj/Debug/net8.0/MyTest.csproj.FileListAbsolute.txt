@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\bin\Debug\net8.0\MyTest.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\bin\Debug\net8.0\MyTest.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\bin\Debug\net8.0\MyTest.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\bin\Debug\net8.0\MyTest.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\bin\Debug\net8.0\MyTest.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\MyTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\MyTest.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\MyTest.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\MyTest.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\MyTest.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\MyTest.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\refint\MyTest.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\MyTest.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\MyTest.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\MyTest\obj\Debug\net8.0\ref\MyTest.dll

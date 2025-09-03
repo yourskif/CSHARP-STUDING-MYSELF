@@ -1,0 +1,14 @@
+﻿@model Binding.Models.FormData
+
+<form action="/Home/Index" method="post">
+    <label>First</label>
+    <input name="first" value="@Model.First" />
+    <br />
+    <label>Second</label>
+    <input name="second" value="@Model.Second" />
+    <br />
+    <label>Count</label>
+    <input type="number" name="count" value="@Model.Count" />
+    <br />
+    <button type="submit">Create</button>
+</form>

@@ -1,0 +1,32 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\bin\Debug\net8.0\Модель страницы Razor.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\bin\Debug\net8.0\Модель страницы Razor.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\bin\Debug\net8.0\Модель страницы Razor.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\bin\Debug\net8.0\Модель страницы Razor.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\bin\Debug\net8.0\Модель страницы Razor.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\bin\Debug\net8.0\Модель страницы Razor.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.RazorAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.RazorAssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\scopedcss\bundle\Модель страницы Razor.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets\msbuild.Модель страницы Razor.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets\msbuild.Модель страницы Razor.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets\msbuild.build.Модель страницы Razor.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Модель страницы Razor.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Модель страницы Razor.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\refint\Модель страницы Razor.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\Модель страницы Razor.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Модель страницы Razor\obj\Debug\net8.0\ref\Модель страницы Razor.dll

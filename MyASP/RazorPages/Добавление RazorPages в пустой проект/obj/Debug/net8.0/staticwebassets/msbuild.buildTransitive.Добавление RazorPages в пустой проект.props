@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Добавление RazorPages в пустой проект.props" />
+</Project>

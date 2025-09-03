@@ -1,0 +1,7 @@
+Now listening on: https://localhost:7128
+Now listening on: http://localhost:5176
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования
+Path: /  Time:13:55:37
+Path: /favicon.ico  Time:13:55:37

@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "7nZXfRYayRDNI4YVWRAPawWS+wt2Hn2pFk7dUwvzyHI=",
+  "Source": "HttpContext.Items",
+  "BasePath": "_content/HttpContext.Items",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

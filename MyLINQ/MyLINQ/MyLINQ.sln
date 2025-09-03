@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLINQ", "MyLINQ.csproj", "{52963440-E771-4A11-BCBF-DBAF65CE472E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Без LINQ - вибір строк", "..\Без LINQ - вибір строк\Без LINQ - вибір строк.csproj", "{F731A868-6A81-464F-AD50-468C799F8273}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Оператори запросов LINQ", "..\Оператори запросов LINQ\Оператори запросов LINQ.csproj", "{EEA46AC6-B502-4772-8FCB-BF6BB2A7A046}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Методи розширення LINQ", "..\Методи розширення LINQ\Методи розширення LINQ.csproj", "{3C597C05-6430-432D-8DF0-7690F90F704E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52963440-E771-4A11-BCBF-DBAF65CE472E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52963440-E771-4A11-BCBF-DBAF65CE472E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52963440-E771-4A11-BCBF-DBAF65CE472E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52963440-E771-4A11-BCBF-DBAF65CE472E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F731A868-6A81-464F-AD50-468C799F8273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F731A868-6A81-464F-AD50-468C799F8273}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F731A868-6A81-464F-AD50-468C799F8273}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F731A868-6A81-464F-AD50-468C799F8273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEA46AC6-B502-4772-8FCB-BF6BB2A7A046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEA46AC6-B502-4772-8FCB-BF6BB2A7A046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEA46AC6-B502-4772-8FCB-BF6BB2A7A046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEA46AC6-B502-4772-8FCB-BF6BB2A7A046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C597C05-6430-432D-8DF0-7690F90F704E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C597C05-6430-432D-8DF0-7690F90F704E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C597C05-6430-432D-8DF0-7690F90F704E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C597C05-6430-432D-8DF0-7690F90F704E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {32BDCDC9-023A-4B6A-9677-A451C8093D61}
+	EndGlobalSection
+EndGlobal

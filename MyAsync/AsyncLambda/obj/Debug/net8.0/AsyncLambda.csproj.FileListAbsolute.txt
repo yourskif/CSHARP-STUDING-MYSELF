@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\bin\Debug\net8.0\AsyncLambda.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\bin\Debug\net8.0\AsyncLambda.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\bin\Debug\net8.0\AsyncLambda.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\bin\Debug\net8.0\AsyncLambda.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\bin\Debug\net8.0\AsyncLambda.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\AsyncLambda.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\AsyncLambda.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\AsyncLambda.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\AsyncLambda.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\AsyncLambda.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\AsyncLambda.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\refint\AsyncLambda.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\AsyncLambda.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\AsyncLambda.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\AsyncLambda\obj\Debug\net8.0\ref\AsyncLambda.dll

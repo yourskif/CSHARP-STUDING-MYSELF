@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Возвращение результата в Razor Pages/1.0.0": {
+        "runtime": {
+          "Возвращение результата в Razor Pages.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Возвращение результата в Razor Pages/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

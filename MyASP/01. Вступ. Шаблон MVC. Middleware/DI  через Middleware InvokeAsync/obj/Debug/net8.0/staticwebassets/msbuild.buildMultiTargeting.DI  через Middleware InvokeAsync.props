@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\DI  через Middleware InvokeAsync.props" />
+</Project>

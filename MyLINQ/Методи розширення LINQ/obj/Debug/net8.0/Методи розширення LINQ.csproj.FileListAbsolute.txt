@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\bin\Debug\net8.0\Методи розширення LINQ.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\bin\Debug\net8.0\Методи розширення LINQ.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\bin\Debug\net8.0\Методи розширення LINQ.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\bin\Debug\net8.0\Методи розширення LINQ.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\bin\Debug\net8.0\Методи розширення LINQ.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\Методи розширення LINQ.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\Методи розширення LINQ.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\Методи розширення LINQ.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\Методи розширення LINQ.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\Методи розширення LINQ.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\Методи розширення LINQ.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\refint\Методи розширення LINQ.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\Методи розширення LINQ.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\Методи розширення LINQ.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Методи розширення LINQ\obj\Debug\net8.0\ref\Методи розширення LINQ.dll

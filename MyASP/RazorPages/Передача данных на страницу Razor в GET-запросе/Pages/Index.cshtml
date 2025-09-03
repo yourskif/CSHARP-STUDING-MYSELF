@@ -1,0 +1,20 @@
+﻿@* @page
+@model Передача_данных_на_страницу_Razor_в_GET_запросе.Pages.IndexModel
+<h2>@Model.Message</h2> *@
+
+
+@* @page
+@model Передача_данных_на_страницу_Razor_в_GET_запросе.Pages.IndexModel
+<h2>@Model.Message</h2>
+ *@
+
+@page
+@model Передача_данных_на_страницу_Razor_в_GET_запросе.Pages.IndexModel
+<h2>@Model.Message</h2>
+@functions {
+    public string Message { get; set; } = "";
+    public void OnGet(string name, int age)
+    {
+        Message = $"Name: {name}  Age: {age}";
+    }
+}

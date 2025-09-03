@@ -1,0 +1,6 @@
+﻿1, Mobile Phone, 600
+2, Laptop, 3200
+3, Keyboard, 35
+4, Mouse, 10
+5, Pen, 1
+6, Notebook, 1

@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Calculator";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    <form method="post" action="/Calculator/Calculate">
+        <div>
+            <label for="number1">Number 1:</label>
+            <input type="number" name="number1" id="number1" required />
+        </div>
+        <div>
+            <label for="number2">Number 2:</label>
+            <input type="number" name="number2" id="number2" required />
+        </div>
+        <div>
+            <label for="operation">Operation:</label>
+            <select name="operation" id="operation">
+                <option value="Add">Add</option>
+                <option value="Subtract">Subtract</option>
+                <option value="Multiply">Multiply</option>
+                <option value="Divide">Divide</option>
+            </select>
+        </div>
+        <button type="submit">Calculate</button>
+    </form>
+
+    <h2>Result:</h2>
+    <p>
+        @if (ViewBag.Result != null)
+
+        {
+            <span>Result: @ViewBag.Result</span>
+        }
+
+        else
+
+        {
+            <span>No result calculated yet.</span>
+        }
+    </p>
+</body>
+</html>

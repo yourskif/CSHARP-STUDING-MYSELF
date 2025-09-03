@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\TD1.ContollerProduct.props" />
+</Project>

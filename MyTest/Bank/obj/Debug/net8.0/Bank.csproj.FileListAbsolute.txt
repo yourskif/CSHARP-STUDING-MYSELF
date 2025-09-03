@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\bin\Debug\net8.0\Bank.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\bin\Debug\net8.0\Bank.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\bin\Debug\net8.0\Bank.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\bin\Debug\net8.0\Bank.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\bin\Debug\net8.0\Bank.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\Bank.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\Bank.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\Bank.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\Bank.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\Bank.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\Bank.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\refint\Bank.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\Bank.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\Bank.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyTest\Bank\obj\Debug\net8.0\ref\Bank.dll

@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "GgndDafUy0YziY35EJHQWxctAFl1E7DZJl1kylHWxY4=",
+  "Source": "Отправка статусных кодов в Results API",
+  "BasePath": "_content/Отправка статусных кодов в Results API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

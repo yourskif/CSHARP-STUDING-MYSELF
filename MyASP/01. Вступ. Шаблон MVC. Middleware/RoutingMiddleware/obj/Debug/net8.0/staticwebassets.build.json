@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "t4ScdJtkLIwIhIx9ejIGnMesRerNnhKS+LiPjqnDKs8=",
+  "Source": "RoutingMiddleware",
+  "BasePath": "_content/RoutingMiddleware",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

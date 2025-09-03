@@ -1,0 +1,12 @@
+﻿@page
+@model ViewBag_и_ViewData.Pages.IndexModel
+<h2>@ViewData["Message"]</h2>
+<ul>
+    @if (ViewData["People"] is List<string> people)
+    {
+        foreach (var person in people)
+        {
+            <li>@person</li>
+        }
+    }
+</ul>

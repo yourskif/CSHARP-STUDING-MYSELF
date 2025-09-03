@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Передача зависимостей в конечные точки.props" />
+</Project>

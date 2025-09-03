@@ -1,0 +1,20 @@
+﻿using System;
+using System.IO;
+using System.Xml.Serialization;
+
+public static class XmlSerializerDemo
+{
+    public static void Serialize(string filePath, Person person)
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(Person));
+        using FileStream fs = new FileStream(filePath, FileMode.Create);
+        serializer.Serialize(fs, person);
+    }
+
+    public static Person Deserialize(string filePath)
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(Person));
+        using FileStream fs = new FileStream(filePath, FileMode.Open);
+        return (Person)serializer.Deserialize(fs);
+    }
+}

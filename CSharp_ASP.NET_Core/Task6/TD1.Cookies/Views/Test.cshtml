@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test Cookies</title>
+</head>
+<body>
+    <h1>Перевірка Cookies</h1>
+
+    @if (Model != null)
+
+    {
+        <p>Значення з Cookies: <strong>@Model</strong></p>
+    }
+
+    else
+
+    {
+        <p>Cookies не знайдено або термін дії закінчився.</p>
+    }
+
+    <a asp-controller="cookiessample" asp-action="index">Назад до форми</a>
+</body>
+</html>

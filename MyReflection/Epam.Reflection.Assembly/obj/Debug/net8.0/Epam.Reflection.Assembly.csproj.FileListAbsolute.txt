@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\bin\Debug\net8.0\Epam.Reflection.Assembly.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\bin\Debug\net8.0\Epam.Reflection.Assembly.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\bin\Debug\net8.0\Epam.Reflection.Assembly.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\bin\Debug\net8.0\Epam.Reflection.Assembly.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\bin\Debug\net8.0\Epam.Reflection.Assembly.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\Epam.Reflection.Assembly.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\Epam.Reflection.Assembly.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\Epam.Reflection.Assembly.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\Epam.Reflection.Assembly.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\Epam.Reflection.Assembly.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\Epam.Reflection.Assembly.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\refint\Epam.Reflection.Assembly.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\Epam.Reflection.Assembly.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\Epam.Reflection.Assembly.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\Epam.Reflection.Assembly\obj\Debug\net8.0\ref\Epam.Reflection.Assembly.dll

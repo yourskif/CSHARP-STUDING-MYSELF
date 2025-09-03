@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\bin\Debug\net8.0\gpt.Reflection.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\bin\Debug\net8.0\gpt.Reflection.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\bin\Debug\net8.0\gpt.Reflection.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\bin\Debug\net8.0\gpt.Reflection.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\bin\Debug\net8.0\gpt.Reflection.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\gpt.Reflection.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\gpt.Reflection.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\gpt.Reflection.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\gpt.Reflection.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\gpt.Reflection.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\gpt.Reflection.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\refint\gpt.Reflection.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\gpt.Reflection.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\gpt.Reflection.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\GPT\gpt.Reflection\gpt.Reflection\obj\Debug\net8.0\ref\gpt.Reflection.dll

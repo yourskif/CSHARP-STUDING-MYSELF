@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\bin\Debug\net8.0\MyAsync.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\bin\Debug\net8.0\MyAsync.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\bin\Debug\net8.0\MyAsync.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\bin\Debug\net8.0\MyAsync.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\bin\Debug\net8.0\MyAsync.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\MyAsync.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\MyAsync.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\MyAsync.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\MyAsync.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\MyAsync.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\MyAsync.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\refint\MyAsync.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\MyAsync.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\MyAsync.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\MyAsync\obj\Debug\net8.0\ref\MyAsync.dll

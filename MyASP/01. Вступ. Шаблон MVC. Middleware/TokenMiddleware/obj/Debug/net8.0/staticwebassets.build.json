@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "f5BIUDjpkoPjk7q89B7d1B3Ee/pm4ZpoyCd/4xQHRpY=",
+  "Source": "TokenMiddleware",
+  "BasePath": "_content/TokenMiddleware",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

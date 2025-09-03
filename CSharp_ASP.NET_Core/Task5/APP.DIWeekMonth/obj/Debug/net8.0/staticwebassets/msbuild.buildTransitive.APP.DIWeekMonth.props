@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\APP.DIWeekMonth.props" />
+</Project>

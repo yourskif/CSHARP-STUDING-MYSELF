@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\01. Вступ. Шаблон MVC. Middleware.PingPong.props" />
+</Project>

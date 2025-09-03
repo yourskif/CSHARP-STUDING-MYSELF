@@ -1,0 +1,66 @@
+﻿<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand text-warning" href="#">MyApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")" asp-controller="Home" asp-action="Index">Головна</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Page1" ? "active" : "")" asp-controller="Home" asp-action="Page1">Сторінка 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Page2" ? "active" : "")" asp-controller="Home" asp-action="Page2">Сторінка 2</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Додаткові стилі -->
+<style>
+    /* Встановлюємо активний пункт меню */
+    .navbar-nav .nav-link.active {
+        color: #ffcc00 !important; /* Заміна кольору активного пункту */
+        font-weight: bold; /* Виділення жирним */
+    }
+
+    /* Зміна кольору при наведенні */
+    .navbar-nav .nav-link:hover {
+        color: #f8f9fa !important; /* Світлий колір при наведенні */
+    }
+
+    /* Зміна кольору тексту для кнопки (toggler) на мобільних пристроях */
+    .navbar-toggler-icon {
+        background-color: #ffcc00; /* Кольорова кнопка на мобільних */
+    }
+</style>
+
+
+
+
+
+@* <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">MyApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")" asp-controller="Home" asp-action="Index">Головна</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Page1" ? "active" : "")" asp-controller="Home" asp-action="Page1">Сторінка 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Page2" ? "active" : "")" asp-controller="Home" asp-action="Page2">Сторінка 2</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav> *@

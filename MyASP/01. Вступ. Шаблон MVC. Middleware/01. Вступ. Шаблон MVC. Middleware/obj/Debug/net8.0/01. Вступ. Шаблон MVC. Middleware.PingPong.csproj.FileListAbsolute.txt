@@ -1,0 +1,30 @@
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\appsettings.Development.json
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\appsettings.json
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.staticwebassets.endpoints.json
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.runtimeconfig.json
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.dll
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\bin\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.pdb
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.AssemblyInfoInputs.cache
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.AssemblyInfo.cs
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.csproj.CoreCompileInputs.cache
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.MvcApplicationPartsAssemblyInfo.cache
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.sourcelink.json
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\scopedcss\bundle\01. Вступ. Шаблон MVC. Middleware.PingPong.styles.css
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.build.json
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.development.json
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.01. Вступ. Шаблон MVC. Middleware.PingPong.Microsoft.AspNetCore.StaticWebAssets.props
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.01. Вступ. Шаблон MVC. Middleware.PingPong.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.build.01. Вступ. Шаблон MVC. Middleware.PingPong.props
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.01. Вступ. Шаблон MVC. Middleware.PingPong.props
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.01. Вступ. Шаблон MVC. Middleware.PingPong.props
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.pack.json
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.dll
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\refint\01. Вступ. Шаблон MVC. Middleware.PingPong.dll
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\01. Вступ. Шаблон MVC. Middleware.PingPong.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\01. Вступ. Шаблон MVC. Middleware\obj\Debug\net8.0\ref\01. Вступ. Шаблон MVC. Middleware.PingPong.dll

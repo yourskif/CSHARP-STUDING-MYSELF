@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\01. Вступ. Шаблон MVC. Middleware.props" />
+</Project>

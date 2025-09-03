@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\POST-запросы и отправка форм.props" />
+</Project>

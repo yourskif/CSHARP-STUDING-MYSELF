@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\bin\Debug\net8.0\NVIExample.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\bin\Debug\net8.0\NVIExample.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\bin\Debug\net8.0\NVIExample.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\bin\Debug\net8.0\NVIExample.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\bin\Debug\net8.0\NVIExample.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\NVIExample.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\NVIExample.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\NVIExample.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\NVIExample.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\NVIExample.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\NVIExample.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\refint\NVIExample.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\NVIExample.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\NVIExample.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\NVIExample\obj\Debug\net8.0\ref\NVIExample.dll

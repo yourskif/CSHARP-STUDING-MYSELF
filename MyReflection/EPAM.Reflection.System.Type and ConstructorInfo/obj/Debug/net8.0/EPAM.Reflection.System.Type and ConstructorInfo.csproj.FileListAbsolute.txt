@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\bin\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\bin\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\bin\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\bin\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\bin\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\refint\EPAM.Reflection.System.Type and ConstructorInfo.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\EPAM.Reflection.System.Type and ConstructorInfo.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\EPAM.Reflection.System.Type and ConstructorInfo\obj\Debug\net8.0\ref\EPAM.Reflection.System.Type and ConstructorInfo.dll

@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\Создание провайдера логгирования.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\Создание провайдера логгирования.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\Создание провайдера логгирования.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\Создание провайдера логгирования.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\Создание провайдера логгирования.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\Создание провайдера логгирования.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\bin\Debug\net8.0\Создание провайдера логгирования.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\bin\Debug\net8.0\Создание провайдера логгирования.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\bin\Debug\net8.0\Создание провайдера логгирования.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\bin\Debug\net8.0\Создание провайдера логгирования.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\bin\Debug\net8.0\Создание провайдера логгирования.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\bin\Debug\net8.0\Создание провайдера логгирования.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\scopedcss\bundle\Создание провайдера логгирования.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets\msbuild.Создание провайдера логгирования.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets\msbuild.Создание провайдера логгирования.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets\msbuild.build.Создание провайдера логгирования.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Создание провайдера логгирования.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Создание провайдера логгирования.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\Создание провайдера логгирования.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\refint\Создание провайдера логгирования.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\Создание провайдера логгирования.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\Создание провайдера логгирования.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyLog\Создание провайдера логгирования\obj\Debug\net8.0\ref\Создание провайдера логгирования.dll

@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Отправка текста и json в Results API/1.0.0": {
+        "runtime": {
+          "Отправка текста и json в Results API.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Отправка текста и json в Results API/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Передача данных на страницу Razor в GET-запросе.props" />
+</Project>

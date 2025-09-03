@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\bin\Debug\net8.0\ResultTask_T.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\bin\Debug\net8.0\ResultTask_T.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\bin\Debug\net8.0\ResultTask_T.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\bin\Debug\net8.0\ResultTask_T.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\bin\Debug\net8.0\ResultTask_T.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\ResultTask_T.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\ResultTask_T.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\ResultTask_T.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\ResultTask_T.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\ResultTask_T.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\ResultTask_T.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\refint\ResultTask_T.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\ResultTask_T.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\ResultTask_T.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ResultTask_T\obj\Debug\net8.0\ref\ResultTask_T.dll

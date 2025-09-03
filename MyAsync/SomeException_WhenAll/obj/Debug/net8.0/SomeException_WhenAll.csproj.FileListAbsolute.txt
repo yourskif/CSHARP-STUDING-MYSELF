@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\bin\Debug\net8.0\SomeException_WhenAll.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\bin\Debug\net8.0\SomeException_WhenAll.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\bin\Debug\net8.0\SomeException_WhenAll.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\bin\Debug\net8.0\SomeException_WhenAll.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\bin\Debug\net8.0\SomeException_WhenAll.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\SomeException_WhenAll.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\SomeException_WhenAll.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\SomeException_WhenAll.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\SomeException_WhenAll.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\SomeException_WhenAll.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\SomeException_WhenAll.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\refint\SomeException_WhenAll.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\SomeException_WhenAll.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\SomeException_WhenAll.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\SomeException_WhenAll\obj\Debug\net8.0\ref\SomeException_WhenAll.dll

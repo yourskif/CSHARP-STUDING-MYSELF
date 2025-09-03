@@ -1,0 +1,7 @@
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\MyThreading\bin\Debug\MyThreading.exe.config
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\MyThreading\bin\Debug\MyThreading.exe
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\MyThreading\bin\Debug\MyThreading.pdb
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\MyThreading\obj\Debug\MyThreading.csproj.AssemblyReference.cache
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\MyThreading\obj\Debug\MyThreading.csproj.CoreCompileInputs.cache
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\MyThreading\obj\Debug\MyThreading.exe
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyThreading\MyThreading\obj\Debug\MyThreading.pdb

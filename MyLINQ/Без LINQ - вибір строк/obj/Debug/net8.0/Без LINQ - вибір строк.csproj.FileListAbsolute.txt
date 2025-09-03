@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\bin\Debug\net8.0\Без LINQ - вибір строк.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\bin\Debug\net8.0\Без LINQ - вибір строк.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\bin\Debug\net8.0\Без LINQ - вибір строк.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\bin\Debug\net8.0\Без LINQ - вибір строк.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\bin\Debug\net8.0\Без LINQ - вибір строк.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\Без LINQ - вибір строк.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\Без LINQ - вибір строк.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\Без LINQ - вибір строк.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\Без LINQ - вибір строк.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\Без LINQ - вибір строк.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\Без LINQ - вибір строк.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\refint\Без LINQ - вибір строк.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\Без LINQ - вибір строк.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\Без LINQ - вибір строк.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Без LINQ - вибір строк\obj\Debug\net8.0\ref\Без LINQ - вибір строк.dll

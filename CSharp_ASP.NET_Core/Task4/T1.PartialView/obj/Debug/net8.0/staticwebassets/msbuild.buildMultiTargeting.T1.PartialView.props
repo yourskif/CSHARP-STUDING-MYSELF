@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\T1.PartialView.props" />
+</Project>

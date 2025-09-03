@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Передача данных на страницу Razor в GET-запросе/1.0.0": {
+        "runtime": {
+          "Передача данных на страницу Razor в GET-запросе.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Передача данных на страницу Razor в GET-запросе/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

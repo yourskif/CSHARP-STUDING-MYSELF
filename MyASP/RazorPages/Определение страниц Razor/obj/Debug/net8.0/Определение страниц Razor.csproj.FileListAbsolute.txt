@@ -1,0 +1,32 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\bin\Debug\net8.0\Определение страниц Razor.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\bin\Debug\net8.0\Определение страниц Razor.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\bin\Debug\net8.0\Определение страниц Razor.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\bin\Debug\net8.0\Определение страниц Razor.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\bin\Debug\net8.0\Определение страниц Razor.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\bin\Debug\net8.0\Определение страниц Razor.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.RazorAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.RazorAssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\scopedcss\bundle\Определение страниц Razor.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets\msbuild.Определение страниц Razor.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets\msbuild.Определение страниц Razor.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets\msbuild.build.Определение страниц Razor.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Определение страниц Razor.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Определение страниц Razor.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\refint\Определение страниц Razor.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\Определение страниц Razor.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\RazorPages\Определение страниц Razor\obj\Debug\net8.0\ref\Определение страниц Razor.dll

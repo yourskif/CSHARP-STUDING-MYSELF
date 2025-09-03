@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\bin\Debug\net8.0\IAsyncEnumerable.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\bin\Debug\net8.0\IAsyncEnumerable.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\bin\Debug\net8.0\IAsyncEnumerable.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\bin\Debug\net8.0\IAsyncEnumerable.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\bin\Debug\net8.0\IAsyncEnumerable.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\IAsyncEnumerable.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\IAsyncEnumerable.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\IAsyncEnumerable.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\IAsyncEnumerable.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\IAsyncEnumerable.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\IAsyncEnumerable.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\refint\IAsyncEnumerable.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\IAsyncEnumerable.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\IAsyncEnumerable.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\IAsyncEnumerable\obj\Debug\net8.0\ref\IAsyncEnumerable.dll

@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Логування на консоль/1.0.0": {
+        "runtime": {
+          "Логування на консоль.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Логування на консоль/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

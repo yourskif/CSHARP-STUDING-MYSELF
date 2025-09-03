@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\TD1.ContollerProduct.props" />
+</Project>

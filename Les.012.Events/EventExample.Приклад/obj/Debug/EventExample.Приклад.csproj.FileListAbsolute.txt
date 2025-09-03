@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\Les.012.Events\EventExample.Приклад\bin\Debug\EventExample.Приклад.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\Les.012.Events\EventExample.Приклад\bin\Debug\EventExample.Приклад.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\Les.012.Events\EventExample.Приклад\bin\Debug\EventExample.Приклад.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\Les.012.Events\EventExample.Приклад\obj\Debug\EventExample.Приклад.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\Les.012.Events\EventExample.Приклад\obj\Debug\EventExample.Приклад.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\Les.012.Events\EventExample.Приклад\obj\Debug\EventExample.Приклад.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\Les.012.Events\EventExample.Приклад\obj\Debug\EventExample.Приклад.pdb

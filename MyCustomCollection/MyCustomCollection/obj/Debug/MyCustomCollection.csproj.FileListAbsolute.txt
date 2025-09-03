@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCustomCollection\MyCustomCollection\obj\Debug\MyCustomCollection.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCustomCollection\MyCustomCollection\obj\Debug\MyCustomCollection.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCustomCollection\MyCustomCollection\bin\Debug\MyCustomCollection.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCustomCollection\MyCustomCollection\bin\Debug\MyCustomCollection.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCustomCollection\MyCustomCollection\bin\Debug\MyCustomCollection.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCustomCollection\MyCustomCollection\obj\Debug\MyCustomCollection.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\MyCustomCollection\MyCustomCollection\obj\Debug\MyCustomCollection.pdb

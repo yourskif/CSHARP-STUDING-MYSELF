@@ -1,0 +1,30 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\bin\Debug\net8.0\appsettings.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\bin\Debug\net8.0\Определение своего типа IResult.staticwebassets.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\bin\Debug\net8.0\Определение своего типа IResult.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\bin\Debug\net8.0\Определение своего типа IResult.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\bin\Debug\net8.0\Определение своего типа IResult.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\bin\Debug\net8.0\Определение своего типа IResult.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\bin\Debug\net8.0\Определение своего типа IResult.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\Определение своего типа IResult.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\Определение своего типа IResult.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\Определение своего типа IResult.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\Определение своего типа IResult.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\Определение своего типа IResult.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\Определение своего типа IResult.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\scopedcss\bundle\Определение своего типа IResult.styles.css
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets\msbuild.Определение своего типа IResult.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets\msbuild.Определение своего типа IResult.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets\msbuild.build.Определение своего типа IResult.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Определение своего типа IResult.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Определение своего типа IResult.props
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\Определение своего типа IResult.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\refint\Определение своего типа IResult.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\Определение своего типа IResult.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\Определение своего типа IResult.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyASP\01. Вступ. Шаблон MVC. Middleware\MyResultsAPI\Определение своего типа IResult\obj\Debug\net8.0\ref\Определение своего типа IResult.dll

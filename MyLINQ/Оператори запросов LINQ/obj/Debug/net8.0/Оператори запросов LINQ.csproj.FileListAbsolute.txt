@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\bin\Debug\net8.0\Оператори запросов LINQ.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\bin\Debug\net8.0\Оператори запросов LINQ.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\bin\Debug\net8.0\Оператори запросов LINQ.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\bin\Debug\net8.0\Оператори запросов LINQ.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\bin\Debug\net8.0\Оператори запросов LINQ.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\Оператори запросов LINQ.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\Оператори запросов LINQ.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\Оператори запросов LINQ.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\Оператори запросов LINQ.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\Оператори запросов LINQ.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\Оператори запросов LINQ.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\refint\Оператори запросов LINQ.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\Оператори запросов LINQ.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\Оператори запросов LINQ.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyLINQ\Оператори запросов LINQ\obj\Debug\net8.0\ref\Оператори запросов LINQ.dll

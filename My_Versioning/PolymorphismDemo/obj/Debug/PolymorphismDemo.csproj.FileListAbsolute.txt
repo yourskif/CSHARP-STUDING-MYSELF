@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\PolymorphismDemo\bin\Debug\PolymorphismDemo.exe.config
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\PolymorphismDemo\bin\Debug\PolymorphismDemo.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\PolymorphismDemo\bin\Debug\PolymorphismDemo.pdb
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\PolymorphismDemo\obj\Debug\PolymorphismDemo.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\PolymorphismDemo\obj\Debug\PolymorphismDemo.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\PolymorphismDemo\obj\Debug\PolymorphismDemo.exe
+C:\Users\Admin\source\repos\C#\CSHARP-STUDING-MYSELF\My_Versioning\PolymorphismDemo\obj\Debug\PolymorphismDemo.pdb

@@ -1,0 +1,26 @@
+﻿@model IEnumerable<SimpleApp.Models.Product>
+
+<h2>Products in Category: @Model.FirstOrDefault()?.Description</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

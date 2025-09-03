@@ -1,0 +1,7 @@
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\MyReflection\bin\Debug\MyReflection.exe.config
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\MyReflection\bin\Debug\MyReflection.exe
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\MyReflection\bin\Debug\MyReflection.pdb
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\MyReflection\obj\Debug\MyReflection.csproj.AssemblyReference.cache
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\MyReflection\obj\Debug\MyReflection.csproj.CoreCompileInputs.cache
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\MyReflection\obj\Debug\MyReflection.exe
+c:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyReflection\MyReflection\obj\Debug\MyReflection.pdb

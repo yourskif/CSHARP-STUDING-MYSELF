@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "uvqn4kgljCEh+3pgIdkMDAYBhmsaTWgQFx+Shr5Ytps=",
+  "Source": "EndpointDataSource. Получение конечних точек",
+  "BasePath": "_content/EndpointDataSource. Получение конечних точек",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

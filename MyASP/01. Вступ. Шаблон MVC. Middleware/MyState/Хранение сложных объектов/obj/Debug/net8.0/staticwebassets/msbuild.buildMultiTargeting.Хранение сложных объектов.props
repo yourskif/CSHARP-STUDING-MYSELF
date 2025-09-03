@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Хранение сложных объектов.props" />
+</Project>

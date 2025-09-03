@@ -1,0 +1,65 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Task1
+build_property.RootNamespace = Task1
+build_property.ProjectDir = C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\CSharp_ASP.NET_Core\Task1\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\CSharp_ASP.NET_Core\Task1
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/001_SimpleApp/Views/Products/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = MDAxX1NpbXBsZUFwcFxWaWV3c1xQcm9kdWN0c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/001_SimpleApp/Views/Products/List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = MDAxX1NpbXBsZUFwcFxWaWV3c1xQcm9kdWN0c1xMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/T1.MVC/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VDEuTVZDXFZpZXdzXEhvbWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/T1.MVC/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VDEuTVZDXFZpZXdzXEhvbWVcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/T1.MVC/Views/List/Info.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VDEuTVZDXFZpZXdzXExpc3RcSW5mby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/T1.MVC/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VDEuTVZDXFZpZXdzXFNoYXJlZFxFcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/T1.MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VDEuTVZDXFZpZXdzXFNoYXJlZFxfVmFsaWRhdGlvblNjcmlwdHNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/T1.MVC/Views/Test/Message.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VDEuTVZDXFZpZXdzXFRlc3RcTWVzc2FnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/T1.MVC/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VDEuTVZDXFZpZXdzXF9WaWV3SW1wb3J0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/T1.MVC/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VDEuTVZDXFZpZXdzXF9WaWV3U3RhcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/SK/source/repos/C\#/CSHARP-STUDING-MYSELF/CSharp_ASP.NET_Core/Task1/T1.MVC/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VDEuTVZDXFZpZXdzXFNoYXJlZFxfTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-ua8b0wxrs7

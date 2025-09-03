@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Ограніченіє маршрутов. Route constrains/1.0.0": {
+        "runtime": {
+          "Ограніченіє маршрутов. Route constrains.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Ограніченіє маршрутов. Route constrains/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

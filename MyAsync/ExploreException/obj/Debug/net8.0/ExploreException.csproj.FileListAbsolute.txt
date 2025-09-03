@@ -1,0 +1,15 @@
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\bin\Debug\net8.0\ExploreException.exe
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\bin\Debug\net8.0\ExploreException.deps.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\bin\Debug\net8.0\ExploreException.runtimeconfig.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\bin\Debug\net8.0\ExploreException.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\bin\Debug\net8.0\ExploreException.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\ExploreException.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\ExploreException.AssemblyInfoInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\ExploreException.AssemblyInfo.cs
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\ExploreException.csproj.CoreCompileInputs.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\ExploreException.sourcelink.json
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\ExploreException.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\refint\ExploreException.dll
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\ExploreException.pdb
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\ExploreException.genruntimeconfig.cache
+C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\MyAsync\ExploreException\obj\Debug\net8.0\ref\ExploreException.dll

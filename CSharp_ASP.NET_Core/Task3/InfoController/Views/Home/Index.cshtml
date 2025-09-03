@@ -1,0 +1,25 @@
+﻿@model YourNamespace.Controllers.UserInfoModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Інформація про користувача</title>
+</head>
+<body>
+    <h1>Інформація про вас</h1>
+
+    @if (Model != null)
+
+    {
+        <p><strong>IP-адреса:</strong> @Model.IPAddress</p>
+        <p><strong>Браузер (User-Agent):</strong> @Model.UserAgent</p>
+    }
+
+    else
+
+    {
+        <p>Інформація недоступна.</p>
+    }
+</body>
+</html>
