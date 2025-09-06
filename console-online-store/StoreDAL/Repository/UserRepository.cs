@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 
@@ -10,39 +9,23 @@ namespace StoreDAL.Repository
 {
     public class UserRepository : IUserRepository
     {
-        public void Add(User entity)
-        {
-            throw new NotImplementedException();
-        }
+        private readonly StoreDbContext db;
 
-        public void Delete(User entity)
-        {
-            throw new NotImplementedException();
-        }
+        public UserRepository(StoreDbContext db) => this.db = db;
 
-        public void DeleteById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public User? FindByLogin(string login) =>
+            this.db.Users.FirstOrDefault(u => u.Login == login);
 
-        public IEnumerable<User> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        public User? GetById(int id) =>
+            this.db.Users.FirstOrDefault(u => u.Id == id);
 
-        public IEnumerable<User> GetAll(int pageNumber, int rowCount)
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<User> GetAll() =>
+            this.db.Users.AsEnumerable();
 
-        public User GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public void Add(User user) =>
+            this.db.Users.Add(user);
 
-        public void Update(User entity)
-        {
-            throw new NotImplementedException();
-        }
+        public void SaveChanges() =>
+            this.db.SaveChanges();
     }
 }

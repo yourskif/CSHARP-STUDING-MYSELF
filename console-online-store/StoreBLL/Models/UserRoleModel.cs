@@ -1,20 +1,31 @@
-﻿namespace StoreBLL.Models;
-using System;
-using System.Collections.Generic;
-
-public class UserRoleModel : AbstractModel
+﻿namespace StoreBLL.Models
 {
-    public UserRoleModel(int id, string roleName)
-        : base(id)
+    /// <summary>
+    /// User role (e.g. Admin, User).
+    /// </summary>
+    public class UserRoleModel : AbstractModel
     {
-        this.Id = id;
-        this.RoleName = roleName;
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRoleModel"/> class.
+        /// </summary>
+        public UserRoleModel()
+        {
+        }
 
-    public string RoleName { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRoleModel"/> class with values.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        /// <param name="roleName">Role display name.</param>
+        public UserRoleModel(int id, string roleName)
+            : base(id)
+        {
+            this.RoleName = roleName;
+        }
 
-    public override string ToString()
-    {
-        return $"Id:{this.Id} {this.RoleName}";
+        /// <summary>
+        /// Gets or sets role display name.
+        /// </summary>
+        public string RoleName { get; set; } = string.Empty;
     }
 }

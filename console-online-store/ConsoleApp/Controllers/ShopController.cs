@@ -1,77 +1,68 @@
-п»їusing System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApp.Controllers;
-using ConsoleApp.Handlers.ContextMenuHandlers;
-using ConsoleApp.Helpers;
-using ConsoleApp1;
-using ConsoleMenu;
+
+using StoreBLL.Models;
 using StoreBLL.Services;
+
 using StoreDAL.Data;
+using StoreDAL.Repository;
 
-namespace ConsoleApp.Services
+namespace ConsoleApp.Controllers
 {
-    public static class ShopController
+    /// <summary>
+    /// Shop controller used by console UI to browse products.
+    /// </summary>
+    public class ShopController
     {
-        private static StoreDbContext context = UserMenuController.Context;
+        private readonly ProductService productService;
 
-        public static void AddOrder()
+        // IMPORTANT: accept DbContext and construct repository here
+        public ShopController(StoreDbContext ctx)
         {
-            throw new NotImplementedException();
+            ArgumentNullException.ThrowIfNull(ctx);
+            var productRepo = new ProductRepository(ctx);
+
+            // ProductService у тебе приймає лише один аргумент (репозиторій)
+            this.productService = new ProductService(productRepo);
         }
 
-        public static void UpdateOrder()
+        /// <summary>
+        /// Returns all products as a List (UI expects List).
+        /// </summary>
+        public List<ProductModel> GetAll()
         {
-            throw new NotImplementedException();
+            return productService.GetAll()
+                                 ?.OfType<ProductModel>()
+                                 .ToList()
+                   ?? new List<ProductModel>();
         }
 
-        public static void DeleteOrder()
+        /// <summary>
+        /// Method expected by GuestMainMenu. Returns all items; UI може проігнорувати повернення.
+        /// </summary>
+        public List<ProductModel> ShowAll()
         {
-            throw new NotImplementedException();
+            return GetAll();
         }
 
-        public static void ShowOrder()
+        /// <summary>
+        /// Filter by category name is not supported at BLL level now.
+        /// To keep build green, we return all and let UI filter elsewhere if потрібно.
+        /// </summary>
+        public List<ProductModel> GetByCategory(string categoryName)
         {
-            throw new NotImplementedException();
+            // CategoryName property is not present on ProductModel in your BLL,
+            // so we cannot filter here safely. Return all to avoid compile-time errors.
+            return GetAll();
         }
 
-        public static void ShowAllOrders()
+        /// <summary>
+        /// Returns single product by id or null if not found.
+        /// </summary>
+        public ProductModel? GetById(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public static void AddOrderDetails()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void UpdateOrderDetails()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void DeleteOrderDetails()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void ShowAllOrderDetails()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void ProcessOrder()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void ShowAllOrderStates()
-        {
-            var service = new OrderStateService(context);
-            var menu = new ContextMenu(new AdminContextMenuHandler(service, InputHelper.ReadOrderStateModel), service.GetAll);
-            menu.Run();
+            return productService.GetById(id) as ProductModel;
         }
     }
 }

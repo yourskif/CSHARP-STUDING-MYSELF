@@ -1,22 +1,31 @@
-﻿namespace StoreDAL.Interfaces;
+﻿// StoreDAL/Interfaces/IRepository.cs
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using StoreDAL.Entities;
 
-public interface IRepository<TEntity>
-    where TEntity : BaseEntity
+namespace StoreDAL.Interfaces
 {
-    IEnumerable<TEntity> GetAll();
+    /// <summary>
+    /// Generic repository contract for basic CRUD operations.
+    /// </summary>
+    /// <typeparam name="T">Entity type.</typeparam>
+    public interface IRepository<T>
+        where T : class
+    {
+        /// <summary>Returns all entities.</summary>
+        IEnumerable<T> GetAll();
 
-    IEnumerable<TEntity> GetAll(int pageNumber, int rowCount);
+        /// <summary>Returns a page of entities.</summary>
+        IEnumerable<T> GetAll(int pageNumber, int rowCount);
 
-    TEntity GetById(int id);
+        /// <summary>Returns an entity by id or null if not found.</summary>
+        T? GetById(int id);
 
-    void Add(TEntity entity);
+        /// <summary>Creates a new entity. Returns number of affected rows.</summary>
+        int Create(T entity);
 
-    void Delete(TEntity entity);
+        /// <summary>Updates an existing entity. Returns true if changes were saved.</summary>
+        bool Update(T entity);
 
-    void DeleteById(int id);
-
-    void Update(TEntity entity);
+        /// <summary>Deletes an entity by id. Returns true if changes were saved.</summary>
+        bool Delete(int id);
+    }
 }

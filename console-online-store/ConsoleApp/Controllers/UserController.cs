@@ -1,106 +1,75 @@
-﻿namespace ConsoleApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApp1;
-using ConsoleApp.Controllers;
-using ConsoleApp.Handlers.ContextMenuHandlers;
-using ConsoleApp.Helpers;
-using ConsoleMenu;
-using StoreDAL.Data;
+﻿using System;
+
 using StoreBLL.Models;
 using StoreBLL.Services;
 
-public static class UserController
+using StoreDAL.Data;
+
+namespace ConsoleApp.Controllers
 {
-    private static StoreDbContext context = UserMenuController.Context;
-
-    public static void AddUser()
+    public class UserController
     {
-        throw new NotImplementedException();
-    }
+        private readonly UserService service;
 
-    public static void UpdateUser()
-    {
-        throw new NotImplementedException();
-    }
+        public UserController(StoreDbContext context)
+        {
+            this.service = new UserService(context);
+        }
 
-    public static void DeleteUser()
-    {
-        throw new NotImplementedException();
-    }
+        /// <summary>
+        /// Interactive user registration (default role: User).
+        /// </summary>
+        public void Register()
+        {
+            Console.WriteLine("=== User Registration ===");
 
-    public static void ShowUser()
-    {
-        throw new NotImplementedException();
-    }
+            Console.Write("First name: ");
+            string firstName = Console.ReadLine() ?? string.Empty;
 
-    public static void ShowAllUsers()
-    {
-        throw new NotImplementedException();
-    }
+            Console.Write("Last name: ");
+            string lastName = Console.ReadLine() ?? string.Empty;
 
-    public static void AddUserRole()
-    {
-        throw new NotImplementedException();
-    }
+            Console.Write("Login: ");
+            string login = Console.ReadLine() ?? string.Empty;
 
-    public static void UpdateUserRole()
-    {
-        throw new NotImplementedException();
-    }
+            Console.Write("Password: ");
+            string password = Console.ReadLine() ?? string.Empty;
 
-    public static void DeleteUserRole()
-    {
-        throw new NotImplementedException();
-    }
+            try
+            {
+                var created = this.service.Register(firstName, lastName, login, password);
+                if (created == null)
+                {
+                    Console.WriteLine("❌ A user with this login already exists. Please choose another login.");
+                    return;
+                }
 
-    public static void ShowAllUserRoles()
-    {
-        var service = new UserRoleService(context);
-        var menu = new ContextMenu(new AdminContextMenuHandler(service, InputHelper.ReadUserRoleModel), service.GetAll);
-        menu.Run();
-    }
+                Console.WriteLine($"✅ Registered: {created.FirstName} {created.LastName} ({created.Login})");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"❌ Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("❌ Unexpected error during registration.");
+                Console.WriteLine(ex.Message);
+            }
+        }
 
-    public static void AddProductTitle()
-    {
-        throw new NotImplementedException();
-    }
+        /// <summary>
+        /// Show user by Id (diagnostics).
+        /// </summary>
+        public void ShowUser(int id)
+        {
+            var user = (UserModel?)this.service.GetById(id);
+            if (user == null)
+            {
+                Console.WriteLine("User not found.");
+                return;
+            }
 
-    public static void UpdateProductTitle()
-    {
-        throw new NotImplementedException();
-    }
-
-    public static void DeleteProductTitle()
-    {
-        throw new NotImplementedException();
-    }
-
-    public static void ShowAllProductTitles()
-    {
-        throw new NotImplementedException();
-    }
-
-    public static void AddManufacturer()
-    {
-        throw new NotImplementedException();
-    }
-
-    public static void UpdateManufacturer()
-    {
-        throw new NotImplementedException();
-    }
-
-    public static void DeleteManufacturer()
-    {
-        throw new NotImplementedException();
-    }
-
-    public static void ShowAllManufacturers()
-    {
-        throw new NotImplementedException();
+            Console.WriteLine($"{user.FirstName} {user.LastName} ({user.Login})");
+        }
     }
 }
