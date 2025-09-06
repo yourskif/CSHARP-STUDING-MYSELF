@@ -1,9 +1,10 @@
-﻿namespace ConsoleApp.Handlers.ContextMenuHandlers;
+namespace ConsoleApp.Handlers.ContextMenuHandlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using StoreBLL.Interfaces;
 using StoreBLL.Models;
 

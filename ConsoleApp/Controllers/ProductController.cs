@@ -1,100 +1,79 @@
-﻿using System;
+// C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\Controllers\ProductController.cs
+namespace ConsoleApp.Controllers;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApp1;
+
+using StoreBLL.Models;
+using StoreBLL.Services;
+
 using StoreDAL.Data;
+using StoreDAL.Repository;
 
-namespace ConsoleApp.Controllers
+/// <summary>
+/// Product maintenance controller for console UI.
+/// Now wired to full ProductService CUD.
+/// </summary>
+public class ProductController
 {
-    public static class ProductController
+    private readonly ProductService productService;
+
+    /// <summary>
+    /// Accepts DbContext and builds required repositories (no DI container in ConsoleApp).
+    /// </summary>
+    public ProductController(StoreDbContext ctx)
     {
-        private static StoreDbContext context = UserMenuController.Context;
+        ArgumentNullException.ThrowIfNull(ctx);
+        var productRepo = new ProductRepository(ctx);
+        this.productService = new ProductService(productRepo);
+    }
 
-        public static void AddProduct()
-        {
-            throw new NotImplementedException();
-        }
+    // -------- READ --------
 
-        public static void UpdateProduct()
-        {
-            throw new NotImplementedException();
-        }
+    public List<ProductModel> GetAll()
+    {
+        return this.productService.GetAll().ToList();
+    }
 
-        public static void DeleteProduct()
-        {
-            throw new NotImplementedException();
-        }
+    public ProductModel? GetById(int id)
+    {
+        return this.productService.GetById(id);
+    }
 
-        public static void ShowProduct()
-        {
-            throw new NotImplementedException();
-        }
+    /// <summary>
+    /// UI convenience filter. For now it returns all; category filter can be added later.
+    /// </summary>
+    public List<ProductModel> GetByCategory(string categoryName) => GetAll();
 
-        public static void ShowAllProducts()
-        {
-            throw new NotImplementedException();
-        }
+    // -------- CUD --------
 
-        public static void AddCategory()
-        {
-            throw new NotImplementedException();
-        }
+    /// <summary>
+    /// Creates a product. Expectation for this step:
+    /// - model.Category.Id contains ProductTitleId,
+    /// - model.Manufacturer.Id contains ManufacturerId,
+    /// - model.Description/Price/Stock are provided.
+    /// </summary>
+    public void Create(ProductModel model)
+    {
+        ArgumentNullException.ThrowIfNull(model);
+        var created = this.productService.Create(model);
+        Console.WriteLine($"Product created: #{created.Id} '{created.Title}' price={created.Price} stock={created.Stock}");
+    }
 
-        public static void UpdateCategory()
-        {
-            throw new NotImplementedException();
-        }
+    /// <summary>
+    /// Updates a product. Same ID convention as in Create.
+    /// </summary>
+    public void Update(ProductModel model)
+    {
+        ArgumentNullException.ThrowIfNull(model);
+        this.productService.Update(model);
+        Console.WriteLine($"Product #{model.Id} updated.");
+    }
 
-        public static void DeleteCategory()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void ShowAllCategories()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void AddProductTitle()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void UpdateProductTitle()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void DeleteProductTitle()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void ShowAllProductTitles()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void AddManufacturer()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void UpdateManufacturer()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void DeleteManufacturer()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void ShowAllManufacturers()
-        {
-            throw new NotImplementedException();
-        }
+    public void Delete(int id)
+    {
+        var ok = this.productService.Delete(id);
+        Console.WriteLine(ok ? $"Product #{id} deleted." : $"Product #{id} not found.");
     }
 }
