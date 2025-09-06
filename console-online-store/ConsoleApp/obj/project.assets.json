@@ -2628,11 +2628,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\ConsoleApp\\ConsoleApp.csproj",
+      "projectUniqueName": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\ConsoleApp\\ConsoleApp.csproj",
       "projectName": "ConsoleApp",
-      "projectPath": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\ConsoleApp\\ConsoleApp.csproj",
+      "projectPath": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\ConsoleApp\\ConsoleApp.csproj",
       "packagesPath": "C:\\Users\\SK\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\ConsoleApp\\obj\\",
+      "outputPath": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\ConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2654,11 +2654,11 @@
         "net8.0": {
           "targetAlias": "net8",
           "projectReferences": {
-            "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\StoreBLL\\StoreBLL.csproj": {
-              "projectPath": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\StoreBLL\\StoreBLL.csproj"
+            "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\StoreBLL.csproj": {
+              "projectPath": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\StoreBLL.csproj"
             },
-            "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\StoreDAL\\StoreDAL.csproj": {
-              "projectPath": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\StoreDAL\\StoreDAL.csproj"
+            "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreDAL\\StoreDAL.csproj": {
+              "projectPath": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreDAL\\StoreDAL.csproj"
             }
           }
         }

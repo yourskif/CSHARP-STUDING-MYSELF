@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using ConsoleApp.Controllers;
 using ConsoleMenu;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;

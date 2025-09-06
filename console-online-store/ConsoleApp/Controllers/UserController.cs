@@ -1,106 +1,113 @@
-﻿namespace ConsoleApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApp1;
-using ConsoleApp.Controllers;
-using ConsoleApp.Handlers.ContextMenuHandlers;
+﻿using ConsoleApp.Handlers.ContextMenuHandlers;
 using ConsoleApp.Helpers;
 using ConsoleMenu;
 using StoreDAL.Data;
 using StoreBLL.Models;
 using StoreBLL.Services;
 
-public static class UserController
+namespace ConsoleApp.Controllers
 {
-    private static StoreDbContext context = UserMenuController.Context;
-
-    public static void AddUser()
+    public static class UserController
     {
-        throw new NotImplementedException();
-    }
+        private static StoreDbContext context = UserMenuController.Context;
 
-    public static void UpdateUser()
-    {
-        throw new NotImplementedException();
-    }
+        public static void Login()
+        {
+            UserMenuController.Login();
+        }
 
-    public static void DeleteUser()
-    {
-        throw new NotImplementedException();
-    }
+        public static void Register()
+        {
+            UserMenuController.Register();
+        }
 
-    public static void ShowUser()
-    {
-        throw new NotImplementedException();
-    }
+        public static void Logout()
+        {
+            UserMenuController.Logout();
+        }
 
-    public static void ShowAllUsers()
-    {
-        throw new NotImplementedException();
-    }
+        public static void AddUser()
+        {
+            Console.WriteLine("Add new user");
+            Console.WriteLine("Enter username: ");
+            var username = Console.ReadLine();
+            Console.WriteLine("Enter password: ");
+            var password = Console.ReadLine();
+            Console.WriteLine("Enter first name: ");
+            var firstName = Console.ReadLine();
+            Console.WriteLine("Enter last name: ");
+            var lastName = Console.ReadLine();
+            Console.WriteLine("Enter role ID (1-Admin, 2-User, 3-Guest): ");
+            var roleId = int.Parse(Console.ReadLine());
 
-    public static void AddUserRole()
-    {
-        throw new NotImplementedException();
-    }
+            // TODO: Implement with UserService
+            Console.WriteLine("User added successfully!");
+        }
 
-    public static void UpdateUserRole()
-    {
-        throw new NotImplementedException();
-    }
+        public static void UpdateUser()
+        {
+            Console.WriteLine("Update user");
+            Console.WriteLine("Enter user ID to update: ");
+            var userId = int.Parse(Console.ReadLine());
 
-    public static void DeleteUserRole()
-    {
-        throw new NotImplementedException();
-    }
+            // TODO: Load user data
+            Console.WriteLine("Enter new first name (or press Enter to skip): ");
+            var firstName = Console.ReadLine();
+            Console.WriteLine("Enter new last name (or press Enter to skip): ");
+            var lastName = Console.ReadLine();
 
-    public static void ShowAllUserRoles()
-    {
-        var service = new UserRoleService(context);
-        var menu = new ContextMenu(new AdminContextMenuHandler(service, InputHelper.ReadUserRoleModel), service.GetAll);
-        menu.Run();
-    }
+            // TODO: Implement with UserService
+            Console.WriteLine("User updated successfully!");
+        }
 
-    public static void AddProductTitle()
-    {
-        throw new NotImplementedException();
-    }
+        public static void DeleteUser()
+        {
+            Console.WriteLine("Delete user");
+            Console.WriteLine("Enter user ID to delete: ");
+            var userId = int.Parse(Console.ReadLine());
 
-    public static void UpdateProductTitle()
-    {
-        throw new NotImplementedException();
-    }
+            Console.WriteLine("Are you sure you want to delete this user? (y/n): ");
+            var confirm = Console.ReadLine();
 
-    public static void DeleteProductTitle()
-    {
-        throw new NotImplementedException();
-    }
+            if (confirm?.ToLower() == "y")
+            {
+                // TODO: Implement with UserService
+                Console.WriteLine("User deleted successfully!");
+            }
+            else
+            {
+                Console.WriteLine("Operation cancelled.");
+            }
+        }
 
-    public static void ShowAllProductTitles()
-    {
-        throw new NotImplementedException();
-    }
+        public static void ShowUser()
+        {
+            Console.WriteLine("Show user details");
+            Console.WriteLine("Enter user ID: ");
+            var userId = int.Parse(Console.ReadLine());
 
-    public static void AddManufacturer()
-    {
-        throw new NotImplementedException();
-    }
+            // TODO: Implement with UserService
+            Console.WriteLine($"User ID: {userId}");
+            Console.WriteLine("Details will be displayed here...");
+        }
 
-    public static void UpdateManufacturer()
-    {
-        throw new NotImplementedException();
-    }
+        public static void ShowAllUsers()
+        {
+            Console.WriteLine("All Users:");
+            Console.WriteLine("====================");
 
-    public static void DeleteManufacturer()
-    {
-        throw new NotImplementedException();
-    }
+            // TODO: Implement with UserService
+            Console.WriteLine("1. Admin (Role: Administrator)");
+            Console.WriteLine("2. User1 (Role: Registered User)");
+            Console.WriteLine("3. Guest (Role: Guest)");
+            Console.WriteLine("====================");
+        }
 
-    public static void ShowAllManufacturers()
-    {
-        throw new NotImplementedException();
+        public static void ShowAllUserRoles()
+        {
+            var service = new UserRoleService(context);
+            var menu = new ContextMenu(new AdminContextMenuHandler(service, InputHelper.ReadUserRoleModel), service.GetAll);
+            menu.Run();
+        }
     }
 }

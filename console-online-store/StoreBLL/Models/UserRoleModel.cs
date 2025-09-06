@@ -1,20 +1,30 @@
-﻿namespace StoreBLL.Models;
-using System;
-using System.Collections.Generic;
-
-public class UserRoleModel : AbstractModel
+﻿namespace StoreBLL.Models
 {
-    public UserRoleModel(int id, string roleName)
-        : base(id)
+    public class UserModel : AbstractModel
     {
-        this.Id = id;
-        this.RoleName = roleName;
-    }
+        public UserModel() : base()
+        {
+        }
 
-    public string RoleName { get; set; }
+        public UserModel(int id, string firstName, string lastName, string login, string password, int roleId)
+            : base(id)
+        {
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Login = login;
+            this.Password = password;
+            this.RoleId = roleId;
+        }
 
-    public override string ToString()
-    {
-        return $"Id:{this.Id} {this.RoleName}";
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public int RoleId { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {this.Id}, Name: {this.FirstName} {this.LastName}, Login: {this.Login}, RoleId: {this.RoleId}";
+        }
     }
 }

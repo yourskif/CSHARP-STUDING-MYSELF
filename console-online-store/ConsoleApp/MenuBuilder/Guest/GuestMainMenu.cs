@@ -1,18 +1,20 @@
-using ConsoleApp1;
+using ConsoleApp.Controllers;
+using ConsoleApp.Services;
 using StoreDAL.Data;
 
-namespace ConsoleMenu.Builder;
-
-public class GuestMainMenu : AbstractMenuCreator
+namespace ConsoleMenu.Builder
 {
-    public override (ConsoleKey id, string caption, Action action)[] GetMenuItems(StoreDbContext context)
+    public class GuestMainMenu : AbstractMenuCreator
     {
-        (ConsoleKey id, string caption, Action action)[] array =
+        public override (ConsoleKey id, string caption, Action action)[] GetMenuItems(StoreDbContext context)
         {
-            (ConsoleKey.F1, "Login", UserMenuController.Login),
-            (ConsoleKey.F2, "Show product list", () => { Console.WriteLine("Show product list"); }),
-            (ConsoleKey.F3, "Register", () => { Console.WriteLine("Are you reali want to register"); }),
-        };
-        return array;
+            (ConsoleKey id, string caption, Action action)[] array =
+            {
+                (ConsoleKey.F1, "Login", UserMenuController.Login),
+                (ConsoleKey.F2, "Show product list", () => { Console.WriteLine("Show product list"); }),
+                (ConsoleKey.F3, "Register", UserController.RegisterUser),
+            };
+            return array;
+        }
     }
 }

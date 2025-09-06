@@ -13,6 +13,10 @@ public class StoreDbContext : DbContext
 {
     private readonly AbstractDataFactory factory;
 
+    public StoreDbContext()
+    {
+    }
+
     public StoreDbContext(DbContextOptions options, AbstractDataFactory factory)
         : base(options)
     {

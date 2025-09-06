@@ -2609,11 +2609,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\StoreBLL\\StoreBLL.csproj",
+      "projectUniqueName": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\StoreBLL.csproj",
       "projectName": "StoreBLL",
-      "projectPath": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\StoreBLL\\StoreBLL.csproj",
+      "projectPath": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\StoreBLL.csproj",
       "packagesPath": "C:\\Users\\SK\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\StoreBLL\\obj\\",
+      "outputPath": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2635,8 +2635,8 @@
         "net8.0": {
           "targetAlias": "net8",
           "projectReferences": {
-            "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\StoreDAL\\StoreDAL.csproj": {
-              "projectPath": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\StoreDAL\\StoreDAL.csproj"
+            "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreDAL\\StoreDAL.csproj": {
+              "projectPath": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreDAL\\StoreDAL.csproj"
             }
           }
         }

@@ -1,10 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\",
+  "WorkspaceRootPath": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+      "AbsoluteMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|c:\\users\\sk\\source\\repos\\c#\\csharp-studing-myself\\console-online-store\\storebll\\models\\producttitlemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|solutionrelative:storebll\\models\\producttitlemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|c:\\users\\sk\\source\\repos\\c#\\csharp-studing-myself\\console-online-store\\storebll\\models\\orderdetailmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|solutionrelative:storebll\\models\\orderdetailmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|c:\\users\\sk\\source\\repos\\c#\\csharp-studing-myself\\console-online-store\\storebll\\models\\customerordermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|solutionrelative:storebll\\models\\customerordermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|c:\\users\\sk\\source\\repos\\c#\\csharp-studing-myself\\console-online-store\\storebll\\models\\userrolemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|solutionrelative:storebll\\models\\userrolemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|c:\\users\\sk\\source\\repos\\c#\\csharp-studing-myself\\console-online-store\\storebll\\models\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CE5AE0D-EEE7-46E2-881D-5E416D69F9E5}|StoreBLL\\StoreBLL.csproj|solutionrelative:storebll\\models\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,15 +50,71 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrderDetailModel.cs",
+              "DocumentMoniker": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\OrderDetailModel.cs",
+              "RelativeDocumentMoniker": "StoreBLL\\Models\\OrderDetailModel.cs",
+              "ToolTip": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\OrderDetailModel.cs",
+              "RelativeToolTip": "StoreBLL\\Models\\OrderDetailModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-05T20:16:18.281Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CustomerOrderModel.cs",
+              "DocumentMoniker": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\CustomerOrderModel.cs",
+              "RelativeDocumentMoniker": "StoreBLL\\Models\\CustomerOrderModel.cs",
+              "ToolTip": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\CustomerOrderModel.cs",
+              "RelativeToolTip": "StoreBLL\\Models\\CustomerOrderModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-05T20:15:44.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserRoleModel.cs",
+              "DocumentMoniker": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\UserRoleModel.cs",
+              "RelativeDocumentMoniker": "StoreBLL\\Models\\UserRoleModel.cs",
+              "ToolTip": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\UserRoleModel.cs",
+              "RelativeToolTip": "StoreBLL\\Models\\UserRoleModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAIwB0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-05T20:15:02.08Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "README.md",
-              "DocumentMoniker": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\README.md",
-              "RelativeDocumentMoniker": "README.md",
-              "ToolTip": "C:\\Users\\SK\\source\\repos\\EPAM\\console-online-store\\README.md",
-              "RelativeToolTip": "README.md",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-09-03T07:51:37.894Z",
+              "Title": "ProductTitleModel.cs",
+              "DocumentMoniker": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\ProductTitleModel.cs",
+              "RelativeDocumentMoniker": "StoreBLL\\Models\\ProductTitleModel.cs",
+              "ToolTip": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\ProductTitleModel.cs",
+              "RelativeToolTip": "StoreBLL\\Models\\ProductTitleModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-05T20:14:08.043Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProductModel.cs",
+              "DocumentMoniker": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\ProductModel.cs",
+              "RelativeDocumentMoniker": "StoreBLL\\Models\\ProductModel.cs",
+              "ToolTip": "C:\\Users\\SK\\source\\repos\\C#\\CSHARP-STUDING-MYSELF\\console-online-store\\StoreBLL\\Models\\ProductModel.cs",
+              "RelativeToolTip": "StoreBLL\\Models\\ProductModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-05T20:14:38.715Z",
               "EditorCaption": ""
             }
           ]
