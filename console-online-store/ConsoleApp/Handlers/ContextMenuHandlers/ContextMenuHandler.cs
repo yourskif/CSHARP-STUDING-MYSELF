@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using StoreBLL.Interfaces;
 using StoreBLL.Models;
 
@@ -28,3 +29,4 @@ public abstract class ContextMenuHandler
 
     public abstract (ConsoleKey id, string caption, Action action)[] GenerateMenuItems();
 }
+

@@ -1,15 +1,29 @@
-﻿namespace StoreBLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-public abstract class AbstractModel
+﻿namespace StoreBLL.Models
 {
-    protected AbstractModel(int id)
+    /// <summary>
+    /// Base model for BLL layer with common identifier.
+    /// </summary>
+    public abstract class AbstractModel
     {
-        this.Id = id;
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractModel"/> class.
+        /// </summary>
+        protected AbstractModel()
+        {
+        }
 
-    public int Id { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractModel"/> class with id.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        protected AbstractModel(int id)
+        {
+            this.Id = id;
+        }
+
+        /// <summary>
+        /// Gets or sets entity identifier.
+        /// </summary>
+        public int Id { get; set; }
+    }
 }

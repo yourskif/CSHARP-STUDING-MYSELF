@@ -1,24 +1,85 @@
-using ConsoleApp.Services;
-using ConsoleApp1;
-using StoreDAL.Data;
+﻿using System;
 
-namespace ConsoleMenu.Builder;
+using ConsoleApp.Controllers;
 
-public class AdminMainMenu : AbstractMenuCreator
+// Keep alias directives sorted (SA1211) and point to the correct namespaces.
+using DalUser = StoreDAL.Entities.User;
+using StoreDbContext = StoreDAL.Data.StoreDbContext;
+
+namespace ConsoleApp.MenuBuilder.Admin
 {
-    public override (ConsoleKey id, string caption, Action action)[] GetMenuItems(StoreDbContext context)
+    /// <summary>
+    /// Admin main menu.
+    /// </summary>
+    public static class AdminMainMenu
     {
-        (ConsoleKey id, string caption, Action action)[] array =
+        /// <summary>
+        /// Entry point used by UserMenuController.
+        /// We intentionally accept user as object to avoid tight coupling
+        /// between DAL entities and BLL models. We do not use it inside.
+        /// </summary>
+        /// <param name="db">EF Core DbContext from StoreDAL.Data.</param>
+        /// <param name="currentUser">Logged in user (DAL entity or BLL model).</param>
+        public static void Run(StoreDbContext db, object? currentUser = null)
+        {
+            ArgumentNullException.ThrowIfNull(db);
+
+            while (true)
             {
-                (ConsoleKey.F1, "Logout", UserMenuController.Logout),
-                (ConsoleKey.F2, "Show product list", () => { Console.WriteLine("Show product list"); }),
-                (ConsoleKey.F3, "Add product", () => { Console.WriteLine("Add product"); }),
-                (ConsoleKey.F4, "Show order list", () => { Console.WriteLine("show order list"); }),
-                (ConsoleKey.F5, "Cancel order", () => { Console.WriteLine("Cancel order"); }),
-                (ConsoleKey.F6, "Change order status", () => { Console.WriteLine("Add order feedback"); }),
-                (ConsoleKey.F7, "User roles", UserController.ShowAllUserRoles),
-                (ConsoleKey.F8, "Order states", ShopController.ShowAllOrderStates),
-            };
-        return array;
+                Console.Clear();
+                Console.WriteLine("=== ADMIN MENU ===");
+                Console.WriteLine("1) Diagnostics");
+                Console.WriteLine("2) Categories (placeholder)");
+                Console.WriteLine("3) Products (placeholder)");
+                Console.WriteLine("4) Orders (placeholder)");
+                Console.WriteLine("Q) Back");
+                Console.WriteLine();
+                Console.Write("Select option: ");
+                var key = Console.ReadKey(intercept: true).Key;
+
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        new AdminDiagnosticsController(db).Run();
+                        break;
+
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        ShowPlaceholder("Categories");
+                        break;
+
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        ShowPlaceholder("Products");
+                        break;
+
+                    case ConsoleKey.D4:
+                    case ConsoleKey.NumPad4:
+                        ShowPlaceholder("Orders");
+                        break;
+
+                    case ConsoleKey.Q:
+                    case ConsoleKey.Escape:
+                        return;
+
+                    default:
+                        continue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Simple placeholder to keep AdminMainMenu independent
+        /// from other controllers' shape (no Run/Show method coupling).
+        /// </summary>
+        private static void ShowPlaceholder(string title)
+        {
+            Console.Clear();
+            Console.WriteLine($"[{title}] menu is not wired here yet.");
+            Console.WriteLine("This placeholder avoids build-time coupling to other controllers.");
+            Console.WriteLine("Press any key to go back...");
+            Console.ReadKey(true);
+        }
     }
 }

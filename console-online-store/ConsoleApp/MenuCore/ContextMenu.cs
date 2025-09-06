@@ -1,53 +1,63 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApp.Controllers;
-using ConsoleApp.Handlers.ContextMenuHandlers;
-using ConsoleApp1;
-using StoreBLL.Interfaces;
-using StoreBLL.Models;
 
-namespace ConsoleMenu
+namespace ConsoleApp.MenuCore
 {
-    public class ContextMenu : Menu
+    /// <summary>
+    /// Примітивне контекстне меню, яке просто приймає набір пунктів і виконує Action за натиснутою клавішею.
+    /// Воно не знає про жодні "хендлери" — лише працює з масивом (ConsoleKey, string, Action).
+    /// </summary>
+    public class ContextMenu
     {
-        private readonly Func<IEnumerable<AbstractModel>> getAll;
+        private readonly string title;
+        private readonly (ConsoleKey id, string caption, Action action)[] items;
 
-        public ContextMenu(AdminContextMenuHandler controller, Func<IEnumerable<AbstractModel>> getAll)
-            : base(controller?.GenerateMenuItems() !)
+        public ContextMenu(string title, (ConsoleKey id, string caption, Action action)[] items)
         {
-            ArgumentNullException.ThrowIfNull(controller);
-            this.getAll = getAll;
+            this.title = title ?? "MENU";
+            this.items = items ?? Array.Empty<(ConsoleKey, string, Action)>();
         }
 
-        public ContextMenu(Func<(ConsoleKey id, string caption, Action action)[]> generateMenuItems, Func<IEnumerable<AbstractModel>> getAll)
-            : base(generateMenuItems())
+        public void Show()
         {
-            this.getAll = getAll;
-        }
-
-        public override void Run()
-        {
-            ConsoleKey resKey;
-            bool updateItems = true;
-            do
+            while (true)
             {
-                if (updateItems)
+                Console.Clear();
+                Console.WriteLine($"===== {this.title} =====");
+
+                // Відображення підказок по функшн-клавішах/клавішах
+                foreach (var (id, caption, _) in this.items)
                 {
-                    Console.WriteLine("======= Current DataSet ==========");
-                    foreach (var record in this.getAll())
-                    {
-                        Console.WriteLine(record);
-                    }
-
-                    Console.WriteLine("===================================");
+                    Console.WriteLine($"{id,6}: {caption}");
                 }
+                Console.WriteLine(" Esc : Back");
 
-                resKey = this.RunOnce(ref updateItems);
+                var key = Console.ReadKey(true).Key;
+
+                if (key == ConsoleKey.Escape)
+                    return;
+
+                var found = this.items.FirstOrDefault(i => i.id == key);
+                if (found.action != null)
+                {
+                    try
+                    {
+                        found.action.Invoke();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                        Pause();
+                    }
+                }
             }
-            while (resKey != ConsoleKey.Escape);
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Yuriy Antonov copyright 2018-2020
 */
 using System;

@@ -1,24 +1,25 @@
-﻿namespace StoreDAL.Entities;
-using StoreDAL.Entities;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-// ToDo: add atribute here
-public class Category : BaseEntity
+namespace StoreDAL.Entities
 {
-    public Category()
-        : base()
+    [Table("categories")]
+    public class Category : BaseEntity
     {
+        public Category() : base()
+        {
+        }
+
+        public Category(int id, string name) : base(id)
+        {
+            this.Name = name;
+        }
+
+        [Column("category_name")]
+        [Required]
+        public string Name { get; set; }
+
+        public virtual IList<ProductTitle> Titles { get; set; }
     }
-
-    public Category(int id, string name)
-        : base(id)
-    {
-        this.Name = name;
-    }
-
-    // ToDo: add atribute here
-    public string Name { get; set; }
-
-    public virtual IList<ProductTitle> Titles { get; set; }
 }

@@ -1,21 +1,49 @@
-using ConsoleApp1;
+using System;
+
+using ConsoleApp.Controllers;
+
+using StoreBLL.Models;
+
 using StoreDAL.Data;
 
-namespace ConsoleMenu.Builder;
-
-public class UserMainMenu : AbstractMenuCreator
+namespace ConsoleApp.MenuBuilder.User
 {
-    public override (ConsoleKey id, string caption, Action action)[] GetMenuItems(StoreDbContext context)
+    /// <summary>
+    /// Registered user main menu.
+    /// </summary>
+    public static class UserMainMenu
     {
-        (ConsoleKey id, string caption, Action action)[] array =
+        public static void Run(StoreDbContext db, UserModel? currentUser)
+        {
+            Console.Clear();
+            Console.WriteLine("=== USER MAIN MENU ===");
+            Console.WriteLine($"User: {currentUser?.Login}");
+            Console.WriteLine();
+            Console.WriteLine("1) Shop");
+            Console.WriteLine("2) My Orders");
+            Console.WriteLine("Esc) Logout");
+            Console.WriteLine("----------------------");
+
+            while (true)
             {
-                (ConsoleKey.F1, "Logout", UserMenuController.Logout),
-                (ConsoleKey.F2, "Show product list", () => { Console.WriteLine("Show product list"); }),
-                (ConsoleKey.F3, "Show order list", () => { Console.WriteLine("show order list"); }),
-                (ConsoleKey.F4, "Cancel order", () => { Console.WriteLine("Cancel order"); }),
-                (ConsoleKey.F5, "Confirm order delivery", () => { Console.WriteLine("Confirm order delivery"); }),
-                (ConsoleKey.F6, "Add order feedback", () => { Console.WriteLine("Add order feedback"); }),
-            };
-        return array;
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        Console.WriteLine("TODO: open Shop...");
+                        break;
+
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        Console.WriteLine("TODO: open My Orders...");
+                        break;
+
+                    case ConsoleKey.Escape:
+                        UserMenuController.SetCurrentUser(null); // logout -> back to start screen
+                        return;
+                }
+            }
+        }
     }
 }
