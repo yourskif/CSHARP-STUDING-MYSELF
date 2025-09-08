@@ -1,86 +1,97 @@
 ﻿namespace StoreDAL.Data.InitDataFactory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StoreDAL.Entities;
 
 public class TestDataFactory : AbstractDataFactory
 {
-    public override Category[] GetCategoryData()
+    public override Category[] GetCategoryData() => new[]
     {
-        return new[]
-        {
-            new Category(1, "fruits"),
-            new Category(2, "water"),
-            new Category(3, "vegetables"),
-            new Category(4, "seafood"),
-            new Category(5, "meet"),
-            new Category(6, "grocery"),
-            new Category(7, "milk food"),
-            new Category(8, "smartphones"),
-            new Category(9, "laptop"),
-            new Category(10, "photocameras"),
-            new Category(11, "kitchen accesories"),
-            new Category(12, "spices"),
-            new Category(13, "Juice"),
-            new Category(14, "alcohol drinks"),
-        };
-    }
+        new Category(1, "fruits"),
+        new Category(2, "water"),
+        new Category(3, "snacks"),
+        new Category(4, "vegetables"),
+    };
 
-    public override CustomerOrder[] GetCustomerOrderData()
+    public override Manufacturer[] GetManufacturerData() => new[]
     {
-        return Array.Empty<CustomerOrder>();
-    }
+        new Manufacturer(1, "GreenFarm"),
+        new Manufacturer(2, "FreshCo"),
+    };
 
-    public override Manufacturer[] GetManufacturerData()
+    public override OrderState[] GetOrderStateData() => new[]
     {
-        return Array.Empty<Manufacturer>();
-    }
+        new OrderState(1, "New Order"),
+        new OrderState(2, "Canceled by user"),
+        new OrderState(3, "Canceled by administrator"),
+        new OrderState(4, "Confirmed"),
+        new OrderState(5, "Moved to delivery company"),
+        new OrderState(6, "In delivery"),
+        new OrderState(7, "Delivered to client"),
+        new OrderState(8, "Delivery confirmed by client"),
+    };
 
-    public override OrderDetail[] GetOrderDetailData()
+    public override ProductTitle[] GetProductTitleData() => new[]
     {
-        return Array.Empty<OrderDetail>();
-    }
+        new ProductTitle(1, "Apple Gala 1kg", 1),
+        new ProductTitle(2, "Banana 1kg", 1),
+        new ProductTitle(3, "Orange 1kg", 1),
+        new ProductTitle(4, "Still Water 1.5L", 2),
+        new ProductTitle(5, "Sparkling Water 1.5L", 2),
+        new ProductTitle(6, "Potato 2kg", 4),
+        new ProductTitle(7, "Tomato 1kg", 4),
+        new ProductTitle(8, "Chips Classic 150g", 3),
+        new ProductTitle(9, "Chips Paprika 150g", 3),
+        new ProductTitle(10, "Cucumber 1kg", 4),
+        new ProductTitle(11, "Carrot 1kg", 4),
+        new ProductTitle(12, "Lemon 1kg", 1),
+    };
 
-    public override OrderState[] GetOrderStateData()
+    public override Product[] GetProductData() => new[]
     {
-        return new[]
-        {
-            new OrderState(1, "New Order"),
-            new OrderState(2, "Cancelled by user"),
-            new OrderState(3, "Cancelled by administrator"),
-            new OrderState(4, "Confirmed"),
-            new OrderState(5, "Moved to delivery company"),
-            new OrderState(6, "In delivery"),
-            new OrderState(7, "Delivered to client"),
-            new OrderState(8, "Delivery confirmed by client"),
-        };
-    }
+        new Product(1, 1, 1, "Fresh Gala apples from GreenFarm", 49.90m),
+        new Product(2, 2, 1, "Bananas ripe and sweet", 39.50m),
+        new Product(3, 3, 2, "Juicy oranges from FreshCo", 59.00m),
+        new Product(4, 4, 2, "Still water 1.5L", 19.90m),
+        new Product(5, 5, 2, "Sparkling water 1.5L", 21.50m),
+        new Product(6, 6, 1, "Potatoes 2kg bag", 34.00m),
+        new Product(7, 7, 1, "Tomatoes 1kg", 55.00m),
+        new Product(8, 8, 2, "Potato chips classic 150g", 29.90m),
+        new Product(9, 9, 2, "Potato chips paprika 150g", 31.90m),
+        new Product(10, 10, 1, "Cucumbers 1kg", 44.00m),
+        new Product(11, 11, 1, "Carrots 1kg", 24.00m),
+        new Product(12, 12, 2, "Lemons 1kg", 69.00m),
+    };
 
-    public override Product[] GetProductData()
+    public override UserRole[] GetUserRoleData() => new[]
     {
-        return Array.Empty<Product>();
-    }
+        new UserRole(1, "Admin"),
+        new UserRole(2, "Registered"),
+        new UserRole(3, "Guest"),
+    };
 
-    public override ProductTitle[] GetProductTitleData()
+    public override User[] GetUserData() => new[]
     {
-        return Array.Empty<ProductTitle>();
-    }
+        // PBKDF2-SHA256, формат: iterations.base64(salt).base64(key)
+        // admin / Admin@123
+        new User(1, "Admin", "Root", "admin",
+            "150000.QWRtMW5TYWx0SXNIZXJlIQ==.fQStk19KCmM6k66KKMqvVUPfPf+vtI+UsuzgI6ZIYmg=", 1),
 
-    public override User[] GetUserData()
-    {
-        return Array.Empty<User>();
-    }
+        // user / User@123
+        new User(2, "John", "Doe", "user",
+            "150000.VXNlclNhbHRJc0hlcmUhIQ==.YLxGcDEypcmzdHtmv/LGqRbjBKPtVAiDBm17tBssKJ4=", 2),
+    };
 
-    public override UserRole[] GetUserRoleData()
+    public override CustomerOrder[] GetCustomerOrderData() => new[]
     {
-        return new[]
-        {
-            new UserRole(1, "Admin"),
-            new UserRole(2, "Registered"),
-            new UserRole(3, "Guest"),
-        };
-    }
+        new CustomerOrder(1, DateTime.UtcNow.AddDays(-2).ToString("u"), 2, 1), // New Order by user
+        new CustomerOrder(2, DateTime.UtcNow.AddDays(-1).ToString("u"), 2, 4), // Confirmed
+    };
+
+    public override OrderDetail[] GetOrderDetailData() => new[]
+    {
+        new OrderDetail(1, 1, 1, 49.90m, 1),
+        new OrderDetail(2, 1, 4, 19.90m, 2),
+        new OrderDetail(3, 2, 7, 55.00m, 1),
+        new OrderDetail(4, 2, 5, 21.50m, 3),
+    };
 }

@@ -1,44 +1,83 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using StoreDAL.Data.InitDataFactory;
 
 namespace StoreDAL.Data
 {
-    public class StoreDbFactory
+    public static class StoreDbFactory
     {
-        private readonly AbstractDataFactory factory;
-
-        public StoreDbFactory(AbstractDataFactory factory)
+        public static StoreDbContext Create()
         {
-              this.factory = factory;
-        }
+            // Завжди використовуємо store.db у КОРЕНІ рішення (працює і для F5, і для dotnet run)
+            var baseDir = AppContext.BaseDirectory; // напр., ...\ConsoleApp\bin\Debug\net8.0\
+            var dbPath = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "store.db"));
 
-        public static DbContextOptions<StoreDbContext> CreateOptions()
-        {
-            return new DbContextOptionsBuilder<StoreDbContext>()
-                .UseSqlite(CreateConnectionString())
+            var options = new DbContextOptionsBuilder<StoreDbContext>()
+                .UseSqlite($"Data Source={dbPath}")
                 .Options;
+
+            var factory = new TestDataFactory();
+            var ctx = new StoreDbContext(options, factory);
+
+            ctx.Database.EnsureCreated();
+            SeedIfEmpty(ctx, factory);
+            return ctx;
         }
 
-        public StoreDbContext CreateContext()
+        /// <summary>
+        /// Сідимо по-таблично: додаємо тільки якщо таблиця порожня.
+        /// Безпечно для існуючих баз із частковими даними.
+        /// </summary>
+        private static void SeedIfEmpty(StoreDbContext ctx, AbstractDataFactory f)
         {
-            var context = new StoreDbContext(CreateOptions(), this.factory);
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
-            return context;
-        }
+            if (!ctx.Categories.Any())
+            {
+                ctx.Categories.AddRange(f.GetCategoryData());
+            }
 
-        private static string CreateConnectionString()
-        {
-            var dbPath = "store.db";
-            var conString = new SqliteConnectionStringBuilder { DataSource = dbPath, Mode = SqliteOpenMode.ReadWriteCreate }.ConnectionString;
-            return conString;
+            if (!ctx.Manufacturers.Any())
+            {
+                ctx.Manufacturers.AddRange(f.GetManufacturerData());
+            }
+
+            if (!ctx.UserRoles.Any())
+            {
+                ctx.UserRoles.AddRange(f.GetUserRoleData());
+            }
+
+            if (!ctx.Users.Any())
+            {
+                ctx.Users.AddRange(f.GetUserData());
+            }
+
+            if (!ctx.OrderStates.Any())
+            {
+                ctx.OrderStates.AddRange(f.GetOrderStateData());
+            }
+
+            if (!ctx.ProductTitles.Any())
+            {
+                ctx.ProductTitles.AddRange(f.GetProductTitleData());
+            }
+
+            if (!ctx.Products.Any())
+            {
+                ctx.Products.AddRange(f.GetProductData());
+            }
+
+            if (!ctx.CustomerOrders.Any())
+            {
+                ctx.CustomerOrders.AddRange(f.GetCustomerOrderData());
+            }
+
+            if (!ctx.OrderDetails.Any())
+            {
+                ctx.OrderDetails.AddRange(f.GetOrderDetailData());
+            }
+
+            ctx.SaveChanges();
         }
     }
 }

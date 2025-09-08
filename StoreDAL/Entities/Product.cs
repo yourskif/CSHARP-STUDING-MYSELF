@@ -1,17 +1,11 @@
 ﻿namespace StoreDAL.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-// ToDo: add atribute here
+[Table("products")]
 public class Product : BaseEntity
 {
-    public Product()
-        : base()
+    public Product() : base()
     {
     }
 
@@ -24,20 +18,22 @@ public class Product : BaseEntity
         this.UnitPrice = price;
     }
 
-    // ToDo: add atribute here
+    [Column("product_title_id")]
     public int TitleId { get; set; }
 
-    // ToDo: add atribute here
+    [Column("manufacturer_id")]
     public int ManufacturerId { get; set; }
 
-    // ToDo: add atribute here
+    [Column("unit_price")]
     public decimal UnitPrice { get; set; }
 
-    // ToDo: add atribute here
+    [Column("comment")]
     public string Description { get; set; }
 
+    [ForeignKey("TitleId")]
     public ProductTitle Title { get; set; }
 
+    [ForeignKey("ManufacturerId")]
     public Manufacturer Manufacturer { get; set; }
 
     public virtual IList<OrderDetail> OrderDetails { get; set; }
