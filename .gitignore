@@ -358,3 +358,12 @@ MigrationBackup/
 .ionide/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
+
+
+**/bin/
+**/obj/
+*.user
+*.suo
+store.db
+ConsoleApp/bin/*/store.db
+ConsoleApp/bin/*/*/store.db
