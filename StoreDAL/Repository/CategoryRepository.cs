@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 
@@ -10,39 +8,64 @@ namespace StoreDAL.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
+        private readonly StoreDbContext context;
+
+        public CategoryRepository(StoreDbContext context)
+        {
+            this.context = context;
+        }
+
+        // Додати нову категорію
         public void Add(Category entity)
         {
-            throw new NotImplementedException();
+            context.Categories.Add(entity);
+            context.SaveChanges();
         }
 
+        // Видалити категорію (по сутності)
         public void Delete(Category entity)
         {
-            throw new NotImplementedException();
+            context.Categories.Remove(entity);
+            context.SaveChanges();
         }
 
+        // Видалити категорію за ID
         public void DeleteById(int id)
         {
-            throw new NotImplementedException();
+            var category = context.Categories.Find(id);
+            if (category != null)
+            {
+                context.Categories.Remove(category);
+                context.SaveChanges();
+            }
         }
 
+        // Отримати всі категорії
         public IEnumerable<Category> GetAll()
         {
-            throw new NotImplementedException();
+            return context.Categories.ToList();
         }
 
+        // Отримати категорії з пагінацією
         public IEnumerable<Category> GetAll(int pageNumber, int rowCount)
         {
-            throw new NotImplementedException();
+            return context.Categories
+                          .Skip((pageNumber - 1) * rowCount)
+                          .Take(rowCount)
+                          .ToList();
         }
 
+        // Отримати категорію за ID
         public Category GetById(int id)
         {
-            throw new NotImplementedException();
+            return context.Categories.Find(id);
         }
 
+        // Оновити категорію
         public void Update(Category entity)
         {
-            throw new NotImplementedException();
+            context.Categories.Update(entity);
+            context.SaveChanges();
         }
     }
 }

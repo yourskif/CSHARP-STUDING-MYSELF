@@ -1,15 +1,13 @@
 ﻿namespace StoreBLL.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StoreBLL.Interfaces;
 using StoreBLL.Models;
 using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 using StoreDAL.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class OrderStateService : ICrud
 {
@@ -33,7 +31,7 @@ public class OrderStateService : ICrud
 
     public IEnumerable<AbstractModel> GetAll()
     {
-        return this.repository.GetAll().Select(x => new UserRoleModel(x.Id, x.StateName));
+        return this.repository.GetAll().Select(x => new OrderStateModel(x.Id, x.StateName));
     }
 
     public AbstractModel GetById(int id)

@@ -1,20 +1,47 @@
-using ConsoleApp.Controllers;
-using ConsoleApp.Services;
+﻿using System;
 using StoreDAL.Data;
+using ConsoleApp.MenuBuilder.Categories;
 
-namespace ConsoleMenu.Builder
+namespace ConsoleApp.MenuBuilder.Guest
 {
-    public class GuestMainMenu : AbstractMenuCreator
+    public static class GuestMainMenu
     {
-        public override (ConsoleKey id, string caption, Action action)[] GetMenuItems(StoreDbContext context)
+        public static void Show(StoreDbContext db)
         {
-            (ConsoleKey id, string caption, Action action)[] array =
+            while (true)
             {
-                (ConsoleKey.F1, "Login", UserMenuController.Login),
-                (ConsoleKey.F2, "Show product list", () => { Console.WriteLine("Show product list"); }),
-                (ConsoleKey.F3, "Register", UserController.RegisterUser),
-            };
-            return array;
+                Console.Clear();
+                Console.WriteLine("===== GUEST MENU =====");
+                Console.WriteLine("1. Browse Categories");
+                Console.WriteLine("2. Browse Products (TODO)");
+                Console.WriteLine("----------------------");
+                Console.WriteLine("Esc: Back");
+
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        CategoriesMenu.ShowReadOnly(db);
+                        break;
+
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        Console.WriteLine("Product browsing not implemented yet.");
+                        Pause();
+                        break;
+
+                    case ConsoleKey.Escape:
+                        return;
+                }
+            }
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
         }
     }
 }

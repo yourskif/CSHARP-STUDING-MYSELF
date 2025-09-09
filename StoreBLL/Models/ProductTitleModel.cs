@@ -1,23 +1,38 @@
 ﻿namespace StoreBLL.Models
 {
+    /// <summary>
+    /// Product title (catalog item without SKU/price).
+    /// </summary>
     public class ProductTitleModel : AbstractModel
     {
-        public ProductTitleModel() : base()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductTitleModel"/> class.
+        /// </summary>
+        public ProductTitleModel()
         {
         }
 
-        public ProductTitleModel(int id, string title, int categoryId) : base(id)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductTitleModel"/> class.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        /// <param name="title">Title text.</param>
+        /// <param name="manufacturerId">Manufacturer identifier.</param>
+        public ProductTitleModel(int id, string title, int manufacturerId)
         {
+            this.Id = id;
             this.Title = title;
-            this.CategoryId = categoryId;
+            this.ManufacturerId = manufacturerId;
         }
 
-        public string Title { get; set; }
-        public int CategoryId { get; set; }
+        /// <summary>
+        /// Gets or sets product title text.
+        /// </summary>
+        public string Title { get; set; } = string.Empty;
 
-        public override string ToString()
-        {
-            return $"Id: {this.Id}, Title: {this.Title}, CategoryId: {this.CategoryId}";
-        }
+        /// <summary>
+        /// Gets or sets manufacturer identifier.
+        /// </summary>
+        public int ManufacturerId { get; set; }
     }
 }

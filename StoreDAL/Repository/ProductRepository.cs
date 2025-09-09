@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 
@@ -10,39 +9,38 @@ namespace StoreDAL.Repository
 {
     public class ProductRepository : IProductRepository
     {
-        public void Add(Product entity)
+        private readonly StoreDbContext context;
+
+        public ProductRepository(StoreDbContext context) => this.context = context;
+
+        // === Реалізації, яких вимагає IProductRepository ===
+
+        // У вашій моделі немає навігаційних властивостей, тому "WithIncludes"
+        // повертає базову вибірку без Include.
+        public IEnumerable<Product> GetAllWithIncludes() => GetAll();
+
+        public IEnumerable<Product> GetByCategoryId(int categoryId)
         {
-            throw new NotImplementedException();
+            // Фільтрація через join на ProductTitles -> CategoryId
+            // ВАЖЛИВО: використовуємо p.TitleId (а не p.ProductTitleId)
+            var query =
+                from p in this.context.Products.AsNoTracking()
+                join t in this.context.ProductTitles.AsNoTracking()
+                    on p.TitleId equals t.Id
+                where t.CategoryId == categoryId
+                select p;
+
+            return query.ToList();
         }
 
-        public void Delete(Product entity)
-        {
-            throw new NotImplementedException();
-        }
+        public Product? GetByIdWithIncludes(int id) => GetById(id);
 
-        public void DeleteById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        // === Додаткові зручні методи (не з інтерфейсу) ===
 
-        public IEnumerable<Product> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Product> GetAll() =>
+            this.context.Products.AsNoTracking().ToList();
 
-        public IEnumerable<Product> GetAll(int pageNumber, int rowCount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Product GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Product entity)
-        {
-            throw new NotImplementedException();
-        }
+        public Product? GetById(int id) =>
+            this.context.Products.AsNoTracking().FirstOrDefault(p => p.Id == id);
     }
 }

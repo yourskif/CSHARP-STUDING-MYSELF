@@ -1,8 +1,14 @@
-﻿namespace StoreDAL.Interfaces;
+﻿using StoreDAL.Entities;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using StoreDAL.Entities;
 
-public interface IUserRepository : IRepository<User>
+namespace StoreDAL.Interfaces
 {
+    public interface IUserRepository
+    {
+        User? FindByLogin(string login);
+        User? GetById(int id);
+        IEnumerable<User> GetAll();
+        void Add(User user);
+        void SaveChanges();
+    }
 }

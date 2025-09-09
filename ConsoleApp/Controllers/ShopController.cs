@@ -1,77 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApp.Controllers;
-using ConsoleApp.Handlers.ContextMenuHandlers;
-using ConsoleApp.Helpers;
-using ConsoleApp1;
-using ConsoleMenu;
+using StoreBLL.Models;
 using StoreBLL.Services;
 using StoreDAL.Data;
+using StoreDAL.Repository; // ProductRepository
 
-namespace ConsoleApp.Services
+namespace ConsoleApp.Controllers
 {
-    public static class ShopController
+    public class ShopController
     {
-        private static StoreDbContext context = UserMenuController.Context;
+        private readonly ProductService productService;
 
-        public static void AddOrder()
+        public ShopController(StoreDbContext context)
         {
-            throw new NotImplementedException();
+            this.productService = new ProductService(new ProductRepository(context));
         }
 
-        public static void UpdateOrder()
+        // Показати всі товари
+        public void ShowAll()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("=== Products ===");
+            IEnumerable<ProductModel> items = this.productService.GetAll();
+            foreach (var p in items)
+            {
+                Console.WriteLine($"{p.Id}: {p.Title} | SKU: {p.Sku} | Price: {p.Price} | Stock: {p.Stock}");
+            }
         }
 
-        public static void DeleteOrder()
+        // Деталі товару
+        public void ShowDetails()
         {
-            throw new NotImplementedException();
+            Console.Write("Enter product Id: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid Id.");
+                return;
+            }
+
+            ProductModel? p = this.productService.GetById(id);
+            if (p is null)
+            {
+                Console.WriteLine("Not found.");
+                return;
+            }
+
+            Console.WriteLine("=== Product Details ===");
+            Console.WriteLine($"Id:           {p.Id}");
+            Console.WriteLine($"Title:        {p.Title}");
+            Console.WriteLine($"SKU:          {p.Sku}");
+            Console.WriteLine($"Description:  {p.Description}");
+            Console.WriteLine($"Category:     {p.Category?.Name}");
+            Console.WriteLine($"Manufacturer: {p.Manufacturer?.Name}");
+            Console.WriteLine($"Price:        {p.Price}");
+            Console.WriteLine($"Stock:        {p.Stock}");
         }
 
-        public static void ShowOrder()
+        // Переглянути за категорією (за назвою)
+        public void BrowseByCategory()
         {
-            throw new NotImplementedException();
-        }
+            Console.Write("Enter category name: ");
+            string? category = Console.ReadLine();
 
-        public static void ShowAllOrders()
-        {
-            throw new NotImplementedException();
-        }
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                Console.WriteLine("Category cannot be empty.");
+                return;
+            }
 
-        public static void AddOrderDetails()
-        {
-            throw new NotImplementedException();
-        }
+            var list = this.productService
+                .GetAll()
+                .Where(p => string.Equals(p.Category?.Name, category, StringComparison.OrdinalIgnoreCase))
+                .ToList();
 
-        public static void UpdateOrderDetails()
-        {
-            throw new NotImplementedException();
-        }
+            if (list.Count == 0)
+            {
+                Console.WriteLine("No products in this category.");
+                return;
+            }
 
-        public static void DeleteOrderDetails()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void ShowAllOrderDetails()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void ProcessOrder()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void ShowAllOrderStates()
-        {
-            var service = new OrderStateService(context);
-            var menu = new ContextMenu(new AdminContextMenuHandler(service, InputHelper.ReadOrderStateModel), service.GetAll);
-            menu.Run();
+            Console.WriteLine($"=== Products in category \"{category}\" ===");
+            foreach (var p in list)
+            {
+                Console.WriteLine($"{p.Id}: {p.Title} | {p.Price}");
+            }
         }
     }
 }

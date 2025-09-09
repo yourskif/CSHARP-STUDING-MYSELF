@@ -1,20 +1,31 @@
-﻿namespace StoreBLL.Models;
-using System;
-using System.Collections.Generic;
-
-public class OrderStateModel : AbstractModel
+﻿namespace StoreBLL.Models
 {
-    public OrderStateModel(int id, string stateName)
-        : base(id)
+    /// <summary>
+    /// Order state (e.g. Created, Paid, Shipped).
+    /// </summary>
+    public class OrderStateModel : AbstractModel
     {
-        this.Id = id;
-        this.StateName = stateName;
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderStateModel"/> class.
+        /// </summary>
+        public OrderStateModel()
+        {
+        }
 
-    public string StateName { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderStateModel"/> class with values.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        /// <param name="stateName">State display name.</param>
+        public OrderStateModel(int id, string stateName)
+            : base(id)
+        {
+            this.StateName = stateName;
+        }
 
-    public override string ToString()
-    {
-        return $"Id:{this.Id} {this.StateName}";
+        /// <summary>
+        /// Gets or sets state display name.
+        /// </summary>
+        public string StateName { get; set; } = string.Empty;
     }
 }

@@ -1,8 +1,12 @@
-﻿namespace StoreDAL.Interfaces;
+﻿using StoreDAL.Entities;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using StoreDAL.Entities;
 
-public interface IProductRepository : IRepository<Product>
+namespace StoreDAL.Interfaces
 {
+    public interface IProductRepository
+    {
+        IEnumerable<Product> GetAllWithIncludes();
+        IEnumerable<Product> GetByCategoryId(int categoryId);
+        Product? GetByIdWithIncludes(int id);
+    }
 }

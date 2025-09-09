@@ -1,15 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace StoreDAL.Entities
+﻿namespace StoreDAL.Entities
 {
     public abstract class BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // ⚡️ автоінкремент
-        [Column("id")]
-        public int Id { get; set; }
-
         protected BaseEntity()
         {
         }
@@ -18,5 +10,7 @@ namespace StoreDAL.Entities
         {
             this.Id = id;
         }
+
+        public int Id { get; set; }
     }
 }

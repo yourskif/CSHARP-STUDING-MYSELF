@@ -1,26 +1,45 @@
 ﻿namespace StoreBLL.Models
 {
+    /// <summary>
+    /// Customer order aggregate.
+    /// </summary>
     public class CustomerOrderModel : AbstractModel
     {
-        public CustomerOrderModel() : base()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomerOrderModel"/> class.
+        /// </summary>
+        public CustomerOrderModel()
         {
         }
 
-        public CustomerOrderModel(int id, int userId, string operationTime, int orderStateId)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomerOrderModel"/> class.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        /// <param name="userId">User identifier.</param>
+        /// <param name="orderStateId">Order state identifier.</param>
+        /// <param name="operationTime">Operation time.</param>
+        public CustomerOrderModel(int id, int userId, int orderStateId, string operationTime)
             : base(id)
         {
             this.UserId = userId;
-            this.OperationTime = operationTime;
             this.OrderStateId = orderStateId;
+            this.OperationTime = operationTime;
         }
 
+        /// <summary>
+        /// Gets or sets user identifier.
+        /// </summary>
         public int UserId { get; set; }
-        public string OperationTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets order state identifier.
+        /// </summary>
         public int OrderStateId { get; set; }
 
-        public override string ToString()
-        {
-            return $"Id: {this.Id}, UserId: {this.UserId}, Time: {this.OperationTime}, StateId: {this.OrderStateId}";
-        }
+        /// <summary>
+        /// Gets or sets order operation time.
+        /// </summary>
+        public string OperationTime { get; set; } = string.Empty;
     }
 }

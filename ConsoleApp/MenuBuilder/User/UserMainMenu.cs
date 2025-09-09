@@ -1,22 +1,54 @@
-using ConsoleApp.Controllers;
-using ConsoleApp1;
+﻿using System;
 using StoreDAL.Data;
+using ConsoleApp.MenuBuilder.Categories;
 
-namespace ConsoleMenu.Builder;
-
-public class UserMainMenu : AbstractMenuCreator
+namespace ConsoleApp.MenuBuilder.User
 {
-    public override (ConsoleKey id, string caption, Action action)[] GetMenuItems(StoreDbContext context)
+    public static class UserMainMenu
     {
-        (ConsoleKey id, string caption, Action action)[] array =
+        public static void Show(StoreDbContext db)
+        {
+            while (true)
             {
-                (ConsoleKey.F1, "Logout", UserMenuController.Logout),
-                (ConsoleKey.F2, "Show product list", () => { Console.WriteLine("Show product list"); }),
-                (ConsoleKey.F3, "Show order list", () => { Console.WriteLine("show order list"); }),
-                (ConsoleKey.F4, "Cancel order", () => { Console.WriteLine("Cancel order"); }),
-                (ConsoleKey.F5, "Confirm order delivery", () => { Console.WriteLine("Confirm order delivery"); }),
-                (ConsoleKey.F6, "Add order feedback", () => { Console.WriteLine("Add order feedback"); }),
-            };
-        return array;
+                Console.Clear();
+                Console.WriteLine("===== USER MENU =====");
+                Console.WriteLine("1. Browse Categories");
+                Console.WriteLine("2. Browse Products (TODO)");
+                Console.WriteLine("3. My Orders (TODO)");
+                Console.WriteLine("----------------------");
+                Console.WriteLine("Esc: Back");
+
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        CategoriesMenu.ShowReadOnly(db);
+                        break;
+
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        Console.WriteLine("Product browsing not implemented yet.");
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        Console.WriteLine("Orders not implemented yet.");
+                        Pause();
+                        break;
+
+                    case ConsoleKey.Escape:
+                        return;
+                }
+            }
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
+        }
     }
 }

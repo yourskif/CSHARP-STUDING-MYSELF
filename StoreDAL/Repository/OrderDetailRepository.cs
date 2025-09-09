@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 
@@ -10,39 +8,57 @@ namespace StoreDAL.Repository
 {
     public class OrderDetailRepository : IOrderDetailRepository
     {
+        private readonly StoreDbContext context;
+
+        public OrderDetailRepository(StoreDbContext context)
+        {
+            this.context = context;
+        }
+
         public void Add(OrderDetail entity)
         {
-            throw new NotImplementedException();
+            this.context.OrderDetails.Add(entity);
+            this.context.SaveChanges();
         }
 
         public void Delete(OrderDetail entity)
         {
-            throw new NotImplementedException();
+            this.context.OrderDetails.Remove(entity);
+            this.context.SaveChanges();
         }
 
         public void DeleteById(int id)
         {
-            throw new NotImplementedException();
+            var detail = this.context.OrderDetails.Find(id);
+            if (detail != null)
+            {
+                this.context.OrderDetails.Remove(detail);
+                this.context.SaveChanges();
+            }
         }
 
         public IEnumerable<OrderDetail> GetAll()
         {
-            throw new NotImplementedException();
+            return this.context.OrderDetails.ToList();
         }
 
         public IEnumerable<OrderDetail> GetAll(int pageNumber, int rowCount)
         {
-            throw new NotImplementedException();
+            return this.context.OrderDetails
+                .Skip((pageNumber - 1) * rowCount)
+                .Take(rowCount)
+                .ToList();
         }
 
         public OrderDetail GetById(int id)
         {
-            throw new NotImplementedException();
+            return this.context.OrderDetails.Find(id);
         }
 
         public void Update(OrderDetail entity)
         {
-            throw new NotImplementedException();
+            this.context.OrderDetails.Update(entity);
+            this.context.SaveChanges();
         }
     }
 }

@@ -1,64 +1,43 @@
-﻿namespace StoreDAL.Repository;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-public class UserRoleRepository : AbstractRepository, IUserRoleRepository
+namespace StoreDAL.Repository
 {
-    private readonly DbSet<UserRole> dbSet;
-
-    public UserRoleRepository(StoreDbContext context)
-        : base(context)
+    public class UserRoleRepository : IUserRoleRepository
     {
-        ArgumentNullException.ThrowIfNull(context);
-        this.dbSet = context.Set<UserRole>();
-    }
+        private readonly StoreDbContext context;
 
-    public void Add(UserRole entity)
-    {
-        this.dbSet.Add(entity);
-        this.context.SaveChanges();
-    }
+        public UserRoleRepository(StoreDbContext context) => this.context = context;
 
-    public void Delete(UserRole entity)
-    {
-        throw new NotImplementedException();
-    }
+        public UserRole? GetById(int id) =>
+            this.context.UserRoles.FirstOrDefault(r => r.Id == id);
 
-    public void DeleteById(int id)
-    {
-        var entity = this.dbSet.Find(id);
-        if (entity != null)
+        // Якщо у сутності немає властивості Name — EF.Property читає однойменну колонку.
+        public UserRole? GetByName(string name) =>
+            this.context.UserRoles.FirstOrDefault(r => EF.Property<string>(r, "Name") == name);
+
+        public IEnumerable<UserRole> GetAll() =>
+            this.context.UserRoles.AsNoTracking().ToList();
+
+        public void Add(UserRole role) =>
+            this.context.UserRoles.Add(role);
+
+        public void Update(UserRole role) =>
+            this.context.UserRoles.Update(role);
+
+        public void DeleteById(int id)
         {
-            this.dbSet.Remove(entity);
-            this.context.SaveChanges();
+            var entity = this.context.UserRoles.FirstOrDefault(r => r.Id == id);
+            if (entity != null)
+            {
+                this.context.UserRoles.Remove(entity);
+            }
         }
-    }
 
-    public IEnumerable<UserRole> GetAll()
-    {
-        return this.dbSet.ToList();
-    }
-
-    public IEnumerable<UserRole> GetAll(int pageNumber, int rowCount)
-    {
-        throw new NotImplementedException();
-    }
-
-    public UserRole GetById(int id)
-    {
-        return this.dbSet.Find(id);
-    }
-
-    public void Update(UserRole entity)
-    {
-        throw new NotImplementedException();
+        public void SaveChanges() => this.context.SaveChanges();
     }
 }

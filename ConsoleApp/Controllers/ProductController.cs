@@ -1,285 +1,152 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ConsoleApp.Handlers.ContextMenuHandlers;
-using ConsoleApp.Helpers;
-using ConsoleMenu;
-using StoreDAL.Data;
+using StoreBLL.Models;
 using StoreBLL.Services;
+using StoreDAL.Data;
+using StoreDAL.Repository; // ProductRepository
 
 namespace ConsoleApp.Controllers
 {
-    public static class ProductController
+    public class ProductController
     {
-        private static StoreDbContext context = UserMenuController.Context;
+        private readonly ProductService productService;
 
-        // Product methods
-        public static void ShowAllProducts()
+        public ProductController(StoreDbContext context)
         {
-            Console.WriteLine("\n=== Product List ===");
-            Console.WriteLine("ID | Title | Category | Manufacturer | Price | In Stock");
-            Console.WriteLine("--------------------------------------------------------");
-
-            // TODO: Get products from ProductService
-            Console.WriteLine("1  | Laptop | Electronics | Dell | $999.99 | 10");
-            Console.WriteLine("2  | Mouse | Accessories | Logitech | $29.99 | 50");
-            Console.WriteLine("3  | Keyboard | Accessories | Corsair | $89.99 | 25");
-            Console.WriteLine("--------------------------------------------------------");
-
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
+            // ProductService очікує IProductRepository
+            this.productService = new ProductService(new ProductRepository(context));
         }
 
-        public static void ShowProduct()
+        // Додати продукт
+        public void AddProduct()
         {
-            Console.WriteLine("Enter product ID: ");
-            if (int.TryParse(Console.ReadLine(), out int productId))
-            {
-                // TODO: Get product from ProductService
-                Console.WriteLine($"\n=== Product Details (ID: {productId}) ===");
-                Console.WriteLine("Title: Laptop");
-                Console.WriteLine("Category: Electronics");
-                Console.WriteLine("Manufacturer: Dell");
-                Console.WriteLine("Price: $999.99");
-                Console.WriteLine("In Stock: 10");
-                Console.WriteLine("Description: High-performance laptop for business use");
-            }
-            else
-            {
-                Console.WriteLine("Invalid product ID!");
-            }
+            Console.Write("Title (name): ");
+            string title = Console.ReadLine() ?? string.Empty;
 
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
+            Console.Write("SKU: ");
+            string sku = Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Description: ");
+            string description = Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Category (name): ");
+            string category = Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Manufacturer (name): ");
+            string manufacturer = Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Price: ");
+            _ = decimal.TryParse(Console.ReadLine(), out decimal price);
+
+            Console.Write("Stock: ");
+            _ = int.TryParse(Console.ReadLine(), out int stock);
+
+            ProductModel? created = this.productService.Add(
+                title: title,
+                sku: sku,
+                description: description,
+                category: category,
+                manufacturer: manufacturer,
+                price: price,
+                stock: stock);
+
+            Console.WriteLine(created is not null
+                ? $"Product added. Id={created.Id}, Title={created.Title}"
+                : "Add failed.");
         }
 
-        public static void AddProduct()
+        // Редагувати продукт
+        public void EditProduct()
         {
-            Console.WriteLine("\n=== Add New Product ===");
-
-            Console.WriteLine("Enter product title: ");
-            var title = Console.ReadLine();
-
-            Console.WriteLine("Enter category ID: ");
-            var categoryId = Console.ReadLine();
-
-            Console.WriteLine("Enter manufacturer ID: ");
-            var manufacturerId = Console.ReadLine();
-
-            Console.WriteLine("Enter price: ");
-            var price = Console.ReadLine();
-
-            Console.WriteLine("Enter quantity in stock: ");
-            var quantity = Console.ReadLine();
-
-            Console.WriteLine("Enter description: ");
-            var description = Console.ReadLine();
-
-            // TODO: Implement with ProductService
-            Console.WriteLine("\nProduct added successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        public static void UpdateProduct()
-        {
-            Console.WriteLine("\n=== Update Product ===");
-            Console.WriteLine("Enter product ID to update: ");
-
-            if (int.TryParse(Console.ReadLine(), out int productId))
+            Console.Write("Product Id to edit: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
             {
-                // TODO: Load existing product
-                Console.WriteLine($"Updating product ID: {productId}");
-
-                Console.WriteLine("Enter new price (or press Enter to skip): ");
-                var price = Console.ReadLine();
-
-                Console.WriteLine("Enter new quantity (or press Enter to skip): ");
-                var quantity = Console.ReadLine();
-
-                // TODO: Implement with ProductService
-                Console.WriteLine("\nProduct updated successfully!");
-            }
-            else
-            {
-                Console.WriteLine("Invalid product ID!");
+                Console.WriteLine("Invalid Id.");
+                return;
             }
 
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        public static void DeleteProduct()
-        {
-            Console.WriteLine("\n=== Delete Product ===");
-            Console.WriteLine("Enter product ID to delete: ");
-
-            if (int.TryParse(Console.ReadLine(), out int productId))
+            ProductModel? existing = this.productService.GetById(id);
+            if (existing is null)
             {
-                Console.WriteLine($"Are you sure you want to delete product {productId}? (y/n): ");
-                var confirm = Console.ReadLine();
-
-                if (confirm?.ToLower() == "y")
-                {
-                    // TODO: Implement with ProductService
-                    Console.WriteLine("Product deleted successfully!");
-                }
-                else
-                {
-                    Console.WriteLine("Operation cancelled.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid product ID!");
+                Console.WriteLine("Not found.");
+                return;
             }
 
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+            Console.Write($"New title ({existing.Title}): ");
+            string? title = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                title = existing.Title;
+            }
+
+            Console.Write($"New SKU ({existing.Sku}): ");
+            string? sku = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(sku))
+            {
+                sku = existing.Sku;
+            }
+
+            Console.Write($"New description ({existing.Description}): ");
+            string? description = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                description = existing.Description;
+            }
+
+            Console.Write($"New category ({existing.Category?.Name}): ");
+            string? category = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                category = existing.Category?.Name ?? string.Empty;
+            }
+
+            Console.Write($"New manufacturer ({existing.Manufacturer?.Name}): ");
+            string? manufacturer = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(manufacturer))
+            {
+                manufacturer = existing.Manufacturer?.Name ?? string.Empty;
+            }
+
+            Console.Write($"New price ({existing.Price}): ");
+            string? priceStr = Console.ReadLine();
+            decimal price = existing.Price;
+            if (!string.IsNullOrWhiteSpace(priceStr) && decimal.TryParse(priceStr, out decimal p))
+            {
+                price = p;
+            }
+
+            Console.Write($"New stock ({existing.Stock}): ");
+            string? stockStr = Console.ReadLine();
+            int stock = existing.Stock;
+            if (!string.IsNullOrWhiteSpace(stockStr) && int.TryParse(stockStr, out int s))
+            {
+                stock = s;
+            }
+
+            ProductModel? updated = this.productService.Update(
+                id: id,
+                title: title!,
+                sku: sku!,
+                description: description!,
+                category: category!,
+                manufacturer: manufacturer!,
+                price: price,
+                stock: stock);
+
+            Console.WriteLine(updated is not null ? "Updated." : "Update failed.");
         }
 
-        // Category methods
-        public static void ShowAllCategories()
+        // Видалити продукт
+        public void DeleteProduct()
         {
-            var service = new CategoryService(context);
-            var menu = new ContextMenu(new AdminContextMenuHandler(service, InputHelper.ReadCategoryModel), service.GetAll);
-            menu.Run();
-        }
+            Console.Write("Product Id to delete: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid Id.");
+                return;
+            }
 
-        public static void AddCategory()
-        {
-            Console.WriteLine("\n=== Add New Category ===");
-            Console.WriteLine("Enter category name: ");
-            var name = Console.ReadLine();
-
-            // TODO: Implement with CategoryService
-            Console.WriteLine("Category added successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        public static void UpdateCategory()
-        {
-            Console.WriteLine("\n=== Update Category ===");
-            Console.WriteLine("Enter category ID to update: ");
-            var categoryId = Console.ReadLine();
-
-            Console.WriteLine("Enter new category name: ");
-            var name = Console.ReadLine();
-
-            // TODO: Implement with CategoryService
-            Console.WriteLine("Category updated successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        public static void DeleteCategory()
-        {
-            Console.WriteLine("\n=== Delete Category ===");
-            Console.WriteLine("Enter category ID to delete: ");
-            var categoryId = Console.ReadLine();
-
-            // TODO: Implement with CategoryService
-            Console.WriteLine("Category deleted successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        // Manufacturer methods
-        public static void ShowAllManufacturers()
-        {
-            var service = new ManufacturerService(context);
-            var menu = new ContextMenu(new AdminContextMenuHandler(service, InputHelper.ReadManufacturerModel), service.GetAll);
-            menu.Run();
-        }
-
-        public static void AddManufacturer()
-        {
-            Console.WriteLine("\n=== Add New Manufacturer ===");
-            Console.WriteLine("Enter manufacturer name: ");
-            var name = Console.ReadLine();
-
-            // TODO: Implement with ManufacturerService
-            Console.WriteLine("Manufacturer added successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        public static void UpdateManufacturer()
-        {
-            Console.WriteLine("\n=== Update Manufacturer ===");
-            Console.WriteLine("Enter manufacturer ID to update: ");
-            var manufacturerId = Console.ReadLine();
-
-            Console.WriteLine("Enter new manufacturer name: ");
-            var name = Console.ReadLine();
-
-            // TODO: Implement with ManufacturerService
-            Console.WriteLine("Manufacturer updated successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        public static void DeleteManufacturer()
-        {
-            Console.WriteLine("\n=== Delete Manufacturer ===");
-            Console.WriteLine("Enter manufacturer ID to delete: ");
-            var manufacturerId = Console.ReadLine();
-
-            // TODO: Implement with ManufacturerService
-            Console.WriteLine("Manufacturer deleted successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        // Product Title methods
-        public static void ShowAllProductTitles()
-        {
-            var service = new ProductTitleService(context);
-            var menu = new ContextMenu(new AdminContextMenuHandler(service, InputHelper.ReadProductTitleModel), service.GetAll);
-            menu.Run();
-        }
-
-        public static void AddProductTitle()
-        {
-            Console.WriteLine("\n=== Add New Product Title ===");
-            Console.WriteLine("Enter product title: ");
-            var title = Console.ReadLine();
-
-            Console.WriteLine("Enter category ID: ");
-            var categoryId = Console.ReadLine();
-
-            // TODO: Implement with ProductTitleService
-            Console.WriteLine("Product title added successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        public static void UpdateProductTitle()
-        {
-            Console.WriteLine("\n=== Update Product Title ===");
-            Console.WriteLine("Enter product title ID to update: ");
-            var titleId = Console.ReadLine();
-
-            Console.WriteLine("Enter new title: ");
-            var title = Console.ReadLine();
-
-            // TODO: Implement with ProductTitleService
-            Console.WriteLine("Product title updated successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        public static void DeleteProductTitle()
-        {
-            Console.WriteLine("\n=== Delete Product Title ===");
-            Console.WriteLine("Enter product title ID to delete: ");
-            var titleId = Console.ReadLine();
-
-            // TODO: Implement with ProductTitleService
-            Console.WriteLine("Product title deleted successfully!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+            bool ok = this.productService.Delete(id);
+            Console.WriteLine(ok ? "Deleted." : "Delete failed.");
         }
     }
 }

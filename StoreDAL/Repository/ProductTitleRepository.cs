@@ -1,48 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StoreDAL.Repository
 {
     public class ProductTitleRepository : IProductTitleRepository
     {
-        public void Add(ProductTitle entity)
-        {
-            throw new NotImplementedException();
-        }
+        private readonly StoreDbContext context;
+        public ProductTitleRepository(StoreDbContext context) => this.context = context;
 
-        public void Delete(ProductTitle entity)
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<ProductTitle> GetAll() =>
+            this.context.ProductTitles.AsNoTracking().ToList();
 
-        public void DeleteById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<ProductTitle> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<ProductTitle> GetAll(int pageNumber, int rowCount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ProductTitle GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(ProductTitle entity)
-        {
-            throw new NotImplementedException();
-        }
+        public ProductTitle? GetById(int id) =>
+            this.context.ProductTitles.AsNoTracking().FirstOrDefault(t => t.Id == id);
     }
 }
