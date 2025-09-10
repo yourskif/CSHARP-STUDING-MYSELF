@@ -1,6 +1,9 @@
-﻿using System;
-using StoreDAL.Data;
+using System;
+
+using ConsoleApp.Controllers;
 using ConsoleApp.MenuBuilder.Categories;
+
+using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.Guest
 {
@@ -8,12 +11,16 @@ namespace ConsoleApp.MenuBuilder.Guest
     {
         public static void Show(StoreDbContext db)
         {
+            var userController = new UserController(db);
+            var shopController = new ShopController(db);
+
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("===== GUEST MENU =====");
                 Console.WriteLine("1. Browse Categories");
-                Console.WriteLine("2. Browse Products (TODO)");
+                Console.WriteLine("2. Browse Products");
+                Console.WriteLine("3. Register");
                 Console.WriteLine("----------------------");
                 Console.WriteLine("Esc: Back");
 
@@ -27,7 +34,13 @@ namespace ConsoleApp.MenuBuilder.Guest
 
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        Console.WriteLine("Product browsing not implemented yet.");
+                        shopController.Browse();
+                        break;
+
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        Console.Clear();
+                        userController.Register();
                         Pause();
                         break;
 

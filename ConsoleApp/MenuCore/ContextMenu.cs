@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using ConsoleApp;
 using ConsoleApp.Controllers;
 using ConsoleApp.Handlers.ContextMenuHandlers;
-using ConsoleApp;
+
 using StoreBLL.Interfaces;
 using StoreBLL.Models;
 
@@ -51,3 +53,4 @@ namespace ConsoleMenu
         }
     }
 }
+

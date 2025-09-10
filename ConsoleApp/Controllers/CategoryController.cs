@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+
 using StoreBLL.Models;
 using StoreBLL.Services;
+
 using StoreDAL.Data;
 
 namespace ConsoleApp.Controllers
@@ -15,7 +17,7 @@ namespace ConsoleApp.Controllers
             this.service = new CategoryService(context);
         }
 
-        // Показати всі категорії
+        // РџРѕРєР°Р·Р°С‚Рё РІСЃС– РєР°С‚РµРіРѕСЂС–С—
         public void ShowAll()
         {
             Console.WriteLine("=== Categories ===");
@@ -26,7 +28,7 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        // Додати категорію
+        // Р”РѕРґР°С‚Рё РєР°С‚РµРіРѕСЂС–СЋ
         public void AddCategory()
         {
             Console.Write("Enter category name: ");
@@ -44,7 +46,7 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("Category added successfully.");
         }
 
-        // Пошук за назвою
+        // РџРѕС€СѓРє Р·Р° РЅР°Р·РІРѕСЋ
         public void SearchByName()
         {
             Console.Write("Enter name to search: ");
@@ -66,7 +68,7 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        // Редагувати категорію
+        // Р РµРґР°РіСѓРІР°С‚Рё РєР°С‚РµРіРѕСЂС–СЋ
         public void UpdateCategory()
         {
             Console.Write("Enter category ID to update: ");
@@ -91,7 +93,7 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("Category updated successfully.");
         }
 
-        // Видалити категорію
+        // Р’РёРґР°Р»РёС‚Рё РєР°С‚РµРіРѕСЂС–СЋ
         public void DeleteCategory()
         {
             Console.Write("Enter category ID to delete: ");

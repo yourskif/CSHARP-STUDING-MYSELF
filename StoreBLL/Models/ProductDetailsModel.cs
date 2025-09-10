@@ -14,6 +14,7 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProductDetailsModel"/> class.
         /// Initializes a new instance with model-typed category/manufacturer.
         /// </summary>
         public ProductDetailsModel(
@@ -30,6 +31,7 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProductDetailsModel"/> class.
         /// Initializes a new instance with string category/manufacturer (для сумісності зі старими викликами).
         /// </summary>
         public ProductDetailsModel(

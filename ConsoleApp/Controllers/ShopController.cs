@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using StoreBLL.Models;
 using StoreBLL.Services;
+
 using StoreDAL.Data;
 using StoreDAL.Repository; // ProductRepository
 
@@ -17,7 +19,54 @@ namespace ConsoleApp.Controllers
             this.productService = new ProductService(new ProductRepository(context));
         }
 
-        // Показати всі товари
+        /// <summary>
+        /// Entry point for guest browsing: shows a small menu with actions.
+        /// </summary>
+        public void Browse()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("===== CATALOG =====");
+                Console.WriteLine("1. List all products");
+                Console.WriteLine("2. View product details");
+                Console.WriteLine("3. Browse by category");
+                Console.WriteLine("-------------------");
+                Console.WriteLine("Esc: Back");
+
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        Console.Clear();
+                        this.ShowAll();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        Console.Clear();
+                        this.ShowDetails();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        Console.Clear();
+                        this.BrowseByCategory();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.Escape:
+                        return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Print all products in a simple table.
+        /// </summary>
         public void ShowAll()
         {
             Console.WriteLine("=== Products ===");
@@ -28,7 +77,9 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        // Деталі товару
+        /// <summary>
+        /// Print details for a single product, chosen by Id.
+        /// </summary>
         public void ShowDetails()
         {
             Console.Write("Enter product Id: ");
@@ -56,7 +107,9 @@ namespace ConsoleApp.Controllers
             Console.WriteLine($"Stock:        {p.Stock}");
         }
 
-        // Переглянути за категорією (за назвою)
+        /// <summary>
+        /// Filter products by category name (case-insensitive).
+        /// </summary>
         public void BrowseByCategory()
         {
             Console.Write("Enter category name: ");
@@ -82,8 +135,15 @@ namespace ConsoleApp.Controllers
             Console.WriteLine($"=== Products in category \"{category}\" ===");
             foreach (var p in list)
             {
-                Console.WriteLine($"{p.Id}: {p.Title} | {p.Price}");
+                Console.WriteLine($"{p.Id}: {p.Title} | SKU: {p.Sku} | Price: {p.Price} | Stock: {p.Stock}");
             }
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
         }
     }
 }

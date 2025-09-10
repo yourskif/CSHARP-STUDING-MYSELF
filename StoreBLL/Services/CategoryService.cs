@@ -3,8 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Microsoft.EntityFrameworkCore;
+
     using StoreBLL.Models;
+
     using StoreDAL.Data;
     using StoreDAL.Entities;
 
@@ -37,7 +40,10 @@
 
         public CategoryModel Add(CategoryModel model)
         {
-            if (model is null) throw new ArgumentNullException(nameof(model));
+            if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
 
             var entity = new Category
             {
@@ -53,7 +59,10 @@
 
         public bool Update(CategoryModel model)
         {
-            if (model is null) throw new ArgumentNullException(nameof(model));
+            if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
 
             var entity = this.context.Categories.FirstOrDefault(c => c.Id == model.Id);
             if (entity is null)

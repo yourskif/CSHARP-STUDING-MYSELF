@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using Microsoft.EntityFrameworkCore;
+
 using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
@@ -17,7 +19,7 @@ namespace StoreDAL.Repository
 
         // У вашій моделі немає навігаційних властивостей, тому "WithIncludes"
         // повертає базову вибірку без Include.
-        public IEnumerable<Product> GetAllWithIncludes() => GetAll();
+        public IEnumerable<Product> GetAllWithIncludes() => this.GetAll();
 
         public IEnumerable<Product> GetByCategoryId(int categoryId)
         {
@@ -33,7 +35,7 @@ namespace StoreDAL.Repository
             return query.ToList();
         }
 
-        public Product? GetByIdWithIncludes(int id) => GetById(id);
+        public Product? GetByIdWithIncludes(int id) => this.GetById(id);
 
         // === Додаткові зручні методи (не з інтерфейсу) ===
 

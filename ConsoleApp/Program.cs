@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.Linq;
+
 using ConsoleApp.Controllers;
+
 using StoreDAL.Data;
 
 namespace ConsoleApp
@@ -10,7 +12,7 @@ namespace ConsoleApp
         public static void Main(string[] args)
         {
 #if DEBUG
-            // 🔍 Діагностика (можна прибрати/залишити тільки на час перевірки)
+            // рџ”Ќ Р”С–Р°РіРЅРѕСЃС‚РёРєР° (РјРѕР¶РЅР° РїСЂРёР±СЂР°С‚Рё/Р·Р°Р»РёС€РёС‚Рё С‚С–Р»СЊРєРё РЅР° С‡Р°СЃ РїРµСЂРµРІС–СЂРєРё)
             var ctx = StoreDbFactory.Create();
             Console.WriteLine($"Categories: {ctx.Categories.Count()}");
             Console.WriteLine($"Products:   {ctx.Products.Count()}");
@@ -20,7 +22,7 @@ namespace ConsoleApp
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
 #endif
-            // ▶️ Запуск головного меню
+            // в–¶пёЏ Р—Р°РїСѓСЃРє РіРѕР»РѕРІРЅРѕРіРѕ РјРµРЅСЋ
             UserMenuController.Start();
         }
     }

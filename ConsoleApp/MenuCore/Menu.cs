@@ -1,4 +1,4 @@
-﻿/*
+/*
 Yuriy Antonov copyright 2018-2020
 */
 
@@ -48,12 +48,12 @@ namespace ConsoleMenu
             ConsoleKeyInfo res;
             if (updateItems)
             {
-                    foreach (var item in this.items)
-                    {
-                        Console.WriteLine($"<{item.Key}>:  {item.Value}");
-                    }
+                foreach (var item in this.items)
+                {
+                    Console.WriteLine($"<{item.Key}>:  {item.Value}");
+                }
 
-                    Console.WriteLine("Or press <Esc> to return");
+                Console.WriteLine("Or press <Esc> to return");
             }
 
             res = Console.ReadKey(true);

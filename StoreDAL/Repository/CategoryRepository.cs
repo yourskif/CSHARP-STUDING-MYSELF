@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
@@ -18,38 +19,38 @@ namespace StoreDAL.Repository
         // Додати нову категорію
         public void Add(Category entity)
         {
-            context.Categories.Add(entity);
-            context.SaveChanges();
+            this.context.Categories.Add(entity);
+            this.context.SaveChanges();
         }
 
         // Видалити категорію (по сутності)
         public void Delete(Category entity)
         {
-            context.Categories.Remove(entity);
-            context.SaveChanges();
+            this.context.Categories.Remove(entity);
+            this.context.SaveChanges();
         }
 
         // Видалити категорію за ID
         public void DeleteById(int id)
         {
-            var category = context.Categories.Find(id);
+            var category = this.context.Categories.Find(id);
             if (category != null)
             {
-                context.Categories.Remove(category);
-                context.SaveChanges();
+                this.context.Categories.Remove(category);
+                this.context.SaveChanges();
             }
         }
 
         // Отримати всі категорії
         public IEnumerable<Category> GetAll()
         {
-            return context.Categories.ToList();
+            return this.context.Categories.ToList();
         }
 
         // Отримати категорії з пагінацією
         public IEnumerable<Category> GetAll(int pageNumber, int rowCount)
         {
-            return context.Categories
+            return this.context.Categories
                           .Skip((pageNumber - 1) * rowCount)
                           .Take(rowCount)
                           .ToList();
@@ -58,14 +59,14 @@ namespace StoreDAL.Repository
         // Отримати категорію за ID
         public Category GetById(int id)
         {
-            return context.Categories.Find(id);
+            return this.context.Categories.Find(id);
         }
 
         // Оновити категорію
         public void Update(Category entity)
         {
-            context.Categories.Update(entity);
-            context.SaveChanges();
+            this.context.Categories.Update(entity);
+            this.context.SaveChanges();
         }
     }
 }

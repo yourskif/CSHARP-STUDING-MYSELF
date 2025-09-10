@@ -1,6 +1,8 @@
-﻿using System;
-using StoreDAL.Data;
+using System;
+
 using ConsoleApp.MenuBuilder.Categories;
+
+using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.Admin
 {
@@ -13,9 +15,9 @@ namespace ConsoleApp.MenuBuilder.Admin
                 Console.Clear();
                 Console.WriteLine("===== ADMIN MENU =====");
                 Console.WriteLine("1. Manage Categories");
-                Console.WriteLine("2. Manage Products (TODO)");
-                Console.WriteLine("3. Manage Orders (TODO)");
-                Console.WriteLine("4. Manage Users (TODO)");
+                Console.WriteLine("2. Manage Products (TODO) ");
+                Console.WriteLine("3. Manage Orders (TODO) ");
+                Console.WriteLine("4. Manage Users (TODO) ");
                 Console.WriteLine("----------------------");
                 Console.WriteLine("Esc: Back");
 

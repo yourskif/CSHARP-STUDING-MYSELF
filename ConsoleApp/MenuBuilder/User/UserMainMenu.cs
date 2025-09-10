@@ -1,6 +1,8 @@
-﻿using System;
-using StoreDAL.Data;
+using System;
+
 using ConsoleApp.MenuBuilder.Categories;
+
+using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.User
 {
@@ -13,8 +15,8 @@ namespace ConsoleApp.MenuBuilder.User
                 Console.Clear();
                 Console.WriteLine("===== USER MENU =====");
                 Console.WriteLine("1. Browse Categories");
-                Console.WriteLine("2. Browse Products (TODO)");
-                Console.WriteLine("3. My Orders (TODO)");
+                Console.WriteLine("2. Browse Products (TODO) ");
+                Console.WriteLine("3. My Orders (TODO) ");
                 Console.WriteLine("----------------------");
                 Console.WriteLine("Esc: Back");
 

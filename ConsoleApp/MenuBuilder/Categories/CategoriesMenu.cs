@@ -1,12 +1,14 @@
-﻿using System;
+using System;
+
 using ConsoleApp.Controllers;
+
 using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.Categories
 {
     public static class CategoriesMenu
     {
-        // Повне меню для Admin (CRUD + пошук)
+        // РџРѕРІРЅРµ РјРµРЅСЋ РґР»СЏ Admin (CRUD + РїРѕС€СѓРє)
         public static void Show(StoreDbContext db)
         {
             var controller = new CategoryController(db);
@@ -57,7 +59,7 @@ namespace ConsoleApp.MenuBuilder.Categories
             }
         }
 
-        // Спрощене меню для Registered User (тільки перегляд + пошук)
+        // РЎРїСЂРѕС‰РµРЅРµ РјРµРЅСЋ РґР»СЏ Registered User (С‚С–Р»СЊРєРё РїРµСЂРµРіР»СЏРґ + РїРѕС€СѓРє)
         public static void ShowReadOnly(StoreDbContext db)
         {
             var controller = new CategoryController(db);

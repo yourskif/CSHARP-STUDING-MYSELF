@@ -1,12 +1,13 @@
-﻿using System;
+using System;
 using System.Globalization;
+
 using StoreBLL.Models;
 
 namespace ConsoleApp.Helpers
 {
     internal static class InputHelper
     {
-        // ======== БАЗОВІ ЧИТАЧІ ========
+        // ======== Р‘РђР—РћР’Р† Р§РРўРђР§Р† ========
 
         public static int ReadInt(string prompt)
         {
@@ -35,9 +36,9 @@ namespace ConsoleApp.Helpers
             return input ?? string.Empty;
         }
 
-        // ======== КОНКРЕТНІ МОДЕЛІ ДЛЯ МЕНЮ/КОНТРОЛЕРІВ ========
+        // ======== РљРћРќРљР Р•РўРќР† РњРћР”Р•Р›Р† Р”Р›РЇ РњР•РќР®/РљРћРќРўР РћР›Р•Р Р†Р’ ========
 
-        // РОЛІ КОРИСТУВАЧА
+        // Р РћР›Р† РљРћР РРЎРўРЈР’РђР§Рђ
         public static UserRoleModel ReadUserRoleModel()
         {
             Console.WriteLine("Input User Role Id");
@@ -49,7 +50,7 @@ namespace ConsoleApp.Helpers
             return new UserRoleModel(id, name);
         }
 
-        // СТАН ЗАМОВЛЕННЯ (для ShopController)
+        // РЎРўРђРќ Р—РђРњРћР’Р›Р•РќРќРЇ (РґР»СЏ ShopController)
         public static OrderStateModel ReadOrderStateModel()
         {
             Console.WriteLine("Input Order State Id");
@@ -61,7 +62,7 @@ namespace ConsoleApp.Helpers
             return new OrderStateModel(id, stateName);
         }
 
-        // КАТЕГОРІЯ (для ProductController)
+        // РљРђРўР•Р“РћР Р†РЇ (РґР»СЏ ProductController)
         public static CategoryModel ReadCategoryModel()
         {
             Console.WriteLine("Input Category Id");
@@ -73,7 +74,7 @@ namespace ConsoleApp.Helpers
             return new CategoryModel(id, name);
         }
 
-        // ВИРОБНИК (для ProductController)
+        // Р’РР РћР‘РќРРљ (РґР»СЏ ProductController)
         public static ManufacturerModel ReadManufacturerModel()
         {
             Console.WriteLine("Input Manufacturer Id");
@@ -85,7 +86,7 @@ namespace ConsoleApp.Helpers
             return new ManufacturerModel(id, name);
         }
 
-        // НАЗВА ТОВАРУ (для ProductController) — ДОДАНО CategoryId
+        // РќРђР—Р’Рђ РўРћР’РђР РЈ (РґР»СЏ ProductController) вЂ” Р”РћР”РђРќРћ CategoryId
         public static ProductTitleModel ReadProductTitleModel()
         {
             Console.WriteLine("Input Product Title Id");

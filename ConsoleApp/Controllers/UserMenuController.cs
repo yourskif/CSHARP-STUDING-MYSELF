@@ -1,19 +1,21 @@
-﻿using ConsoleApp.MenuBuilder.Admin;
+using System;
+
+using ConsoleApp.MenuBuilder.Admin;
 using ConsoleApp.MenuBuilder.Guest;
 using ConsoleApp.MenuBuilder.User;
+
 using StoreDAL.Data;
-using System;
 
 namespace ConsoleApp.Controllers
 {
     public static class UserMenuController
     {
-        // Глобальний контекст для всіх контролерів
+        // Р“Р»РѕР±Р°Р»СЊРЅРёР№ РєРѕРЅС‚РµРєСЃС‚ РґР»СЏ РІСЃС–С… РєРѕРЅС‚СЂРѕР»РµСЂС–РІ
         public static StoreDbContext Context { get; private set; } = null!;
 
         public static void Start()
         {
-            // ⚙️ Ініціалізація контексту (створить/підсипле БД у корені рішення)
+            // вљ™пёЏ Р†РЅС–С†С–Р°Р»С–Р·Р°С†С–СЏ РєРѕРЅС‚РµРєСЃС‚Сѓ (СЃС‚РІРѕСЂРёС‚СЊ/РїС–РґСЃРёРїР»Рµ Р‘Р” Сѓ РєРѕСЂРµРЅС– СЂС–С€РµРЅРЅСЏ)
             Context = StoreDbFactory.Create();
 
             while (true)

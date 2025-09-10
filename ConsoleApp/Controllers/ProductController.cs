@@ -1,6 +1,8 @@
-﻿using System;
+using System;
+
 using StoreBLL.Models;
 using StoreBLL.Services;
+
 using StoreDAL.Data;
 using StoreDAL.Repository; // ProductRepository
 
@@ -12,11 +14,11 @@ namespace ConsoleApp.Controllers
 
         public ProductController(StoreDbContext context)
         {
-            // ProductService очікує IProductRepository
+            // ProductService РѕС‡С–РєСѓС” IProductRepository
             this.productService = new ProductService(new ProductRepository(context));
         }
 
-        // Додати продукт
+        // Р”РѕРґР°С‚Рё РїСЂРѕРґСѓРєС‚
         public void AddProduct()
         {
             Console.Write("Title (name): ");
@@ -54,7 +56,7 @@ namespace ConsoleApp.Controllers
                 : "Add failed.");
         }
 
-        // Редагувати продукт
+        // Р РµРґР°РіСѓРІР°С‚Рё РїСЂРѕРґСѓРєС‚
         public void EditProduct()
         {
             Console.Write("Product Id to edit: ");
@@ -135,7 +137,7 @@ namespace ConsoleApp.Controllers
             Console.WriteLine(updated is not null ? "Updated." : "Update failed.");
         }
 
-        // Видалити продукт
+        // Р’РёРґР°Р»РёС‚Рё РїСЂРѕРґСѓРєС‚
         public void DeleteProduct()
         {
             Console.Write("Product Id to delete: ");

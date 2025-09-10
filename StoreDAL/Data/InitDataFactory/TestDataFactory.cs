@@ -1,5 +1,6 @@
 ﻿namespace StoreDAL.Data.InitDataFactory;
 using System;
+
 using StoreDAL.Entities;
 
 public class TestDataFactory : AbstractDataFactory

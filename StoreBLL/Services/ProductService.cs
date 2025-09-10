@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+
     using StoreBLL.Models;
+
     using StoreDAL.Data;
     using StoreDAL.Entities;
     using StoreDAL.Interfaces;
@@ -24,10 +26,12 @@
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
+
         public ProductService()
             : this(new ProductRepository(StoreDbFactory.Create()))
         {
         }
+
 
         public List<ProductModel> GetAll()
         {
@@ -35,11 +39,13 @@
             return entities.Select(MapToModel).ToList();
         }
 
+
         public ProductModel? GetById(int id)
         {
             var entity = this.RepoGetById(id);
             return entity is null ? null : MapToModel(entity);
         }
+
 
         public ProductModel Add(
             string title,
@@ -83,6 +89,7 @@
             this.RepoAdd(entity);
             return MapToModel(entity);
         }
+
 
         public ProductModel? Update(
             int id,
@@ -129,6 +136,7 @@
             return MapToModel(entity);
         }
 
+
         public bool Delete(int id)
         {
             var entity = this.RepoGetById(id);
@@ -137,10 +145,12 @@
                 return false;
             }
 
+
             if (this.RepoDeleteById(id))
             {
                 return true;
             }
+
 
             this.RepoDelete(entity);
             return true;
@@ -186,6 +196,7 @@
                 stock: stock);
         }
 
+
         private static string ExtractNameLike(object containerA, object? containerB, string holderPropName)
         {
             // 1) Пошук у A
@@ -205,8 +216,10 @@
                 }
             }
 
+
             return string.Empty;
         }
+
 
         private static string? TryReadNameFrom(object container, string propName)
         {
@@ -235,6 +248,7 @@
             return pi?.CanRead == true ? pi.GetValue(obj) : null;
         }
 
+
         private static void SetProp(object obj, string name, object? value)
         {
             var pi = obj.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
@@ -244,6 +258,7 @@
             }
         }
 
+
         private static string? ReadStringFrom(object? obj, string name)
         {
             if (obj is null)
@@ -251,15 +266,18 @@
                 return null;
             }
 
+
             var pi = obj.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             if (pi is null || !pi.CanRead)
             {
                 return null;
             }
 
+
             var v = pi.GetValue(obj);
             return v as string;
         }
+
 
         private static T? ReadStructFrom<T>(object? obj, string name)
             where T : struct
@@ -269,15 +287,18 @@
                 return null;
             }
 
+
             var pi = obj.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             if (pi is null || !pi.CanRead || pi.PropertyType != typeof(T))
             {
                 return null;
             }
 
+
             var v = pi.GetValue(obj);
             return v is T typed ? typed : null;
         }
+
 
         private static void SetStringProp(object obj, string name, string value)
         {
@@ -287,6 +308,7 @@
                 pi.SetValue(obj, value);
             }
         }
+
 
         private static void SetIfTypeMatches(object obj, string name, object value)
         {
@@ -310,6 +332,7 @@
                 return;
             }
 
+
             var holder = holderPi.GetValue(container);
             if (holder is null)
             {
@@ -323,6 +346,7 @@
                     }
                 }
             }
+
 
             if (holder is null)
             {
@@ -344,52 +368,152 @@
         private IEnumerable<Product> RepoGetAll()
         {
             dynamic repo = this.repository;
-            try { return (IEnumerable<Product>)repo.GetAll(); } catch { }
-            try { return (IEnumerable<Product>)repo.GetProducts(); } catch { }
-            try { return (IEnumerable<Product>)repo.GetAllProducts(); } catch { }
+            try
+            {
+                return (IEnumerable<Product>)repo.GetAll();
+            }
+
+            catch
+            {
+            }
+
+            try
+            {
+                return (IEnumerable<Product>)repo.GetProducts();
+            }
+
+            catch
+            {
+            }
+
+            try
+            {
+                return (IEnumerable<Product>)repo.GetAllProducts();
+            }
+
+            catch
+            {
+            }
+
             return Enumerable.Empty<Product>();
         }
+
 
         private Product? RepoGetById(int id)
         {
             dynamic repo = this.repository;
-            try { return (Product)repo.GetById(id); } catch { }
-            try { return (Product)repo.GetProductById(id); } catch { }
-            try { return (Product)repo.Get(id); } catch { }
+            try
+            {
+                return (Product)repo.GetById(id);
+            }
+
+            catch
+            {
+            }
+
+            try
+            {
+                return (Product)repo.GetProductById(id);
+            }
+
+            catch
+            {
+            }
+
+            try
+            {
+                return (Product)repo.Get(id);
+            }
+
+            catch
+            {
+            }
+
             return null;
         }
+
 
         private void RepoAdd(Product p)
         {
             dynamic repo = this.repository;
-            try { repo.Add(p); return; } catch { }
-            try { repo.AddProduct(p); return; } catch { }
-            try { repo.Create(p); return; } catch { }
+            try { repo.Add(p);
+                return; } catch
+            {
+            }
+
+            try { repo.AddProduct(p);
+                return; } catch
+            {
+            }
+
+            try { repo.Create(p);
+                return; } catch
+            {
+            }
         }
+
 
         private void RepoUpdate(Product p)
         {
             dynamic repo = this.repository;
-            try { repo.Update(p); return; } catch { }
-            try { repo.UpdateProduct(p); return; } catch { }
-            try { repo.Edit(p); return; } catch { }
+            try { repo.Update(p);
+                return; } catch
+            {
+            }
+
+            try { repo.UpdateProduct(p);
+                return; } catch
+            {
+            }
+
+            try { repo.Edit(p);
+                return; } catch
+            {
+            }
         }
+
 
         private bool RepoDeleteById(int id)
         {
             dynamic repo = this.repository;
-            try { repo.Delete(id); return true; } catch { }
-            try { repo.DeleteProduct(id); return true; } catch { }
-            try { repo.RemoveById(id); return true; } catch { }
+            try { repo.Delete(id);
+                return true; } catch
+            {
+            }
+
+            try { repo.DeleteProduct(id);
+                return true; } catch
+            {
+            }
+
+            try { repo.RemoveById(id);
+                return true; } catch
+            {
+            }
+
             return false;
         }
+
 
         private void RepoDelete(Product p)
         {
             dynamic repo = this.repository;
-            try { repo.Delete(p); return; } catch { }
-            try { repo.Remove(p); return; } catch { }
-            try { repo.DeleteProduct(p); return; } catch { }
+            try { repo.Delete(p);
+                return; } catch
+            {
+            }
+
+            try { repo.Remove(p);
+                return; } catch
+            {
+            }
+
+            try { repo.DeleteProduct(p);
+                return; } catch
+            {
+            }
         }
     }
 }
+
+

@@ -1,13 +1,15 @@
 ﻿namespace StoreBLL.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using StoreBLL.Interfaces;
 using StoreBLL.Models;
+
 using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 using StoreDAL.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 public class OrderDetailService : ICrud
 {
@@ -21,15 +23,16 @@ public class OrderDetailService : ICrud
     public void Add(AbstractModel model)
     {
         if (model is not OrderDetailModel m)
+        {
             throw new ArgumentException("Expected OrderDetailModel", nameof(model));
+        }
 
         var entity = new OrderDetail(
             id: 0,
             orderId: m.OrderId,
             productId: m.ProductId,
             price: m.Price,
-            amount: m.ProductAmount
-        );
+            amount: m.ProductAmount);
         this.repository.Add(entity);
     }
 
@@ -46,30 +49,37 @@ public class OrderDetailService : ICrud
                 orderId: x.OrderId,
                 productId: x.ProductId,
                 price: x.Price,
-                amount: x.ProductAmount
-            ));
+                amount: x.ProductAmount));
     }
 
     public AbstractModel GetById(int id)
     {
         var x = this.repository.GetById(id);
-        if (x == null) return null;
+        if (x == null)
+        {
+            return null;
+        }
+
         return new OrderDetailModel(
             id: x.Id,
             orderId: x.OrderId,
             productId: x.ProductId,
             price: x.Price,
-            amount: x.ProductAmount
-        );
+            amount: x.ProductAmount);
     }
 
     public void Update(AbstractModel model)
     {
         if (model is not OrderDetailModel m)
+        {
             throw new ArgumentException("Expected OrderDetailModel", nameof(model));
+        }
 
         var entity = this.repository.GetById(m.Id);
-        if (entity == null) return;
+        if (entity == null)
+        {
+            return;
+        }
 
         entity.OrderId = m.OrderId;
         entity.ProductId = m.ProductId;

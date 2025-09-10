@@ -13,6 +13,7 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProductModel"/> class.
         /// Initializes a new instance with model-typed category/manufacturer.
         /// </summary>
         public ProductModel(
@@ -36,6 +37,7 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProductModel"/> class.
         /// Initializes a new instance with string category/manufacturer (for legacy callers).
         /// </summary>
         public ProductModel(
