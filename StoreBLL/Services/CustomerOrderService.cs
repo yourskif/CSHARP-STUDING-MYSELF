@@ -1,4 +1,5 @@
 ﻿namespace StoreBLL.Services;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,30 +14,26 @@ using StoreDAL.Repository;
 
 public class CustomerOrderService : ICrud
 {
-    private readonly ICustomerOrderRepository repository;
+    private const int StateNew = 1;
+    private const int StateCanceledByUser = 2;
 
-    // Allowed transitions by OrderStateId:
-    // 1: New Order
-    // 2: Canceled by user
-    // 3: Canceled by administrator
-    // 4: Confirmed
-    // 5: Moved to delivery company
-    // 6: In delivery
-    // 7: Delivered to client
-    // 8: Delivery confirmed by client
-    private static readonly Dictionary<int, int[]> AllowedTransitions = new ()
-    {
-        [1] = new[] { 2, 3, 4 }, // New -> Canceled(user/admin) or Confirmed
-        [4] = new[] { 3, 5 },    // Confirmed -> Canceled by admin or Moved to delivery
-        [5] = new[] { 6 },       // Moved -> In delivery
-        [6] = new[] { 7 },       // In delivery -> Delivered to client
-        [7] = new[] { 8 },       // Delivered -> Delivery confirmed by client
-        // 2,3,8 are terminal
-    };
+    private static readonly Dictionary<int, int[]> AllowedTransitions =
+        new Dictionary<int, int[]>
+        {
+            [1] = new int[] { 2, 3, 4 }, // New -> Canceled(user/admin) or Confirmed
+            [4] = new int[] { 3, 5 },    // Confirmed -> Canceled by admin or Moved
+            [5] = new int[] { 6 },       // Moved -> In delivery
+            [6] = new int[] { 7 },       // In delivery -> Delivered
+            [7] = new int[] { 8 },       // Delivered -> Confirmed by client
+        };
+
+    private readonly ICustomerOrderRepository repository;
+    private readonly IOrderStateRepository stateRepository;
 
     public CustomerOrderService(StoreDbContext context)
     {
         this.repository = new CustomerOrderRepository(context);
+        this.stateRepository = new OrderStateRepository(context);
     }
 
     public void Add(AbstractModel model)
@@ -50,14 +47,13 @@ public class CustomerOrderService : ICrud
             id: 0,
             operationTime: m.OperationTime ?? DateTime.UtcNow.ToString("u"),
             userId: m.UserId,
-            orderStateId: m.OrderStateId);
+            orderStateId: m.OrderStateId == 0 ? StateNew : m.OrderStateId);
+
         this.repository.Add(entity);
+        m.Id = entity.Id;
     }
 
-    public void Delete(int modelId)
-    {
-        this.repository.DeleteById(modelId);
-    }
+    public void Delete(int modelId) => this.repository.DeleteById(modelId);
 
     public IEnumerable<AbstractModel> GetAll()
     {
@@ -69,7 +65,7 @@ public class CustomerOrderService : ICrud
                 orderStateId: o.OrderStateId));
     }
 
-    public AbstractModel GetById(int id)
+    public AbstractModel? GetById(int id)
     {
         var o = this.repository.GetById(id);
         if (o == null)
@@ -104,8 +100,9 @@ public class CustomerOrderService : ICrud
         this.repository.Update(entity);
     }
 
-    /// <summary>Безпечно змінює стан з валідацією дозволених переходів.</summary>
-    /// <returns></returns>
+    public string GetStateName(int stateId) =>
+        this.stateRepository.GetById(stateId)?.StateName ?? $"State #{stateId}";
+
     public bool TryChangeState(int orderId, int newStateId)
     {
         var entity = this.repository.GetById(orderId);
@@ -114,12 +111,44 @@ public class CustomerOrderService : ICrud
             return false;
         }
 
-        if (!AllowedTransitions.TryGetValue(entity.OrderStateId, out var allowed) || !allowed.Contains(newStateId))
+        if (!AllowedTransitions.TryGetValue(entity.OrderStateId, out var allowed) ||
+            !allowed.Contains(newStateId))
         {
             return false;
         }
 
         entity.OrderStateId = newStateId;
+        entity.OperationTime = DateTime.UtcNow.ToString("u");
+        this.repository.Update(entity);
+        return true;
+    }
+
+    public bool CancelOwnOrder(int orderId, int currentUserId, out string? error)
+    {
+        error = null;
+
+        var entity = this.repository.GetById(orderId);
+        if (entity == null)
+        {
+            error = "Order not found.";
+            return false;
+        }
+
+        if (entity.UserId != currentUserId)
+        {
+            error = "You can cancel only your own order.";
+            return false;
+        }
+
+        if (!AllowedTransitions.TryGetValue(entity.OrderStateId, out var allowed) ||
+            !allowed.Contains(StateCanceledByUser))
+        {
+            error = $"Can't cancel order in state '{this.GetStateName(entity.OrderStateId)}'.";
+            return false;
+        }
+
+        entity.OrderStateId = StateCanceledByUser;
+        entity.OperationTime = DateTime.UtcNow.ToString("u");
         this.repository.Update(entity);
         return true;
     }

@@ -1,37 +1,60 @@
 ﻿namespace StoreDAL.Entities;
-using System.ComponentModel.DataAnnotations;
+
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("customer_order_details")]
+[Table("order_details")]
 public class OrderDetail : BaseEntity
 {
     public OrderDetail() : base()
     {
     }
 
-    public OrderDetail(int id, int orderId, int productId, decimal price, int amount)
+    // Keep exactly this constructor: BLL passes named arg "amount"
+    public OrderDetail(int id, int orderId, int productId, int amount, decimal price)
         : base(id)
     {
-        this.OrderId = orderId;
+        this.CustomerOrderId = orderId;
         this.ProductId = productId;
-        this.Price = price;
-        this.ProductAmount = amount;
+        this.Quantity = amount;
+        this.UnitPrice = price;
     }
 
-    [Column("customer_order_id")]
-    public int OrderId { get; set; }
+    [Column("order_id")]
+    public int CustomerOrderId { get; set; }
 
     [Column("product_id")]
     public int ProductId { get; set; }
 
-    [Column("price")]
-    public decimal Price { get; set; }
-
     [Column("product_amount")]
-    public int ProductAmount { get; set; }
+    public int Quantity { get; set; }
 
-    [ForeignKey("OrderId")]
-    public CustomerOrder Order { get; set; }
+    [Column("unit_price")]
+    public decimal UnitPrice { get; set; }
+
+    // Aliases for BLL
+    [NotMapped]
+    public int OrderId
+    {
+        get => this.CustomerOrderId;
+        set => this.CustomerOrderId = value;
+    }
+
+    [NotMapped]
+    public int ProductAmount
+    {
+        get => this.Quantity;
+        set => this.Quantity = value;
+    }
+
+    [NotMapped]
+    public decimal Price
+    {
+        get => this.UnitPrice;
+        set => this.UnitPrice = value;
+    }
+
+    [ForeignKey("CustomerOrderId")]
+    public CustomerOrder CustomerOrder { get; set; }
 
     [ForeignKey("ProductId")]
     public Product Product { get; set; }

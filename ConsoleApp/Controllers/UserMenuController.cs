@@ -4,18 +4,35 @@ using ConsoleApp.MenuBuilder.Admin;
 using ConsoleApp.MenuBuilder.Guest;
 using ConsoleApp.MenuBuilder.User;
 
+using StoreBLL.Models;
+
 using StoreDAL.Data;
 
 namespace ConsoleApp.Controllers
 {
     public static class UserMenuController
     {
-        // Р“Р»РѕР±Р°Р»СЊРЅРёР№ РєРѕРЅС‚РµРєСЃС‚ РґР»СЏ РІСЃС–С… РєРѕРЅС‚СЂРѕР»РµСЂС–РІ
+        /// <summary>
+        /// Global EF Core context for all controllers.
+        /// </summary>
         public static StoreDbContext Context { get; private set; } = null!;
+
+        /// <summary>
+        /// Currently authenticated user (null if guest).
+        /// </summary>
+        public static UserModel? CurrentUser { get; private set; }
+
+        /// <summary>
+        /// Set or clear the current authenticated user.
+        /// </summary>
+        public static void SetCurrentUser(UserModel? user)
+        {
+            CurrentUser = user;
+        }
 
         public static void Start()
         {
-            // вљ™пёЏ Р†РЅС–С†С–Р°Р»С–Р·Р°С†С–СЏ РєРѕРЅС‚РµРєСЃС‚Сѓ (СЃС‚РІРѕСЂРёС‚СЊ/РїС–РґСЃРёРїР»Рµ Р‘Р” Сѓ РєРѕСЂРµРЅС– СЂС–С€РµРЅРЅСЏ)
+            // Initialize DbContext (creates/opens DB in solution root).
             Context = StoreDbFactory.Create();
 
             while (true)
@@ -33,16 +50,28 @@ namespace ConsoleApp.Controllers
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
+                        // (Optional) add admin login later; for now open admin menu directly
                         AdminMainMenu.Show(Context);
                         break;
 
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        UserMainMenu.Show(Context);
+                        // Authenticate first
+                        var user = AuthController.Login(Context);
+                        if (user != null)
+                        {
+                            UserMainMenu.Show(Context);
+                        }
+                        else
+                        {
+                            Pause();
+                        }
                         break;
 
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
+                        // Guest flow -> ensure no user is set.
+                        SetCurrentUser(null);
                         GuestMainMenu.Show(Context);
                         break;
 
@@ -50,6 +79,13 @@ namespace ConsoleApp.Controllers
                         return;
                 }
             }
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 
 using StoreBLL.Interfaces;
 using StoreBLL.Models;
-using StoreBLL.Security;          // PasswordHasher
+using StoreBLL.Security;
 
 using StoreDAL.Data;
 using StoreDAL.Entities;
@@ -17,58 +17,107 @@ public class UserService : ICrud
 {
     private readonly StoreDbContext context;
     private readonly IUserRepository users;
-    private readonly IUserRoleRepository roles;
 
     public UserService(StoreDbContext context)
     {
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         this.users = new UserRepository(context);
-        this.roles = new UserRoleRepository(context);
     }
 
     /// <summary>
-    /// Реєстрація нового користувача з роллю User (RoleId = 2).
-    /// Повертає створену модель або null, якщо логін уже існує.
+    /// Authenticate by login + password.
+    /// 1) Primary: PBKDF2 ("PBKDF2$...").
+    /// 2) Fallback (legacy/demo seeds): plain-text match if stored value is not in PBKDF2 format.
+    /// </summary>
+    public UserModel? Authenticate(string login, string plainPassword)
+    {
+        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(plainPassword))
+            return null;
+
+        var normalizedLogin = login.Trim();
+        var u = this.users.FindByLogin(normalizedLogin);
+        if (u == null) return null;
+
+        var authenticated = false;
+
+        // Try PBKDF2 first
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(u.Password) &&
+                u.Password.StartsWith("PBKDF2$", StringComparison.Ordinal))
+            {
+                authenticated = PasswordHasher.VerifyPassword(plainPassword, u.Password);
+            }
+        }
+        catch
+        {
+            authenticated = false; // ignore and try legacy
+        }
+
+        // Legacy fallback: for old seed data not using PBKDF2
+        if (!authenticated &&
+            !string.IsNullOrWhiteSpace(u.Password) &&
+            !u.Password.StartsWith("PBKDF2$", StringComparison.Ordinal))
+        {
+            authenticated = string.Equals(plainPassword, u.Password, StringComparison.Ordinal);
+        }
+
+        if (!authenticated) return null;
+
+        return new UserModel
+        {
+            Id = u.Id,
+            FirstName = u.Name,
+            LastName = u.LastName,
+            Login = u.Login,
+            Password = string.Empty,
+            RoleId = u.RoleId,
+        };
+    }
+
+    /// <summary>
+    /// Register new user (default role: User = 2). Returns created model or null if login exists.
     /// </summary>
     public UserModel? Register(string firstName, string lastName, string login, string plainPassword)
     {
-        if (string.IsNullOrWhiteSpace(login))
-        {
-            throw new ArgumentException("Логін не може бути порожнім.", nameof(login));
-        }
+        // 1) Normalize
+        firstName ??= string.Empty;
+        lastName ??= string.Empty;
+        var normalizedLogin = (login ?? string.Empty).Trim();
+        var normalizedPassword = plainPassword ?? string.Empty;
 
-        if (string.IsNullOrWhiteSpace(plainPassword))
-        {
-            throw new ArgumentException("Пароль не може бути порожнім.", nameof(plainPassword));
-        }
+        // 2) Validate
+        if (normalizedLogin.Length < 3)
+            throw new ArgumentException("Логін має містити щонайменше 3 символи.", nameof(login));
+        if (normalizedPassword.Length < 6)
+            throw new ArgumentException("Пароль має бути не коротшим за 6 символів.", nameof(plainPassword));
 
-        // 1) Перевірка унікальності логіна
-        var existing = this.users.FindByLogin(login);
+        // 3) Uniqueness
+        var existing = this.users.FindByLogin(normalizedLogin);
         if (existing != null)
-        {
-            return null; // користувач із таким логіном уже є
-        }
+            return null; // login already taken
 
-        // 2) Фіксована роль "User" (згідно сидингу RoleId=2)
+        // 4) Role: за замовчуванням 'User' = 2 (узгоджено з сидингом/ТЗ)
         const int userRoleId = 2;
 
-        // 3) Хешуємо пароль (PBKDF2)
-        string hash = PasswordHasher.HashPassword(plainPassword);
+        // 5) Hash password (PBKDF2)
+        var hash = PasswordHasher.HashPassword(normalizedPassword);
 
-        // 4) Створюємо сутність DAL
+        // 6) Create entity
         var entity = new User
         {
-            Name = firstName ?? string.Empty,
-            LastName = lastName ?? string.Empty,
-            Login = login,
+            Name = firstName.Trim(),
+            LastName = lastName.Trim(),
+            Login = normalizedLogin,
             Password = hash,
             RoleId = userRoleId,
         };
 
+        // 7) Persist
         this.users.Add(entity);
         this.users.SaveChanges();
 
-        // 5) Віддаємо BLL-модель (пароль не повертаємо)
+        // 8) Map to BLL model
         return new UserModel
         {
             Id = entity.Id,
@@ -97,14 +146,10 @@ public class UserService : ICrud
             });
     }
 
-    public AbstractModel GetById(int id)
+    public AbstractModel? GetById(int id)
     {
         var u = this.users.GetById(id);
-        if (u == null)
-        {
-            // Повертаємо null — споживачі вже очікують таку поведінку (runtime null, без зміни інтерфейсу)
-            return null!;
-        }
+        if (u == null) return null;
 
         return new UserModel
         {
@@ -120,62 +165,58 @@ public class UserService : ICrud
     public void Add(AbstractModel model)
     {
         if (model is not UserModel m)
-        {
-            throw new ArgumentException("Очікується UserModel.", nameof(model));
-        }
+            throw new ArgumentException("Expected UserModel.", nameof(model));
 
-        string hash = string.IsNullOrEmpty(m.Password)
-            ? string.Empty
-            : PasswordHasher.HashPassword(m.Password);
+        // Реєстрація через Add також повинна зберігати хеш, а не plain-text.
+        if (string.IsNullOrWhiteSpace(m.Password))
+            throw new ArgumentException("Password cannot be empty for Add.", nameof(model));
 
         var entity = new User
         {
-            Name = m.FirstName ?? string.Empty,
-            LastName = m.LastName ?? string.Empty,
-            Login = m.Login ?? string.Empty,
-            Password = hash,
-            RoleId = m.RoleId == 0 ? 2 : m.RoleId, // за замовчуванням користувач
+            Name = (m.FirstName ?? string.Empty).Trim(),
+            LastName = (m.LastName ?? string.Empty).Trim(),
+            Login = (m.Login ?? string.Empty).Trim(),
+            Password = PasswordHasher.HashPassword(m.Password),
+            RoleId = m.RoleId == 0 ? 2 : m.RoleId, // 2 = User за замовчуванням
         };
 
         this.users.Add(entity);
         this.users.SaveChanges();
         m.Id = entity.Id;
+        m.Password = string.Empty; // не тримаємо пароль у моделі
     }
 
     public void Update(AbstractModel model)
     {
         if (model is not UserModel m)
-        {
-            throw new ArgumentException("Очікується UserModel.", nameof(model));
-        }
+            throw new ArgumentException("Expected UserModel.", nameof(model));
 
         var entity = this.users.GetById(m.Id);
-        if (entity == null)
-        {
-            return;
-        }
+        if (entity == null) return;
 
-        entity.Name = m.FirstName ?? entity.Name;
-        entity.LastName = m.LastName ?? entity.LastName;
-        entity.Login = m.Login ?? entity.Login;
+        if (!string.IsNullOrWhiteSpace(m.FirstName))
+            entity.Name = m.FirstName.Trim();
+        if (!string.IsNullOrWhiteSpace(m.LastName))
+            entity.LastName = m.LastName.Trim();
+        if (!string.IsNullOrWhiteSpace(m.Login))
+            entity.Login = m.Login.Trim();
 
         if (!string.IsNullOrWhiteSpace(m.Password))
-        {
             entity.Password = PasswordHasher.HashPassword(m.Password);
-        }
+
+        // За потреби: оновлення ролі лише якщо > 0
+        if (m.RoleId > 0)
+            entity.RoleId = m.RoleId;
 
         this.users.SaveChanges();
+        m.Password = string.Empty; // не зберігаємо пароль у модель після оновлення
     }
 
     public void Delete(int modelId)
     {
         var entity = this.users.GetById(modelId);
-        if (entity == null)
-        {
-            return;
-        }
+        if (entity == null) return;
 
-        // IUserRepository не має Delete, тому видаляємо напряму через контекст
         this.context.Users.Remove(entity);
         this.context.SaveChanges();
     }

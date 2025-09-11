@@ -1,17 +1,14 @@
 ﻿namespace StoreBLL.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-using StoreBLL.Interfaces;
-using StoreBLL.Models;
+using System.Collections.Generic;
 
 using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 using StoreDAL.Repository;
 
-public class OrderStateService : ICrud
+/// <summary>Simple service over order_states table.</summary>
+public class OrderStateService
 {
     private readonly IOrderStateRepository repository;
 
@@ -20,30 +17,11 @@ public class OrderStateService : ICrud
         this.repository = new OrderStateRepository(context);
     }
 
-    public void Add(AbstractModel model)
-    {
-        var x = (OrderStateModel)model;
-        this.repository.Add(new OrderState(x.Id, x.StateName));
-    }
+    public IEnumerable<OrderState> GetAll() => this.repository.GetAll();
 
-    public void Delete(int modelId)
-    {
-        this.repository.DeleteById(modelId);
-    }
+    public OrderState? GetById(int id) => this.repository.GetById(id);
 
-    public IEnumerable<AbstractModel> GetAll()
-    {
-        return this.repository.GetAll().Select(x => new OrderStateModel(x.Id, x.StateName));
-    }
+    public OrderState? GetByName(string name) => this.repository.GetByName(name);
 
-    public AbstractModel GetById(int id)
-    {
-        var res = this.repository.GetById(id);
-        return new OrderStateModel(res.Id, res.StateName);
-    }
-
-    public void Update(AbstractModel model)
-    {
-        throw new NotImplementedException();
-    }
+    public string GetNameById(int id) => this.repository.GetById(id)?.StateName ?? $"State #{id}";
 }

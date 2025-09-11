@@ -34,7 +34,9 @@ namespace ConsoleApp.MenuBuilder.Guest
 
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        shopController.Browse();
+                        Console.Clear();
+                        shopController.ShowAll();   // fixed: was Browse()
+                        Pause();
                         break;
 
                     case ConsoleKey.D3:

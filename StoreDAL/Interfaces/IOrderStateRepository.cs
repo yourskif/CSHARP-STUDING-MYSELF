@@ -1,9 +1,10 @@
-﻿namespace StoreDAL.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using StoreDAL.Entities;
 
-using StoreDAL.Entities;
-
-public interface IOrderStateRepository : IRepository<OrderState>
+namespace StoreDAL.Interfaces
 {
+    /// <summary>Repository contract for OrderState with lookup by name.</summary>
+    public interface IOrderStateRepository : IRepository<OrderState>
+    {
+        OrderState? GetByName(string stateName);
+    }
 }
