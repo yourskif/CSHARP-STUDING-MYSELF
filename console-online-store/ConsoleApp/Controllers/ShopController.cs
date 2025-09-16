@@ -17,30 +17,34 @@ namespace ConsoleApp.Controllers
     {
         private readonly ProductService productService;
 
-        // IMPORTANT: accept DbContext and construct repository here
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShopController"/> class.
+        /// Accepts DbContext and constructs repository internally.
+        /// </summary>
+        /// <param name="ctx">Database context.</param>
         public ShopController(StoreDbContext ctx)
         {
             ArgumentNullException.ThrowIfNull(ctx);
             var productRepo = new ProductRepository(ctx);
-
-            // ProductService у тебе приймає лише один аргумент (репозиторій)
             this.productService = new ProductService(productRepo);
         }
 
         /// <summary>
         /// Returns all products as a List (UI expects List).
         /// </summary>
+        /// <returns>List of all products.</returns>
         public List<ProductModel> GetAll()
         {
-            return productService.GetAll()
-                                 ?.OfType<ProductModel>()
-                                 .ToList()
+            return this.productService.GetAll()
+                                     ?.OfType<ProductModel>()
+                                     .ToList()
                    ?? new List<ProductModel>();
         }
 
         /// <summary>
-        /// Method expected by GuestMainMenu. Returns all items; UI може проігнорувати повернення.
+        /// Method expected by GuestMainMenu. Returns all items.
         /// </summary>
+        /// <returns>List of all products.</returns>
         public List<ProductModel> ShowAll()
         {
             return GetAll();
@@ -48,8 +52,10 @@ namespace ConsoleApp.Controllers
 
         /// <summary>
         /// Filter by category name is not supported at BLL level now.
-        /// To keep build green, we return all and let UI filter elsewhere if потрібно.
+        /// Returns all products to keep build green.
         /// </summary>
+        /// <param name="categoryName">Category name (currently ignored).</param>
+        /// <returns>List of all products.</returns>
         public List<ProductModel> GetByCategory(string categoryName)
         {
             // CategoryName property is not present on ProductModel in your BLL,
@@ -60,9 +66,11 @@ namespace ConsoleApp.Controllers
         /// <summary>
         /// Returns single product by id or null if not found.
         /// </summary>
+        /// <param name="id">Product ID.</param>
+        /// <returns>Product model or null.</returns>
         public ProductModel? GetById(int id)
         {
-            return productService.GetById(id) as ProductModel;
+            return this.productService.GetById(id) as ProductModel;
         }
     }
 }
