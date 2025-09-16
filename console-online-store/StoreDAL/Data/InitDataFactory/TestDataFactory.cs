@@ -9,16 +9,20 @@ using StoreDAL.Data;
 using StoreDAL.Entities;
 
 /// <summary>
-/// Ідемпотентний сидер. Додає відсутні довідники/користувачів/товари.
-/// Безпечний до багаторазового запуску (upsert за унікальними іменами).
+/// Idempotent seeder. Adds missing reference data/users/products.
+/// Safe for multiple runs (upsert by unique names).
 /// </summary>
 public static class TestDataFactory
 {
+    /// <summary>
+    /// Seeds all required data for step1: roles, users, order states, and catalog.
+    /// </summary>
+    /// <param name="db">Database context.</param>
     public static void SeedAll(StoreDbContext db)
     {
         ArgumentNullException.ThrowIfNull(db);
 
-        // Якщо якісь таблиці ще не створені (на випадок зміни моделей) – EnsureCreated вже зробив своє.
+        // If some tables are not created yet (in case of model changes) - EnsureCreated already did its job.
 
         SeedRoles(db);
         SeedUsers(db);
@@ -28,13 +32,23 @@ public static class TestDataFactory
 
     // ---- Roles ----------------------------------------------------------------
 
+    /// <summary>
+    /// Seeds user roles: Admin, User, Guest.
+    /// </summary>
     private static void SeedRoles(StoreDbContext db)
     {
         EnsureRole(db, 1, "Admin");
         EnsureRole(db, 2, "User");
+        EnsureRole(db, 3, "Guest");
         db.SaveChanges();
     }
 
+    /// <summary>
+    /// Ensures a role exists with the specified ID and name.
+    /// </summary>
+    /// <param name="db">Database context.</param>
+    /// <param name="id">Role ID.</param>
+    /// <param name="name">Role name.</param>
     private static void EnsureRole(StoreDbContext db, int id, string name)
     {
         var role = db.UserRoles.FirstOrDefault(r => r.Name == name) ?? db.UserRoles.Find(id);
@@ -50,6 +64,9 @@ public static class TestDataFactory
 
     // ---- Users ----------------------------------------------------------------
 
+    /// <summary>
+    /// Seeds demo users for testing different roles.
+    /// </summary>
     private static void SeedUsers(StoreDbContext db)
     {
         EnsureUser(db, login: "admin", first: "System", last: "Administrator", roleId: 1, passwordPlainOrHash: "admin");
@@ -57,6 +74,15 @@ public static class TestDataFactory
         db.SaveChanges();
     }
 
+    /// <summary>
+    /// Ensures a user exists with the specified credentials.
+    /// </summary>
+    /// <param name="db">Database context.</param>
+    /// <param name="login">User login.</param>
+    /// <param name="first">First name.</param>
+    /// <param name="last">Last name.</param>
+    /// <param name="roleId">Role ID.</param>
+    /// <param name="passwordPlainOrHash">Password (plain text for legacy compatibility).</param>
     private static void EnsureUser(StoreDbContext db, string login, string first, string last, int roleId, string passwordPlainOrHash)
     {
         var u = db.Users.FirstOrDefault(x => x.Login == login);
@@ -67,14 +93,14 @@ public static class TestDataFactory
                 Name = first,
                 LastName = last,
                 Login = login,
-                // у BLL передбачений fallback для legacy plain-text паролів
+                // BLL has fallback for legacy plain-text passwords
                 Password = passwordPlainOrHash,
                 RoleId = roleId
             });
         }
         else
         {
-            // оновлюємо ПІБ/роль за потреби; пароль не чіпаємо
+            // Update name/role if needed; don't touch password
             u.Name = first;
             u.LastName = last;
             u.RoleId = roleId;
@@ -83,15 +109,29 @@ public static class TestDataFactory
 
     // ---- Order states ----------------------------------------------------------
 
+    /// <summary>
+    /// Seeds all 8 order states according to technical requirements.
+    /// States match the order state diagram from requirements.
+    /// </summary>
     private static void SeedOrderStates(StoreDbContext db)
     {
-        EnsureOrderState(db, "New");
-        EnsureOrderState(db, "Processing");
-        EnsureOrderState(db, "Shipped");
-        EnsureOrderState(db, "Cancelled");
+        // Technical requirements specify exact 8 states with specific names
+        EnsureOrderState(db, "New Order");
+        EnsureOrderState(db, "Cancelled by user");
+        EnsureOrderState(db, "Cancelled by administrator");
+        EnsureOrderState(db, "Confirmed");
+        EnsureOrderState(db, "Moved to delivery company");
+        EnsureOrderState(db, "In delivery");
+        EnsureOrderState(db, "Delivered to client");
+        EnsureOrderState(db, "Delivery confirmed by client");
         db.SaveChanges();
     }
 
+    /// <summary>
+    /// Ensures an order state exists with the specified name.
+    /// </summary>
+    /// <param name="db">Database context.</param>
+    /// <param name="name">Order state name.</param>
     private static void EnsureOrderState(StoreDbContext db, string name)
     {
         if (!db.OrderStates.Any(s => s.Name == name))
@@ -100,6 +140,9 @@ public static class TestDataFactory
 
     // ---- Catalog (Categories/Manufacturers/Titles/Products) -------------------
 
+    /// <summary>
+    /// Seeds demo catalog data for testing and demonstration.
+    /// </summary>
     private static void SeedCatalog(StoreDbContext db)
     {
         var catPhones = EnsureCategory(db, "Phones");
@@ -118,6 +161,12 @@ public static class TestDataFactory
         db.SaveChanges();
     }
 
+    /// <summary>
+    /// Ensures a category exists with the specified name.
+    /// </summary>
+    /// <param name="db">Database context.</param>
+    /// <param name="name">Category name.</param>
+    /// <returns>The category entity.</returns>
     private static Category EnsureCategory(StoreDbContext db, string name)
     {
         var c = db.Categories.FirstOrDefault(x => x.Name == name);
@@ -130,6 +179,12 @@ public static class TestDataFactory
         return c;
     }
 
+    /// <summary>
+    /// Ensures a manufacturer exists with the specified name.
+    /// </summary>
+    /// <param name="db">Database context.</param>
+    /// <param name="name">Manufacturer name.</param>
+    /// <returns>The manufacturer entity.</returns>
     private static Manufacturer EnsureManufacturer(StoreDbContext db, string name)
     {
         var m = db.Manufacturers.FirstOrDefault(x => x.Name == name);
@@ -142,6 +197,13 @@ public static class TestDataFactory
         return m;
     }
 
+    /// <summary>
+    /// Ensures a product title exists with the specified title and category.
+    /// </summary>
+    /// <param name="db">Database context.</param>
+    /// <param name="title">Product title.</param>
+    /// <param name="categoryId">Category ID.</param>
+    /// <returns>The product title entity.</returns>
     private static ProductTitle EnsureProductTitle(StoreDbContext db, string title, int categoryId)
     {
         var t = db.ProductTitles.FirstOrDefault(x => x.Title == title);
@@ -159,9 +221,18 @@ public static class TestDataFactory
         return t;
     }
 
+    /// <summary>
+    /// Ensures a product exists with the specified parameters.
+    /// </summary>
+    /// <param name="db">Database context.</param>
+    /// <param name="titleId">Product title ID.</param>
+    /// <param name="manufacturerId">Manufacturer ID.</param>
+    /// <param name="desc">Product description.</param>
+    /// <param name="price">Unit price.</param>
+    /// <param name="stock">Stock quantity.</param>
     private static void EnsureProduct(StoreDbContext db, int titleId, int manufacturerId, string desc, decimal price, int stock)
     {
-        // в демо – одна штука на Title+Manufacturer
+        // In demo - one item per Title+Manufacturer combination
         var p = db.Products.FirstOrDefault(x => x.TitleId == titleId && x.ManufacturerId == manufacturerId);
         if (p is null)
         {
