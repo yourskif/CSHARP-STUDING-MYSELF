@@ -6,3 +6,7 @@
 *.pdb
 *.obj
 *.log
+
+# Root ignores
+*.zip
+.vs/
