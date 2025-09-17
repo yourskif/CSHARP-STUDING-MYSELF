@@ -13,12 +13,20 @@ using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 using StoreDAL.Repository;
 
+/// <summary>
+/// Business logic service for user management operations.
+/// Handles user registration, authentication, and CRUD operations.
+/// </summary>
 public class UserService : ICrud
 {
     private readonly StoreDbContext context;
     private readonly IUserRepository users;
     private readonly IUserRoleRepository roles;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserService"/> class.
+    /// </summary>
+    /// <param name="context">Database context.</param>
     public UserService(StoreDbContext context)
     {
         this.context = context ?? throw new ArgumentNullException(nameof(context));
@@ -27,35 +35,40 @@ public class UserService : ICrud
     }
 
     /// <summary>
-    /// Реєстрація нового користувача з роллю User (RoleId = 2).
-    /// Повертає створену модель або null, якщо логін уже існує.
+    /// Registers a new user with User role (RoleId = 2).
+    /// Returns created model or null if login already exists.
     /// </summary>
+    /// <param name="firstName">First name.</param>
+    /// <param name="lastName">Last name.</param>
+    /// <param name="login">Unique login.</param>
+    /// <param name="plainPassword">Plain text password.</param>
+    /// <returns>Created UserModel or null if login exists.</returns>
     public UserModel? Register(string firstName, string lastName, string login, string plainPassword)
     {
         if (string.IsNullOrWhiteSpace(login))
         {
-            throw new ArgumentException("Логін не може бути порожнім.", nameof(login));
+            throw new ArgumentException("Login cannot be empty.", nameof(login));
         }
 
         if (string.IsNullOrWhiteSpace(plainPassword))
         {
-            throw new ArgumentException("Пароль не може бути порожнім.", nameof(plainPassword));
+            throw new ArgumentException("Password cannot be empty.", nameof(plainPassword));
         }
 
-        // 1) Перевірка унікальності логіна
+        // 1) Check login uniqueness
         var existing = this.users.FindByLogin(login);
         if (existing != null)
         {
-            return null; // користувач із таким логіном уже є
+            return null; // user with this login already exists
         }
 
-        // 2) Фіксована роль "User" (згідно сидингу RoleId=2)
+        // 2) Fixed role "User" (according to seeding RoleId=2)
         const int userRoleId = 2;
 
-        // 3) Хешуємо пароль (PBKDF2)
+        // 3) Hash password (PBKDF2)
         string hash = PasswordHasher.HashPassword(plainPassword);
 
-        // 4) Створюємо сутність DAL
+        // 4) Create DAL entity
         var entity = new User
         {
             Name = firstName ?? string.Empty,
@@ -68,7 +81,7 @@ public class UserService : ICrud
         this.users.Add(entity);
         this.users.SaveChanges();
 
-        // 5) Віддаємо BLL-модель (пароль не повертаємо)
+        // 5) Return BLL model (password not returned)
         return new UserModel
         {
             Id = entity.Id,
@@ -80,8 +93,51 @@ public class UserService : ICrud
         };
     }
 
-    // ---------------- ICrud ----------------
+    /// <summary>
+    /// Authenticates user by login and password.
+    /// Returns UserModel if credentials are valid, or null if invalid.
+    /// </summary>
+    /// <param name="login">User login.</param>
+    /// <param name="password">Plain text password.</param>
+    /// <returns>UserModel if authenticated successfully, null otherwise.</returns>
+    public UserModel? Authenticate(string login, string password)
+    {
+        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+        {
+            return null;
+        }
 
+        var user = this.users.FindByLogin(login);
+        if (user == null)
+        {
+            return null; // user not found
+        }
+
+        // Verify password through PasswordHasher
+        bool isValid = PasswordHasher.VerifyPassword(password, user.Password);
+        if (!isValid)
+        {
+            return null; // incorrect password
+        }
+
+        // Return model without password
+        return new UserModel
+        {
+            Id = user.Id,
+            FirstName = user.Name,
+            LastName = user.LastName,
+            Login = user.Login,
+            Password = string.Empty,
+            RoleId = user.RoleId,
+        };
+    }
+
+    // ---------------- ICrud Implementation ----------------
+
+    /// <summary>
+    /// Gets all users as AbstractModel collection.
+    /// </summary>
+    /// <returns>Collection of UserModel instances.</returns>
     public IEnumerable<AbstractModel> GetAll()
     {
         return this.users
@@ -97,12 +153,17 @@ public class UserService : ICrud
             });
     }
 
+    /// <summary>
+    /// Gets user by identifier.
+    /// </summary>
+    /// <param name="id">User identifier.</param>
+    /// <returns>UserModel or null if not found.</returns>
     public AbstractModel GetById(int id)
     {
         var u = this.users.GetById(id);
         if (u == null)
         {
-            // Повертаємо null — споживачі вже очікують таку поведінку (runtime null, без зміни інтерфейсу)
+            // Return null — consumers already expect this behavior (runtime null, without interface change)
             return null!;
         }
 
@@ -117,11 +178,15 @@ public class UserService : ICrud
         };
     }
 
+    /// <summary>
+    /// Adds new user from model.
+    /// </summary>
+    /// <param name="model">UserModel to add.</param>
     public void Add(AbstractModel model)
     {
         if (model is not UserModel m)
         {
-            throw new ArgumentException("Очікується UserModel.", nameof(model));
+            throw new ArgumentException("Expected UserModel.", nameof(model));
         }
 
         string hash = string.IsNullOrEmpty(m.Password)
@@ -134,7 +199,7 @@ public class UserService : ICrud
             LastName = m.LastName ?? string.Empty,
             Login = m.Login ?? string.Empty,
             Password = hash,
-            RoleId = m.RoleId == 0 ? 2 : m.RoleId, // за замовчуванням користувач
+            RoleId = m.RoleId == 0 ? 2 : m.RoleId, // default user role
         };
 
         this.users.Add(entity);
@@ -142,11 +207,15 @@ public class UserService : ICrud
         m.Id = entity.Id;
     }
 
+    /// <summary>
+    /// Updates existing user from model.
+    /// </summary>
+    /// <param name="model">UserModel with updated data.</param>
     public void Update(AbstractModel model)
     {
         if (model is not UserModel m)
         {
-            throw new ArgumentException("Очікується UserModel.", nameof(model));
+            throw new ArgumentException("Expected UserModel.", nameof(model));
         }
 
         var entity = this.users.GetById(m.Id);
@@ -167,6 +236,10 @@ public class UserService : ICrud
         this.users.SaveChanges();
     }
 
+    /// <summary>
+    /// Deletes user by identifier.
+    /// </summary>
+    /// <param name="modelId">User identifier to delete.</param>
     public void Delete(int modelId)
     {
         var entity = this.users.GetById(modelId);
@@ -175,7 +248,7 @@ public class UserService : ICrud
             return;
         }
 
-        // IUserRepository не має Delete, тому видаляємо напряму через контекст
+        // IUserRepository doesn't have Delete, so delete directly through context
         this.context.Users.Remove(entity);
         this.context.SaveChanges();
     }

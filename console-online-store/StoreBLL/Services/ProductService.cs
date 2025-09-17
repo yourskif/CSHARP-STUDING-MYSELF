@@ -13,9 +13,8 @@
     using StoreDAL.Repository;
 
     /// <summary>
-    /// BLL-сервіс для роботи з товарами.
-    /// Працює з невизначеною точно структурою DAL (частина полів може бути в Product, частина в ProductTitle).
-    /// Уникає прямих звернень до неіснуючих властивостей — замість цього використовує відбиття.
+    /// Business logic service for product operations.
+    /// Works with flexible DAL structure using reflection for property access.
     /// </summary>
     public class ProductService
     {
@@ -26,12 +25,10 @@
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-
         public ProductService()
             : this(new ProductRepository(StoreDbFactory.Create()))
         {
         }
-
 
         public List<ProductModel> GetAll()
         {
@@ -39,13 +36,11 @@
             return entities.Select(MapToModel).ToList();
         }
 
-
         public ProductModel? GetById(int id)
         {
             var entity = this.RepoGetById(id);
             return entity is null ? null : MapToModel(entity);
         }
-
 
         public ProductModel Add(
             string title,
@@ -58,28 +53,29 @@
         {
             var entity = new Product();
 
-            // Забезпечуємо наявність ProductTitle усередині Product
+            // Ensure ProductTitle exists inside Product
             var pt = ReadProp(entity, "Title") as ProductTitle ?? new ProductTitle();
             SetProp(entity, "Title", pt);
 
-            // Назва (текст) тайтла: шукаємо/ставимо властивість "Title" усередині ProductTitle
+            // Set title text inside ProductTitle
             SetStringProp(pt, "Title", title);
 
-            // Категорія/виробник: якщо у моделі є об'єктні властивості "Category"/"Manufacturer" — створимо та поставимо Name.
+            // Category/manufacturer setup
             EnsureComplexWithName(pt, "Category", category);
-            EnsureComplexWithName(entity, "Category", category); // на випадок, якщо категорія в Product
+            EnsureComplexWithName(entity, "Category", category);
 
             EnsureComplexWithName(pt, "Manufacturer", manufacturer);
-            EnsureComplexWithName(entity, "Manufacturer", manufacturer); // якщо виробник у Product
+            EnsureComplexWithName(entity, "Manufacturer", manufacturer);
 
-            // SKU/Description можуть жити як у ProductTitle, так і в Product
+            // SKU/Description can live in ProductTitle or Product
             SetStringProp(pt, "Sku", sku);
             SetStringProp(entity, "Sku", sku);
 
             SetStringProp(pt, "Description", description);
             SetStringProp(entity, "Description", description);
 
-            // Price/Stock можуть бути у будь-якому з рівнів
+            // Price/Stock - try both UnitPrice and Price properties
+            SetIfTypeMatches(entity, "UnitPrice", price);
             SetIfTypeMatches(entity, "Price", price);
             SetIfTypeMatches(pt, "Price", price);
 
@@ -89,7 +85,6 @@
             this.RepoAdd(entity);
             return MapToModel(entity);
         }
-
 
         public ProductModel? Update(
             int id,
@@ -107,11 +102,11 @@
                 return null;
             }
 
-            // Гарантуємо наявність вкладеного тайтла
+            // Ensure nested title exists
             var pt = ReadProp(entity, "Title") as ProductTitle ?? new ProductTitle();
             SetProp(entity, "Title", pt);
 
-            // Оновлення текстових полів
+            // Update text fields
             SetStringProp(pt, "Title", title);
 
             EnsureComplexWithName(pt, "Category", category);
@@ -126,6 +121,8 @@
             SetStringProp(pt, "Description", description);
             SetStringProp(entity, "Description", description);
 
+            // Price/Stock with correct property names
+            SetIfTypeMatches(entity, "UnitPrice", price);
             SetIfTypeMatches(entity, "Price", price);
             SetIfTypeMatches(pt, "Price", price);
 
@@ -136,7 +133,6 @@
             return MapToModel(entity);
         }
 
-
         public bool Delete(int id)
         {
             var entity = this.RepoGetById(id);
@@ -145,18 +141,16 @@
                 return false;
             }
 
-
             if (this.RepoDeleteById(id))
             {
                 return true;
             }
 
-
             this.RepoDelete(entity);
             return true;
         }
 
-        // -------------------------- Мапінг у BLL-модель --------------------------
+        // -------------------------- Model Mapping --------------------------
 
         private static ProductModel MapToModel(Product p)
         {
@@ -164,20 +158,22 @@
 
             string titleText = ReadStringFrom(pt, "Title")
                                ?? ReadStringFrom(p, "Title")
-                               ?? string.Empty;
+                               ?? $"Product {p.Id}";
 
             string categoryName = ExtractNameLike(p, pt, "Category");
             string manufacturerName = ExtractNameLike(p, pt, "Manufacturer");
 
             string sku = ReadStringFrom(pt, "Sku")
                          ?? ReadStringFrom(p, "Sku")
-                         ?? string.Empty;
+                         ?? $"SKU-{p.Id:000}";
 
             string description = ReadStringFrom(pt, "Description")
                                  ?? ReadStringFrom(p, "Description")
                                  ?? string.Empty;
 
-            decimal price = ReadStructFrom<decimal>(p, "Price")
+            // Fixed: Try UnitPrice first, then Price as fallback
+            decimal price = ReadStructFrom<decimal>(p, "UnitPrice")
+                            ?? ReadStructFrom<decimal>(p, "Price")
                             ?? ReadStructFrom<decimal>(pt, "Price")
                             ?? 0m;
 
@@ -196,17 +192,16 @@
                 stock: stock);
         }
 
-
         private static string ExtractNameLike(object containerA, object? containerB, string holderPropName)
         {
-            // 1) Пошук у A
+            // Search in container A
             var name = TryReadNameFrom(containerA, holderPropName);
             if (!string.IsNullOrEmpty(name))
             {
                 return name!;
             }
 
-            // 2) Пошук у B (наприклад, ProductTitle)
+            // Search in container B (e.g., ProductTitle)
             if (containerB is not null)
             {
                 name = TryReadNameFrom(containerB, holderPropName);
@@ -216,10 +211,8 @@
                 }
             }
 
-
             return string.Empty;
         }
-
 
         private static string? TryReadNameFrom(object container, string propName)
         {
@@ -229,25 +222,24 @@
                 return null;
             }
 
-            // Якщо властивість — уже string (деякі моделі зберігають просто назву)
+            // If property is already string (some models store just names)
             if (holder is string s)
             {
                 return s;
             }
 
-            // Якщо це складний тип (Category/Manufacturer), пробуємо "Name" або "Title"
+            // If complex type (Category/Manufacturer), try "Name" or "Title"
             var asObj = holder;
             return ReadStringFrom(asObj, "Name") ?? ReadStringFrom(asObj, "Title");
         }
 
-        // -------------------------- Helpers: читання/запис через відбиття --------------------------
+        // -------------------------- Reflection Helpers --------------------------
 
         private static object? ReadProp(object obj, string name)
         {
             var pi = obj.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             return pi?.CanRead == true ? pi.GetValue(obj) : null;
         }
-
 
         private static void SetProp(object obj, string name, object? value)
         {
@@ -258,7 +250,6 @@
             }
         }
 
-
         private static string? ReadStringFrom(object? obj, string name)
         {
             if (obj is null)
@@ -266,18 +257,15 @@
                 return null;
             }
 
-
             var pi = obj.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             if (pi is null || !pi.CanRead)
             {
                 return null;
             }
 
-
             var v = pi.GetValue(obj);
             return v as string;
         }
-
 
         private static T? ReadStructFrom<T>(object? obj, string name)
             where T : struct
@@ -287,18 +275,15 @@
                 return null;
             }
 
-
             var pi = obj.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             if (pi is null || !pi.CanRead || pi.PropertyType != typeof(T))
             {
                 return null;
             }
 
-
             var v = pi.GetValue(obj);
             return v is T typed ? typed : null;
         }
-
 
         private static void SetStringProp(object obj, string name, string value)
         {
@@ -309,7 +294,6 @@
             }
         }
 
-
         private static void SetIfTypeMatches(object obj, string name, object value)
         {
             var pi = obj.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
@@ -319,11 +303,6 @@
             }
         }
 
-        /// <summary>
-        /// Якщо на об'єкті є властивість <paramref name="propName"/> складного типу (наприклад, Category),
-        /// створює її екземпляр (якщо null) і встановлює для нього string-властивість "Name" або "Title".
-        /// Якщо такої властивості немає — нічого не робить.
-        /// </summary>
         private static void EnsureComplexWithName(object container, string propName, string nameValue)
         {
             var holderPi = container.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
@@ -332,11 +311,10 @@
                 return;
             }
 
-
             var holder = holderPi.GetValue(container);
             if (holder is null)
             {
-                // Спробуємо створити екземпляр якщо тип має публічний конструктор без параметрів
+                // Try to create instance if type has public parameterless constructor
                 if (holderPi.PropertyType.GetConstructor(Type.EmptyTypes) is not null)
                 {
                     holder = Activator.CreateInstance(holderPi.PropertyType);
@@ -347,13 +325,12 @@
                 }
             }
 
-
             if (holder is null)
             {
                 return;
             }
 
-            // Встановлюємо Name або Title усередині складного типу
+            // Set Name or Title inside complex type
             var namePi = holder.GetType().GetProperty("Name", BindingFlags.Public | BindingFlags.Instance)
                          ?? holder.GetType().GetProperty("Title", BindingFlags.Public | BindingFlags.Instance);
 
@@ -363,34 +340,23 @@
             }
         }
 
-        // -------------------------- Гнучкий доступ до репозиторію --------------------------
+        // -------------------------- Repository Access --------------------------
 
         private IEnumerable<Product> RepoGetAll()
         {
             dynamic repo = this.repository;
             try
             {
+                return (IEnumerable<Product>)repo.GetAllWithIncludes();
+            }
+            catch
+            {
+            }
+
+            try
+            {
                 return (IEnumerable<Product>)repo.GetAll();
             }
-
-            catch
-            {
-            }
-
-            try
-            {
-                return (IEnumerable<Product>)repo.GetProducts();
-            }
-
-            catch
-            {
-            }
-
-            try
-            {
-                return (IEnumerable<Product>)repo.GetAllProducts();
-            }
-
             catch
             {
             }
@@ -398,33 +364,21 @@
             return Enumerable.Empty<Product>();
         }
 
-
         private Product? RepoGetById(int id)
         {
             dynamic repo = this.repository;
             try
             {
+                return (Product)repo.GetByIdWithIncludes(id);
+            }
+            catch
+            {
+            }
+
+            try
+            {
                 return (Product)repo.GetById(id);
             }
-
-            catch
-            {
-            }
-
-            try
-            {
-                return (Product)repo.GetProductById(id);
-            }
-
-            catch
-            {
-            }
-
-            try
-            {
-                return (Product)repo.Get(id);
-            }
-
             catch
             {
             }
@@ -432,88 +386,38 @@
             return null;
         }
 
-
         private void RepoAdd(Product p)
         {
             dynamic repo = this.repository;
-            try { repo.Add(p);
-                return; } catch
-            {
-            }
-
-            try { repo.AddProduct(p);
-                return; } catch
-            {
-            }
-
-            try { repo.Create(p);
-                return; } catch
-            {
-            }
+            try { repo.Add(p); return; } catch { }
+            try { repo.AddProduct(p); return; } catch { }
+            try { repo.Create(p); return; } catch { }
         }
-
 
         private void RepoUpdate(Product p)
         {
             dynamic repo = this.repository;
-            try { repo.Update(p);
-                return; } catch
-            {
-            }
-
-            try { repo.UpdateProduct(p);
-                return; } catch
-            {
-            }
-
-            try { repo.Edit(p);
-                return; } catch
-            {
-            }
+            try { repo.Update(p); return; } catch { }
+            try { repo.UpdateProduct(p); return; } catch { }
+            try { repo.Edit(p); return; } catch { }
         }
-
 
         private bool RepoDeleteById(int id)
         {
             dynamic repo = this.repository;
-            try { repo.Delete(id);
-                return true; } catch
-            {
-            }
-
-            try { repo.DeleteProduct(id);
-                return true; } catch
-            {
-            }
-
-            try { repo.RemoveById(id);
-                return true; } catch
-            {
-            }
+            try { repo.Delete(id); return true; } catch { }
+            try { repo.DeleteProduct(id); return true; } catch { }
+            try { repo.RemoveById(id); return true; } catch { }
 
             return false;
         }
 
-
         private void RepoDelete(Product p)
         {
             dynamic repo = this.repository;
-            try { repo.Delete(p);
-                return; } catch
-            {
-            }
-
-            try { repo.Remove(p);
-                return; } catch
-            {
-            }
-
-            try { repo.DeleteProduct(p);
-                return; } catch
-            {
-            }
+            try { repo.Delete(p); return; } catch { }
+            try { repo.Remove(p); return; } catch { }
+            try { repo.DeleteProduct(p); return; } catch { }
         }
     }
 }
-
-
