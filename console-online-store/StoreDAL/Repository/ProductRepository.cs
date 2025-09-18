@@ -1,48 +1,90 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-using Microsoft.EntityFrameworkCore;
-
+﻿using Microsoft.EntityFrameworkCore;
 using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 
 namespace StoreDAL.Repository
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : AbstractRepository, IProductRepository
     {
-        private readonly StoreDbContext context;
-
-        public ProductRepository(StoreDbContext context) => this.context = context;
-
-        // === Реалізації, яких вимагає IProductRepository ===
-
-        // У вашій моделі немає навігаційних властивостей, тому "WithIncludes"
-        // повертає базову вибірку без Include.
-        public IEnumerable<Product> GetAllWithIncludes() => this.GetAll();
-
-        public IEnumerable<Product> GetByCategoryId(int categoryId)
+        public ProductRepository(StoreDbContext context) : base(context)
         {
-            // Фільтрація через join на ProductTitles -> CategoryId
-            // ВАЖЛИВО: використовуємо p.TitleId (а не p.ProductTitleId)
-            var query =
-                from p in this.context.Products.AsNoTracking()
-                join t in this.context.ProductTitles.AsNoTracking()
-                    on p.TitleId equals t.Id
-                where t.CategoryId == categoryId
-                select p;
-
-            return query.ToList();
         }
 
-        public Product? GetByIdWithIncludes(int id) => this.GetById(id);
+        /// <summary>
+        /// Get all products with navigation properties loaded.
+        /// </summary>
+        public IEnumerable<Product> GetAllWithIncludes()
+        {
+            return this.context.Products
+                .Include(p => p.Title)
+                    .ThenInclude(pt => pt.Category)
+                .Include(p => p.Manufacturer)
+                .ToList();
+        }
 
-        // === Додаткові зручні методи (не з інтерфейсу) ===
+        /// <summary>
+        /// Get product by ID with navigation properties loaded.
+        /// </summary>
+        public Product? GetByIdWithIncludes(int id)
+        {
+            return this.context.Products
+                .Include(p => p.Title)
+                    .ThenInclude(pt => pt.Category)
+                .Include(p => p.Manufacturer)
+                .FirstOrDefault(p => p.Id == id);
+        }
 
-        public IEnumerable<Product> GetAll() =>
-            this.context.Products.AsNoTracking().ToList();
+        /// <summary>
+        /// Get products filtered by category ID with navigation properties.
+        /// </summary>
+        public IEnumerable<Product> GetByCategoryId(int categoryId)
+        {
+            return this.context.Products
+                .Include(p => p.Title)
+                    .ThenInclude(pt => pt.Category)
+                .Include(p => p.Manufacturer)
+                .Where(p => p.Title.CategoryId == categoryId)
+                .ToList();
+        }
 
-        public Product? GetById(int id) =>
-            this.context.Products.AsNoTracking().FirstOrDefault(p => p.Id == id);
+        // Compatibility methods for ProductService reflection calls
+        public IEnumerable<Product> GetAll()
+        {
+            return GetAllWithIncludes();
+        }
+
+        public Product? GetById(int id)
+        {
+            return GetByIdWithIncludes(id);
+        }
+
+        public void Add(Product product)
+        {
+            this.context.Products.Add(product);
+            this.context.SaveChanges();
+        }
+
+        public void Update(Product product)
+        {
+            this.context.Products.Update(product);
+            this.context.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var product = this.context.Products.Find(id);
+            if (product != null)
+            {
+                this.context.Products.Remove(product);
+                this.context.SaveChanges();
+            }
+        }
+
+        public void Delete(Product product)
+        {
+            this.context.Products.Remove(product);
+            this.context.SaveChanges();
+        }
     }
 }

@@ -1,8 +1,12 @@
 ﻿namespace StoreDAL.Data.InitDataFactory;
-using System;
 
+using System;
 using StoreDAL.Entities;
 
+/// <summary>
+/// Test data factory for seeding development and testing database.
+/// Contains realistic product data with proper pricing.
+/// </summary>
 public class TestDataFactory : AbstractDataFactory
 {
     public override Category[] GetCategoryData() => new[]
@@ -22,8 +26,8 @@ public class TestDataFactory : AbstractDataFactory
     public override OrderState[] GetOrderStateData() => new[]
     {
         new OrderState(1, "New Order"),
-        new OrderState(2, "Canceled by user"),
-        new OrderState(3, "Canceled by administrator"),
+        new OrderState(2, "Cancelled by user"),
+        new OrderState(3, "Cancelled by administrator"),
         new OrderState(4, "Confirmed"),
         new OrderState(5, "Moved to delivery company"),
         new OrderState(6, "In delivery"),
@@ -47,6 +51,7 @@ public class TestDataFactory : AbstractDataFactory
         new ProductTitle(12, "Lemon 1kg", 1),
     };
 
+    // Using 5-parameter constructor (without stock) as Product entity doesn't have Stock property
     public override Product[] GetProductData() => new[]
     {
         new Product(1, 1, 1, "Fresh Gala apples from GreenFarm", 49.90m),
@@ -66,17 +71,15 @@ public class TestDataFactory : AbstractDataFactory
     public override UserRole[] GetUserRoleData() => new[]
     {
         new UserRole(1, "Admin"),
-        new UserRole(2, "Registered"),
+        new UserRole(2, "User"),
         new UserRole(3, "Guest"),
     };
 
     public override User[] GetUserData() => new[]
     {
-        // PBKDF2-SHA256, формат: iterations.base64(salt).base64(key)
         // admin / Admin@123
         new User(1, "Admin", "Root", "admin",
             "150000.QWRtMW5TYWx0SXNIZXJlIQ==.fQStk19KCmM6k66KKMqvVUPfPf+vtI+UsuzgI6ZIYmg=", 1),
-
         // user / User@123
         new User(2, "John", "Doe", "user",
             "150000.VXNlclNhbHRJc0hlcmUhIQ==.YLxGcDEypcmzdHtmv/LGqRbjBKPtVAiDBm17tBssKJ4=", 2),
@@ -84,8 +87,8 @@ public class TestDataFactory : AbstractDataFactory
 
     public override CustomerOrder[] GetCustomerOrderData() => new[]
     {
-        new CustomerOrder(1, DateTime.UtcNow.AddDays(-2).ToString("u"), 2, 1), // New Order by user
-        new CustomerOrder(2, DateTime.UtcNow.AddDays(-1).ToString("u"), 2, 4), // Confirmed
+        new CustomerOrder(1, DateTime.UtcNow.AddDays(-2).ToString("u"), 2, 1),
+        new CustomerOrder(2, DateTime.UtcNow.AddDays(-1).ToString("u"), 2, 4),
     };
 
     public override OrderDetail[] GetOrderDetailData() => new[]

@@ -51,7 +51,6 @@ public class UserService : ICrud
         var entity = this.repository.GetById(modelId);
         if (entity != null)
         {
-            // Note: IUserRepository doesn't have Delete method - would need to be added
             throw new NotImplementedException("Delete method not available in current IUserRepository interface");
         }
     }
@@ -111,18 +110,8 @@ public class UserService : ICrud
         this.repository.SaveChanges();
     }
 
-    /// <summary>
-    /// Registers a new user with default User role (roleId = 2).
-    /// </summary>
-    /// <param name="firstName">User's first name.</param>
-    /// <param name="lastName">User's last name.</param>
-    /// <param name="login">Unique login name.</param>
-    /// <param name="password">Plain text password (will be hashed).</param>
-    /// <returns>Created user model if successful, null if login already exists.</returns>
-    /// <exception cref="ArgumentException">Thrown if any parameter is invalid.</exception>
     public UserModel? Register(string firstName, string lastName, string login, string password)
     {
-        // Validate input parameters
         if (string.IsNullOrWhiteSpace(firstName))
             throw new ArgumentException("First name cannot be empty.", nameof(firstName));
         if (string.IsNullOrWhiteSpace(lastName))
@@ -132,24 +121,21 @@ public class UserService : ICrud
         if (string.IsNullOrWhiteSpace(password))
             throw new ArgumentException("Password cannot be empty.", nameof(password));
 
-        // Check if login already exists
         var existingUser = this.repository.FindByLogin(login);
         if (existingUser != null)
         {
-            return null; // Login already exists
+            return null;
         }
 
-        // Hash the password
         string passwordHash = PasswordHasher.HashPassword(password);
 
-        // Create new user entity with User role (roleId = 2)
         var userEntity = new User(
             id: 0,
             name: firstName.Trim(),
             lastName: lastName.Trim(),
             login: login.Trim(),
             password: passwordHash,
-            roleId: 2); // Default User role
+            roleId: 2);
 
         this.repository.Add(userEntity);
         this.repository.SaveChanges();
@@ -165,12 +151,6 @@ public class UserService : ICrud
         };
     }
 
-    /// <summary>
-    /// Authenticates a user with login and password.
-    /// </summary>
-    /// <param name="login">User login.</param>
-    /// <param name="password">Plain text password.</param>
-    /// <returns>UserModel if authentication successful, null otherwise.</returns>
     public UserModel? Authenticate(string login, string password)
     {
         if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
@@ -181,13 +161,12 @@ public class UserService : ICrud
         var userEntity = this.repository.FindByLogin(login);
         if (userEntity == null)
         {
-            return null; // User not found
+            return null;
         }
 
-        // Verify password
         if (!PasswordHasher.VerifyPassword(password, userEntity.Password))
         {
-            return null; // Invalid password
+            return null;
         }
 
         return new UserModel
@@ -201,13 +180,6 @@ public class UserService : ICrud
         };
     }
 
-    /// <summary>
-    /// Updates user profile information.
-    /// </summary>
-    /// <param name="userId">User ID to update.</param>
-    /// <param name="firstName">New first name.</param>
-    /// <param name="lastName">New last name.</param>
-    /// <returns>True if update successful, false otherwise.</returns>
     public bool UpdateProfile(int userId, string firstName, string lastName)
     {
         if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
@@ -228,13 +200,6 @@ public class UserService : ICrud
         return true;
     }
 
-    /// <summary>
-    /// Changes user password.
-    /// </summary>
-    /// <param name="userId">User ID.</param>
-    /// <param name="currentPassword">Current password for verification.</param>
-    /// <param name="newPassword">New password.</param>
-    /// <returns>True if password changed successfully, false otherwise.</returns>
     public bool ChangePassword(int userId, string currentPassword, string newPassword)
     {
         if (string.IsNullOrWhiteSpace(currentPassword) || string.IsNullOrWhiteSpace(newPassword))
@@ -248,13 +213,11 @@ public class UserService : ICrud
             return false;
         }
 
-        // Verify current password
         if (!PasswordHasher.VerifyPassword(currentPassword, userEntity.Password))
         {
             return false;
         }
 
-        // Hash and set new password
         userEntity.Password = PasswordHasher.HashPassword(newPassword);
         this.repository.SaveChanges();
 
