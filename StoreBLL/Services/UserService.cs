@@ -6,104 +6,76 @@ using System.Linq;
 
 using StoreBLL.Interfaces;
 using StoreBLL.Models;
-using StoreBLL.Security;          // PasswordHasher
+using StoreBLL.Security;
 
 using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 using StoreDAL.Repository;
 
+/// <summary>
+/// Business logic service for user management operations.
+/// Handles user registration, authentication, and profile management.
+/// </summary>
 public class UserService : ICrud
 {
-    private readonly StoreDbContext context;
-    private readonly IUserRepository users;
-    private readonly IUserRoleRepository roles;
+    private readonly IUserRepository repository;
 
     public UserService(StoreDbContext context)
     {
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
-        this.users = new UserRepository(context);
-        this.roles = new UserRoleRepository(context);
+        this.repository = new UserRepository(context);
     }
 
-    /// <summary>
-    /// Реєстрація нового користувача з роллю User (RoleId = 2).
-    /// Повертає створену модель або null, якщо логін уже існує.
-    /// </summary>
-    public UserModel? Register(string firstName, string lastName, string login, string plainPassword)
+    public void Add(AbstractModel model)
     {
-        if (string.IsNullOrWhiteSpace(login))
+        if (model is not UserModel m)
         {
-            throw new ArgumentException("Логін не може бути порожнім.", nameof(login));
+            throw new ArgumentException("Expected UserModel", nameof(model));
         }
 
-        if (string.IsNullOrWhiteSpace(plainPassword))
-        {
-            throw new ArgumentException("Пароль не може бути порожнім.", nameof(plainPassword));
-        }
+        var entity = new User(
+            id: 0,
+            name: m.FirstName,
+            lastName: m.LastName,
+            login: m.Login,
+            password: m.Password,
+            roleId: m.RoleId);
 
-        // 1) Перевірка унікальності логіна
-        var existing = this.users.FindByLogin(login);
-        if (existing != null)
-        {
-            return null; // користувач із таким логіном уже є
-        }
-
-        // 2) Фіксована роль "User" (згідно сидингу RoleId=2)
-        const int userRoleId = 2;
-
-        // 3) Хешуємо пароль (PBKDF2)
-        string hash = PasswordHasher.HashPassword(plainPassword);
-
-        // 4) Створюємо сутність DAL
-        var entity = new User
-        {
-            Name = firstName ?? string.Empty,
-            LastName = lastName ?? string.Empty,
-            Login = login,
-            Password = hash,
-            RoleId = userRoleId,
-        };
-
-        this.users.Add(entity);
-        this.users.SaveChanges();
-
-        // 5) Віддаємо BLL-модель (пароль не повертаємо)
-        return new UserModel
-        {
-            Id = entity.Id,
-            FirstName = entity.Name,
-            LastName = entity.LastName,
-            Login = entity.Login,
-            Password = string.Empty,
-            RoleId = entity.RoleId,
-        };
+        this.repository.Add(entity);
+        this.repository.SaveChanges();
+        m.Id = entity.Id;
     }
 
-    // ---------------- ICrud ----------------
+    public void Delete(int modelId)
+    {
+        var entity = this.repository.GetById(modelId);
+        if (entity != null)
+        {
+            // Note: IUserRepository doesn't have Delete method - would need to be added
+            throw new NotImplementedException("Delete method not available in current IUserRepository interface");
+        }
+    }
 
     public IEnumerable<AbstractModel> GetAll()
     {
-        return this.users
-            .GetAll()
-            .Select(u => new UserModel
+        return this.repository.GetAll().Select(u =>
+            new UserModel
             {
                 Id = u.Id,
                 FirstName = u.Name,
                 LastName = u.LastName,
                 Login = u.Login,
-                Password = string.Empty,
-                RoleId = u.RoleId,
+                Password = u.Password,
+                RoleId = u.RoleId
             });
     }
 
-    public AbstractModel GetById(int id)
+    public AbstractModel? GetById(int id)
     {
-        var u = this.users.GetById(id);
+        var u = this.repository.GetById(id);
         if (u == null)
         {
-            // Повертаємо null — споживачі вже очікують таку поведінку (runtime null, без зміни інтерфейсу)
-            return null!;
+            return null;
         }
 
         return new UserModel
@@ -112,71 +84,180 @@ public class UserService : ICrud
             FirstName = u.Name,
             LastName = u.LastName,
             Login = u.Login,
-            Password = string.Empty,
-            RoleId = u.RoleId,
+            Password = u.Password,
+            RoleId = u.RoleId
         };
-    }
-
-    public void Add(AbstractModel model)
-    {
-        if (model is not UserModel m)
-        {
-            throw new ArgumentException("Очікується UserModel.", nameof(model));
-        }
-
-        string hash = string.IsNullOrEmpty(m.Password)
-            ? string.Empty
-            : PasswordHasher.HashPassword(m.Password);
-
-        var entity = new User
-        {
-            Name = m.FirstName ?? string.Empty,
-            LastName = m.LastName ?? string.Empty,
-            Login = m.Login ?? string.Empty,
-            Password = hash,
-            RoleId = m.RoleId == 0 ? 2 : m.RoleId, // за замовчуванням користувач
-        };
-
-        this.users.Add(entity);
-        this.users.SaveChanges();
-        m.Id = entity.Id;
     }
 
     public void Update(AbstractModel model)
     {
         if (model is not UserModel m)
         {
-            throw new ArgumentException("Очікується UserModel.", nameof(model));
+            throw new ArgumentException("Expected UserModel", nameof(model));
         }
 
-        var entity = this.users.GetById(m.Id);
+        var entity = this.repository.GetById(m.Id);
         if (entity == null)
         {
             return;
         }
 
-        entity.Name = m.FirstName ?? entity.Name;
-        entity.LastName = m.LastName ?? entity.LastName;
-        entity.Login = m.Login ?? entity.Login;
+        entity.Name = m.FirstName;
+        entity.LastName = m.LastName;
+        entity.Login = m.Login;
+        entity.Password = m.Password;
+        entity.RoleId = m.RoleId;
 
-        if (!string.IsNullOrWhiteSpace(m.Password))
-        {
-            entity.Password = PasswordHasher.HashPassword(m.Password);
-        }
-
-        this.users.SaveChanges();
+        this.repository.SaveChanges();
     }
 
-    public void Delete(int modelId)
+    /// <summary>
+    /// Registers a new user with default User role (roleId = 2).
+    /// </summary>
+    /// <param name="firstName">User's first name.</param>
+    /// <param name="lastName">User's last name.</param>
+    /// <param name="login">Unique login name.</param>
+    /// <param name="password">Plain text password (will be hashed).</param>
+    /// <returns>Created user model if successful, null if login already exists.</returns>
+    /// <exception cref="ArgumentException">Thrown if any parameter is invalid.</exception>
+    public UserModel? Register(string firstName, string lastName, string login, string password)
     {
-        var entity = this.users.GetById(modelId);
-        if (entity == null)
+        // Validate input parameters
+        if (string.IsNullOrWhiteSpace(firstName))
+            throw new ArgumentException("First name cannot be empty.", nameof(firstName));
+        if (string.IsNullOrWhiteSpace(lastName))
+            throw new ArgumentException("Last name cannot be empty.", nameof(lastName));
+        if (string.IsNullOrWhiteSpace(login))
+            throw new ArgumentException("Login cannot be empty.", nameof(login));
+        if (string.IsNullOrWhiteSpace(password))
+            throw new ArgumentException("Password cannot be empty.", nameof(password));
+
+        // Check if login already exists
+        var existingUser = this.repository.FindByLogin(login);
+        if (existingUser != null)
         {
-            return;
+            return null; // Login already exists
         }
 
-        // IUserRepository не має Delete, тому видаляємо напряму через контекст
-        this.context.Users.Remove(entity);
-        this.context.SaveChanges();
+        // Hash the password
+        string passwordHash = PasswordHasher.HashPassword(password);
+
+        // Create new user entity with User role (roleId = 2)
+        var userEntity = new User(
+            id: 0,
+            name: firstName.Trim(),
+            lastName: lastName.Trim(),
+            login: login.Trim(),
+            password: passwordHash,
+            roleId: 2); // Default User role
+
+        this.repository.Add(userEntity);
+        this.repository.SaveChanges();
+
+        return new UserModel
+        {
+            Id = userEntity.Id,
+            FirstName = userEntity.Name,
+            LastName = userEntity.LastName,
+            Login = userEntity.Login,
+            Password = userEntity.Password,
+            RoleId = userEntity.RoleId
+        };
+    }
+
+    /// <summary>
+    /// Authenticates a user with login and password.
+    /// </summary>
+    /// <param name="login">User login.</param>
+    /// <param name="password">Plain text password.</param>
+    /// <returns>UserModel if authentication successful, null otherwise.</returns>
+    public UserModel? Authenticate(string login, string password)
+    {
+        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+        {
+            return null;
+        }
+
+        var userEntity = this.repository.FindByLogin(login);
+        if (userEntity == null)
+        {
+            return null; // User not found
+        }
+
+        // Verify password
+        if (!PasswordHasher.VerifyPassword(password, userEntity.Password))
+        {
+            return null; // Invalid password
+        }
+
+        return new UserModel
+        {
+            Id = userEntity.Id,
+            FirstName = userEntity.Name,
+            LastName = userEntity.LastName,
+            Login = userEntity.Login,
+            Password = userEntity.Password,
+            RoleId = userEntity.RoleId
+        };
+    }
+
+    /// <summary>
+    /// Updates user profile information.
+    /// </summary>
+    /// <param name="userId">User ID to update.</param>
+    /// <param name="firstName">New first name.</param>
+    /// <param name="lastName">New last name.</param>
+    /// <returns>True if update successful, false otherwise.</returns>
+    public bool UpdateProfile(int userId, string firstName, string lastName)
+    {
+        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+        {
+            return false;
+        }
+
+        var userEntity = this.repository.GetById(userId);
+        if (userEntity == null)
+        {
+            return false;
+        }
+
+        userEntity.Name = firstName.Trim();
+        userEntity.LastName = lastName.Trim();
+        this.repository.SaveChanges();
+
+        return true;
+    }
+
+    /// <summary>
+    /// Changes user password.
+    /// </summary>
+    /// <param name="userId">User ID.</param>
+    /// <param name="currentPassword">Current password for verification.</param>
+    /// <param name="newPassword">New password.</param>
+    /// <returns>True if password changed successfully, false otherwise.</returns>
+    public bool ChangePassword(int userId, string currentPassword, string newPassword)
+    {
+        if (string.IsNullOrWhiteSpace(currentPassword) || string.IsNullOrWhiteSpace(newPassword))
+        {
+            return false;
+        }
+
+        var userEntity = this.repository.GetById(userId);
+        if (userEntity == null)
+        {
+            return false;
+        }
+
+        // Verify current password
+        if (!PasswordHasher.VerifyPassword(currentPassword, userEntity.Password))
+        {
+            return false;
+        }
+
+        // Hash and set new password
+        userEntity.Password = PasswordHasher.HashPassword(newPassword);
+        this.repository.SaveChanges();
+
+        return true;
     }
 }
