@@ -1,62 +1,32 @@
 using System;
-
-using ConsoleApp.MenuBuilder.Categories;
-
 using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.Admin
 {
+    /// <summary>
+    /// Admin main menu placeholder for step3 testing.
+    /// Full admin functionality will be implemented in step4.
+    /// </summary>
     public static class AdminMainMenu
     {
+        /// <summary>
+        /// Shows admin menu placeholder.
+        /// </summary>
+        /// <param name="db">Database context.</param>
         public static void Show(StoreDbContext db)
         {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("===== ADMIN MENU =====");
-                Console.WriteLine("1. Manage Categories");
-                Console.WriteLine("2. Manage Products (TODO) ");
-                Console.WriteLine("3. Manage Orders (TODO) ");
-                Console.WriteLine("4. Manage Users (TODO) ");
-                Console.WriteLine("----------------------");
-                Console.WriteLine("Esc: Back");
-
-                var key = Console.ReadKey(true).Key;
-                switch (key)
-                {
-                    case ConsoleKey.D1:
-                    case ConsoleKey.NumPad1:
-                        CategoriesMenu.Show(db);
-                        break;
-
-                    case ConsoleKey.D2:
-                    case ConsoleKey.NumPad2:
-                        Console.WriteLine("Products management not implemented yet.");
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
-                        Console.WriteLine("Orders management not implemented yet.");
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D4:
-                    case ConsoleKey.NumPad4:
-                        Console.WriteLine("Users management not implemented yet.");
-                        Pause();
-                        break;
-
-                    case ConsoleKey.Escape:
-                        return;
-                }
-            }
-        }
-
-        private static void Pause()
-        {
+            Console.Clear();
+            Console.WriteLine("=== ADMIN FUNCTIONALITY ===");
             Console.WriteLine();
-            Console.WriteLine("Press any key to continue...");
+            Console.WriteLine("Admin features will be implemented in step4-Admin-functionality.");
+            Console.WriteLine("Currently available:");
+            Console.WriteLine("- User authentication system");
+            Console.WriteLine("- Product catalog management");
+            Console.WriteLine("- Order processing workflow");
+            Console.WriteLine();
+            Console.WriteLine("Full admin CRUD operations coming in step4!");
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return to main menu...");
             Console.ReadKey(true);
         }
     }
