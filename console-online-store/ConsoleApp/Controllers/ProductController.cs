@@ -1,154 +1,326 @@
-using System;
+﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\Controllers\ProductController.cs
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using StoreBLL.Models;
 using StoreBLL.Services;
-
-using StoreDAL.Data;
-using StoreDAL.Repository; // ProductRepository
+using StoreDAL.Repository;
 
 namespace ConsoleApp.Controllers
 {
     public class ProductController
     {
         private readonly ProductService productService;
+        private readonly CategoryService categoryService;
+        private readonly ManufacturerService manufacturerService;
 
-        public ProductController(StoreDbContext context)
+        public ProductController(ProductService productService, CategoryService categoryService, ManufacturerService manufacturerService)
         {
-            // ProductService РѕС‡С–РєСѓС” IProductRepository
-            this.productService = new ProductService(new ProductRepository(context));
+            this.productService = productService;
+            this.categoryService = categoryService;
+            this.manufacturerService = manufacturerService;
         }
 
-        // Р”РѕРґР°С‚Рё РїСЂРѕРґСѓРєС‚
-        public void AddProduct()
+        public void DisplayProduct(ProductModel product)
         {
-            Console.Write("Title (name): ");
+            Console.WriteLine($"ID: {product.Id}");
+            Console.WriteLine($"Title: {product.Title}");
+            Console.WriteLine($"Category: {product.Category.Name}");
+            Console.WriteLine($"Manufacturer: {product.Manufacturer.Name}");
+            Console.WriteLine($"SKU: {product.Sku}");
+            Console.WriteLine($"Description: {product.Description}");
+            Console.WriteLine($"Price: {product.Price:C}");
+            Console.WriteLine($"Total Stock: {product.Stock}");
+            Console.WriteLine($"Reserved: {product.Reserved}");
+            Console.WriteLine($"Available: {product.Available}");
+            Console.WriteLine(new string('-', 50));
+        }
+
+        public void CreateProduct()
+        {
+            Console.WriteLine("\n=== Create New Product ===");
+
+            Console.Write("Enter product title: ");
             string title = Console.ReadLine() ?? string.Empty;
 
-            Console.Write("SKU: ");
+            // Select category - using hardcoded list since GetAll() not implemented
+            Console.WriteLine("\nAvailable categories:");
+            Console.WriteLine("1. fruits");
+            Console.WriteLine("2. water");
+            Console.WriteLine("3. snacks");
+            Console.WriteLine("4. vegetables");
+
+            Console.Write("Enter category name (or select from above): ");
+            string categoryName = Console.ReadLine() ?? string.Empty;
+
+            // Select manufacturer - using hardcoded list since GetAll() not implemented
+            Console.WriteLine("\nAvailable manufacturers:");
+            Console.WriteLine("1. GreenFarm");
+            Console.WriteLine("2. FreshCo");
+
+            Console.Write("Enter manufacturer name (or select from above): ");
+            string manufacturerName = Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Enter SKU: ");
             string sku = Console.ReadLine() ?? string.Empty;
 
-            Console.Write("Description: ");
+            Console.Write("Enter description: ");
             string description = Console.ReadLine() ?? string.Empty;
 
-            Console.Write("Category (name): ");
-            string category = Console.ReadLine() ?? string.Empty;
+            Console.Write("Enter price: ");
+            decimal price = decimal.Parse(Console.ReadLine() ?? "0", CultureInfo.InvariantCulture);
 
-            Console.Write("Manufacturer (name): ");
-            string manufacturer = Console.ReadLine() ?? string.Empty;
+            Console.Write("Enter stock quantity: ");
+            int stock = int.Parse(Console.ReadLine() ?? "0", CultureInfo.InvariantCulture);
 
-            Console.Write("Price: ");
-            _ = decimal.TryParse(Console.ReadLine(), out decimal price);
-
-            Console.Write("Stock: ");
-            _ = int.TryParse(Console.ReadLine(), out int stock);
-
-            ProductModel? created = this.productService.Add(
+            var newProduct = this.productService.Add(
                 title: title,
+                category: categoryName,
+                manufacturer: manufacturerName,
                 sku: sku,
                 description: description,
-                category: category,
-                manufacturer: manufacturer,
                 price: price,
                 stock: stock);
 
-            Console.WriteLine(created is not null
-                ? $"Product added. Id={created.Id}, Title={created.Title}"
-                : "Add failed.");
+            Console.WriteLine($"Product created successfully with ID: {newProduct.Id}");
         }
 
-        // Р РµРґР°РіСѓРІР°С‚Рё РїСЂРѕРґСѓРєС‚
-        public void EditProduct()
+        public void UpdateProduct()
         {
-            Console.Write("Product Id to edit: ");
-            if (!int.TryParse(Console.ReadLine(), out int id))
+            Console.Write("\nEnter product ID to update: ");
+            int productId = int.Parse(Console.ReadLine() ?? "0", CultureInfo.InvariantCulture);
+
+            var product = this.productService.GetById(productId);
+            if (product == null)
             {
-                Console.WriteLine("Invalid Id.");
+                Console.WriteLine("Product not found!");
                 return;
             }
 
-            ProductModel? existing = this.productService.GetById(id);
-            if (existing is null)
+            Console.WriteLine($"\nCurrent product information:");
+            DisplayProduct(product);
+
+            Console.WriteLine("\nEnter new data (press Enter to keep current value):");
+
+            Console.Write($"New title [{product.Title}]: ");
+            string newTitle = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(newTitle))
             {
-                Console.WriteLine("Not found.");
-                return;
+                newTitle = product.Title;
             }
 
-            Console.Write($"New title ({existing.Title}): ");
-            string? title = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(title))
+            // Category update - using hardcoded list
+            Console.WriteLine("\nAvailable categories:");
+            Console.WriteLine("1. fruits");
+            Console.WriteLine("2. water");
+            Console.WriteLine("3. snacks");
+            Console.WriteLine("4. vegetables");
+
+            Console.Write($"New category [{product.Category.Name}]: ");
+            string newCategory = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(newCategory))
             {
-                title = existing.Title;
+                newCategory = product.Category.Name;
             }
 
-            Console.Write($"New SKU ({existing.Sku}): ");
-            string? sku = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(sku))
+            // Manufacturer update - using hardcoded list
+            Console.WriteLine("\nAvailable manufacturers:");
+            Console.WriteLine("1. GreenFarm");
+            Console.WriteLine("2. FreshCo");
+
+            Console.Write($"New manufacturer [{product.Manufacturer.Name}]: ");
+            string newManufacturer = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(newManufacturer))
             {
-                sku = existing.Sku;
+                newManufacturer = product.Manufacturer.Name;
             }
 
-            Console.Write($"New description ({existing.Description}): ");
-            string? description = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(description))
+            Console.Write($"New SKU [{product.Sku}]: ");
+            string newSku = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(newSku))
             {
-                description = existing.Description;
+                newSku = product.Sku;
             }
 
-            Console.Write($"New category ({existing.Category?.Name}): ");
-            string? category = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(category))
+            Console.Write($"New description [{product.Description}]: ");
+            string newDescription = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(newDescription))
             {
-                category = existing.Category?.Name ?? string.Empty;
+                newDescription = product.Description;
             }
 
-            Console.Write($"New manufacturer ({existing.Manufacturer?.Name}): ");
-            string? manufacturer = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(manufacturer))
+            Console.Write($"New price [{product.Price}]: ");
+            string priceInput = Console.ReadLine();
+            decimal newPrice = product.Price;
+            if (!string.IsNullOrWhiteSpace(priceInput))
             {
-                manufacturer = existing.Manufacturer?.Name ?? string.Empty;
+                decimal.TryParse(priceInput, NumberStyles.Any, CultureInfo.InvariantCulture, out newPrice);
             }
 
-            Console.Write($"New price ({existing.Price}): ");
-            string? priceStr = Console.ReadLine();
-            decimal price = existing.Price;
-            if (!string.IsNullOrWhiteSpace(priceStr) && decimal.TryParse(priceStr, out decimal p))
+            Console.Write($"New stock [{product.Stock}]: ");
+            string stockInput = Console.ReadLine();
+            int newStock = product.Stock;
+            if (!string.IsNullOrWhiteSpace(stockInput))
             {
-                price = p;
+                int.TryParse(stockInput, NumberStyles.Any, CultureInfo.InvariantCulture, out newStock);
             }
 
-            Console.Write($"New stock ({existing.Stock}): ");
-            string? stockStr = Console.ReadLine();
-            int stock = existing.Stock;
-            if (!string.IsNullOrWhiteSpace(stockStr) && int.TryParse(stockStr, out int s))
+            var updatedProduct = this.productService.Update(
+                id: productId,
+                title: newTitle,
+                category: newCategory,
+                manufacturer: newManufacturer,
+                sku: newSku,
+                description: newDescription,
+                price: newPrice,
+                stock: newStock);
+
+            if (updatedProduct != null)
             {
-                stock = s;
+                Console.WriteLine("Product updated successfully!");
             }
-
-            ProductModel? updated = this.productService.Update(
-                id: id,
-                title: title!,
-                sku: sku!,
-                description: description!,
-                category: category!,
-                manufacturer: manufacturer!,
-                price: price,
-                stock: stock);
-
-            Console.WriteLine(updated is not null ? "Updated." : "Update failed.");
+            else
+            {
+                Console.WriteLine("Failed to update product.");
+            }
         }
 
-        // Р’РёРґР°Р»РёС‚Рё РїСЂРѕРґСѓРєС‚
         public void DeleteProduct()
         {
-            Console.Write("Product Id to delete: ");
-            if (!int.TryParse(Console.ReadLine(), out int id))
+            Console.Write("\nEnter product ID to delete: ");
+            int productId = int.Parse(Console.ReadLine() ?? "0", CultureInfo.InvariantCulture);
+
+            var product = this.productService.GetById(productId);
+            if (product == null)
             {
-                Console.WriteLine("Invalid Id.");
+                Console.WriteLine("Product not found!");
                 return;
             }
 
-            bool ok = this.productService.Delete(id);
-            Console.WriteLine(ok ? "Deleted." : "Delete failed.");
+            Console.WriteLine($"Are you sure you want to delete '{product.Title}'? (yes/no)");
+            string confirmation = Console.ReadLine()?.ToLower(CultureInfo.InvariantCulture);
+
+            if (confirmation == "yes" || confirmation == "y")
+            {
+                bool deleted = this.productService.Delete(productId);
+                if (deleted)
+                {
+                    Console.WriteLine("Product deleted successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("Failed to delete product.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Deletion cancelled.");
+            }
+        }
+
+        public void ListAllProducts()
+        {
+            var products = this.productService.GetAll();
+
+            if (!products.Any())
+            {
+                Console.WriteLine("No products found.");
+                return;
+            }
+
+            Console.WriteLine("\n=== All Products ===");
+            foreach (var product in products)
+            {
+                DisplayProduct(product);
+            }
+        }
+
+        public void SearchProducts()
+        {
+            Console.Write("\nEnter search term: ");
+            string searchTerm = Console.ReadLine() ?? string.Empty;
+
+            var allProducts = this.productService.GetAll();
+
+            var filteredProducts = allProducts.Where(p =>
+                p.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                p.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                p.Sku.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                p.Category.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                p.Manufacturer.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            if (!filteredProducts.Any())
+            {
+                Console.WriteLine("No products found.");
+                return;
+            }
+
+            Console.WriteLine($"\n=== Found {filteredProducts.Count} products ===");
+            foreach (var product in filteredProducts)
+            {
+                DisplayProduct(product);
+            }
+        }
+
+        public void FilterByCategory()
+        {
+            // Using hardcoded categories since GetAll() not implemented
+            Console.WriteLine("\nAvailable categories:");
+            Console.WriteLine("1. fruits");
+            Console.WriteLine("2. water");
+            Console.WriteLine("3. snacks");
+            Console.WriteLine("4. vegetables");
+
+            Console.Write("Enter category name to filter by: ");
+            string categoryName = Console.ReadLine() ?? string.Empty;
+
+            var allProducts = this.productService.GetAll();
+            var filteredProducts = allProducts
+                .Where(p => p.Category.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            if (!filteredProducts.Any())
+            {
+                Console.WriteLine("No products found in this category.");
+                return;
+            }
+
+            Console.WriteLine($"\n=== Products in category '{categoryName}' ===");
+            foreach (var product in filteredProducts)
+            {
+                DisplayProduct(product);
+            }
+        }
+
+        public void FilterByManufacturer()
+        {
+            // Using hardcoded manufacturers since GetAll() not implemented
+            Console.WriteLine("\nAvailable manufacturers:");
+            Console.WriteLine("1. GreenFarm");
+            Console.WriteLine("2. FreshCo");
+
+            Console.Write("Enter manufacturer name to filter by: ");
+            string manufacturerName = Console.ReadLine() ?? string.Empty;
+
+            var allProducts = this.productService.GetAll();
+            var filteredProducts = allProducts
+                .Where(p => p.Manufacturer.Name.Equals(manufacturerName, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            if (!filteredProducts.Any())
+            {
+                Console.WriteLine("No products found for this manufacturer.");
+                return;
+            }
+
+            Console.WriteLine($"\n=== Products by '{manufacturerName}' ===");
+            foreach (var product in filteredProducts)
+            {
+                DisplayProduct(product);
+            }
         }
     }
 }
