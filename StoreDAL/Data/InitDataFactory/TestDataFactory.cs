@@ -1,5 +1,6 @@
-﻿namespace StoreDAL.Data.InitDataFactory;
+﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreDAL\Data\InitDataFactory\TestDataFactory.cs
 
+namespace StoreDAL.Data.InitDataFactory;
 using System;
 using StoreDAL.Entities;
 
@@ -51,7 +52,6 @@ public class TestDataFactory : AbstractDataFactory
         new ProductTitle(12, "Lemon 1kg", 1),
     };
 
-    // Using 5-parameter constructor (without stock) as Product entity doesn't have Stock property
     public override Product[] GetProductData() => new[]
     {
         new Product(1, 1, 1, "Fresh Gala apples from GreenFarm", 49.90m),
@@ -77,12 +77,22 @@ public class TestDataFactory : AbstractDataFactory
 
     public override User[] GetUserData() => new[]
     {
-        // admin / Admin@123
-        new User(1, "Admin", "Root", "admin",
-            "150000.QWRtMW5TYWx0SXNIZXJlIQ==.fQStk19KCmM6k66KKMqvVUPfPf+vtI+UsuzgI6ZIYmg=", 1),
-        // user / User@123
-        new User(2, "John", "Doe", "user",
-            "150000.VXNlclNhbHRJc0hlcmUhIQ==.YLxGcDEypcmzdHtmv/LGqRbjBKPtVAiDBm17tBssKJ4=", 2),
+        // admin / admin123
+        new User(
+            1,
+            "Admin",
+            "Root",
+            "admin",
+            "PBKDF2$100000$X7sU4YPr7zS2zKwF5yR+bg==$jm4q1pJPl7+C6cBkp8hqnKgGvjRHPYgvQcXYzW1rsRY=",
+            1),
+        // user / user123
+        new User(
+            2,
+            "John",
+            "Doe",
+            "user",
+            "PBKDF2$100000$KQ9aB7qCzR3tF4yL2wM+xQ==$vN8P5YRm9+D2dDhL4gjnmLhFwkRGOXhwSdYZsT0prTU=",
+            2),
     };
 
     public override CustomerOrder[] GetCustomerOrderData() => new[]
