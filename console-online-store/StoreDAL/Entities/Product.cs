@@ -1,40 +1,76 @@
-﻿namespace StoreDAL.Entities;
+﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreDAL\Entities\Product.cs
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("products")]
-public class Product : BaseEntity
+namespace StoreDAL.Entities
 {
-    public Product() : base()
+    /// <summary>
+    /// Product entity with stock management.
+    /// </summary>
+    [Table("products")]
+    public class Product : BaseEntity
     {
+        public Product() : base()
+        {
+            this.ReservedQuantity = 0;
+            this.StockQuantity = 0;
+        }
+
+        public Product(int id, int productTitleId, int manufacturerId, string description, decimal unitPrice)
+            : base(id)
+        {
+            this.ProductTitleId = productTitleId;
+            this.ManufacturerId = manufacturerId;
+            this.Description = description;
+            this.UnitPrice = unitPrice;
+            this.StockQuantity = 0;
+            this.ReservedQuantity = 0;
+        }
+
+        public Product(int id, int productTitleId, int manufacturerId, string description, decimal unitPrice, int stockQuantity)
+            : base(id)
+        {
+            this.ProductTitleId = productTitleId;
+            this.ManufacturerId = manufacturerId;
+            this.Description = description;
+            this.UnitPrice = unitPrice;
+            this.StockQuantity = stockQuantity;
+            this.ReservedQuantity = 0;
+        }
+
+        [Column("product_title_id")]
+        [Required]
+        public int ProductTitleId { get; set; }
+
+        public virtual ProductTitle? Title { get; set; }
+
+        [Column("manufacturer_id")]
+        [Required]
+        public int ManufacturerId { get; set; }
+
+        public virtual Manufacturer? Manufacturer { get; set; }
+
+        [Column("description")]
+        public string Description { get; set; } = string.Empty;
+
+        [Column("unit_price")]
+        [Required]
+        public decimal UnitPrice { get; set; }
+
+        [Column("stock_quantity")]
+        public int StockQuantity { get; set; }
+
+        [Column("reserved_quantity")]
+        public int ReservedQuantity { get; set; }
+
+        /// <summary>
+        /// Gets the available quantity (stock minus reserved).
+        /// </summary>
+        [NotMapped]
+        public int AvailableQuantity => StockQuantity - ReservedQuantity;
+
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
-
-    public Product(int id, int titleId, int manufacturerId, string description, decimal price)
-        : base(id)
-    {
-        this.TitleId = titleId;
-        this.ManufacturerId = manufacturerId;
-        this.Description = description;
-        this.UnitPrice = price;
-    }
-
-    [Column("product_title_id")]
-    public int TitleId { get; set; }
-
-    [Column("manufacturer_id")]
-    public int ManufacturerId { get; set; }
-
-    [Column("unit_price")]
-    public decimal UnitPrice { get; set; }
-
-    [Column("comment")]
-    public string Description { get; set; }
-
-    [ForeignKey("TitleId")]
-    public ProductTitle Title { get; set; }
-
-    [ForeignKey("ManufacturerId")]
-    public Manufacturer Manufacturer { get; set; }
-
-    public virtual IList<OrderDetail> OrderDetails { get; set; }
 }

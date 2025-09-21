@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\MenuBuilder\User\UserMainMenu.cs
+
+using System;
 
 using ConsoleApp.Controllers;
 using ConsoleApp.MenuBuilder.Categories;
@@ -49,7 +51,9 @@ namespace ConsoleApp.MenuBuilder.User
                         break;
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
-                        UserOrderController.ShowOrderMenu(db);
+                        // FIX: Create instance of UserOrderController and call ShowOrderMenu
+                        var orderController = new UserOrderController(db);
+                        orderController.ShowOrderMenu();  // Don't pass db as parameter
                         break;
                     case ConsoleKey.D4:
                     case ConsoleKey.NumPad4:
