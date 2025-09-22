@@ -1,15 +1,12 @@
 // Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\Controllers\UserMenuController.cs
 
 using System;
-
 using ConsoleApp.Helpers;
 using ConsoleApp.MenuBuilder.Admin;
 using ConsoleApp.MenuBuilder.Guest;
 using ConsoleApp.MenuBuilder.User;
-
 using StoreBLL.Models;
 using StoreBLL.Services;
-
 using StoreDAL.Data;
 
 namespace ConsoleApp.Controllers
@@ -44,7 +41,7 @@ namespace ConsoleApp.Controllers
         public static void Start()
         {
             // Initialize database context
-            Context = ConsoleApp.Helpers.StoreDbFactory.Create();
+            Context = StoreDbFactory.Create();
 
             while (true)
             {
@@ -65,7 +62,6 @@ namespace ConsoleApp.Controllers
                         {
                             AdminMainMenu.Show(Context);
                         }
-
                         break;
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
@@ -73,7 +69,6 @@ namespace ConsoleApp.Controllers
                         {
                             UserMainMenu.Show(Context);
                         }
-
                         break;
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
@@ -102,10 +97,9 @@ namespace ConsoleApp.Controllers
 
             try
             {
-                // TEMPORARY BYPASS FOR TESTING - Remove this block after fixing PasswordHasher
+                // TEMPORARY BYPASS FOR TESTING - Remove after fixing PasswordHasher
                 if (login.ToLower() == "admin")
                 {
-                    // Create test admin user without password validation
                     var testAdmin = new UserModel
                     {
                         Id = 1,
@@ -118,18 +112,17 @@ namespace ConsoleApp.Controllers
 
                     SetCurrentUser(testAdmin);
                     Console.WriteLine($"Welcome, Admin {testAdmin.FirstName}!");
-                    Console.WriteLine();
                     Console.WriteLine("[TESTING MODE: Authentication bypassed]");
                     Pause();
                     return true;
                 }
                 // END OF TEMPORARY BYPASS
 
-                // Original authentication code (currently not working)
+                // Original authentication code
                 var userService = new UserService(Context);
                 var user = userService.Authenticate(login, password);
 
-                if (user != null && user.RoleId == 1) // Admin role
+                if (user != null && user.RoleId == 1)
                 {
                     SetCurrentUser(user);
                     Console.WriteLine($"Welcome, Admin {user.FirstName}!");
@@ -167,10 +160,9 @@ namespace ConsoleApp.Controllers
 
             try
             {
-                // TEMPORARY BYPASS FOR TESTING - Remove this block after fixing PasswordHasher
+                // TEMPORARY BYPASS FOR TESTING - Remove after fixing PasswordHasher
                 if (login.ToLower() == "user")
                 {
-                    // Create test user without password validation
                     var testUser = new UserModel
                     {
                         Id = 2,
@@ -183,7 +175,6 @@ namespace ConsoleApp.Controllers
 
                     SetCurrentUser(testUser);
                     Console.WriteLine($"Welcome, {testUser.FirstName} {testUser.LastName}!");
-                    Console.WriteLine();
                     Console.WriteLine("[TESTING MODE: Authentication bypassed]");
                     Pause();
                     return true;
@@ -194,7 +185,7 @@ namespace ConsoleApp.Controllers
                 var userService = new UserService(Context);
                 var user = userService.Authenticate(login, password);
 
-                if (user != null && user.RoleId == 2) // User role
+                if (user != null && user.RoleId == 2)
                 {
                     SetCurrentUser(user);
                     Console.WriteLine($"Welcome, {user.FirstName} {user.LastName}!");
