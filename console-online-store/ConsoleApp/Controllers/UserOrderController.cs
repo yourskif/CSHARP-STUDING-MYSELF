@@ -4,8 +4,8 @@ namespace ConsoleApp.Controllers;
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using StoreBLL.Models;
 using StoreBLL.Services;
 using StoreDAL.Data;
 using StoreDAL.Entities;
@@ -42,40 +42,51 @@ public class UserOrderController
     /// </summary>
     public void ShowOrderMenu()
     {
-        while (true)
-        {
-            Console.Clear();
-            Console.WriteLine("=== MY ORDERS ===");
-            Console.WriteLine();
-            Console.WriteLine("1. View My Orders");
-            Console.WriteLine("2. Create New Order");
-            Console.WriteLine("3. Cancel Order");
-            Console.WriteLine("4. Mark Order as Received");
-            Console.WriteLine();
-            Console.WriteLine("Esc: Back to Main Menu");
+        // fix culture for aligned numbers
+        var prev = System.Threading.Thread.CurrentThread.CurrentCulture;
+        System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-            var key = Console.ReadKey(true).Key;
-            switch (key)
+        try
+        {
+            while (true)
             {
-                case ConsoleKey.D1:
-                case ConsoleKey.NumPad1:
-                    this.ShowMyOrders();
-                    break;
-                case ConsoleKey.D2:
-                case ConsoleKey.NumPad2:
-                    this.CreateOrder();
-                    break;
-                case ConsoleKey.D3:
-                case ConsoleKey.NumPad3:
-                    this.CancelOrder();
-                    break;
-                case ConsoleKey.D4:
-                case ConsoleKey.NumPad4:
-                    this.MarkOrderAsReceived();
-                    break;
-                case ConsoleKey.Escape:
-                    return;
+                Console.Clear();
+                Console.WriteLine("=== MY ORDERS ===");
+                Console.WriteLine();
+                Console.WriteLine("1. View My Orders");
+                Console.WriteLine("2. Create New Order");
+                Console.WriteLine("3. Cancel Order");
+                Console.WriteLine("4. Mark Order as Received");
+                Console.WriteLine();
+                Console.WriteLine("Esc: Back to Main Menu");
+
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        this.ShowMyOrders();
+                        break;
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        this.CreateOrder();
+                        break;
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        this.CancelOrder();
+                        break;
+                    case ConsoleKey.D4:
+                    case ConsoleKey.NumPad4:
+                        this.MarkOrderAsReceived();
+                        break;
+                    case ConsoleKey.Escape:
+                        return;
+                }
             }
+        }
+        finally
+        {
+            System.Threading.Thread.CurrentThread.CurrentCulture = prev;
         }
     }
 
@@ -113,12 +124,8 @@ public class UserOrderController
                 continue;
             }
 
-            // Get product title name
-            string titleName = "Unknown";
-            if (product.Title != null)
-            {
-                titleName = product.Title.Title ?? $"Product {product.Id}";
-            }
+            // Safe title
+            string titleName = product.Title?.Title ?? $"Product {product.Id}";
 
             Console.WriteLine($"Product: {titleName} - Price: ${product.UnitPrice:F2}");
             Console.WriteLine($"Available stock: {product.AvailableQuantity}");
@@ -167,33 +174,44 @@ public class UserOrderController
         this.context.CustomerOrders.Add(order);
         this.context.SaveChanges();
 
-        // Reserve stock for the order
+        // Reserve stock for each detail and update AvailableQuantity (Reserved only; Available is computed)
         foreach (var detail in orderDetails)
         {
             var product = this.context.Products.Find(detail.ProductId);
-            if (product != null)
+            if (product == null)
+                continue;
+
+            // Re-check availability
+            if (detail.ProductAmount > product.AvailableQuantity)
             {
-                product.ReservedQuantity += detail.ProductAmount;
-                Console.WriteLine($"Reserved {detail.ProductAmount} units of product {product.Id}");
+                Console.WriteLine($"⚠ Product {product.Id}: requested {detail.ProductAmount}, but only {product.AvailableQuantity} available now.");
+                Console.WriteLine("Order creation aborted. No changes were applied.");
+                this.context.CustomerOrders.Remove(order);
+                this.context.SaveChanges();
+                this.Pause();
+                return;
             }
+
+            product.ReservedQuantity += detail.ProductAmount;
+            Console.WriteLine($"Reserved {detail.ProductAmount} unit(s) of product {product.Id}.");
         }
+
         this.context.SaveChanges();
 
         Console.WriteLine($"\nOrder created successfully!");
         Console.WriteLine($"Order ID: {order.Id}");
         Console.WriteLine($"Total amount: ${totalAmount:F2}");
-        Console.WriteLine("Stock has been reserved for your order.");
 
         this.Pause();
     }
 
     /// <summary>
-    /// Shows user's orders.
+    /// Shows user's orders (tabular, fixed-width).
     /// </summary>
     public void ShowMyOrders()
     {
         Console.Clear();
-        Console.WriteLine("=== MY ORDERS ===");
+        Console.WriteLine("=== MY ORDERS ===\n");
 
         var user = UserMenuController.CurrentUser;
         if (user == null)
@@ -211,23 +229,27 @@ public class UserOrderController
         if (orders.Count == 0)
         {
             Console.WriteLine("You have no orders.");
+            this.Pause();
+            return;
         }
-        else
+
+        // Header: ID(4) | Date(19) | Status(28) | Total(10)
+        Console.WriteLine($"{"ID",4}  {"Date",19}  {"Status",-28}  {"Total",10}");
+        Console.WriteLine(new string('-', 4 + 2 + 19 + 2 + 28 + 2 + 10));
+
+        foreach (var order in orders)
         {
-            foreach (var order in orders)
-            {
-                var total = this.context.OrderDetails
-                    .Where(d => d.OrderId == order.Id)
-                    .Sum(d => d.Price * d.ProductAmount);
+            // SQLite cannot aggregate decimal directly: double->decimal
+            var total = (decimal)this.context.OrderDetails
+                .Where(d => d.OrderId == order.Id)
+                .Select(d => (double)d.Price * d.ProductAmount)
+                .Sum();
 
-                Console.WriteLine($"\nOrder #{order.Id}");
-                Console.WriteLine($"Date: {order.OperationTime}");
-                Console.WriteLine($"Status: {this.GetOrderStatusName(order.OrderStateId)}");
-                Console.WriteLine($"Total: ${total:F2}");
-                Console.WriteLine("---");
-            }
+            var status = this.GetOrderStatusName(order.OrderStateId);
+            Console.WriteLine($"{order.Id,4}  {order.OperationTime,19}  {status,-28}  {total,10:0.00}");
         }
 
+        Console.WriteLine("\nTip: To cancel, open 'Cancel Order' and enter the ID from the first column.");
         this.Pause();
     }
 
