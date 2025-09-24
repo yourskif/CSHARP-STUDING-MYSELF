@@ -1,4 +1,4 @@
-﻿namespace StoreBLL.Security
+namespace StoreBLL.Security
 {
     using System;
     using System.Security.Cryptography;

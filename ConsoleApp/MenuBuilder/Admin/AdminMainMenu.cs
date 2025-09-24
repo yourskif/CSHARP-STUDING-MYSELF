@@ -7,16 +7,20 @@ using StoreDAL.Repository;
 namespace ConsoleApp.MenuBuilder.Admin
 {
     /// <summary>
-    /// Admin main menu (orders/products/diagnostics).
+    /// Admin main menu (orders/products/users/diagnostics).
     /// </summary>
     public sealed class AdminMainMenu
     {
+        // -------- instance fields --------
         private readonly StoreDbContext db;
 
+        // -------- ctor --------
         public AdminMainMenu(StoreDbContext db)
         {
             this.db = db ?? throw new ArgumentNullException(nameof(db));
         }
+
+        // -------- static members (must be before instance members to satisfy SA1204) --------
 
         /// <summary>
         /// Backward compatibility with older code that calls AdminMainMenu.Show(db).
@@ -26,6 +30,7 @@ namespace ConsoleApp.MenuBuilder.Admin
             new AdminMainMenu(db).Run();
         }
 
+        // -------- instance members --------
         public void Run()
         {
             while (true)
@@ -35,6 +40,7 @@ namespace ConsoleApp.MenuBuilder.Admin
                 Console.WriteLine("1. Products (manage)");
                 Console.WriteLine("2. Orders (admin)");
                 Console.WriteLine("3. Diagnostics");
+                Console.WriteLine("4. Users Management");
                 Console.WriteLine();
                 Console.WriteLine("Esc: Back");
 
@@ -43,7 +49,7 @@ namespace ConsoleApp.MenuBuilder.Admin
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        ShowProductManagementMenu();
+                        this.ShowProductManagementMenu();
                         break;
 
                     case ConsoleKey.D2:
@@ -56,15 +62,27 @@ namespace ConsoleApp.MenuBuilder.Admin
                         new AdminDiagnosticsController(this.db).Run();
                         break;
 
+                    case ConsoleKey.D4:
+                    case ConsoleKey.NumPad4:
+                        // open users management submenu
+                        AdminUsersMenu.Show(this.db);
+                        break;
+
                     case ConsoleKey.Escape:
                         return;
                 }
             }
         }
 
+        private static void Pause()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey(true);
+        }
+
         private void ShowProductManagementMenu()
         {
-            // services з правильними залежностями
+            // Services wired with explicit dependencies
             var productRepository = new ProductRepository(this.db);
             var productService = new ProductService(productRepository);
             var categoryService = new CategoryService(this.db);
@@ -134,12 +152,6 @@ namespace ConsoleApp.MenuBuilder.Admin
                         return;
                 }
             }
-        }
-
-        private static void Pause()
-        {
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey(true);
         }
     }
 }

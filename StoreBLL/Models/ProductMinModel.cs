@@ -1,4 +1,4 @@
-﻿namespace StoreBLL.Models
+namespace StoreBLL.Models
 {
     /// <summary>
     /// Lightweight product model for list views.

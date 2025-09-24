@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Controllers;
+namespace ConsoleApp.Controllers;
 
 using System;
 using System.Linq;
@@ -44,7 +44,12 @@ public sealed class OrderStatesController
         Console.ReadKey(true);
     }
 
-    private string GetStateName(StoreDAL.Entities.OrderState state)
+    /// <summary>
+    /// Gets the display name of an order state entity.
+    /// </summary>
+    /// <param name="state">OrderState entity.</param>
+    /// <returns>State name or fallback string.</returns>
+    private static string GetStateName(StoreDAL.Entities.OrderState state)
     {
         var nameProperty = state.GetType().GetProperty("Name")
                           ?? state.GetType().GetProperty("StateName")
@@ -54,7 +59,9 @@ public sealed class OrderStatesController
         {
             var value = nameProperty.GetValue(state);
             if (value != null)
+            {
                 return value.ToString() ?? $"State{state.Id}";
+            }
         }
 
         return $"State{state.Id}";

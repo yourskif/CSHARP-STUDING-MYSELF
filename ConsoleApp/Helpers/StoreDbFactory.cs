@@ -1,9 +1,8 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
 using Microsoft.EntityFrameworkCore;
-
 using StoreDAL.Data;
 using StoreDAL.Data.InitDataFactory;
 
@@ -27,7 +26,6 @@ namespace ConsoleApp.Helpers
                 .EnableSensitiveDataLogging()
                 .Options;
 
-            // FIX: Add factory parameter
             var factory = new TestDataFactory();
             var db = new StoreDbContext(options, factory);
             db.Database.EnsureCreated();
@@ -60,40 +58,44 @@ namespace ConsoleApp.Helpers
 
         private static void SeedReferenceData(StoreDbContext context, TestDataFactory factory)
         {
-            var userRoles = factory.GetUserRoleData();
-            foreach (var role in userRoles)
+            // UserRoles
+            var existingRoleIds = context.UserRoles.Select(r => r.Id).ToHashSet();
+            var rolesToAdd = factory.GetUserRoleData()
+                .Where(role => !existingRoleIds.Contains(role.Id))
+                .ToList();
+            if (rolesToAdd.Count > 0)
             {
-                if (!context.UserRoles.Any(r => r.Id == role.Id))
-                {
-                    context.UserRoles.Add(role);
-                }
+                context.UserRoles.AddRange(rolesToAdd);
             }
 
-            var orderStates = factory.GetOrderStateData();
-            foreach (var state in orderStates)
+            // OrderStates
+            var existingStateIds = context.OrderStates.Select(s => s.Id).ToHashSet();
+            var statesToAdd = factory.GetOrderStateData()
+                .Where(state => !existingStateIds.Contains(state.Id))
+                .ToList();
+            if (statesToAdd.Count > 0)
             {
-                if (!context.OrderStates.Any(s => s.Id == state.Id))
-                {
-                    context.OrderStates.Add(state);
-                }
+                context.OrderStates.AddRange(statesToAdd);
             }
 
-            var categories = factory.GetCategoryData();
-            foreach (var category in categories)
+            // Categories
+            var existingCategoryIds = context.Categories.Select(c => c.Id).ToHashSet();
+            var categoriesToAdd = factory.GetCategoryData()
+                .Where(cat => !existingCategoryIds.Contains(cat.Id))
+                .ToList();
+            if (categoriesToAdd.Count > 0)
             {
-                if (!context.Categories.Any(c => c.Id == category.Id))
-                {
-                    context.Categories.Add(category);
-                }
+                context.Categories.AddRange(categoriesToAdd);
             }
 
-            var manufacturers = factory.GetManufacturerData();
-            foreach (var manufacturer in manufacturers)
+            // Manufacturers
+            var existingManufacturerIds = context.Manufacturers.Select(m => m.Id).ToHashSet();
+            var manufacturersToAdd = factory.GetManufacturerData()
+                .Where(m => !existingManufacturerIds.Contains(m.Id))
+                .ToList();
+            if (manufacturersToAdd.Count > 0)
             {
-                if (!context.Manufacturers.Any(m => m.Id == manufacturer.Id))
-                {
-                    context.Manufacturers.Add(manufacturer);
-                }
+                context.Manufacturers.AddRange(manufacturersToAdd);
             }
 
             context.SaveChanges();
@@ -101,49 +103,54 @@ namespace ConsoleApp.Helpers
 
         private static void SeedMainEntities(StoreDbContext context, TestDataFactory factory)
         {
-            var users = factory.GetUserData();
-            foreach (var user in users)
+            // Users
+            var existingUserIds = context.Users.Select(u => u.Id).ToHashSet();
+            var usersToAdd = factory.GetUserData()
+                .Where(u => !existingUserIds.Contains(u.Id))
+                .ToList();
+            if (usersToAdd.Count > 0)
             {
-                if (!context.Users.Any(u => u.Id == user.Id))
-                {
-                    context.Users.Add(user);
-                }
+                context.Users.AddRange(usersToAdd);
             }
 
-            var productTitles = factory.GetProductTitleData();
-            foreach (var title in productTitles)
+            // ProductTitles
+            var existingTitleIds = context.ProductTitles.Select(t => t.Id).ToHashSet();
+            var titlesToAdd = factory.GetProductTitleData()
+                .Where(t => !existingTitleIds.Contains(t.Id))
+                .ToList();
+            if (titlesToAdd.Count > 0)
             {
-                if (!context.ProductTitles.Any(pt => pt.Id == title.Id))
-                {
-                    context.ProductTitles.Add(title);
-                }
+                context.ProductTitles.AddRange(titlesToAdd);
             }
 
-            var products = factory.GetProductData();
-            foreach (var product in products)
+            // Products
+            var existingProductIds = context.Products.Select(p => p.Id).ToHashSet();
+            var productsToAdd = factory.GetProductData()
+                .Where(p => !existingProductIds.Contains(p.Id))
+                .ToList();
+            if (productsToAdd.Count > 0)
             {
-                if (!context.Products.Any(p => p.Id == product.Id))
-                {
-                    context.Products.Add(product);
-                }
+                context.Products.AddRange(productsToAdd);
             }
 
-            var orders = factory.GetCustomerOrderData();
-            foreach (var order in orders)
+            // Orders
+            var existingOrderIds = context.CustomerOrders.Select(o => o.Id).ToHashSet();
+            var ordersToAdd = factory.GetCustomerOrderData()
+                .Where(o => !existingOrderIds.Contains(o.Id))
+                .ToList();
+            if (ordersToAdd.Count > 0)
             {
-                if (!context.CustomerOrders.Any(o => o.Id == order.Id))
-                {
-                    context.CustomerOrders.Add(order);
-                }
+                context.CustomerOrders.AddRange(ordersToAdd);
             }
 
-            var orderDetails = factory.GetOrderDetailData();
-            foreach (var detail in orderDetails)
+            // OrderDetails
+            var existingDetailIds = context.OrderDetails.Select(od => od.Id).ToHashSet();
+            var detailsToAdd = factory.GetOrderDetailData()
+                .Where(od => !existingDetailIds.Contains(od.Id))
+                .ToList();
+            if (detailsToAdd.Count > 0)
             {
-                if (!context.OrderDetails.Any(od => od.Id == detail.Id))
-                {
-                    context.OrderDetails.Add(detail);
-                }
+                context.OrderDetails.AddRange(detailsToAdd);
             }
 
             context.SaveChanges();
@@ -158,8 +165,10 @@ namespace ConsoleApp.Helpers
                 {
                     return dir.FullName;
                 }
+
                 dir = dir.Parent;
             }
+
             return null;
         }
     }

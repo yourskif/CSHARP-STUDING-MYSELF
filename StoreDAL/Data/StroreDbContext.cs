@@ -1,4 +1,4 @@
-﻿namespace StoreDAL.Data;
+namespace StoreDAL.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

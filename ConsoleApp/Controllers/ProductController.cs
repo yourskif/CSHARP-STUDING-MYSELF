@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,49 +7,37 @@ using StoreBLL.Services;
 
 namespace ConsoleApp.Controllers
 {
+    /// <summary>
+    /// Console product management controller (create, update, delete, list, search, filter).
+    /// </summary>
     public class ProductController
     {
         private readonly ProductService productService;
         private readonly CategoryService categoryService;
         private readonly ManufacturerService manufacturerService;
 
-        public ProductController(ProductService productService, CategoryService categoryService, ManufacturerService manufacturerService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductController"/> class.
+        /// </summary>
+        /// <param name="productService">Service for product operations.</param>
+        /// <param name="categoryService">Service for category operations.</param>
+        /// <param name="manufacturerService">Service for manufacturer operations.</param>
+        public ProductController(
+            ProductService productService,
+            CategoryService categoryService,
+            ManufacturerService manufacturerService)
         {
-            this.productService = productService;
-            this.categoryService = categoryService;
-            this.manufacturerService = manufacturerService;
+            this.productService = productService ?? throw new ArgumentNullException(nameof(productService));
+            this.categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
+            this.manufacturerService = manufacturerService ?? throw new ArgumentNullException(nameof(manufacturerService));
         }
-
-        // --- formatting helpers -------------------------------------------------
-
-        private static void PrintProductsTable(IEnumerable<ProductModel> products)
-        {
-            // Header: ID(3) | Title(24) | SKU(10) | Price(8) | Stock(6) | Reserved(8) | Available(9)
-            Console.WriteLine("\n=== All Products ===");
-            Console.WriteLine($"{"ID",3}  {"Title",-24}  {"SKU",-10}  {"Price",8}  {"Stock",6}  {"Reserved",8}  {"Available",9}");
-            Console.WriteLine(new string('-', 3 + 2 + 24 + 2 + 10 + 2 + 8 + 2 + 6 + 2 + 8 + 2 + 9));
-
-            foreach (var p in products.OrderBy(p => p.Id))
-            {
-                Console.WriteLine(
-                    $"{p.Id,3}  " +
-                    $"{Trunc(p.Title, 24),-24}  " +
-                    $"{Trunc(p.Sku, 10),-10}  " +
-                    $"{p.Price,8:0.00}  " +
-                    $"{p.Stock,6}  " +
-                    $"{p.Reserved,8}  " +
-                    $"{p.Available,9}");
-            }
-
-            Console.WriteLine();
-        }
-
-        private static string Trunc(string? s, int max) =>
-            string.IsNullOrEmpty(s) ? string.Empty : (s!.Length <= max ? s : s.Substring(0, max - 1) + "…");
 
         // --- public actions -----------------------------------------------------
 
-        public void DisplayProduct(ProductModel product)
+        /// <summary>
+        /// Prints a single product in a readable block. Static because it doesn't use instance state.
+        /// </summary>
+        public static void DisplayProduct(ProductModel product)
         {
             Console.WriteLine($"ID: {product.Id}");
             Console.WriteLine($"Title: {product.Title}");
@@ -68,36 +56,24 @@ namespace ConsoleApp.Controllers
         {
             Console.WriteLine("\n=== Create New Product ===");
 
-            Console.Write("Enter product title: ");
-            string title = Console.ReadLine() ?? string.Empty;
+            string title = ReadRequired("Enter product title");
 
-            Console.WriteLine("\nAvailable categories:");
-            Console.WriteLine("1. fruits");
-            Console.WriteLine("2. water");
-            Console.WriteLine("3. snacks");
-            Console.WriteLine("4. vegetables");
+            Console.WriteLine("\nAvailable categories: fruits, water, snacks, vegetables");
+            string categoryName = ReadRequired("Enter category name");
 
-            Console.Write("Enter category name (or select from above): ");
-            string categoryName = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine("\nAvailable manufacturers: GreenFarm, FreshCo");
+            string manufacturerName = ReadRequired("Enter manufacturer name");
 
-            Console.WriteLine("\nAvailable manufacturers:");
-            Console.WriteLine("1. GreenFarm");
-            Console.WriteLine("2. FreshCo");
-
-            Console.Write("Enter manufacturer name (or select from above): ");
-            string manufacturerName = Console.ReadLine() ?? string.Empty;
-
-            Console.Write("Enter SKU: ");
-            string sku = Console.ReadLine() ?? string.Empty;
+            string sku = ReadRequired("Enter SKU");
 
             Console.Write("Enter description: ");
             string description = Console.ReadLine() ?? string.Empty;
 
-            Console.Write("Enter price: ");
-            decimal price = decimal.Parse(Console.ReadLine() ?? "0", CultureInfo.InvariantCulture);
+            decimal price = ReadDecimalNonNegative("Enter price");
+            int stock = ReadIntNonNegative("Enter stock quantity");
 
-            Console.Write("Enter stock quantity: ");
-            int stock = int.Parse(Console.ReadLine() ?? "0", CultureInfo.InvariantCulture);
+            WarnIfUnknownCategory(categoryName);
+            WarnIfUnknownManufacturer(manufacturerName);
 
             var newProduct = this.productService.Add(
                 title: title,
@@ -127,19 +103,18 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            // compact current info block
             Console.WriteLine("\nCurrent product information:");
             Console.WriteLine(new string('-', 58));
-            Console.WriteLine($"{"ID",-12}: {product.Id}");
-            Console.WriteLine($"{"Title",-12}: {product.Title}");
-            Console.WriteLine($"{"Category",-12}: {product.Category.Name}");
-            Console.WriteLine($"{"Manufacturer",-12}: {product.Manufacturer.Name}");
-            Console.WriteLine($"{"SKU",-12}: {product.Sku}");
-            Console.WriteLine($"{"Description",-12}: {product.Description}");
-            Console.WriteLine($"{"Price",-12}: {product.Price:0.00}");
-            Console.WriteLine($"{"Total Stock",-12}: {product.Stock}");
-            Console.WriteLine($"{"Reserved",-12}: {product.Reserved}");
-            Console.WriteLine($"{"Available",-12}: {product.Available}");
+            Console.WriteLine($"ID: {product.Id}");
+            Console.WriteLine($"Title: {product.Title}");
+            Console.WriteLine($"Category: {product.Category.Name}");
+            Console.WriteLine($"Manufacturer: {product.Manufacturer.Name}");
+            Console.WriteLine($"SKU: {product.Sku}");
+            Console.WriteLine($"Description: {product.Description}");
+            Console.WriteLine($"Price: {product.Price:0.00}");
+            Console.WriteLine($"Stock: {product.Stock}");
+            Console.WriteLine($"Reserved: {product.Reserved}");
+            Console.WriteLine($"Available: {product.Available}");
             Console.WriteLine(new string('-', 58));
 
             Console.WriteLine("\nEnter new data (press Enter to keep current value):");
@@ -151,34 +126,33 @@ namespace ConsoleApp.Controllers
                 return string.IsNullOrWhiteSpace(s) ? current : s.Trim();
             }
 
-            decimal AskDecimal(string label, decimal current)
-            {
-                Console.Write($"{label} [{current:0.00}]: ");
-                var s = Console.ReadLine();
-                return string.IsNullOrWhiteSpace(s)
-                    ? current
-                    : (decimal.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out var v) ? v : current);
-            }
-
-            int AskInt(string label, int current)
-            {
-                Console.Write($"{label} [{current}]: ");
-                var s = Console.ReadLine();
-                return string.IsNullOrWhiteSpace(s)
-                    ? current
-                    : (int.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out var v) ? v : current);
-            }
-
-            Console.WriteLine("\nAvailable categories: fruits, water, snacks, vegetables");
-            Console.WriteLine("Available manufacturers: GreenFarm, FreshCo\n");
-
             var newTitle = Ask("New title", product.Title);
             var newCategory = Ask("New category", product.Category.Name);
             var newManufacturer = Ask("New manufacturer", product.Manufacturer.Name);
-            var newSku = Ask("New SKU", product.Sku);
-            var newDescription = Ask("New description", product.Description);
-            var newPrice = AskDecimal("New price", product.Price);
-            var newStock = AskInt("New stock", product.Stock);
+
+            string newSku;
+            while (true)
+            {
+                Console.Write($"New SKU [{product.Sku}]: ");
+                var s = Console.ReadLine();
+                newSku = string.IsNullOrWhiteSpace(s) ? product.Sku : s.Trim();
+                if (!string.IsNullOrWhiteSpace(newSku))
+                {
+                    break;
+                }
+
+                Console.WriteLine("SKU cannot be empty.");
+            }
+
+            Console.Write($"New description [{product.Description}]: ");
+            var sDescr = Console.ReadLine();
+            var newDescription = string.IsNullOrEmpty(sDescr) ? product.Description : sDescr.Trim();
+
+            decimal newPrice = ReadDecimalNonNegative("New price", product.Price);
+            int newStock = ReadIntNonNegative("New stock", product.Stock);
+
+            WarnIfUnknownCategory(newCategory);
+            WarnIfUnknownManufacturer(newManufacturer);
 
             var updatedProduct = this.productService.Update(
                 id: productId,
@@ -209,24 +183,20 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            Console.WriteLine($"Are you sure you want to delete '{product.Title}'? (yes/no)");
-            string confirmation = (Console.ReadLine() ?? string.Empty).ToLower(CultureInfo.InvariantCulture);
-
-            if (confirmation == "yes" || confirmation == "y")
-            {
-                bool deleted = this.productService.Delete(productId);
-                Console.WriteLine(deleted ? "Product deleted successfully!" : "Failed to delete product.");
-            }
-            else
+            if (!ConfirmYN($"Are you sure you want to delete '{product.Title}' (ID={product.Id})"))
             {
                 Console.WriteLine("Deletion cancelled.");
+                return;
             }
+
+            bool deleted = this.productService.Delete(productId);
+            Console.WriteLine(deleted ? "Product deleted successfully!" : "Failed to delete product.");
         }
 
         public void ListAllProducts()
         {
             var products = this.productService.GetAll();
-            if (!products.Any())
+            if (products.Count == 0)
             {
                 Console.WriteLine("No products found.");
                 return;
@@ -250,7 +220,7 @@ namespace ConsoleApp.Controllers
                 p.Manufacturer.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-            if (!filteredProducts.Any())
+            if (filteredProducts.Count == 0)
             {
                 Console.WriteLine("No products found.");
                 return;
@@ -263,15 +233,14 @@ namespace ConsoleApp.Controllers
 
         public void FilterByCategory()
         {
-            Console.WriteLine("\nAvailable categories: fruits, water, snacks, vegetables");
-            Console.Write("Enter category name to filter by: ");
+            Console.Write("Enter category name: ");
             string categoryName = Console.ReadLine() ?? string.Empty;
 
             var filteredProducts = this.productService.GetAll()
                 .Where(p => p.Category.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-            if (!filteredProducts.Any())
+            if (filteredProducts.Count == 0)
             {
                 Console.WriteLine("No products found in this category.");
                 return;
@@ -285,15 +254,14 @@ namespace ConsoleApp.Controllers
 
         public void FilterByManufacturer()
         {
-            Console.WriteLine("\nAvailable manufacturers: GreenFarm, FreshCo");
-            Console.Write("Enter manufacturer name to filter by: ");
+            Console.Write("Enter manufacturer name: ");
             string manufacturerName = Console.ReadLine() ?? string.Empty;
 
             var filteredProducts = this.productService.GetAll()
                 .Where(p => p.Manufacturer.Name.Equals(manufacturerName, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-            if (!filteredProducts.Any())
+            if (filteredProducts.Count == 0)
             {
                 Console.WriteLine("No products found for this manufacturer.");
                 return;
@@ -303,6 +271,128 @@ namespace ConsoleApp.Controllers
             PrintProductsTable(filteredProducts);
             Console.Write("Press any key to continue...");
             Console.ReadKey(true);
+        }
+
+        // --- formatting helpers -------------------------------------------------
+        private static void PrintProductsTable(IEnumerable<ProductModel> products)
+        {
+            Console.WriteLine("\n=== All Products ===");
+            Console.WriteLine($"{"ID",3}  {"Title",-24}  {"SKU",-10}  {"Price",8}  {"Stock",6}  {"Reserved",8}  {"Available",9}");
+            Console.WriteLine(new string('-', 3 + 2 + 24 + 2 + 10 + 2 + 8 + 2 + 6 + 2 + 8 + 2 + 9));
+
+            foreach (var p in products.OrderBy(p => p.Id))
+            {
+                Console.WriteLine(
+                    $"{p.Id,3}  " +
+                    $"{Trunc(p.Title, 24),-24}  " +
+                    $"{Trunc(p.Sku, 10),-10}  " +
+                    $"{p.Price,8:0.00}  " +
+                    $"{p.Stock,6}  " +
+                    $"{p.Reserved,8}  " +
+                    $"{p.Available,9}");
+            }
+
+            Console.WriteLine();
+        }
+
+        private static string Trunc(string? s, int max)
+        {
+            if (string.IsNullOrEmpty(s) || max <= 0)
+            {
+                return string.Empty;
+            }
+
+            if (s.Length <= max)
+            {
+                return s;
+            }
+
+            var take = Math.Max(0, max - 1);
+            return string.Concat(s.AsSpan(0, take), "…");
+        }
+
+        // --- input helpers ------------------------------------------------------
+        private static string ReadRequired(string label)
+        {
+            while (true)
+            {
+                Console.Write($"{label}: ");
+                var s = Console.ReadLine() ?? string.Empty;
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    return s.Trim();
+                }
+
+                Console.WriteLine("Value is required. Please, try again.");
+            }
+        }
+
+        private static decimal ReadDecimalNonNegative(string label, decimal? defaultValue = null)
+        {
+            while (true)
+            {
+                Console.Write($"{label}{(defaultValue.HasValue ? $" [{defaultValue.Value:0.00}]" : string.Empty)}: ");
+                var s = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(s) && defaultValue.HasValue)
+                {
+                    return defaultValue.Value;
+                }
+
+                if (decimal.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out var v) && v >= 0)
+                {
+                    return v;
+                }
+
+                Console.WriteLine("Invalid value. Must be >= 0.");
+            }
+        }
+
+        private static int ReadIntNonNegative(string label, int? defaultValue = null)
+        {
+            while (true)
+            {
+                Console.Write($"{label}{(defaultValue.HasValue ? $" [{defaultValue.Value}]" : string.Empty)}: ");
+                var s = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(s) && defaultValue.HasValue)
+                {
+                    return defaultValue.Value;
+                }
+
+                if (int.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out var v) && v >= 0)
+                {
+                    return v;
+                }
+
+                Console.WriteLine("Invalid value. Must be >= 0.");
+            }
+        }
+
+        private static bool ConfirmYN(string prompt)
+        {
+            Console.Write($"{prompt} (Y/N): ");
+            var s = (Console.ReadLine() ?? string.Empty).Trim().ToUpperInvariant();
+            return s is "Y" or "YES";
+        }
+
+        // --- simple hints -------------------------------------------------------
+        private static void WarnIfUnknownCategory(string categoryName)
+        {
+            var known = new[] { "fruits", "water", "snacks", "vegetables" };
+            if (!known.Contains(categoryName.Trim(), StringComparer.OrdinalIgnoreCase))
+            {
+                Console.WriteLine($"[Note] Category '{categoryName}' is not in the demo list.");
+            }
+        }
+
+        private static void WarnIfUnknownManufacturer(string manufacturerName)
+        {
+            var known = new[] { "GreenFarm", "FreshCo" };
+            if (!known.Contains(manufacturerName.Trim(), StringComparer.OrdinalIgnoreCase))
+            {
+                Console.WriteLine($"[Note] Manufacturer '{manufacturerName}' is not in the demo list.");
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace StoreBLL.Interfaces;
+namespace StoreBLL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Handlers.ContextMenuHandlers;
+namespace ConsoleApp.Handlers.ContextMenuHandlers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -50,4 +50,3 @@ public class AdminContextMenuHandler : ContextMenuHandler
         return array;
     }
 }
-

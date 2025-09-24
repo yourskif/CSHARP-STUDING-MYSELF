@@ -1,6 +1,4 @@
-﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Models\ProductModel.cs
-
-namespace StoreBLL.Models
+// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Models\ProductModel.csnamespace StoreBLL.Models
 {
     /// <summary>
     /// Full product model with reservation support.
@@ -15,6 +13,7 @@ namespace StoreBLL.Models
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProductModel"/> class.
         /// Initializes a new instance with model-typed category/manufacturer.
         /// </summary>
         public ProductModel(
@@ -40,6 +39,7 @@ namespace StoreBLL.Models
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProductModel"/> class.
         /// Initializes a new instance with string category/manufacturer (for legacy callers).
         /// </summary>
         public ProductModel(
@@ -107,6 +107,6 @@ namespace StoreBLL.Models
         /// <summary>
         /// Gets available units (Stock - Reserved).
         /// </summary>
-        public int Available => Stock - Reserved;
+        public int Available => this.Stock - this.Reserved;
     }
 }
