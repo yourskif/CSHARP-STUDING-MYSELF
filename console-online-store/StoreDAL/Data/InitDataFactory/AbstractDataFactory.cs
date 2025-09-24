@@ -1,4 +1,4 @@
-﻿namespace StoreDAL.Data.InitDataFactory;
+namespace StoreDAL.Data.InitDataFactory;
 using System;
 using System.Collections.Generic;
 using System.Linq;

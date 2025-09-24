@@ -1,4 +1,4 @@
-﻿namespace StoreDAL.Entities;
+namespace StoreDAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

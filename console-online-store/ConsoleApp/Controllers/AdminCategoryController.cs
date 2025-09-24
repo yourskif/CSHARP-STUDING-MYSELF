@@ -1,9 +1,5 @@
-﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\Controllers\AdminCategoryController.cs
-
 using System;
 using System.Linq;
-using StoreBLL.Models;
-using StoreBLL.Services;
 using StoreDAL.Data;
 
 namespace ConsoleApp.Controllers
@@ -11,12 +7,10 @@ namespace ConsoleApp.Controllers
     public class AdminCategoryController
     {
         private readonly StoreDbContext context;
-        private readonly CategoryService categoryService;
 
         public AdminCategoryController(StoreDbContext context)
         {
-            this.context = context;
-            this.categoryService = new CategoryService(context);
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public void ShowCategories()
@@ -37,19 +31,19 @@ namespace ConsoleApp.Controllers
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        ShowAll();
+                        this.ShowAll();
                         break;
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        CreateCategory();
+                        this.CreateCategory();
                         break;
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
-                        UpdateCategory();
+                        this.UpdateCategory();
                         break;
                     case ConsoleKey.D4:
                     case ConsoleKey.NumPad4:
-                        DeleteCategory();
+                        this.DeleteCategory();
                         break;
                     case ConsoleKey.Escape:
                         return;
@@ -63,7 +57,7 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("=== ALL CATEGORIES ===");
 
             var categories = this.context.Categories.ToList();
-            if (!categories.Any())
+            if (categories.Count == 0)
             {
                 Console.WriteLine("No categories found.");
             }
@@ -72,12 +66,12 @@ namespace ConsoleApp.Controllers
                 foreach (var category in categories)
                 {
                     var productCount = this.context.ProductTitles.Count(pt => pt.CategoryId == category.Id);
-                    Console.WriteLine($"ID: {category.Id} | Name: {category.Name} | Products: {productCount}");
+                    var name = category.Name ?? "(unnamed)";
+                    Console.WriteLine($"ID: {category.Id} | Name: {name} | Products: {productCount}");
                 }
             }
 
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey(true);
+            Pause();
         }
 
         public void CreateCategory()
@@ -86,34 +80,36 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("=== CREATE NEW CATEGORY ===");
 
             Console.Write("Enter category name: ");
-            string name = Console.ReadLine()?.Trim();
+            string? name = Console.ReadLine();
+            name = name?.Trim();
 
             if (string.IsNullOrWhiteSpace(name))
             {
                 Console.WriteLine("Category name cannot be empty.");
-                Console.ReadKey(true);
+                Pause();
                 return;
             }
 
-            // Check if category already exists
-            if (this.context.Categories.Any(c => c.Name.ToLower() == name.ToLower()))
+            bool exists = this.context.Categories.Any(c =>
+                c.Name != null && string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
+
+            if (exists)
             {
                 Console.WriteLine("Category with this name already exists.");
-                Console.ReadKey(true);
+                Pause();
                 return;
             }
 
             var category = new StoreDAL.Entities.Category
             {
-                Name = name
+                Name = name,
             };
 
             this.context.Categories.Add(category);
             this.context.SaveChanges();
 
             Console.WriteLine($"✓ Category '{name}' created successfully with ID: {category.Id}");
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey(true);
+            Pause();
         }
 
         public void UpdateCategory()
@@ -122,10 +118,11 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("=== UPDATE CATEGORY ===");
 
             Console.Write("Enter category ID to update: ");
-            if (!int.TryParse(Console.ReadLine(), out int categoryId))
+            string? idText = Console.ReadLine();
+            if (!int.TryParse(idText, out int categoryId))
             {
                 Console.WriteLine("Invalid ID.");
-                Console.ReadKey(true);
+                Pause();
                 return;
             }
 
@@ -133,35 +130,39 @@ namespace ConsoleApp.Controllers
             if (category == null)
             {
                 Console.WriteLine("Category not found.");
-                Console.ReadKey(true);
+                Pause();
                 return;
             }
 
-            Console.WriteLine($"Current name: {category.Name}");
+            Console.WriteLine($"Current name: {category.Name ?? "(unnamed)"}");
             Console.Write("Enter new name (or press Enter to keep current): ");
-            string newName = Console.ReadLine()?.Trim();
+            string? newName = Console.ReadLine();
+            newName = newName?.Trim();
 
             if (!string.IsNullOrWhiteSpace(newName))
             {
-                // Check if new name already exists
-                if (this.context.Categories.Any(c => c.Name.ToLower() == newName.ToLower() && c.Id != categoryId))
+                bool exists = this.context.Categories.Any(c =>
+                    c.Id != categoryId &&
+                    c.Name != null &&
+                    string.Equals(c.Name, newName, StringComparison.OrdinalIgnoreCase));
+
+                if (exists)
                 {
                     Console.WriteLine("Category with this name already exists.");
-                    Console.ReadKey(true);
+                    Pause();
                     return;
                 }
 
                 category.Name = newName;
                 this.context.SaveChanges();
-                Console.WriteLine($"✓ Category updated successfully.");
+                Console.WriteLine("✓ Category updated successfully.");
             }
             else
             {
                 Console.WriteLine("No changes made.");
             }
 
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey(true);
+            Pause();
         }
 
         public void DeleteCategory()
@@ -170,10 +171,11 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("=== DELETE CATEGORY ===");
 
             Console.Write("Enter category ID to delete: ");
-            if (!int.TryParse(Console.ReadLine(), out int categoryId))
+            string? idText = Console.ReadLine();
+            if (!int.TryParse(idText, out int categoryId))
             {
                 Console.WriteLine("Invalid ID.");
-                Console.ReadKey(true);
+                Pause();
                 return;
             }
 
@@ -181,34 +183,39 @@ namespace ConsoleApp.Controllers
             if (category == null)
             {
                 Console.WriteLine("Category not found.");
-                Console.ReadKey(true);
+                Pause();
                 return;
             }
 
-            // Check if category has products
             var productCount = this.context.ProductTitles.Count(pt => pt.CategoryId == categoryId);
             if (productCount > 0)
             {
-                Console.WriteLine($"Cannot delete category '{category.Name}' - it has {productCount} products.");
+                Console.WriteLine($"Cannot delete category '{category.Name ?? "(unnamed)"}' - it has {productCount} products.");
                 Console.WriteLine("Delete or reassign products first.");
-                Console.ReadKey(true);
+                Pause();
                 return;
             }
 
-            Console.WriteLine($"Are you sure you want to delete category '{category.Name}'? (yes/no)");
-            string confirmation = Console.ReadLine()?.ToLower();
+            Console.WriteLine($"Are you sure you want to delete category '{category.Name ?? "(unnamed)"}'? (yes/no)");
+            string? confirmation = Console.ReadLine();
 
-            if (confirmation == "yes" || confirmation == "y")
+            if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(confirmation, "y", StringComparison.OrdinalIgnoreCase))
             {
                 this.context.Categories.Remove(category);
                 this.context.SaveChanges();
-                Console.WriteLine($"✓ Category '{category.Name}' deleted successfully.");
+                Console.WriteLine($"✓ Category '{category.Name ?? "(unnamed)"}' deleted successfully.");
             }
             else
             {
                 Console.WriteLine("Deletion cancelled.");
             }
 
+            Pause();
+        }
+
+        private static void Pause()
+        {
             Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey(true);
         }

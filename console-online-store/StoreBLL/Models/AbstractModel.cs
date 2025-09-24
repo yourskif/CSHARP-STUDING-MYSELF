@@ -1,4 +1,4 @@
-﻿namespace StoreBLL.Models
+namespace StoreBLL.Models
 {
     /// <summary>
     /// Base model for BLL layer with common identifier.

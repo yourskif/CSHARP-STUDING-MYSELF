@@ -1,12 +1,10 @@
-﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Services\StockReservationService.cs
-
-using System;
-using System.Linq;
-using StoreDAL.Data;
-using StoreDAL.Entities;
-
-namespace StoreBLL.Services
+// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Services\StockReservationService.csnamespace StoreBLL.Services
 {
+    using System;
+    using System.Linq;
+    using StoreDAL.Data;
+    using StoreDAL.Entities;
+
     /// <summary>
     /// Service for managing product stock reservations.
     /// </summary>
@@ -22,6 +20,7 @@ namespace StoreBLL.Services
         /// <summary>
         /// Reserve stock when order is created.
         /// </summary>
+        /// <returns></returns>
         public bool ReserveStock(int productId, int quantity)
         {
             var product = this.context.Products.FirstOrDefault(p => p.Id == productId);
@@ -48,6 +47,7 @@ namespace StoreBLL.Services
         /// <summary>
         /// Release reservation when order is cancelled.
         /// </summary>
+        /// <returns></returns>
         public bool ReleaseReservation(int productId, int quantity)
         {
             var product = this.context.Products.FirstOrDefault(p => p.Id == productId);
@@ -67,6 +67,7 @@ namespace StoreBLL.Services
         /// <summary>
         /// Confirm reservation when order is delivered (actually decrease stock).
         /// </summary>
+        /// <returns></returns>
         public bool ConfirmReservation(int productId, int quantity)
         {
             var product = this.context.Products.FirstOrDefault(p => p.Id == productId);
@@ -87,6 +88,7 @@ namespace StoreBLL.Services
         /// <summary>
         /// Reserve stock for entire order.
         /// </summary>
+        /// <returns></returns>
         public bool ReserveOrderStock(int orderId)
         {
             var order = this.context.CustomerOrders
@@ -104,7 +106,7 @@ namespace StoreBLL.Services
             // Try to reserve all items
             foreach (var detail in orderDetails)
             {
-                if (!ReserveStock(detail.ProductId, detail.ProductAmount))
+                if (!this.ReserveStock(detail.ProductId, detail.ProductAmount))
                 {
                     // Rollback if any item can't be reserved
                     Console.WriteLine($"Failed to reserve stock for order {orderId}");
@@ -119,6 +121,7 @@ namespace StoreBLL.Services
         /// <summary>
         /// Release all reservations for an order.
         /// </summary>
+        /// <returns></returns>
         public bool ReleaseOrderReservations(int orderId)
         {
             var orderDetails = this.context.OrderDetails
@@ -127,7 +130,7 @@ namespace StoreBLL.Services
 
             foreach (var detail in orderDetails)
             {
-                ReleaseReservation(detail.ProductId, detail.ProductAmount);
+                this.ReleaseReservation(detail.ProductId, detail.ProductAmount);
             }
 
             Console.WriteLine($"Released all reservations for order {orderId}");
@@ -137,6 +140,7 @@ namespace StoreBLL.Services
         /// <summary>
         /// Confirm all reservations when order is delivered.
         /// </summary>
+        /// <returns></returns>
         public bool ConfirmOrderDelivery(int orderId)
         {
             var order = this.context.CustomerOrders
@@ -153,7 +157,7 @@ namespace StoreBLL.Services
 
             foreach (var detail in orderDetails)
             {
-                ConfirmReservation(detail.ProductId, detail.ProductAmount);
+                this.ConfirmReservation(detail.ProductId, detail.ProductAmount);
             }
 
             // Update order status to delivered

@@ -1,5 +1,4 @@
-﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\Controllers\UserOrderController.cs
-
+// Path: C:\Users\SK\source\repos\C#\1414\console-online-store\ConsoleApp\Controllers\UserOrderController.cs
 namespace ConsoleApp.Controllers;
 
 using System;
@@ -42,7 +41,7 @@ public class UserOrderController
     /// </summary>
     public void ShowOrderMenu()
     {
-        // fix culture for aligned numbers
+        // Fix culture for aligned numbers
         var prev = System.Threading.Thread.CurrentThread.CurrentCulture;
         System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
@@ -102,7 +101,7 @@ public class UserOrderController
         if (user == null)
         {
             Console.WriteLine("Please login first.");
-            this.Pause();
+            Pause();
             return;
         }
 
@@ -124,10 +123,8 @@ public class UserOrderController
                 continue;
             }
 
-            // Safe title
-            string titleName = product.Title?.Title ?? $"Product {product.Id}";
-
-            Console.WriteLine($"Product: {titleName} - Price: ${product.UnitPrice:F2}");
+            var safeTitle = product.Title?.Title ?? $"Product {product.Id}";
+            Console.WriteLine($"Product: {safeTitle} - Price: ${product.UnitPrice:F2}");
             Console.WriteLine($"Available stock: {product.AvailableQuantity}");
 
             Console.Write("Enter quantity: ");
@@ -148,7 +145,7 @@ public class UserOrderController
                 ProductId = productId,
                 ProductAmount = quantity,
                 Price = product.UnitPrice,
-                Product = product
+                Product = product,
             });
 
             totalAmount += product.UnitPrice * quantity;
@@ -158,37 +155,39 @@ public class UserOrderController
         if (orderDetails.Count == 0)
         {
             Console.WriteLine("No items in order. Order cancelled.");
-            this.Pause();
+            Pause();
             return;
         }
 
-        // Create the order
+        // Use invariant culture for deterministic formatting (CA1305)
         var order = new CustomerOrder
         {
             UserId = user.Id,
-            OperationTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"),
+            OperationTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture),
             OrderStateId = 1, // New Order
-            Details = orderDetails
+            Details = orderDetails,
         };
 
         this.context.CustomerOrders.Add(order);
         this.context.SaveChanges();
 
-        // Reserve stock for each detail and update AvailableQuantity (Reserved only; Available is computed)
+        // Reserve stock for each detail and update reserved counts
         foreach (var detail in orderDetails)
         {
             var product = this.context.Products.Find(detail.ProductId);
             if (product == null)
+            {
                 continue;
+            }
 
-            // Re-check availability
+            // Re-check availability right before reservation
             if (detail.ProductAmount > product.AvailableQuantity)
             {
                 Console.WriteLine($"⚠ Product {product.Id}: requested {detail.ProductAmount}, but only {product.AvailableQuantity} available now.");
                 Console.WriteLine("Order creation aborted. No changes were applied.");
                 this.context.CustomerOrders.Remove(order);
                 this.context.SaveChanges();
-                this.Pause();
+                Pause();
                 return;
             }
 
@@ -202,7 +201,7 @@ public class UserOrderController
         Console.WriteLine($"Order ID: {order.Id}");
         Console.WriteLine($"Total amount: ${totalAmount:F2}");
 
-        this.Pause();
+        Pause();
     }
 
     /// <summary>
@@ -217,7 +216,7 @@ public class UserOrderController
         if (user == null)
         {
             Console.WriteLine("Please login first.");
-            this.Pause();
+            Pause();
             return;
         }
 
@@ -229,7 +228,7 @@ public class UserOrderController
         if (orders.Count == 0)
         {
             Console.WriteLine("You have no orders.");
-            this.Pause();
+            Pause();
             return;
         }
 
@@ -239,18 +238,18 @@ public class UserOrderController
 
         foreach (var order in orders)
         {
-            // SQLite cannot aggregate decimal directly: double->decimal
+            // SQLite cannot aggregate decimal directly: double -> decimal
             var total = (decimal)this.context.OrderDetails
                 .Where(d => d.OrderId == order.Id)
                 .Select(d => (double)d.Price * d.ProductAmount)
                 .Sum();
 
-            var status = this.GetOrderStatusName(order.OrderStateId);
+            var status = GetOrderStatusName(order.OrderStateId);
             Console.WriteLine($"{order.Id,4}  {order.OperationTime,19}  {status,-28}  {total,10:0.00}");
         }
 
         Console.WriteLine("\nTip: To cancel, open 'Cancel Order' and enter the ID from the first column.");
-        this.Pause();
+        Pause();
     }
 
     /// <summary>
@@ -265,7 +264,7 @@ public class UserOrderController
         if (user == null)
         {
             Console.WriteLine("Please login first.");
-            this.Pause();
+            Pause();
             return;
         }
 
@@ -273,7 +272,7 @@ public class UserOrderController
         if (!int.TryParse(Console.ReadLine(), out int orderId))
         {
             Console.WriteLine("Invalid order ID!");
-            this.Pause();
+            Pause();
             return;
         }
 
@@ -283,26 +282,25 @@ public class UserOrderController
         if (order == null)
         {
             Console.WriteLine("Order not found or doesn't belong to you!");
-            this.Pause();
+            Pause();
             return;
         }
 
-        if (order.OrderStateId != 1) // Only new orders can be cancelled by user
+        // Only new orders can be cancelled by user
+        if (order.OrderStateId != 1)
         {
             Console.WriteLine("This order cannot be cancelled (already processed).");
-            this.Pause();
+            Pause();
             return;
         }
 
-        // Release stock reservations
+        // Release stock reservations, then update order status
         this.stockService.ReleaseOrderReservations(orderId);
-
-        // Update order status
         order.OrderStateId = 2; // Cancelled by user
         this.context.SaveChanges();
 
         Console.WriteLine("Order cancelled successfully. Stock reservations released.");
-        this.Pause();
+        Pause();
     }
 
     /// <summary>
@@ -317,7 +315,7 @@ public class UserOrderController
         if (user == null)
         {
             Console.WriteLine("Please login first.");
-            this.Pause();
+            Pause();
             return;
         }
 
@@ -325,7 +323,7 @@ public class UserOrderController
         if (!int.TryParse(Console.ReadLine(), out int orderId))
         {
             Console.WriteLine("Invalid order ID!");
-            this.Pause();
+            Pause();
             return;
         }
 
@@ -335,52 +333,48 @@ public class UserOrderController
         if (order == null)
         {
             Console.WriteLine("Order not found or doesn't belong to you!");
-            this.Pause();
+            Pause();
             return;
         }
 
-        if (order.OrderStateId != 7) // Only "Delivered to client" can be marked as received
+        // Only "Delivered to client" can be marked as received
+        if (order.OrderStateId != 7)
         {
             Console.WriteLine("Order cannot be marked as received. It must be delivered first.");
-            Console.WriteLine($"Current status: {this.GetOrderStatusName(order.OrderStateId)}");
-            this.Pause();
+            Console.WriteLine($"Current status: {GetOrderStatusName(order.OrderStateId)}");
+            Pause();
             return;
         }
 
-        // Confirm the sale (reduce stock)
+        // Confirm the sale (reduce stock), then set final status
         this.stockService.ConfirmOrderDelivery(orderId);
-
-        // Update order status
         order.OrderStateId = 8; // Delivery confirmed by client
         this.context.SaveChanges();
 
         Console.WriteLine("Order marked as received. Thank you for your purchase!");
-        this.Pause();
+        Pause();
     }
 
     /// <summary>
     /// Gets order status name by ID.
     /// </summary>
-    private string GetOrderStatusName(int statusId)
+    private static string GetOrderStatusName(int statusId) => statusId switch
     {
-        return statusId switch
-        {
-            1 => "New Order",
-            2 => "Cancelled by user",
-            3 => "Cancelled by administrator",
-            4 => "Confirmed",
-            5 => "Moved to delivery company",
-            6 => "In delivery",
-            7 => "Delivered to client",
-            8 => "Delivery confirmed by client",
-            _ => "Unknown"
-        };
-    }
+        1 => "New Order",
+        2 => "Cancelled by user",
+        3 => "Cancelled by administrator",
+        4 => "Confirmed",
+        5 => "Moved to delivery company",
+        6 => "In delivery",
+        7 => "Delivered to client",
+        8 => "Delivery confirmed by client",
+        _ => "Unknown",
+    };
 
     /// <summary>
     /// Pauses for user input.
     /// </summary>
-    private void Pause()
+    private static void Pause()
     {
         Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey(true);

@@ -1,4 +1,5 @@
-﻿namespace StoreBLL.Services;
+// Path: C:\Users\SK\source\repos\C#\1313\console-online-store\StoreBLL\Services\UserService.cs
+namespace StoreBLL.Services;
 
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,8 @@ using StoreDAL.Interfaces;
 using StoreDAL.Repository;
 
 /// <summary>
-/// Business logic service for user management operations.
-/// Handles user registration, authentication, and profile management.
+/// Business logic service for user management operations:
+/// registration, authentication, profile management, and admin actions (block/unblock/delete).
 /// </summary>
 public class UserService : ICrud
 {
@@ -39,7 +40,10 @@ public class UserService : ICrud
             lastName: m.LastName,
             login: m.Login,
             password: m.Password,
-            roleId: m.RoleId);
+            roleId: m.RoleId)
+        {
+            IsBlocked = m.IsBlocked,
+        };
 
         this.repository.Add(entity);
         this.repository.SaveChanges();
@@ -49,10 +53,23 @@ public class UserService : ICrud
     public void Delete(int modelId)
     {
         var entity = this.repository.GetById(modelId);
-        if (entity != null)
+        if (entity == null)
         {
-            throw new NotImplementedException("Delete method not available in current IUserRepository interface");
+            throw new InvalidOperationException("User not found.");
         }
+
+        if (this.repository.HasOrders(modelId))
+        {
+            throw new InvalidOperationException("Cannot delete a user who has existing orders. Consider blocking instead.");
+        }
+
+        if (entity.RoleId == 1)
+        {
+            throw new InvalidOperationException("Cannot delete an administrator account.");
+        }
+
+        this.repository.DeleteById(modelId);
+        this.repository.SaveChanges();
     }
 
     public IEnumerable<AbstractModel> GetAll()
@@ -65,17 +82,16 @@ public class UserService : ICrud
                 LastName = u.LastName,
                 Login = u.Login,
                 Password = u.Password,
-                RoleId = u.RoleId
+                RoleId = u.RoleId,
+                IsBlocked = u.IsBlocked,
             });
     }
 
-    public AbstractModel? GetById(int id)
+    // NOTE: Return type is non-nullable to match ICrud; throw if not found.
+    public AbstractModel GetById(int id)
     {
-        var u = this.repository.GetById(id);
-        if (u == null)
-        {
-            return null;
-        }
+        var u = this.repository.GetById(id)
+            ?? throw new KeyNotFoundException($"User with id {id} not found.");
 
         return new UserModel
         {
@@ -84,7 +100,8 @@ public class UserService : ICrud
             LastName = u.LastName,
             Login = u.Login,
             Password = u.Password,
-            RoleId = u.RoleId
+            RoleId = u.RoleId,
+            IsBlocked = u.IsBlocked,
         };
     }
 
@@ -98,7 +115,7 @@ public class UserService : ICrud
         var entity = this.repository.GetById(m.Id);
         if (entity == null)
         {
-            return;
+            throw new KeyNotFoundException($"User with id {m.Id} not found.");
         }
 
         entity.Name = m.FirstName;
@@ -107,19 +124,31 @@ public class UserService : ICrud
         entity.Password = m.Password;
         entity.RoleId = m.RoleId;
 
+        this.repository.Update(entity);
         this.repository.SaveChanges();
     }
 
     public UserModel? Register(string firstName, string lastName, string login, string password)
     {
         if (string.IsNullOrWhiteSpace(firstName))
+        {
             throw new ArgumentException("First name cannot be empty.", nameof(firstName));
+        }
+
         if (string.IsNullOrWhiteSpace(lastName))
+        {
             throw new ArgumentException("Last name cannot be empty.", nameof(lastName));
+        }
+
         if (string.IsNullOrWhiteSpace(login))
+        {
             throw new ArgumentException("Login cannot be empty.", nameof(login));
+        }
+
         if (string.IsNullOrWhiteSpace(password))
+        {
             throw new ArgumentException("Password cannot be empty.", nameof(password));
+        }
 
         var existingUser = this.repository.FindByLogin(login);
         if (existingUser != null)
@@ -147,7 +176,8 @@ public class UserService : ICrud
             LastName = userEntity.LastName,
             Login = userEntity.Login,
             Password = userEntity.Password,
-            RoleId = userEntity.RoleId
+            RoleId = userEntity.RoleId,
+            IsBlocked = userEntity.IsBlocked,
         };
     }
 
@@ -164,6 +194,11 @@ public class UserService : ICrud
             return null;
         }
 
+        if (userEntity.IsBlocked)
+        {
+            return null;
+        }
+
         if (!PasswordHasher.VerifyPassword(password, userEntity.Password))
         {
             return null;
@@ -176,7 +211,8 @@ public class UserService : ICrud
             LastName = userEntity.LastName,
             Login = userEntity.Login,
             Password = userEntity.Password,
-            RoleId = userEntity.RoleId
+            RoleId = userEntity.RoleId,
+            IsBlocked = userEntity.IsBlocked,
         };
     }
 
@@ -195,6 +231,7 @@ public class UserService : ICrud
 
         userEntity.Name = firstName.Trim();
         userEntity.LastName = lastName.Trim();
+        this.repository.Update(userEntity);
         this.repository.SaveChanges();
 
         return true;
@@ -219,8 +256,115 @@ public class UserService : ICrud
         }
 
         userEntity.Password = PasswordHasher.HashPassword(newPassword);
+        this.repository.Update(userEntity);
         this.repository.SaveChanges();
 
+        return true;
+    }
+
+    // ===== Admin actions =====
+    public bool BlockUser(int userId)
+    {
+        var userEntity = this.repository.GetById(userId);
+        if (userEntity == null)
+        {
+            return false;
+        }
+
+        if (!userEntity.IsBlocked)
+        {
+            userEntity.IsBlocked = true;
+            this.repository.Update(userEntity);
+            this.repository.SaveChanges();
+        }
+
+        return true;
+    }
+
+    public bool UnblockUser(int userId)
+    {
+        var userEntity = this.repository.GetById(userId);
+        if (userEntity == null)
+        {
+            return false;
+        }
+
+        if (userEntity.IsBlocked)
+        {
+            userEntity.IsBlocked = false;
+            this.repository.Update(userEntity);
+            this.repository.SaveChanges();
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Admin updates user profile (first/last name, optional login and roleId) with safety checks.
+    /// Returns true on success; false with error message otherwise.
+    /// </summary>
+    public bool UpdateByAdmin(UserModel input, out string error)
+    {
+        error = string.Empty;
+
+        var entity = this.repository.GetById(input.Id);
+        if (entity == null)
+        {
+            error = "User not found.";
+            return false;
+        }
+
+        var first = (input.FirstName ?? string.Empty).Trim();
+        var last = (input.LastName ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(first) || string.IsNullOrWhiteSpace(last))
+        {
+            error = "First and Last name cannot be empty.";
+            return false;
+        }
+
+        // Optional login change with uniqueness check
+        var login = (input.Login ?? string.Empty).Trim();
+        if (!string.IsNullOrEmpty(login) && !string.Equals(login, entity.Login, StringComparison.Ordinal))
+        {
+            var exists = this.repository.FindByLogin(login);
+            if (exists != null && exists.Id != entity.Id)
+            {
+                error = "Login is already taken.";
+                return false;
+            }
+
+            entity.Login = login;
+        }
+
+        // Optional role change (1 = admin, 2 = user) with "last admin" guard
+        int newRoleId = input.RoleId == 0 ? entity.RoleId : input.RoleId;
+        if (newRoleId != entity.RoleId)
+        {
+            if (newRoleId != 1 && newRoleId != 2)
+            {
+                error = "Invalid role id. Allowed: 1 (admin), 2 (user).";
+                return false;
+            }
+
+            // prevent removing the last administrator
+            if (entity.RoleId == 1 && newRoleId != 1)
+            {
+                var admins = this.repository.GetAll().Count(u => u.RoleId == 1);
+                if (admins <= 1)
+                {
+                    error = "Cannot remove the last administrator.";
+                    return false;
+                }
+            }
+
+            entity.RoleId = newRoleId;
+        }
+
+        entity.Name = first;
+        entity.LastName = last;
+
+        this.repository.Update(entity);
+        this.repository.SaveChanges();
         return true;
     }
 }

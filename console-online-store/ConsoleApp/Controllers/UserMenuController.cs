@@ -1,5 +1,3 @@
-// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\Controllers\UserMenuController.cs
-
 using System;
 using ConsoleApp.Helpers;
 using ConsoleApp.MenuBuilder.Admin;
@@ -8,6 +6,9 @@ using ConsoleApp.MenuBuilder.User;
 using StoreBLL.Models;
 using StoreBLL.Services;
 using StoreDAL.Data;
+
+// Alias to avoid ambiguity with ConsoleApp.Helpers.StoreDbFactory
+using DalStoreDbFactory = StoreDAL.Data.StoreDbFactory;
 
 namespace ConsoleApp.Controllers
 {
@@ -40,8 +41,8 @@ namespace ConsoleApp.Controllers
         /// </summary>
         public static void Start()
         {
-            // Initialize database context
-            Context = StoreDbFactory.Create();
+            // Use DAL factory via alias to remove ambiguity
+            Context = DalStoreDbFactory.Create();
 
             while (true)
             {
@@ -62,6 +63,7 @@ namespace ConsoleApp.Controllers
                         {
                             AdminMainMenu.Show(Context);
                         }
+
                         break;
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
@@ -69,6 +71,7 @@ namespace ConsoleApp.Controllers
                         {
                             UserMainMenu.Show(Context);
                         }
+
                         break;
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
@@ -98,7 +101,7 @@ namespace ConsoleApp.Controllers
             try
             {
                 // TEMPORARY BYPASS FOR TESTING - Remove after fixing PasswordHasher
-                if (login.ToLower() == "admin")
+                if (login.Equals("admin", StringComparison.OrdinalIgnoreCase))
                 {
                     var testAdmin = new UserModel
                     {
@@ -107,7 +110,7 @@ namespace ConsoleApp.Controllers
                         LastName = "Root",
                         Login = "admin",
                         Password = "bypassed",
-                        RoleId = 1
+                        RoleId = 1,
                     };
 
                     SetCurrentUser(testAdmin);
@@ -116,9 +119,8 @@ namespace ConsoleApp.Controllers
                     Pause();
                     return true;
                 }
-                // END OF TEMPORARY BYPASS
 
-                // Original authentication code
+                // END OF TEMPORARY BYPASS
                 var userService = new UserService(Context);
                 var user = userService.Authenticate(login, password);
 
@@ -129,12 +131,10 @@ namespace ConsoleApp.Controllers
                     Pause();
                     return true;
                 }
-                else
-                {
-                    Console.WriteLine("Invalid admin credentials or insufficient privileges.");
-                    Pause();
-                    return false;
-                }
+
+                Console.WriteLine("Invalid admin credentials or insufficient privileges.");
+                Pause();
+                return false;
             }
             catch (Exception ex)
             {
@@ -161,7 +161,7 @@ namespace ConsoleApp.Controllers
             try
             {
                 // TEMPORARY BYPASS FOR TESTING - Remove after fixing PasswordHasher
-                if (login.ToLower() == "user")
+                if (login.Equals("user", StringComparison.OrdinalIgnoreCase))
                 {
                     var testUser = new UserModel
                     {
@@ -170,7 +170,7 @@ namespace ConsoleApp.Controllers
                         LastName = "Doe",
                         Login = "user",
                         Password = "bypassed",
-                        RoleId = 2
+                        RoleId = 2,
                     };
 
                     SetCurrentUser(testUser);
@@ -179,9 +179,8 @@ namespace ConsoleApp.Controllers
                     Pause();
                     return true;
                 }
-                // END OF TEMPORARY BYPASS
 
-                // Original authentication code
+                // END OF TEMPORARY BYPASS
                 var userService = new UserService(Context);
                 var user = userService.Authenticate(login, password);
 
@@ -192,12 +191,10 @@ namespace ConsoleApp.Controllers
                     Pause();
                     return true;
                 }
-                else
-                {
-                    Console.WriteLine("Invalid user credentials.");
-                    Pause();
-                    return false;
-                }
+
+                Console.WriteLine("Invalid user credentials.");
+                Pause();
+                return false;
             }
             catch (Exception ex)
             {

@@ -1,13 +1,10 @@
-﻿namespace StoreBLL.Services
+namespace StoreBLL.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     using Microsoft.EntityFrameworkCore;
-
     using StoreBLL.Models;
-
     using StoreDAL.Data;
     using StoreDAL.Entities;
 
@@ -23,6 +20,9 @@
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        /// <summary>
+        /// Returns all categories.
+        /// </summary>
         public IEnumerable<CategoryModel> GetAll()
         {
             return this.context.Categories
@@ -30,6 +30,9 @@
                 .ToList();
         }
 
+        /// <summary>
+        /// Returns a category by id or null if not found.
+        /// </summary>
         public CategoryModel? GetById(int id)
         {
             return this.context.Categories
@@ -38,6 +41,9 @@
                 .FirstOrDefault();
         }
 
+        /// <summary>
+        /// Adds a new category.
+        /// </summary>
         public CategoryModel Add(CategoryModel model)
         {
             if (model is null)
@@ -47,16 +53,19 @@
 
             var entity = new Category
             {
-                // Якщо Id автогенерується БД, не заповнюємо його
+                // Persist non-null name to avoid nullability warnings downstream.
                 Name = model.Name ?? string.Empty,
             };
 
             this.context.Categories.Add(entity);
-            this.context.SaveChanges(); // отримаємо фактичний Id
+            this.context.SaveChanges();
 
             return MapToModel(entity);
         }
 
+        /// <summary>
+        /// Updates an existing category. Returns true if updated, false if not found.
+        /// </summary>
         public bool Update(CategoryModel model)
         {
             if (model is null)
@@ -76,6 +85,9 @@
             return true;
         }
 
+        /// <summary>
+        /// Deletes a category by id. Returns true if deleted, false if not found.
+        /// </summary>
         public bool Delete(int id)
         {
             var entity = this.context.Categories.Find(id);
@@ -89,6 +101,9 @@
             return true;
         }
 
+        /// <summary>
+        /// Finds categories by name (case sensitivity depends on provider/config).
+        /// </summary>
         public IEnumerable<CategoryModel> FindByName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -96,13 +111,16 @@
                 return Array.Empty<CategoryModel>();
             }
 
-            // EF-пошук по підрядку
             return this.context.Categories
                 .Where(c => c.Name != null && EF.Functions.Like(c.Name, $"%{name}%"))
                 .Select(MapToModel)
                 .ToList();
         }
 
-        private static CategoryModel MapToModel(Category e) => new CategoryModel(e.Id, e.Name);
+        /// <summary>
+        /// Maps an entity to a model. Guarantees non-null name.
+        /// </summary>
+        private static CategoryModel MapToModel(Category e) =>
+            new CategoryModel(e.Id, e.Name ?? string.Empty);
     }
 }

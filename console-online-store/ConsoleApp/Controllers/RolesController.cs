@@ -1,18 +1,17 @@
-﻿namespace ConsoleApp.Controllers;
+namespace ConsoleApp.Controllers;
 
 using System;
 using System.Linq;
 using StoreDAL.Data;
 
-public sealed class RolesController
+/// <summary>
+/// Controller for displaying user roles.
+/// </summary>
+public sealed class RolesController(StoreDbContext db)
 {
-    private readonly StoreDbContext db;
+    private readonly StoreDbContext db = db ?? throw new ArgumentNullException(nameof(db));
 
-    public RolesController(StoreDbContext db)
-    {
-        this.db = db ?? throw new ArgumentNullException(nameof(db));
-    }
-
+    // ---------- public instance methods ----------
     public void ShowAll()
     {
         Console.Clear();
@@ -44,7 +43,8 @@ public sealed class RolesController
         Console.ReadKey(true);
     }
 
-    private string GetRoleName(StoreDAL.Entities.UserRole role)
+    // ---------- private static helpers ----------
+    private static string GetRoleName(StoreDAL.Entities.UserRole role)
     {
         var nameProperty = role.GetType().GetProperty("Name")
                           ?? role.GetType().GetProperty("RoleName")
@@ -54,7 +54,9 @@ public sealed class RolesController
         {
             var value = nameProperty.GetValue(role);
             if (value != null)
+            {
                 return value.ToString() ?? $"Role{role.Id}";
+            }
         }
 
         return $"Role{role.Id}";

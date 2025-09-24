@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Handlers.ContextMenuHandlers;
+namespace ConsoleApp.Handlers.ContextMenuHandlers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -29,4 +29,3 @@ public abstract class ContextMenuHandler
 
     public abstract (ConsoleKey id, string caption, Action action)[] GenerateMenuItems();
 }
-
