@@ -1,4 +1,4 @@
-﻿namespace StoreDAL.Repository;
+namespace StoreDAL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;

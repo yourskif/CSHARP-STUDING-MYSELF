@@ -1,4 +1,4 @@
-﻿namespace StoreBLL.Models
+namespace StoreBLL.Models
 {
     /// <summary>
     /// User role (e.g. Admin, User).

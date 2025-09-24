@@ -1,61 +1,118 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-
 using StoreBLL.Models;
 using StoreBLL.Services;
-
 using StoreDAL.Data;
-using StoreDAL.Repository; // ProductRepository
+using StoreDAL.Repository;
 
 namespace ConsoleApp.Controllers
 {
-    public class ShopController
+    /// <summary>
+    /// User-facing shop (catalog) controller.
+    /// Shows product list with aligned columns and correct stock/reserved/available values.
+    /// </summary>
+    public sealed class ShopController
     {
+        // ---------- instance fields ----------
         private readonly ProductService productService;
 
-        public ShopController(StoreDbContext context)
+        // ---------- ctor ----------
+        public ShopController(StoreDbContext db)
         {
-            this.productService = new ProductService(new ProductRepository(context));
+            ArgumentNullException.ThrowIfNull(db);
+
+            // Build repository and service from provided DbContext
+            var productRepository = new ProductRepository(db);
+            this.productService = new ProductService(productRepository);
+        }
+
+        // ---------- PUBLIC STATIC HELPERS (public before private; static before instance) ----------
+
+        /// <summary>
+        /// Prints a fixed-width table of products.
+        /// </summary>
+        /// <param name="products">Products to print.</param>
+        public static void PrintProductsTable(IEnumerable<ProductModel> products)
+        {
+            // ID(4) | Title(28) | Category(14) | Manufacturer(14) | SKU(10) | Price(10) | Stock(7) | Reserved(8) | Available(9)
+            Console.WriteLine($"{"ID",4}  {"Title",-28}  {"Category",-14}  {"Manufacturer",-14}  {"SKU",-10}  {"Price",10}  {"Stock",7}  {"Reserved",8}  {"Available",9}");
+            Console.WriteLine(new string('-', 4 + 2 + 28 + 2 + 14 + 2 + 14 + 2 + 10 + 2 + 10 + 2 + 7 + 2 + 8 + 2 + 9));
+
+            foreach (var p in products.OrderBy(p => p.Id))
+            {
+                Console.WriteLine(
+                    $"{p.Id,4}  " +
+                    $"{Trunc(p.Title, 28),-28}  " +
+                    $"{Trunc(p.Category?.Name ?? p.Category?.ToString() ?? "unknown", 14),-14}  " +
+                    $"{Trunc(p.Manufacturer?.Name ?? p.Manufacturer?.ToString() ?? "unknown", 14),-14}  " +
+                    $"{Trunc(p.Sku ?? string.Empty, 10),-10}  " +
+                    $"{p.Price,10:0.00}  " +
+                    $"{p.Stock,7}  " +
+                    $"{p.Reserved,8}  " +
+                    $"{p.Available,9}");
+            }
+
+            Console.WriteLine();
         }
 
         /// <summary>
-        /// Entry point for guest browsing: shows a small menu with actions.
+        /// Truncates a string to a maximum length, appending an ellipsis when needed.
+        /// </summary>
+        public static string Trunc(string? s, int max)
+        {
+            if (string.IsNullOrEmpty(s) || max <= 0)
+            {
+                return string.Empty;
+            }
+
+            if (s.Length <= max)
+            {
+                return s;
+            }
+
+            int take = Math.Max(0, max - 1);
+            return string.Concat(s.AsSpan(0, take), "…");
+        }
+
+        /// <summary>
+        /// Waits for a key press (pause helper).
+        /// </summary>
+        public static void Pause()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey(true);
+        }
+
+        // ---------- PUBLIC INSTANCE METHODS ----------
+
+        /// <summary>
+        /// Backward-compat alias used by existing menus.
         /// </summary>
         public void Browse()
+        {
+            this.Run();
+        }
+
+        /// <summary>
+        /// Entry for "Catalog".
+        /// </summary>
+        public void Run()
         {
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("===== CATALOG =====");
-                Console.WriteLine("1. List all products");
-                Console.WriteLine("2. View product details");
-                Console.WriteLine("3. Browse by category");
-                Console.WriteLine("-------------------");
-                Console.WriteLine("Esc: Back");
+                Console.WriteLine("=== CATALOG ===\n");
+                Console.WriteLine("1) List all products");
+                Console.WriteLine("Esc) Back");
 
                 var key = Console.ReadKey(true).Key;
                 switch (key)
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        Console.Clear();
-                        this.ShowAll();
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D2:
-                    case ConsoleKey.NumPad2:
-                        Console.Clear();
-                        this.ShowDetails();
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
-                        Console.Clear();
-                        this.BrowseByCategory();
-                        Pause();
+                        this.ListAllProducts();
                         break;
 
                     case ConsoleKey.Escape:
@@ -64,86 +121,35 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Print all products in a simple table.
-        /// </summary>
-        public void ShowAll()
-        {
-            Console.WriteLine("=== Products ===");
-            IEnumerable<ProductModel> items = this.productService.GetAll();
-            foreach (var p in items)
-            {
-                Console.WriteLine($"{p.Id}: {p.Title} | SKU: {p.Sku} | Price: {p.Price} | Stock: {p.Stock}");
-            }
-        }
+        // ---------- PRIVATE INSTANCE METHODS ----------
 
         /// <summary>
-        /// Print details for a single product, chosen by Id.
+        /// Lists products in a fixed-width table with invariant culture formatting.
         /// </summary>
-        public void ShowDetails()
+        private void ListAllProducts()
         {
-            Console.Write("Enter product Id: ");
-            if (!int.TryParse(Console.ReadLine(), out int id))
+            var previous = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
+            try
             {
-                Console.WriteLine("Invalid Id.");
-                return;
-            }
+                Console.Clear();
+                var items = this.productService.GetAll();
 
-            ProductModel? p = this.productService.GetById(id);
-            if (p is null)
+                if (items == null || items.Count == 0)
+                {
+                    Console.WriteLine("No products found.");
+                    Pause();
+                    return;
+                }
+
+                PrintProductsTable(items);
+                Pause();
+            }
+            finally
             {
-                Console.WriteLine("Not found.");
-                return;
+                System.Threading.Thread.CurrentThread.CurrentCulture = previous;
             }
-
-            Console.WriteLine("=== Product Details ===");
-            Console.WriteLine($"Id:           {p.Id}");
-            Console.WriteLine($"Title:        {p.Title}");
-            Console.WriteLine($"SKU:          {p.Sku}");
-            Console.WriteLine($"Description:  {p.Description}");
-            Console.WriteLine($"Category:     {p.Category?.Name}");
-            Console.WriteLine($"Manufacturer: {p.Manufacturer?.Name}");
-            Console.WriteLine($"Price:        {p.Price}");
-            Console.WriteLine($"Stock:        {p.Stock}");
-        }
-
-        /// <summary>
-        /// Filter products by category name (case-insensitive).
-        /// </summary>
-        public void BrowseByCategory()
-        {
-            Console.Write("Enter category name: ");
-            string? category = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(category))
-            {
-                Console.WriteLine("Category cannot be empty.");
-                return;
-            }
-
-            var list = this.productService
-                .GetAll()
-                .Where(p => string.Equals(p.Category?.Name, category, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            if (list.Count == 0)
-            {
-                Console.WriteLine("No products in this category.");
-                return;
-            }
-
-            Console.WriteLine($"=== Products in category \"{category}\" ===");
-            foreach (var p in list)
-            {
-                Console.WriteLine($"{p.Id}: {p.Title} | SKU: {p.Sku} | Price: {p.Price} | Stock: {p.Stock}");
-            }
-        }
-
-        private static void Pause()
-        {
-            Console.WriteLine();
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
         }
     }
 }

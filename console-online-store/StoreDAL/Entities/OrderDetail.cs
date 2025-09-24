@@ -1,38 +1,38 @@
-﻿namespace StoreDAL.Entities;
-using System.ComponentModel.DataAnnotations;
+namespace StoreDAL.Entities;
+
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("customer_order_details")]
+/// <summary>
+/// Order line item.
+/// </summary>
+[Table("order_details")]
 public class OrderDetail : BaseEntity
 {
-    public OrderDetail() : base()
+    public OrderDetail()
+        : base()
     {
     }
 
-    public OrderDetail(int id, int orderId, int productId, decimal price, int amount)
+    public OrderDetail(int id, int orderId, int productId, int productAmount, decimal price)
         : base(id)
     {
         this.OrderId = orderId;
         this.ProductId = productId;
+        this.ProductAmount = productAmount;
         this.Price = price;
-        this.ProductAmount = amount;
     }
 
-    [Column("customer_order_id")]
+    [Column("order_id")]
     public int OrderId { get; set; }
 
     [Column("product_id")]
     public int ProductId { get; set; }
 
-    [Column("price")]
-    public decimal Price { get; set; }
-
     [Column("product_amount")]
     public int ProductAmount { get; set; }
 
-    [ForeignKey("OrderId")]
-    public CustomerOrder Order { get; set; }
+    [Column("price")]
+    public decimal Price { get; set; }
 
-    [ForeignKey("ProductId")]
-    public Product Product { get; set; }
+    public virtual Product? Product { get; set; }
 }

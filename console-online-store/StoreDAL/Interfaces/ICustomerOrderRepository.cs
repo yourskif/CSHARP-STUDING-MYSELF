@@ -1,4 +1,4 @@
-﻿namespace StoreDAL.Interfaces;
+namespace StoreDAL.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

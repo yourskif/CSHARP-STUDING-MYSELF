@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -10,21 +10,28 @@ using StoreDAL.Entities;
 namespace ConsoleApp.Controllers
 {
     /// <summary>
-    /// Admin orders management (tabular view, details, cancel, advance).
+    /// Admin orders management (tabular view, details, cancel, change status).
     /// </summary>
     public sealed class AdminOrderController
     {
+        // ---------- instance fields ----------
         private readonly StoreDbContext db;
         private readonly StockReservationService stockService;
+        private readonly CustomerOrderService orderService;
 
-        // Typical pipeline for demo
-        private static readonly int[] Pipeline = { 1, 4, 5, 6, 7, 8 };
-
+        // ---------- ctor ----------
         public AdminOrderController(StoreDbContext db)
         {
             this.db = db ?? throw new ArgumentNullException(nameof(db));
             this.stockService = new StockReservationService(db);
+            this.orderService = new CustomerOrderService(db);
         }
+
+        // ---------- PUBLIC methods (SA1202: public before private) ----------
+        /// <summary>
+        /// Backward-compat alias used by existing menus.
+        /// </summary>
+        public void ShowOrders() => this.ShowOrdersSnapshot();
 
         public void Run()
         {
@@ -40,7 +47,7 @@ namespace ConsoleApp.Controllers
                     Console.WriteLine("1. Orders snapshot (table)");
                     Console.WriteLine("2. View order details");
                     Console.WriteLine("3. Cancel order (admin)");
-                    Console.WriteLine("4. Advance order status along pipeline");
+                    Console.WriteLine("4. Change order status (choose allowed)");
                     Console.WriteLine();
                     Console.WriteLine("Esc: Back");
 
@@ -61,7 +68,7 @@ namespace ConsoleApp.Controllers
                             break;
                         case ConsoleKey.D4:
                         case ConsoleKey.NumPad4:
-                            this.AdvanceOrder();
+                            this.ChangeOrderStatusInteractive();
                             break;
                         case ConsoleKey.Escape:
                             return;
@@ -74,9 +81,68 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        // For backward compatibility with any menu calling ShowOrders()
-        public void ShowOrders() => this.ShowOrdersSnapshot();
+        // ---------- PRIVATE static helpers (before private instance methods; SA1204 within 'private') ----------
+        private static string UserLabel(User? u)
+        {
+            if (u is null)
+            {
+                return "unknown";
+            }
 
+            string? best =
+                ReadString(u, "DisplayName") ??
+                ReadString(u, "Email") ??
+                ReadString(u, "Login") ??
+                ReadString(u, "Username") ??
+                ReadString(u, "Name");
+
+            return string.IsNullOrWhiteSpace(best) ? $"User#{u.Id}" : best!;
+        }
+
+        private static string? ReadString(object? obj, string propName)
+        {
+            if (obj is null)
+            {
+                return null;
+            }
+
+            var pi = obj.GetType().GetProperty(
+                propName,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+
+            if (pi is null || !pi.CanRead)
+            {
+                return null;
+            }
+
+            return pi.GetValue(obj) as string;
+        }
+
+        private static string Trunc(string? s, int max)
+        {
+            if (string.IsNullOrEmpty(s) || max <= 0)
+            {
+                return string.Empty;
+            }
+
+            if (s.Length <= max)
+            {
+                return s;
+            }
+
+            var take = Math.Max(0, max - 1);
+
+            // ASCII "..." to avoid any encoding surprises
+            return string.Concat(s.AsSpan(0, take), "...");
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey(true);
+        }
+
+        // ---------- PRIVATE instance methods ----------
         private void ShowOrdersSnapshot()
         {
             Console.Clear();
@@ -91,14 +157,14 @@ namespace ConsoleApp.Controllers
                     o.Id,
                     o.OperationTime,
                     o.OrderStateId,
-                    o.User
+                    o.User,
                 })
                 .ToList();
 
             if (rows.Count == 0)
             {
                 Console.WriteLine("No orders found.");
-                this.Pause();
+                Pause();
                 return;
             }
 
@@ -112,11 +178,11 @@ namespace ConsoleApp.Controllers
                     .Select(d => (double)d.Price * d.ProductAmount)
                     .Sum();
 
-                Console.WriteLine($"{r.Id,4}  {r.OperationTime,19}  {UserLabel(r.User),-20}  {StatusName(r.OrderStateId),-28}  {total,10:0.00}");
+                Console.WriteLine($"{r.Id,4}  {r.OperationTime ?? string.Empty,19}  {UserLabel(r.User),-20}  {CustomerOrderService.StatusName(r.OrderStateId),-28}  {total,10:0.00}");
             }
 
-            Console.WriteLine("\nTip: Use [3] to cancel by ID, [4] to advance status.");
-            this.Pause();
+            Console.WriteLine("\nTip: Use [3] to cancel by ID, [4] to change status.");
+            Pause();
         }
 
         private void ShowOrderDetails()
@@ -127,7 +193,7 @@ namespace ConsoleApp.Controllers
             if (!int.TryParse(Console.ReadLine(), out int id))
             {
                 Console.WriteLine("Invalid ID.");
-                this.Pause();
+                Pause();
                 return;
             }
 
@@ -138,24 +204,25 @@ namespace ConsoleApp.Controllers
             if (order == null)
             {
                 Console.WriteLine("Order not found.");
-                this.Pause();
+                Pause();
                 return;
             }
 
             Console.WriteLine($"\nID: {order.Id}");
-            Console.WriteLine($"Date: {order.OperationTime}");
+            Console.WriteLine($"Date: {order.OperationTime ?? string.Empty}");
             Console.WriteLine($"User: {UserLabel(order.User)}");
-            Console.WriteLine($"Status: {StatusName(order.OrderStateId)}");
+            Console.WriteLine($"Status: {CustomerOrderService.StatusName(order.OrderStateId)}");
 
             var details = this.db.OrderDetails
-                .Include(d => d.Product).ThenInclude(p => p.Title)
+                .Include(d => d.Product)
+                .ThenInclude(p => p!.Title) // null-forgiving to avoid CS8602 on ThenInclude
                 .Where(d => d.OrderId == id)
                 .ToList();
 
             if (details.Count == 0)
             {
                 Console.WriteLine("\nNo items.");
-                this.Pause();
+                Pause();
                 return;
             }
 
@@ -173,9 +240,9 @@ namespace ConsoleApp.Controllers
             }
 
             Console.WriteLine(new string('-', 30 + 2 + 10 + 2 + 5 + 2 + 10));
-            Console.WriteLine($"{"TOTAL",-30}  {"",10}  {"",5}  {total,10:0.00}");
+            Console.WriteLine($"{"TOTAL",-30}  {string.Empty,10}  {string.Empty,5}  {total,10:0.00}");
 
-            this.Pause();
+            Pause();
         }
 
         private void AdminCancelOrder()
@@ -186,7 +253,7 @@ namespace ConsoleApp.Controllers
             if (!int.TryParse(Console.ReadLine(), out int id))
             {
                 Console.WriteLine("Invalid ID.");
-                this.Pause();
+                Pause();
                 return;
             }
 
@@ -194,34 +261,50 @@ namespace ConsoleApp.Controllers
             if (order == null)
             {
                 Console.WriteLine("Order not found.");
-                this.Pause();
+                Pause();
                 return;
             }
 
-            if (order.OrderStateId is 3 or 2 or 8)
+            if (order.OrderStateId is 2 or 3 or 8)
             {
-                Console.WriteLine($"Order already final: {StatusName(order.OrderStateId)}");
-                this.Pause();
+                Console.WriteLine($"Order already final: {CustomerOrderService.StatusName(order.OrderStateId)}");
+                Pause();
                 return;
             }
 
-            this.stockService.ReleaseOrderReservations(id);
-            order.OrderStateId = 3; // cancelled by admin
-            this.db.SaveChanges();
+            if (!CustomerOrderService.CanTransition(order.OrderStateId, 3))
+            {
+                var next = string.Join(", ", CustomerOrderService
+                    .GetAllowedNextStates(order.OrderStateId)
+                    .Select(CustomerOrderService.StatusName));
 
-            Console.WriteLine($"Order {id} cancelled by administrator. Reservations released.");
-            this.Pause();
+                Console.WriteLine($"Cancel is not allowed from current state ({CustomerOrderService.StatusName(order.OrderStateId)}). Allowed next: [{next}].");
+                Pause();
+                return;
+            }
+
+            if (this.orderService.TryChangeState(id, 3, out var error))
+            {
+                this.stockService.ReleaseOrderReservations(id);
+                Console.WriteLine($"Order {id} cancelled by administrator. Reservations released.");
+            }
+            else
+            {
+                Console.WriteLine(error);
+            }
+
+            Pause();
         }
 
-        private void AdvanceOrder()
+        private void ChangeOrderStatusInteractive()
         {
             Console.Clear();
-            Console.WriteLine("=== ADMIN: ADVANCE ORDER ===\n");
+            Console.WriteLine("=== ADMIN: CHANGE ORDER STATUS ===\n");
             Console.Write("Enter Order ID: ");
             if (!int.TryParse(Console.ReadLine(), out int id))
             {
                 Console.WriteLine("Invalid ID.");
-                this.Pause();
+                Pause();
                 return;
             }
 
@@ -229,74 +312,51 @@ namespace ConsoleApp.Controllers
             if (order == null)
             {
                 Console.WriteLine("Order not found.");
-                this.Pause();
+                Pause();
                 return;
             }
 
-            var idx = Array.IndexOf(Pipeline, order.OrderStateId);
-            if (idx < 0 || idx == Pipeline.Length - 1)
+            var allowed = CustomerOrderService.GetAllowedNextStates(order.OrderStateId);
+            if (allowed.Count == 0)
             {
-                Console.WriteLine($"Nothing to advance. Current status: {StatusName(order.OrderStateId)}");
-                this.Pause();
+                Console.WriteLine($"No allowed transitions from current state: {CustomerOrderService.StatusName(order.OrderStateId)}.");
+                Pause();
                 return;
             }
 
-            order.OrderStateId = Pipeline[idx + 1];
-
-            // When client confirms delivery, we can finalize reservations if щось ще залишилось
-            if (order.OrderStateId == 8)
+            Console.WriteLine($"\nCurrent: {CustomerOrderService.StatusName(order.OrderStateId)}");
+            Console.WriteLine("Allowed next states:");
+            for (int i = 0; i < allowed.Count; i++)
             {
-                var stockSvc = new StockReservationService(this.db);
-                stockSvc.ConfirmOrderDelivery(order.Id);
+                Console.WriteLine($"{i + 1}) {CustomerOrderService.StatusName(allowed[i])} (#{allowed[i]})");
             }
 
-            this.db.SaveChanges();
-            Console.WriteLine($"Order {id} moved to: {StatusName(order.OrderStateId)}");
-            this.Pause();
-        }
-
-        // ---------- helpers ----------
-
-        private static string StatusName(int id) =>
-            id switch
+            Console.Write("\nChoose option: ");
+            if (!int.TryParse(Console.ReadLine(), out int opt) || opt < 1 || opt > allowed.Count)
             {
-                1 => "New Order",
-                2 => "Cancelled by user",
-                3 => "Cancelled by administrator",
-                4 => "Confirmed",
-                5 => "Moved to delivery company",
-                6 => "In delivery",
-                7 => "Delivered to client",
-                8 => "Delivery confirmed by client",
-                _ => "Unknown"
-            };
+                Console.WriteLine("Invalid option.");
+                Pause();
+                return;
+            }
 
-        private static string UserLabel(User? u)
-        {
-            if (u is null) return "unknown";
-            string? best =
-                ReadString(u, "DisplayName") ??
-                ReadString(u, "Email") ??
-                ReadString(u, "Login") ??
-                ReadString(u, "Username") ??
-                ReadString(u, "Name");
-            return string.IsNullOrWhiteSpace(best) ? $"User#{u.Id}" : best!;
-        }
+            int target = allowed[opt - 1];
 
-        private static string? ReadString(object obj, string propName)
-        {
-            var pi = obj.GetType().GetProperty(propName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-            if (pi is null || !pi.CanRead) return null;
-            return pi.GetValue(obj) as string;
-        }
+            if (this.orderService.TryChangeState(id, target, out var error))
+            {
+                if (target == 8)
+                {
+                    var stockSvc = new StockReservationService(this.db);
+                    stockSvc.ConfirmOrderDelivery(id);
+                }
 
-        private static string Trunc(string? s, int max) =>
-            string.IsNullOrEmpty(s) ? string.Empty : (s!.Length <= max ? s : s.Substring(0, max - 1) + "…");
+                Console.WriteLine($"Order {id} moved to: {CustomerOrderService.StatusName(target)}");
+            }
+            else
+            {
+                Console.WriteLine(error);
+            }
 
-        private void Pause()
-        {
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey(true);
+            Pause();
         }
     }
 }

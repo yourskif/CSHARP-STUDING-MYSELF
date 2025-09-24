@@ -17,7 +17,7 @@ namespace ConsoleApp.Controllers
             this.service = new CategoryService(context);
         }
 
-        // РџРѕРєР°Р·Р°С‚Рё РІСЃС– РєР°С‚РµРіРѕСЂС–С—
+        // Р В РЎСџР В РЎвЂўР В РЎвЂќР В Р’В°Р В Р’В·Р В Р’В°Р РЋРІР‚С™Р В РЎвЂ Р В Р вЂ Р РЋР С“Р РЋРІР‚вЂњ Р В РЎвЂќР В Р’В°Р РЋРІР‚С™Р В Р’ВµР В РЎвЂ“Р В РЎвЂўР РЋР вЂљР РЋРІР‚вЂњР РЋРІР‚вЂќ
         public void ShowAll()
         {
             Console.WriteLine("=== Categories ===");
@@ -28,7 +28,7 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        // Р”РѕРґР°С‚Рё РєР°С‚РµРіРѕСЂС–СЋ
+        // Р В РІР‚СњР В РЎвЂўР В РўвЂР В Р’В°Р РЋРІР‚С™Р В РЎвЂ Р В РЎвЂќР В Р’В°Р РЋРІР‚С™Р В Р’ВµР В РЎвЂ“Р В РЎвЂўР РЋР вЂљР РЋРІР‚вЂњР РЋР вЂ№
         public void AddCategory()
         {
             Console.Write("Enter category name: ");
@@ -46,7 +46,7 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("Category added successfully.");
         }
 
-        // РџРѕС€СѓРє Р·Р° РЅР°Р·РІРѕСЋ
+        // Р В РЎСџР В РЎвЂўР РЋРІвЂљВ¬Р РЋРЎвЂњР В РЎвЂќ Р В Р’В·Р В Р’В° Р В Р вЂ¦Р В Р’В°Р В Р’В·Р В Р вЂ Р В РЎвЂўР РЋР вЂ№
         public void SearchByName()
         {
             Console.Write("Enter name to search: ");
@@ -68,7 +68,7 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        // Р РµРґР°РіСѓРІР°С‚Рё РєР°С‚РµРіРѕСЂС–СЋ
+        // Р В Р’В Р В Р’ВµР В РўвЂР В Р’В°Р В РЎвЂ“Р РЋРЎвЂњР В Р вЂ Р В Р’В°Р РЋРІР‚С™Р В РЎвЂ Р В РЎвЂќР В Р’В°Р РЋРІР‚С™Р В Р’ВµР В РЎвЂ“Р В РЎвЂўР РЋР вЂљР РЋРІР‚вЂњР РЋР вЂ№
         public void UpdateCategory()
         {
             Console.Write("Enter category ID to update: ");
@@ -93,7 +93,7 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("Category updated successfully.");
         }
 
-        // Р’РёРґР°Р»РёС‚Рё РєР°С‚РµРіРѕСЂС–СЋ
+        // Р В РІР‚в„ўР В РЎвЂР В РўвЂР В Р’В°Р В Р’В»Р В РЎвЂР РЋРІР‚С™Р В РЎвЂ Р В РЎвЂќР В Р’В°Р РЋРІР‚С™Р В Р’ВµР В РЎвЂ“Р В РЎвЂўР РЋР вЂљР РЋРІР‚вЂњР РЋР вЂ№
         public void DeleteCategory()
         {
             Console.Write("Enter category ID to delete: ");

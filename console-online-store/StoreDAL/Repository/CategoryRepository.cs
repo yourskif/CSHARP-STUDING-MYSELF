@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using StoreDAL.Data;
@@ -16,21 +16,21 @@ namespace StoreDAL.Repository
             this.context = context;
         }
 
-        // Додати нову категорію
+        // Р”РѕРґР°С‚Рё РЅРѕРІСѓ РєР°С‚РµРіРѕСЂС–СЋ
         public void Add(Category entity)
         {
             this.context.Categories.Add(entity);
             this.context.SaveChanges();
         }
 
-        // Видалити категорію (по сутності)
+        // Р’РёРґР°Р»РёС‚Рё РєР°С‚РµРіРѕСЂС–СЋ (РїРѕ СЃСѓС‚РЅРѕСЃС‚С–)
         public void Delete(Category entity)
         {
             this.context.Categories.Remove(entity);
             this.context.SaveChanges();
         }
 
-        // Видалити категорію за ID
+        // Р’РёРґР°Р»РёС‚Рё РєР°С‚РµРіРѕСЂС–СЋ Р·Р° ID
         public void DeleteById(int id)
         {
             var category = this.context.Categories.Find(id);
@@ -41,13 +41,13 @@ namespace StoreDAL.Repository
             }
         }
 
-        // Отримати всі категорії
+        // РћС‚СЂРёРјР°С‚Рё РІСЃС– РєР°С‚РµРіРѕСЂС–С—
         public IEnumerable<Category> GetAll()
         {
             return this.context.Categories.ToList();
         }
 
-        // Отримати категорії з пагінацією
+        // РћС‚СЂРёРјР°С‚Рё РєР°С‚РµРіРѕСЂС–С— Р· РїР°РіС–РЅР°С†С–С”СЋ
         public IEnumerable<Category> GetAll(int pageNumber, int rowCount)
         {
             return this.context.Categories
@@ -56,13 +56,13 @@ namespace StoreDAL.Repository
                           .ToList();
         }
 
-        // Отримати категорію за ID
+        // РћС‚СЂРёРјР°С‚Рё РєР°С‚РµРіРѕСЂС–СЋ Р·Р° ID
         public Category GetById(int id)
         {
             return this.context.Categories.Find(id);
         }
 
-        // Оновити категорію
+        // РћРЅРѕРІРёС‚Рё РєР°С‚РµРіРѕСЂС–СЋ
         public void Update(Category entity)
         {
             this.context.Categories.Update(entity);

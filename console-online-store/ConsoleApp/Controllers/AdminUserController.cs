@@ -1,5 +1,3 @@
-﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\Controllers\AdminUserController.cs
-
 using System;
 using System.Linq;
 using StoreBLL.Services;
@@ -37,23 +35,23 @@ namespace ConsoleApp.Controllers
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        ListAllUsers();
+                        this.ListAllUsers();
                         break;
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        ViewUserDetails();
+                        this.ViewUserDetails();
                         break;
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
-                        UpdateUserRole();
+                        this.UpdateUserRole();
                         break;
                     case ConsoleKey.D4:
                     case ConsoleKey.NumPad4:
-                        ToggleUserBlock();
+                        this.ToggleUserBlock();
                         break;
                     case ConsoleKey.D5:
                     case ConsoleKey.NumPad5:
-                        DeleteUser();
+                        this.DeleteUser();
                         break;
                     case ConsoleKey.Escape:
                         return;
@@ -159,7 +157,7 @@ namespace ConsoleApp.Controllers
             user.RoleId = newRoleId;
             this.context.SaveChanges();
 
-            Console.WriteLine($"✓ User role updated successfully.");
+            Console.WriteLine("✓ User role updated successfully.");
             Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey(true);
         }
@@ -229,9 +227,9 @@ namespace ConsoleApp.Controllers
             var orderCount = this.context.CustomerOrders.Count(o => o.UserId == userId);
             if (orderCount > 0)
             {
-                Console.WriteLine($"User has {orderCount} orders. Delete anyway? (yes/no)");
-                string confirmation = Console.ReadLine()?.ToLower();
-                if (confirmation != "yes" && confirmation != "y")
+                Console.WriteLine($"User has {orderCount} orders. Delete anyway? (YES/NO)");
+                var confirmation = (Console.ReadLine() ?? string.Empty).Trim().ToUpperInvariant(); // fix CA1308
+                if (confirmation != "YES" && confirmation != "Y")
                 {
                     Console.WriteLine("Deletion cancelled.");
                     Console.ReadKey(true);

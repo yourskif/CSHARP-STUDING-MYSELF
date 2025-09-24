@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Handlers.ContextMenuHandlers;
+namespace ConsoleApp.Handlers.ContextMenuHandlers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -43,4 +43,3 @@ public class OrderContextMenuHandler : ContextMenuHandler
         return array;
     }
 }
-
