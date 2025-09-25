@@ -1,0 +1,19 @@
+# Загальне авто-визначення тексту
+* text=auto
+
+# Windows-текстові файли — CRLF у робочій копії
+*.sln      text eol=crlf
+*.csproj   text eol=crlf
+*.props    text eol=crlf
+*.targets  text eol=crlf
+*.cs       text eol=crlf
+*.config   text eol=crlf
+*.ruleset  text eol=crlf
+*.json     text eol=crlf
+
+# Unix-стиль (LF) для скриптів/markdown
+*.sh       text eol=lf
+*.ps1      text eol=lf
+*.md       text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
