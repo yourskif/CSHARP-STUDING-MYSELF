@@ -1,171 +1,100 @@
-// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Services\StockReservationService.csnamespace StoreBLL.Services
+// Path: C:\Users\SK\source\repos\C#\1414\console-online-store\console-online-store\StoreBLL\Services\StockReservationService.cs
+namespace StoreBLL.Services;
+
+using System;
+using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
+
+using StoreDAL.Data;
+using StoreDAL.Entities;
+
+/// <summary>
+/// Inventory operations tied to order lifecycle:
+/// - Release reservations on cancel
+/// - Confirm delivery: decrease stock and clear reservations
+/// </summary>
+public class StockReservationService
 {
-    using System;
-    using System.Linq;
-    using StoreDAL.Data;
-    using StoreDAL.Entities;
+    private readonly StoreDbContext context;
+
+    public StockReservationService(StoreDbContext context)
+    {
+        this.context = context ?? throw new ArgumentNullException(nameof(context));
+    }
 
     /// <summary>
-    /// Service for managing product stock reservations.
+    /// Releases reserved quantities for all products in the order.
+    /// Used when order is cancelled (user/admin).
     /// </summary>
-    public class StockReservationService
+    /// <param name="orderId">Order id.</param>
+    public void ReleaseOrderReservations(int orderId)
     {
-        private readonly StoreDbContext context;
+        var details = this.context.OrderDetails
+            .AsNoTracking()
+            .Where(d => d.OrderId == orderId)
+            .ToList();
 
-        public StockReservationService(StoreDbContext context)
+        if (details.Count == 0)
         {
-            this.context = context;
+            return;
         }
 
-        /// <summary>
-        /// Reserve stock when order is created.
-        /// </summary>
-        /// <returns></returns>
-        public bool ReserveStock(int productId, int quantity)
+        foreach (var d in details)
         {
-            var product = this.context.Products.FirstOrDefault(p => p.Id == productId);
-            if (product == null)
+            var product = this.context.Products.FirstOrDefault(p => p.Id == d.ProductId);
+            if (product is null)
             {
-                return false;
+                continue;
             }
 
-            // Check if we have enough available stock
-            if (product.AvailableQuantity < quantity)
-            {
-                Console.WriteLine($"Not enough stock available. Requested: {quantity}, Available: {product.AvailableQuantity}");
-                return false;
-            }
-
-            // Reserve the quantity
-            product.ReservedQuantity += quantity;
-            this.context.SaveChanges();
-
-            Console.WriteLine($"Reserved {quantity} units of product {productId}. Available: {product.AvailableQuantity}");
-            return true;
+            // Reduce reserved, but never below zero
+            var newReserved = product.ReservedQuantity - d.ProductAmount;
+            product.ReservedQuantity = newReserved < 0 ? 0 : newReserved;
         }
 
-        /// <summary>
-        /// Release reservation when order is cancelled.
-        /// </summary>
-        /// <returns></returns>
-        public bool ReleaseReservation(int productId, int quantity)
+        this.context.SaveChanges();
+    }
+
+    /// <summary>
+    /// Confirms delivery: for each order line
+    /// - decrease stock by shipped amount
+    /// - decrease (clear) reservations by shipped amount
+    /// Tests expect reservations to be zeroed after moving to state 8.
+    /// </summary>
+    /// <param name="orderId">Order id.</param>
+    public void ConfirmOrderDelivery(int orderId)
+    {
+        var details = this.context.OrderDetails
+            .AsNoTracking()
+            .Where(d => d.OrderId == orderId)
+            .ToList();
+
+        if (details.Count == 0)
         {
-            var product = this.context.Products.FirstOrDefault(p => p.Id == productId);
-            if (product == null)
-            {
-                return false;
-            }
-
-            // Release the reservation
-            product.ReservedQuantity = Math.Max(0, product.ReservedQuantity - quantity);
-            this.context.SaveChanges();
-
-            Console.WriteLine($"Released {quantity} units of product {productId}. Available: {product.AvailableQuantity}");
-            return true;
+            return;
         }
 
-        /// <summary>
-        /// Confirm reservation when order is delivered (actually decrease stock).
-        /// </summary>
-        /// <returns></returns>
-        public bool ConfirmReservation(int productId, int quantity)
+        foreach (var d in details)
         {
-            var product = this.context.Products.FirstOrDefault(p => p.Id == productId);
-            if (product == null)
+            var product = this.context.Products.FirstOrDefault(p => p.Id == d.ProductId);
+            if (product is null)
             {
-                return false;
+                continue;
             }
 
-            // Decrease stock and reserved quantity
-            product.StockQuantity -= quantity;
-            product.ReservedQuantity = Math.Max(0, product.ReservedQuantity - quantity);
-            this.context.SaveChanges();
+            int qty = d.ProductAmount;
 
-            Console.WriteLine($"Confirmed sale of {quantity} units of product {productId}. Stock: {product.StockQuantity}, Reserved: {product.ReservedQuantity}");
-            return true;
+            // Decrease stock (can't go below zero)
+            int newStock = product.StockQuantity - qty;
+            product.StockQuantity = newStock < 0 ? 0 : newStock;
+
+            // Decrease reserved (can't go below zero). After successful delivery,
+            // tests expect reservations to be fully released for shipped items.
+            int newReserved = product.ReservedQuantity - qty;
+            product.ReservedQuantity = newReserved < 0 ? 0 : newReserved;
         }
 
-        /// <summary>
-        /// Reserve stock for entire order.
-        /// </summary>
-        /// <returns></returns>
-        public bool ReserveOrderStock(int orderId)
-        {
-            var order = this.context.CustomerOrders
-                .FirstOrDefault(o => o.Id == orderId);
-
-            if (order == null)
-            {
-                return false;
-            }
-
-            var orderDetails = this.context.OrderDetails
-                .Where(od => od.OrderId == orderId)
-                .ToList();
-
-            // Try to reserve all items
-            foreach (var detail in orderDetails)
-            {
-                if (!this.ReserveStock(detail.ProductId, detail.ProductAmount))
-                {
-                    // Rollback if any item can't be reserved
-                    Console.WriteLine($"Failed to reserve stock for order {orderId}");
-                    return false;
-                }
-            }
-
-            Console.WriteLine($"Successfully reserved stock for order {orderId}");
-            return true;
-        }
-
-        /// <summary>
-        /// Release all reservations for an order.
-        /// </summary>
-        /// <returns></returns>
-        public bool ReleaseOrderReservations(int orderId)
-        {
-            var orderDetails = this.context.OrderDetails
-                .Where(od => od.OrderId == orderId)
-                .ToList();
-
-            foreach (var detail in orderDetails)
-            {
-                this.ReleaseReservation(detail.ProductId, detail.ProductAmount);
-            }
-
-            Console.WriteLine($"Released all reservations for order {orderId}");
-            return true;
-        }
-
-        /// <summary>
-        /// Confirm all reservations when order is delivered.
-        /// </summary>
-        /// <returns></returns>
-        public bool ConfirmOrderDelivery(int orderId)
-        {
-            var order = this.context.CustomerOrders
-                .FirstOrDefault(o => o.Id == orderId);
-
-            if (order == null)
-            {
-                return false;
-            }
-
-            var orderDetails = this.context.OrderDetails
-                .Where(od => od.OrderId == orderId)
-                .ToList();
-
-            foreach (var detail in orderDetails)
-            {
-                this.ConfirmReservation(detail.ProductId, detail.ProductAmount);
-            }
-
-            // Update order status to delivered
-            order.OrderStateId = 8; // "Delivery confirmed by client"
-            this.context.SaveChanges();
-
-            Console.WriteLine($"Confirmed delivery for order {orderId}. Stock updated.");
-            return true;
-        }
+        this.context.SaveChanges();
     }
 }
