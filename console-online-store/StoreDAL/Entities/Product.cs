@@ -1,52 +1,74 @@
-﻿// C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreDAL\Entities\Product.cs
 namespace StoreDAL.Entities;
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 /// <summary>
-/// Product row. Prices live in <see cref="UnitPrice"/>, stock in <see cref="Stock"/>.
-/// Title text is stored in related <see cref="ProductTitle"/> (fallback: <see cref="Description"/>).
+/// Product entity with stock and reservation counters.
 /// </summary>
 [Table("products")]
 public class Product : BaseEntity
 {
-    public Product() : base() { }
+    public Product()
+        : base()
+    {
+        this.ReservedQuantity = 0;
+        this.StockQuantity = 0;
+    }
 
-    public Product(int id, int titleId, int manufacturerId, string description, decimal price, int stock)
+    public Product(int id, int productTitleId, int manufacturerId, string description, decimal unitPrice)
         : base(id)
     {
-        this.TitleId = titleId;
+        this.ProductTitleId = productTitleId;
         this.ManufacturerId = manufacturerId;
         this.Description = description;
-        this.UnitPrice = price;
-        this.Stock = stock;
+        this.UnitPrice = unitPrice;
+        this.StockQuantity = 0;
+        this.ReservedQuantity = 0;
+    }
+
+    public Product(int id, int productTitleId, int manufacturerId, string description, decimal unitPrice, int stockQuantity)
+        : base(id)
+    {
+        this.ProductTitleId = productTitleId;
+        this.ManufacturerId = manufacturerId;
+        this.Description = description;
+        this.UnitPrice = unitPrice;
+        this.StockQuantity = stockQuantity;
+        this.ReservedQuantity = 0;
     }
 
     [Column("product_title_id")]
-    public int TitleId { get; set; }
+    [Required]
+    public int ProductTitleId { get; set; }
+
+    public virtual ProductTitle? Title { get; set; }
 
     [Column("manufacturer_id")]
+    [Required]
     public int ManufacturerId { get; set; }
 
-    /// <summary>Unit price in the smallest currency unit.</summary>
-    [Column("unit_price")]
-    public decimal UnitPrice { get; set; }
+    public virtual Manufacturer? Manufacturer { get; set; }
 
-    /// <summary>Free text fallback/title; used by legacy UI.</summary>
-    [Column("comment")]
+    [Column("description")]
     public string Description { get; set; } = string.Empty;
 
-    /// <summary>Current stock quantity.</summary>
-    [Column("stock_qty")]
-    public int Stock { get; set; }
+    [Column("unit_price")]
+    [Required]
+    public decimal UnitPrice { get; set; }
 
-    // Navigation
-    [ForeignKey(nameof(TitleId))]
-    public ProductTitle? Title { get; set; }
+    [Column("stock_quantity")]
+    public int StockQuantity { get; set; }
 
-    [ForeignKey(nameof(ManufacturerId))]
-    public Manufacturer? Manufacturer { get; set; }
+    [Column("reserved_quantity")]
+    public int ReservedQuantity { get; set; }
 
-    public virtual IList<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    /// <summary>
+    /// Gets computed availability (Stock - Reserved), not mapped to DB.
+    /// </summary>
+    [NotMapped]
+    public int AvailableQuantity => this.StockQuantity - this.ReservedQuantity;
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

@@ -1,6 +1,9 @@
-﻿// StoreDAL/Repository/OrderStateRepository.cs
+namespace StoreDAL.Repository;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -8,27 +11,55 @@ using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 
-namespace StoreDAL.Repository
+public class OrderStateRepository : AbstractRepository, IOrderStateRepository
 {
-    /// <summary>
-    /// EF Core repository for OrderState. Inherits base CRUD and adds lookups.
-    /// </summary>
-    public class OrderStateRepository : BaseRepository<OrderState>, IOrderStateRepository
-    {
-        public OrderStateRepository(StoreDbContext context)
-            : base(context)
-        {
-        }
+    private readonly DbSet<OrderState> dbSet;
 
-        /// <summary>
-        /// Returns an order state by its name, or null if not found.
-        /// </summary>
-        public OrderState? GetByName(string stateName)
+    public OrderStateRepository(StoreDbContext context)
+        : base(context)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        this.dbSet = context.Set<OrderState>();
+    }
+
+    public void Add(OrderState entity)
+    {
+        this.dbSet.Add(entity);
+        this.context.SaveChanges();
+    }
+
+    public void Delete(OrderState entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteById(int id)
+    {
+        var entity = this.dbSet.Find(id);
+        if (entity != null)
         {
-            ArgumentException.ThrowIfNullOrEmpty(stateName);
-            return this.context.OrderStates
-                .AsNoTracking()
-                .FirstOrDefault(s => s.StateName == stateName);
+            this.dbSet.Remove(entity);
+            this.context.SaveChanges();
         }
+    }
+
+    public IEnumerable<OrderState> GetAll()
+    {
+        return this.dbSet.ToList();
+    }
+
+    public IEnumerable<OrderState> GetAll(int pageNumber, int rowCount)
+    {
+        throw new NotImplementedException();
+    }
+
+    public OrderState GetById(int id)
+    {
+        return this.dbSet.Find(id);
+    }
+
+    public void Update(OrderState entity)
+    {
+        throw new NotImplementedException();
     }
 }

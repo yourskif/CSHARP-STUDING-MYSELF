@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,7 @@ namespace StoreDAL.Repository
         public UserRole? GetById(int id) =>
             this.context.UserRoles.FirstOrDefault(r => r.Id == id);
 
-        // Якщо у сутності немає властивості Name — EF.Property читає однойменну колонку.
+        // РЇРєС‰Рѕ Сѓ СЃСѓС‚РЅРѕСЃС‚С– РЅРµРјР°С” РІР»Р°СЃС‚РёРІРѕСЃС‚С– Name вЂ” EF.Property С‡РёС‚Р°С” РѕРґРЅРѕР№РјРµРЅРЅСѓ РєРѕР»РѕРЅРєСѓ.
         public UserRole? GetByName(string name) =>
             this.context.UserRoles.FirstOrDefault(r => EF.Property<string>(r, "Name") == name);
 

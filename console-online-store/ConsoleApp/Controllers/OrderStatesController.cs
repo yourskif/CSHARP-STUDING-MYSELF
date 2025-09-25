@@ -1,9 +1,7 @@
-﻿// ConsoleApp/Controllers/OrderStatesController.cs
 namespace ConsoleApp.Controllers;
 
 using System;
 using System.Linq;
-
 using StoreDAL.Data;
 
 public sealed class OrderStatesController
@@ -15,9 +13,6 @@ public sealed class OrderStatesController
         this.db = db ?? throw new ArgumentNullException(nameof(db));
     }
 
-    /// <summary>
-    /// Shows all order states in canonical order (by Id).
-    /// </summary>
     public void ShowAll()
     {
         Console.Clear();
@@ -35,16 +30,40 @@ public sealed class OrderStatesController
             return;
         }
 
-        Console.WriteLine("# | Id | Name");
+        Console.WriteLine("# | Id | State");
         Console.WriteLine("---------------");
         var i = 1;
         foreach (var s in states)
         {
-            Console.WriteLine($"{i,2} | {s.Id,2} | {s.Name}");
+            var stateName = GetStateName(s);
+            Console.WriteLine($"{i,2} | {s.Id,2} | {stateName}");
             i++;
         }
 
         Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey(true);
+    }
+
+    /// <summary>
+    /// Gets the display name of an order state entity.
+    /// </summary>
+    /// <param name="state">OrderState entity.</param>
+    /// <returns>State name or fallback string.</returns>
+    private static string GetStateName(StoreDAL.Entities.OrderState state)
+    {
+        var nameProperty = state.GetType().GetProperty("Name")
+                          ?? state.GetType().GetProperty("StateName")
+                          ?? state.GetType().GetProperty("Title");
+
+        if (nameProperty != null)
+        {
+            var value = nameProperty.GetValue(state);
+            if (value != null)
+            {
+                return value.ToString() ?? $"State{state.Id}";
+            }
+        }
+
+        return $"State{state.Id}";
     }
 }

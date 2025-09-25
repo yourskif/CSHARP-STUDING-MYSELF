@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-
-using Microsoft.EntityFrameworkCore;
 
 using StoreDAL.Data;
 using StoreDAL.Entities;
@@ -24,12 +22,6 @@ namespace StoreDAL.Repository
             this.context.SaveChanges();
         }
 
-        public void Update(OrderDetail entity)
-        {
-            this.context.OrderDetails.Update(entity);
-            this.context.SaveChanges();
-        }
-
         public void Delete(OrderDetail entity)
         {
             this.context.OrderDetails.Remove(entity);
@@ -48,23 +40,26 @@ namespace StoreDAL.Repository
 
         public IEnumerable<OrderDetail> GetAll()
         {
-            return this.context.OrderDetails
-                .AsNoTracking()
-                .ToList();
+            return this.context.OrderDetails.ToList();
         }
 
         public IEnumerable<OrderDetail> GetAll(int pageNumber, int rowCount)
         {
             return this.context.OrderDetails
-                .AsNoTracking()
                 .Skip((pageNumber - 1) * rowCount)
                 .Take(rowCount)
                 .ToList();
         }
 
-        public OrderDetail? GetById(int id)
+        public OrderDetail GetById(int id)
         {
             return this.context.OrderDetails.Find(id);
+        }
+
+        public void Update(OrderDetail entity)
+        {
+            this.context.OrderDetails.Update(entity);
+            this.context.SaveChanges();
         }
     }
 }

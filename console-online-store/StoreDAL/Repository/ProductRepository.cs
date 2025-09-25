@@ -1,103 +1,118 @@
-﻿// C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreDAL\Repository\ProductRepository.cs
-namespace StoreDAL.Repository;
-
-using System;
+// Path: C:\Users\SK\source\repos\C#\1313\console-online-store\StoreDAL\Repository\ProductRepository.cs
 using System.Collections.Generic;
 using System.Linq;
-
 using Microsoft.EntityFrameworkCore;
-
 using StoreDAL.Data;
 using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 
-/// <summary>
-/// Concrete product repository. Includes Title->Category and Manufacturer for read operations.
-/// Also provides Add/Update/Delete for administrative tasks.
-/// </summary>
-public class ProductRepository : IProductRepository
+namespace StoreDAL.Repository
 {
-    private readonly StoreDbContext context;
-
-    public ProductRepository(StoreDbContext context)
+    /// <summary>
+    /// EF Core-backed repository for products.
+    /// Implements generic CRUD + helpers with eager loading.
+    /// </summary>
+    public sealed class ProductRepository : IProductRepository
     {
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+        private readonly StoreDbContext db;
 
-    public IEnumerable<Product> GetAllWithIncludes()
-    {
-        return this.context.Products
-            .Include(p => p.Title).ThenInclude(t => t.Category)
-            .Include(p => p.Manufacturer)
-            .AsNoTracking()
-            .ToList();
-    }
-
-    public IEnumerable<Product> GetByCategoryId(int categoryId)
-    {
-        // Safe filter when Title might be null (fixes CS8602).
-        return this.context.Products
-            .Include(p => p.Title)
-            .Where(p => p.Title != null && p.Title.CategoryId == categoryId)
-            .AsNoTracking()
-            .ToList();
-    }
-
-    public Product? GetByIdWithIncludes(int id)
-    {
-        return this.context.Products
-            .Include(p => p.Title).ThenInclude(t => t.Category)
-            .Include(p => p.Manufacturer)
-            .AsNoTracking()
-            .FirstOrDefault(p => p.Id == id);
-    }
-
-    // Convenience (used in some older code)
-    public IEnumerable<Product> GetAll() =>
-        this.context.Products.AsNoTracking().ToList();
-
-    public Product? GetById(int id) =>
-        this.context.Products.AsNoTracking().FirstOrDefault(p => p.Id == id);
-
-    // ---------------- CUD ----------------
-
-    public Product Add(Product entity)
-    {
-        ArgumentNullException.ThrowIfNull(entity);
-        this.context.Products.Add(entity);
-        this.context.SaveChanges();
-        return entity;
-    }
-
-    public void Update(Product entity)
-    {
-        ArgumentNullException.ThrowIfNull(entity);
-        var existing = this.context.Products.FirstOrDefault(p => p.Id == entity.Id);
-        if (existing is null)
+        public ProductRepository(StoreDbContext db)
+            : base()
         {
-            throw new KeyNotFoundException($"Product #{entity.Id} not found.");
+            this.db = db;
         }
 
-        // Update simple fields
-        existing.TitleId = entity.TitleId;
-        existing.ManufacturerId = entity.ManufacturerId;
-        existing.Description = entity.Description;
-        existing.UnitPrice = entity.UnitPrice;
-        existing.Stock = entity.Stock;
+        // ---------- With Includes (required by IProductRepository) ----------
 
-        this.context.SaveChanges();
-    }
-
-    public bool Delete(int id)
-    {
-        var existing = this.context.Products.FirstOrDefault(p => p.Id == id);
-        if (existing is null)
+        /// <summary>
+        /// Returns all products with related Title and Manufacturer loaded.
+        /// </summary>
+        public IEnumerable<Product> GetAllWithIncludes()
         {
-            return false;
+            return this.db.Products
+                .AsNoTracking()
+                .Include(p => p.Title)
+                .Include(p => p.Manufacturer)
+                .AsEnumerable();
         }
 
-        this.context.Products.Remove(existing);
-        this.context.SaveChanges();
-        return true;
+        /// <summary>
+        /// Returns a product by id with related Title and Manufacturer loaded.
+        /// </summary>
+        public Product? GetByIdWithIncludes(int id)
+        {
+            return this.db.Products
+                .Include(p => p.Title)
+                .Include(p => p.Manufacturer)
+                .FirstOrDefault(p => p.Id == id);
+        }
+
+        // ---------- Basic CRUD ----------
+        public IEnumerable<Product> GetAll()
+        {
+            return this.db.Products
+                .AsNoTracking()
+                .AsEnumerable();
+        }
+
+        public IEnumerable<Product> GetAll(int pageNumber, int rowCount)
+        {
+            var skip = pageNumber <= 1 ? 0 : (pageNumber - 1) * rowCount;
+
+            return this.db.Products
+                .AsNoTracking()
+                .OrderBy(p => p.Id)
+                .Skip(skip)
+                .Take(rowCount)
+                .AsEnumerable();
+        }
+
+        public Product? GetById(int id)
+        {
+            return this.db.Products.FirstOrDefault(p => p.Id == id);
+        }
+
+        /// <summary>
+        /// Returns products by category id (through ProductTitle.CategoryId).
+        /// </summary>
+        public IEnumerable<Product> GetByCategoryId(int categoryId)
+        {
+            return this.db.Products
+                .AsNoTracking()
+                .Include(p => p.Title)
+                .Where(p => p.Title != null && p.Title.CategoryId == categoryId)
+                .AsEnumerable();
+        }
+
+        public void Add(Product entity)
+        {
+            this.db.Products.Add(entity);
+        }
+
+        public void Update(Product entity)
+        {
+            var entry = this.db.Entry(entity);
+            if (entry.State == EntityState.Detached)
+            {
+                this.db.Products.Attach(entity);
+                entry = this.db.Entry(entity);
+            }
+
+            entry.State = EntityState.Modified;
+        }
+
+        public void Delete(Product entity)
+        {
+            this.db.Products.Remove(entity);
+        }
+
+        public void DeleteById(int id)
+        {
+            var entity = this.db.Products.FirstOrDefault(p => p.Id == id);
+            if (entity != null)
+            {
+                this.db.Products.Remove(entity);
+            }
+        }
     }
 }

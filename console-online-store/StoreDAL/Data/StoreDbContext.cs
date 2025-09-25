@@ -1,51 +1,59 @@
-﻿// StoreDAL/Data/StoreDbContext.cs
+namespace StoreDAL.Data;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
+using StoreDAL.Data.InitDataFactory;
 using StoreDAL.Entities;
 
-namespace StoreDAL.Data
+public class StoreDbContext : DbContext
 {
-    /// <summary>
-    /// EF Core DbContext for the Online Store domain.
-    /// </summary>
-    public class StoreDbContext : DbContext
+    private readonly AbstractDataFactory factory;
+
+    public StoreDbContext()
     {
-        public StoreDbContext(DbContextOptions<StoreDbContext> options)
-            : base(options)
-        {
-        }
+    }
 
-        // DbSets for all entities used in the project.
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Manufacturer> Manufacturers { get; set; }
-        public DbSet<ProductTitle> ProductTitles { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<OrderState> OrderStates { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<CustomerOrder> CustomerOrders { get; set; }
+    public StoreDbContext(DbContextOptions options, AbstractDataFactory factory)
+        : base(options)
+    {
+        this.factory = factory;
+    }
 
-        /// <summary>
-        /// Model configuration.
-        /// CA1062: validate external input parameter.
-        /// </summary>
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            ArgumentNullException.ThrowIfNull(modelBuilder);
+    public DbSet<Category> Categories { get; set; }
 
-            // Keep existing configuration if you already have it in partials or elsewhere.
-            base.OnModelCreating(modelBuilder);
+    public DbSet<CustomerOrder> CustomerOrders { get; set; }
 
-            // Place fluent configuration here if needed (keys, relationships, constraints, seeding, etc.).
-            // Example (commented):
-            // modelBuilder.Entity<Category>()
-            //     .HasMany(c => c.Products)
-            //     .WithOne(p => p.Category)
-            //     .HasForeignKey(p => p.CategoryId)
-            //     .OnDelete(DeleteBehavior.Restrict);
-        }
+    public DbSet<Manufacturer> Manufacturers { get; set; }
+
+    public DbSet<OrderDetail> OrderDetails { get; set; }
+
+    public DbSet<OrderState> OrderStates { get; set; }
+
+    public DbSet<Product> Products { get; set; }
+
+    public DbSet<ProductTitle> ProductTitles { get; set; }
+
+    public DbSet<User> Users { get; set; }
+
+    public DbSet<UserRole> UserRoles { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        ArgumentNullException.ThrowIfNull(modelBuilder);
+        modelBuilder.Entity<Category>().HasData(this.factory.GetCategoryData());
+        modelBuilder.Entity<Manufacturer>().HasData(this.factory.GetManufacturerData());
+        modelBuilder.Entity<OrderState>().HasData(this.factory.GetOrderStateData());
+        modelBuilder.Entity<UserRole>().HasData(this.factory.GetUserRoleData());
+        modelBuilder.Entity<User>().HasData(this.factory.GetUserData());
+        modelBuilder.Entity<ProductTitle>().HasData(this.factory.GetProductTitleData());
+        modelBuilder.Entity<Product>().HasData(this.factory.GetProductData());
+        modelBuilder.Entity<CustomerOrder>().HasData(this.factory.GetCustomerOrderData());
+        modelBuilder.Entity<OrderDetail>().HasData(this.factory.GetOrderDetailData());
     }
 }

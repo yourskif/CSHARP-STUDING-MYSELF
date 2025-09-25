@@ -1,32 +1,27 @@
-﻿namespace StoreDAL.Entities;
-
+namespace StoreDAL.Entities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 [Table("order_states")]
 public class OrderState : BaseEntity
 {
-    public OrderState() : base()
+    public OrderState()
+        : base()
     {
     }
 
-    public OrderState(int id, string name) : base(id)
+    public OrderState(int id, string stateName)
+        : base(id)
     {
-        this.Name = name;
+        this.StateName = stateName;
     }
 
     [Column("state_name")]
-    [Required]
-    public string Name { get; set; }
+    public string StateName { get; set; }
 
-    // Alias expected by BLL
-    [NotMapped]
-    public string StateName
-    {
-        get => this.Name;
-        set => this.Name = value;
-    }
-
-    public virtual IList<CustomerOrder> Orders { get; set; }
+    public virtual IList<CustomerOrder> Order { get; set; }
 }

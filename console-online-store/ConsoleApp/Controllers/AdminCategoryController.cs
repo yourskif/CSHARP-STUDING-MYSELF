@@ -1,114 +1,222 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
-
-using StoreBLL.Models;
-using StoreBLL.Services;
-
 using StoreDAL.Data;
 
 namespace ConsoleApp.Controllers
 {
-    /// <summary>
-    /// Read-only перегляд категорій в адмін-меню.
-    /// Поточний CategoryService не підтримує CUD, тому тут лише список/деталі.
-    /// </summary>
-    public sealed class AdminCategoryController
+    public class AdminCategoryController
     {
-        private readonly CategoryService categoryService;
+        private readonly StoreDbContext context;
 
-        public AdminCategoryController(StoreDbContext db)
+        public AdminCategoryController(StoreDbContext context)
         {
-            ArgumentNullException.ThrowIfNull(db);
-            // CategoryService очікує саме StoreDbContext
-            this.categoryService = new CategoryService(db);
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        /// <summary>
-        /// Адаптер для старого виклику з меню.
-        /// </summary>
-        public void Run() => ShowCategories();
-
-        /// <summary>
-        /// Показати список категорій і, за запитом, деталі.
-        /// </summary>
         public void ShowCategories()
         {
-            Console.Clear();
-            Console.WriteLine("===== CATEGORIES =====");
-
-            var items = GetAll();
-            if (items.Count == 0)
+            while (true)
             {
-                Console.WriteLine("(empty)");
-                Pause();
-                return;
-            }
+                Console.Clear();
+                Console.WriteLine("=== CATEGORY MANAGEMENT ===");
+                Console.WriteLine("1. List All Categories");
+                Console.WriteLine("2. Add New Category");
+                Console.WriteLine("3. Update Category");
+                Console.WriteLine("4. Delete Category");
+                Console.WriteLine("----------------------");
+                Console.WriteLine("Esc: Back to Admin Menu");
 
-            foreach (var c in items)
-            {
-                Console.WriteLine($"Id: {c.Id}");
-            }
-
-            Console.WriteLine("----------------------");
-            Console.WriteLine("[D] Details by Id");
-            Console.WriteLine("Esc: Back");
-
-            var key = Console.ReadKey(true).Key;
-            if (key == ConsoleKey.D)
-            {
-                Console.Write("\nEnter Id: ");
-                if (int.TryParse(Console.ReadLine(), out var id))
-                    ShowDetails(id);
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        this.ShowAll();
+                        break;
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        this.CreateCategory();
+                        break;
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        this.UpdateCategory();
+                        break;
+                    case ConsoleKey.D4:
+                    case ConsoleKey.NumPad4:
+                        this.DeleteCategory();
+                        break;
+                    case ConsoleKey.Escape:
+                        return;
+                }
             }
         }
 
-        private List<CategoryModel> GetAll()
-        {
-            return this.categoryService
-                .GetAll()?
-                .OfType<CategoryModel>()
-                .ToList() ?? new List<CategoryModel>();
-        }
-
-        private void ShowDetails(int id)
+        public void ShowAll()
         {
             Console.Clear();
-            var model = this.categoryService.GetById(id) as CategoryModel;
-            if (model == null)
+            Console.WriteLine("=== ALL CATEGORIES ===");
+
+            var categories = this.context.Categories.ToList();
+            if (categories.Count == 0)
             {
-                Console.WriteLine("Not found.");
-                Pause();
-                return;
+                Console.WriteLine("No categories found.");
             }
-
-            Console.WriteLine("===== CATEGORY DETAILS =====");
-            Console.WriteLine($"Id: {model.Id}");
-
-            // Виведемо Name, якщо така властивість є у моделі
-            var nameProp = model.GetType().GetProperty("Name");
-            if (nameProp != null)
+            else
             {
-                var val = nameProp.GetValue(model);
-                Console.WriteLine($"Name: {val}");
+                foreach (var category in categories)
+                {
+                    var productCount = this.context.ProductTitles.Count(pt => pt.CategoryId == category.Id);
+                    var name = category.Name ?? "(unnamed)";
+                    Console.WriteLine($"ID: {category.Id} | Name: {name} | Products: {productCount}");
+                }
             }
 
             Pause();
         }
 
-        // Заглушки замість CUD — залишаємо, щоб нагадували про обмеження поточного BLL
-        public void Create() =>
-            throw new NotSupportedException("Create is not supported by CategoryService. Add CUD to BLL or call DAL repo.");
+        public void CreateCategory()
+        {
+            Console.Clear();
+            Console.WriteLine("=== CREATE NEW CATEGORY ===");
 
-        public void Update() =>
-            throw new NotSupportedException("Update is not supported by CategoryService. Add CUD to BLL or call DAL repo.");
+            Console.Write("Enter category name: ");
+            string? name = Console.ReadLine();
+            name = name?.Trim();
 
-        public void Delete() =>
-            throw new NotSupportedException("Delete is not supported by CategoryService. Add CUD to BLL or call DAL repo.");
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("Category name cannot be empty.");
+                Pause();
+                return;
+            }
+
+            bool exists = this.context.Categories.Any(c =>
+                c.Name != null && string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
+
+            if (exists)
+            {
+                Console.WriteLine("Category with this name already exists.");
+                Pause();
+                return;
+            }
+
+            var category = new StoreDAL.Entities.Category
+            {
+                Name = name,
+            };
+
+            this.context.Categories.Add(category);
+            this.context.SaveChanges();
+
+            Console.WriteLine($"✓ Category '{name}' created successfully with ID: {category.Id}");
+            Pause();
+        }
+
+        public void UpdateCategory()
+        {
+            Console.Clear();
+            Console.WriteLine("=== UPDATE CATEGORY ===");
+
+            Console.Write("Enter category ID to update: ");
+            string? idText = Console.ReadLine();
+            if (!int.TryParse(idText, out int categoryId))
+            {
+                Console.WriteLine("Invalid ID.");
+                Pause();
+                return;
+            }
+
+            var category = this.context.Categories.Find(categoryId);
+            if (category == null)
+            {
+                Console.WriteLine("Category not found.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine($"Current name: {category.Name ?? "(unnamed)"}");
+            Console.Write("Enter new name (or press Enter to keep current): ");
+            string? newName = Console.ReadLine();
+            newName = newName?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(newName))
+            {
+                bool exists = this.context.Categories.Any(c =>
+                    c.Id != categoryId &&
+                    c.Name != null &&
+                    string.Equals(c.Name, newName, StringComparison.OrdinalIgnoreCase));
+
+                if (exists)
+                {
+                    Console.WriteLine("Category with this name already exists.");
+                    Pause();
+                    return;
+                }
+
+                category.Name = newName;
+                this.context.SaveChanges();
+                Console.WriteLine("✓ Category updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("No changes made.");
+            }
+
+            Pause();
+        }
+
+        public void DeleteCategory()
+        {
+            Console.Clear();
+            Console.WriteLine("=== DELETE CATEGORY ===");
+
+            Console.Write("Enter category ID to delete: ");
+            string? idText = Console.ReadLine();
+            if (!int.TryParse(idText, out int categoryId))
+            {
+                Console.WriteLine("Invalid ID.");
+                Pause();
+                return;
+            }
+
+            var category = this.context.Categories.Find(categoryId);
+            if (category == null)
+            {
+                Console.WriteLine("Category not found.");
+                Pause();
+                return;
+            }
+
+            var productCount = this.context.ProductTitles.Count(pt => pt.CategoryId == categoryId);
+            if (productCount > 0)
+            {
+                Console.WriteLine($"Cannot delete category '{category.Name ?? "(unnamed)"}' - it has {productCount} products.");
+                Console.WriteLine("Delete or reassign products first.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine($"Are you sure you want to delete category '{category.Name ?? "(unnamed)"}'? (yes/no)");
+            string? confirmation = Console.ReadLine();
+
+            if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(confirmation, "y", StringComparison.OrdinalIgnoreCase))
+            {
+                this.context.Categories.Remove(category);
+                this.context.SaveChanges();
+                Console.WriteLine($"✓ Category '{category.Name ?? "(unnamed)"}' deleted successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Deletion cancelled.");
+            }
+
+            Pause();
+        }
 
         private static void Pause()
         {
-            Console.WriteLine("Press any key to return...");
+            Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey(true);
         }
     }

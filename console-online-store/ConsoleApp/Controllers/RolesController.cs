@@ -1,23 +1,17 @@
-﻿// ConsoleApp/Controllers/RolesController.cs
 namespace ConsoleApp.Controllers;
 
 using System;
 using System.Linq;
-
 using StoreDAL.Data;
 
-public sealed class RolesController
+/// <summary>
+/// Controller for displaying user roles.
+/// </summary>
+public sealed class RolesController(StoreDbContext db)
 {
-    private readonly StoreDbContext db;
+    private readonly StoreDbContext db = db ?? throw new ArgumentNullException(nameof(db));
 
-    public RolesController(StoreDbContext db)
-    {
-        this.db = db ?? throw new ArgumentNullException(nameof(db));
-    }
-
-    /// <summary>
-    /// Shows all user roles in a simple read-only table.
-    /// </summary>
+    // ---------- public instance methods ----------
     public void ShowAll()
     {
         Console.Clear();
@@ -35,16 +29,36 @@ public sealed class RolesController
             return;
         }
 
-        Console.WriteLine("# | Id | Name");
+        Console.WriteLine("# | Id | Role");
         Console.WriteLine("---------------");
         var i = 1;
         foreach (var r in roles)
         {
-            Console.WriteLine($"{i,2} | {r.Id,2} | {r.Name}");
+            var roleName = GetRoleName(r);
+            Console.WriteLine($"{i,2} | {r.Id,2} | {roleName}");
             i++;
         }
 
         Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey(true);
+    }
+
+    // ---------- private static helpers ----------
+    private static string GetRoleName(StoreDAL.Entities.UserRole role)
+    {
+        var nameProperty = role.GetType().GetProperty("Name")
+                          ?? role.GetType().GetProperty("RoleName")
+                          ?? role.GetType().GetProperty("Title");
+
+        if (nameProperty != null)
+        {
+            var value = nameProperty.GetValue(role);
+            if (value != null)
+            {
+                return value.ToString() ?? $"Role{role.Id}";
+            }
+        }
+
+        return $"Role{role.Id}";
     }
 }

@@ -1,85 +1,157 @@
-﻿using System;
-
+using System;
 using ConsoleApp.Controllers;
-
-// Keep alias directives sorted (SA1211) and point to the correct namespaces.
-using DalUser = StoreDAL.Entities.User;
-using StoreDbContext = StoreDAL.Data.StoreDbContext;
+using StoreBLL.Services;
+using StoreDAL.Data;
+using StoreDAL.Repository;
 
 namespace ConsoleApp.MenuBuilder.Admin
 {
     /// <summary>
-    /// Admin main menu.
+    /// Admin main menu (orders/products/users/diagnostics).
     /// </summary>
-    public static class AdminMainMenu
+    public sealed class AdminMainMenu
     {
-        /// <summary>
-        /// Entry point used by UserMenuController.
-        /// We intentionally accept user as object to avoid tight coupling
-        /// between DAL entities and BLL models. We do not use it inside.
-        /// </summary>
-        /// <param name="db">EF Core DbContext from StoreDAL.Data.</param>
-        /// <param name="currentUser">Logged in user (DAL entity or BLL model).</param>
-        public static void Run(StoreDbContext db, object? currentUser = null)
-        {
-            ArgumentNullException.ThrowIfNull(db);
+        // -------- instance fields --------
+        private readonly StoreDbContext db;
 
+        // -------- ctor --------
+        public AdminMainMenu(StoreDbContext db)
+        {
+            this.db = db ?? throw new ArgumentNullException(nameof(db));
+        }
+
+        // -------- static members (must be before instance members to satisfy SA1204) --------
+
+        /// <summary>
+        /// Backward compatibility with older code that calls AdminMainMenu.Show(db).
+        /// </summary>
+        public static void Show(StoreDbContext db)
+        {
+            new AdminMainMenu(db).Run();
+        }
+
+        // -------- instance members --------
+        public void Run()
+        {
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("=== ADMIN MENU ===");
-                Console.WriteLine("1) Diagnostics");
-                Console.WriteLine("2) Categories (placeholder)");
-                Console.WriteLine("3) Products (placeholder)");
-                Console.WriteLine("4) Orders (placeholder)");
-                Console.WriteLine("Q) Back");
+                Console.WriteLine("=== ADMIN MAIN MENU ===\n");
+                Console.WriteLine("1. Products (manage)");
+                Console.WriteLine("2. Orders (admin)");
+                Console.WriteLine("3. Diagnostics");
+                Console.WriteLine("4. Users Management");
                 Console.WriteLine();
-                Console.Write("Select option: ");
-                var key = Console.ReadKey(intercept: true).Key;
+                Console.WriteLine("Esc: Back");
 
+                var key = Console.ReadKey(true).Key;
                 switch (key)
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        new AdminDiagnosticsController(db).Run();
+                        this.ShowProductManagementMenu();
                         break;
 
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        ShowPlaceholder("Categories");
+                        new AdminOrderController(this.db).Run();
                         break;
 
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
-                        ShowPlaceholder("Products");
+                        new AdminDiagnosticsController(this.db).Run();
                         break;
 
                     case ConsoleKey.D4:
                     case ConsoleKey.NumPad4:
-                        ShowPlaceholder("Orders");
+                        // open users management submenu
+                        AdminUsersMenu.Show(this.db);
                         break;
 
-                    case ConsoleKey.Q:
                     case ConsoleKey.Escape:
                         return;
-
-                    default:
-                        continue;
                 }
             }
         }
 
-        /// <summary>
-        /// Simple placeholder to keep AdminMainMenu independent
-        /// from other controllers' shape (no Run/Show method coupling).
-        /// </summary>
-        private static void ShowPlaceholder(string title)
+        private static void Pause()
         {
-            Console.Clear();
-            Console.WriteLine($"[{title}] menu is not wired here yet.");
-            Console.WriteLine("This placeholder avoids build-time coupling to other controllers.");
-            Console.WriteLine("Press any key to go back...");
+            Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey(true);
+        }
+
+        private void ShowProductManagementMenu()
+        {
+            // Services wired with explicit dependencies
+            var productRepository = new ProductRepository(this.db);
+            var productService = new ProductService(productRepository);
+            var categoryService = new CategoryService(this.db);
+            var manufacturerService = new ManufacturerService(this.db);
+            var productController = new ProductController(productService, categoryService, manufacturerService);
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("=== PRODUCT MANAGEMENT ===\n");
+                Console.WriteLine("1. List All Products");
+                Console.WriteLine("2. Add New Product");
+                Console.WriteLine("3. Update Product");
+                Console.WriteLine("4. Delete Product");
+                Console.WriteLine("5. Search Products");
+                Console.WriteLine("6. Filter by Category");
+                Console.WriteLine("7. Filter by Manufacturer");
+                Console.WriteLine();
+                Console.WriteLine("Esc: Back");
+
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        productController.ListAllProducts();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        productController.CreateProduct();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        productController.UpdateProduct();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D4:
+                    case ConsoleKey.NumPad4:
+                        productController.DeleteProduct();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D5:
+                    case ConsoleKey.NumPad5:
+                        productController.SearchProducts();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D6:
+                    case ConsoleKey.NumPad6:
+                        productController.FilterByCategory();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D7:
+                    case ConsoleKey.NumPad7:
+                        productController.FilterByManufacturer();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.Escape:
+                        return;
+                }
+            }
         }
     }
 }

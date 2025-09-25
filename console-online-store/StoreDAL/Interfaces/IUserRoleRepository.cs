@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using StoreDAL.Entities;
 
@@ -10,7 +10,7 @@ namespace StoreDAL.Interfaces
 
         UserRole? GetByName(string name);
 
-        // Потрібно для вашого UserRoleService:
+        // РџРѕС‚СЂС–Р±РЅРѕ РґР»СЏ РІР°С€РѕРіРѕ UserRoleService:
         IEnumerable<UserRole> GetAll();
 
         void Add(UserRole role);

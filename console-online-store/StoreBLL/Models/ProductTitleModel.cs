@@ -1,4 +1,4 @@
-﻿namespace StoreBLL.Models
+namespace StoreBLL.Models
 {
     /// <summary>
     /// Product title (catalog item without SKU/price).

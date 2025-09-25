@@ -1,129 +1,175 @@
+// Path: C:\Users\SK\source\repos\C#\1414\console-online-store\ConsoleApp\Controllers\UserMenuController.cs
+namespace ConsoleApp.Controllers;
+
 using System;
-using StoreBLL.Models;
-using StoreDAL.Data;
-using ConsoleApp.Helpers;
+using System.Data.Common;
 using ConsoleApp.MenuBuilder.Admin;
-using ConsoleApp.MenuBuilder.User;
 using ConsoleApp.MenuBuilder.Guest;
+using ConsoleApp.MenuBuilder.User;
+using StoreBLL.Models;
+using StoreBLL.Services;
+using StoreDAL.Data;
 
-namespace ConsoleApp.Controllers
+// Factory with hashing + EnsureDefaultAdmin
+using AppStoreDbFactory = ConsoleApp.Helpers.StoreDbFactory;
+
+/// <summary>
+/// Main menu controller for handling user authentication and navigation.
+/// </summary>
+public static class UserMenuController
 {
-    /// <summary>
-    /// Entry point to user-facing menus. Keeps the current user
-    /// and routes to the correct main menu by role.
-    /// </summary>
-    public static class UserMenuController
+    /// <summary>Gets the global DB context for controllers.</summary>
+    public static StoreDbContext Context { get; private set; } = null!;
+
+    /// <summary>Gets the currently logged-in user.</summary>
+    public static UserModel? CurrentUser { get; private set; }
+
+    /// <summary>Sets current user (or null to logout).</summary>
+    public static void SetCurrentUser(UserModel? user) => CurrentUser = user;
+
+    /// <summary>App entry: main menu loop.</summary>
+    public static void Start()
     {
-        private static UserModel? _currentUser;
+        Context = AppStoreDbFactory.Create();
 
-        /// <summary>Currently authenticated user (null => Guest).</summary>
-        public static UserModel? CurrentUser => _currentUser;
-
-        /// <summary>Set or clear the current authenticated user.</summary>
-        public static void SetCurrentUser(UserModel? user) => _currentUser = user;
-
-        /// <summary>
-        /// Start the app flow. If user is not authenticated — show role selection.
-        /// For Admin/Registered — авторизація через AuthController.
-        /// </summary>
-        public static void Start()
+        while (true)
         {
-            using var db = StoreDbFactory.Create();
+            Console.Clear();
+            Console.WriteLine("===== ONLINE STORE =====");
+            Console.WriteLine("1. Admin Login");
+            Console.WriteLine("2. User Login");
+            Console.WriteLine("3. Guest");
+            Console.WriteLine("-------------------------");
+            Console.WriteLine("Esc: Exit");
 
-            while (true)
+            var key = Console.ReadKey(true).Key;
+
+            switch (key)
             {
-                if (_currentUser is null)
-                {
-                    Console.Clear();
-                    Console.WriteLine("===== LOGIN =====");
-                    Console.WriteLine("1. Admin");
-                    Console.WriteLine("2. Registered User");
-                    Console.WriteLine("3. Guest");
-                    Console.WriteLine("-----------------");
-                    Console.WriteLine("Esc: Exit");
-
-                    var key = Console.ReadKey(true).Key;
-                    switch (key)
+                case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
                     {
-                        case ConsoleKey.D1:
-                        case ConsoleKey.NumPad1:
-                            {
-                                var admin = AuthController.Login(db);
-                                if (IsAdmin(admin)) RouteToMenu(db, admin);
-                                else Pause("Admin login required or wrong credentials.");
-                                break;
-                            }
+                        if (LoginAsAdmin())
+                        {
+                            AdminMainMenu.Show(Context);
+                        }
 
-                        case ConsoleKey.D2:
-                        case ConsoleKey.NumPad2:
-                            {
-                                var user = AuthController.Login(db);
-                                if (IsRegistered(user)) RouteToMenu(db, user);
-                                else Pause("Registered user login required or wrong credentials.");
-                                break;
-                            }
-
-                        case ConsoleKey.D3:
-                        case ConsoleKey.NumPad3:
-                            RouteToMenu(db, null); // guest
-                            break;
-
-                        case ConsoleKey.Escape:
-                            return;
+                        break;
                     }
-                }
-                else
-                {
-                    RouteToMenu(db, _currentUser);
-                }
+
+                case ConsoleKey.D2:
+                case ConsoleKey.NumPad2:
+                    {
+                        if (LoginAsUser())
+                        {
+                            UserMainMenu.Show(Context);
+                        }
+
+                        break;
+                    }
+
+                case ConsoleKey.D3:
+                case ConsoleKey.NumPad3:
+                    {
+                        GuestMainMenu.Show(Context);
+                        break;
+                    }
+
+                case ConsoleKey.Escape:
+                    {
+                        Context.Dispose();
+                        return;
+                    }
             }
         }
+    }
 
-        private static void RouteToMenu(StoreDbContext db, UserModel? user)
+    private static bool LoginAsAdmin()
+    {
+        Console.Clear();
+        Console.WriteLine("=== Admin Login ===");
+        Console.Write("Login: ");
+        string login = Console.ReadLine() ?? string.Empty;
+
+        Console.Write("Password: ");
+        string password = Console.ReadLine() ?? string.Empty;
+
+        try
         {
-            _currentUser = user;
+            var userService = new UserService(Context);
+            var user = userService.Authenticate(login, password);
 
-            switch (GetRoleId(user))
+            if (user != null && user.RoleId == 1)
             {
-                case 1: // Admin
-                    AdminMainMenu.Run(db, _currentUser);
-                    break;
-
-                case 2: // Registered
-                    UserMainMenu.Run(db, _currentUser);
-                    break;
-
-                default: // Guest
-                    GuestMainMenu.Run(db, _currentUser);
-                    break;
+                SetCurrentUser(user);
+                Console.WriteLine($"Welcome, Admin {user.FirstName ?? user.Login}!");
+                Pause();
+                return true;
             }
+
+            Console.WriteLine("Invalid admin credentials or insufficient privileges.");
+            Pause();
+            return false;
         }
-
-        /// <summary>
-        /// Повертає id ролі: 1=Admin, 2=Registered, 3=Guest.
-        /// У моделі немає поля ролі, тому тимчасово визначаємо за логіном.
-        /// </summary>
-        private static int GetRoleId(UserModel? user)
+        catch (DbException ex)
         {
-            if (user is null) return 3; // Guest
+            Console.WriteLine($"Database error: {ex.Message}");
+            Pause();
+            return false;
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"Operation error: {ex.Message}");
+            Pause();
+            return false;
+        }
+    }
 
-            if (!string.IsNullOrWhiteSpace(user.Login) &&
-                string.Equals(user.Login, "admin", StringComparison.OrdinalIgnoreCase))
+    private static bool LoginAsUser()
+    {
+        Console.Clear();
+        Console.WriteLine("=== User Login ===");
+        Console.Write("Login: ");
+        string login = Console.ReadLine() ?? string.Empty;
+
+        Console.Write("Password: ");
+        string password = Console.ReadLine() ?? string.Empty;
+
+        try
+        {
+            var userService = new UserService(Context);
+            var user = userService.Authenticate(login, password);
+
+            if (user != null && user.RoleId == 2)
             {
-                return 1; // Admin
+                SetCurrentUser(user);
+                Console.WriteLine($"Welcome, {user.FirstName ?? user.Login}!");
+                Pause();
+                return true;
             }
 
-            return 2; // Registered
+            Console.WriteLine("Invalid user credentials.");
+            Pause();
+            return false;
         }
-
-        private static bool IsAdmin(UserModel? u) => GetRoleId(u) == 1;
-        private static bool IsRegistered(UserModel? u) => GetRoleId(u) == 2;
-
-        private static void Pause(string message)
+        catch (DbException ex)
         {
-            Console.WriteLine(message);
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
+            Console.WriteLine($"Database error: {ex.Message}");
+            Pause();
+            return false;
         }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"Operation error: {ex.Message}");
+            Pause();
+            return false;
+        }
+    }
+
+    private static void Pause()
+    {
+        Console.WriteLine();
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey(true);
     }
 }

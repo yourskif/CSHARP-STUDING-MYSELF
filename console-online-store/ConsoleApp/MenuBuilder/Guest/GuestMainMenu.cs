@@ -1,56 +1,60 @@
 using System;
 
 using ConsoleApp.Controllers;
-
-using StoreBLL.Models;
+using ConsoleApp.MenuBuilder.Categories;
 
 using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.Guest
 {
-    /// <summary>
-    /// Guest main menu.
-    /// </summary>
     public static class GuestMainMenu
     {
-        public static void Run(StoreDbContext db, UserModel? currentUser)
+        public static void Show(StoreDbContext db)
         {
+            var userController = new UserController(db);
+            var shopController = new ShopController(db);
+
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("=== GUEST MAIN MENU ===");
-                Console.WriteLine("You are not signed in.");
-                Console.WriteLine();
-                Console.WriteLine("1) Browse products (read-only)");
-                Console.WriteLine("2) Register new user");
-                Console.WriteLine("L) Sign in");
-                Console.WriteLine("Esc) Back to login");
-                Console.WriteLine("------------------------");
+                Console.WriteLine("===== GUEST MENU =====");
+                Console.WriteLine("1. Browse Categories");
+                Console.WriteLine("2. Browse Products");
+                Console.WriteLine("3. Register");
+                Console.WriteLine("----------------------");
+                Console.WriteLine("Esc: Back");
 
                 var key = Console.ReadKey(true).Key;
                 switch (key)
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        CatalogReadOnlyController.Browse(db);
+                        CategoriesMenu.ShowReadOnly(db);
                         break;
 
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        new UserController(db).Register();
-                        Console.WriteLine("Press any key to continue...");
-                        Console.ReadKey(true);
+                        shopController.Browse();
                         break;
 
-                    case ConsoleKey.L:
-                        AuthController.Login(db);
-                        return; // routing continues in UserMenuController
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        Console.Clear();
+                        userController.Register();
+                        Pause();
+                        break;
 
                     case ConsoleKey.Escape:
-                        UserMenuController.SetCurrentUser(null); // back to role chooser
                         return;
                 }
             }
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
         }
     }
 }

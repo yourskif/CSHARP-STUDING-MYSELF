@@ -1,13 +1,10 @@
-﻿namespace StoreDAL.Data.InitDataFactory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+// Path: C:\Users\SK\source\repos\C#\1313\console-online-store\StoreDAL\Data\InitDataFactory\ReleaseDataFactory.cs
+namespace StoreDAL.Data.InitDataFactory;
 
+using System;
 using StoreDAL.Entities;
 
-public class ReleaseDataFactory : AbstractDataFactory
+public sealed class ReleaseDataFactory : AbstractDataFactory
 {
     public override Category[] GetCategoryData()
     {
@@ -40,7 +37,7 @@ public class ReleaseDataFactory : AbstractDataFactory
             new OrderState(5, "Moved to delivery company"),
             new OrderState(6, "In delivery"),
             new OrderState(7, "Delivered to client"),
-            new OrderState(8, "Delivery aproved by client"),
+            new OrderState(8, "Delivery approved by client"),
         };
     }
 
@@ -64,7 +61,7 @@ public class ReleaseDataFactory : AbstractDataFactory
         return new[]
         {
             new UserRole(1, "Admin"),
-            new UserRole(2, "Registred"),
+            new UserRole(2, "Registered"),
             new UserRole(3, "Guest"),
         };
     }

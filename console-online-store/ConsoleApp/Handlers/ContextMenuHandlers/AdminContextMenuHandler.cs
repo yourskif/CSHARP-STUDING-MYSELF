@@ -1,44 +1,52 @@
-﻿// C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\Handlers\ContextMenuHandlers\AdminContextMenuHandler.cs
 namespace ConsoleApp.Handlers.ContextMenuHandlers;
-
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using ConsoleApp.Controllers;
+using StoreBLL.Interfaces;
+using StoreBLL.Models;
 
-using StoreDAL.Data;
-
-/// <summary>
-/// Provides Admin context menu item descriptors for <see cref="MenuCore.ContextMenu"/>.
-/// Extended with product CUD flows.
-/// </summary>
-public static class AdminContextMenuHandler
+public class AdminContextMenuHandler : ContextMenuHandler
 {
-    /// <summary>
-    /// Returns an array of menu items for Admin actions.
-    /// </summary>
-    public static (ConsoleKey id, string caption, Action action)[] GenerateMenuItems(StoreDbContext db)
+    public AdminContextMenuHandler(ICrud service, Func<AbstractModel> readModel)
+        : base(service, readModel)
     {
-        ArgumentNullException.ThrowIfNull(db);
+    }
 
-        var orders = new AdminOrderController(db);
-        var products = new AdminProductController(db);
+    public void AddItem()
+    {
+        this.service.Add(this.readModel());
+    }
 
-        return new (ConsoleKey id, string caption, Action action)[]
-        {
-            // Products
-            (ConsoleKey.F2, "Show product list",   () => products.ShowProducts()),
-            (ConsoleKey.A,  "Add product",         () => products.AddProduct()),
-            (ConsoleKey.E,  "Edit product",        () => products.EditProduct()),
-            (ConsoleKey.D,  "Delete product",      () => products.DeleteProduct()),
+    public void RemoveItem()
+    {
+        Console.WriteLine("Input record ID that will be removed");
+        int id = int.Parse(Console.ReadLine() !, CultureInfo.InvariantCulture);
+        this.service.Delete(id);
+    }
 
-            // Orders
-            (ConsoleKey.F4, "Show order list",     () => orders.ShowOrders()),
-            (ConsoleKey.F5, "Cancel order",        () => orders.CancelOrder()),
-            (ConsoleKey.F6, "Change order status", () => orders.ChangeOrderStatus()),
+    public void EditItem()
+    {
+        Console.WriteLine("Input record ID that will be edited");
+        int id = int.Parse(Console.ReadLine() !, CultureInfo.InvariantCulture);
+        var record = this.readModel();
 
-            // Other planned items from docs (can be added later)
-            // (ConsoleKey.F7, "User roles",          () => ...),
-            // (ConsoleKey.F8, "Order states",        () => ...),
-        };
+        // TODO
+        this.service.Update(record);
+    }
+
+    public override (ConsoleKey id, string caption, Action action)[] GenerateMenuItems()
+    {
+        (ConsoleKey id, string caption, Action action)[] array =
+            {
+                (ConsoleKey.A, "Add Item", this.AddItem),
+                (ConsoleKey.R, "Remove Item", this.RemoveItem),
+                (ConsoleKey.E, "Edit Item", this.EditItem),
+                (ConsoleKey.V, "View Details", this.GetItemDetails),
+            };
+        return array;
     }
 }
