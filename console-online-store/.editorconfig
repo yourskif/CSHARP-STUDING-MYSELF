@@ -10,10 +10,15 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 end_of_line = crlf
 
-# Analyzer severities
+# Analyzer severities (StyleCop + CA)
 dotnet_diagnostic.SA1000.severity = error       # пробіли біля ключових слів (new)
 dotnet_diagnostic.SA1600.severity = warning     # відсутня дока (загальна)
 dotnet_diagnostic.SA1611.severity = warning     # дока параметрів
 dotnet_diagnostic.SA1615.severity = warning     # дока return
 dotnet_diagnostic.SA1402.severity = warning     # один клас на файл
 dotnet_diagnostic.CA1510.severity = warning     # ThrowIfNull
+
+# Прибрати IDE "Messages" з Error List (залишаємо StyleCop активним)
+dotnet_diagnostic.IDE0090.severity = silent     # "'new' expression can be simplified"
+dotnet_diagnostic.IDE0301.severity = silent     # "Collection initialization can be simplified"
+dotnet_diagnostic.IDE0305.severity = silent     # "Collection initialization can be simplified (collection expressions)"

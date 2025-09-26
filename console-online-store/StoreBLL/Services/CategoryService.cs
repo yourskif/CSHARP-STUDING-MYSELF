@@ -1,29 +1,33 @@
+﻿// Full path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Services\CategoryService.cs
 namespace StoreBLL.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Microsoft.EntityFrameworkCore;
-    using StoreBLL.Models;
+
     using StoreDAL.Data;
     using StoreDAL.Entities;
 
     /// <summary>
     /// Service for working with categories (EF Core).
+    /// Provides basic CRUD operations and search helpers.
     /// </summary>
-    public sealed class CategoryService
+    public sealed class CategoryService(StoreDbContext context)
     {
-        private readonly StoreDbContext context;
-
-        public CategoryService(StoreDbContext context)
-        {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryService"/> class.
+        /// </summary>
+        /// <param name="context">EF Core database context.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="context"/> is <see langword="null"/>.</exception>
+        private readonly StoreDbContext context = context ?? throw new ArgumentNullException(nameof(context));
 
         /// <summary>
         /// Returns all categories.
         /// </summary>
-        public IEnumerable<CategoryModel> GetAll()
+        /// <returns>Enumeration of categories as <see cref="StoreBLL.Models.CategoryModel"/>.</returns>
+        public IEnumerable<StoreBLL.Models.CategoryModel> GetAll()
         {
             return this.context.Categories
                 .Select(MapToModel)
@@ -31,9 +35,13 @@ namespace StoreBLL.Services
         }
 
         /// <summary>
-        /// Returns a category by id or null if not found.
+        /// Returns a category by identifier or <see langword="null"/> if not found.
         /// </summary>
-        public CategoryModel? GetById(int id)
+        /// <param name="id">Category identifier.</param>
+        /// <returns>
+        /// <see cref="StoreBLL.Models.CategoryModel"/> instance when found; otherwise, <see langword="null"/>.
+        /// </returns>
+        public StoreBLL.Models.CategoryModel? GetById(int id)
         {
             return this.context.Categories
                 .Where(c => c.Id == id)
@@ -44,16 +52,15 @@ namespace StoreBLL.Services
         /// <summary>
         /// Adds a new category.
         /// </summary>
-        public CategoryModel Add(CategoryModel model)
+        /// <param name="model">Category model to add.</param>
+        /// <returns>Created category model.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="model"/> is <see langword="null"/>.</exception>
+        public StoreBLL.Models.CategoryModel Add(StoreBLL.Models.CategoryModel model)
         {
-            if (model is null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
+            ArgumentNullException.ThrowIfNull(model);
 
             var entity = new Category
             {
-                // Persist non-null name to avoid nullability warnings downstream.
                 Name = model.Name ?? string.Empty,
             };
 
@@ -64,14 +71,14 @@ namespace StoreBLL.Services
         }
 
         /// <summary>
-        /// Updates an existing category. Returns true if updated, false if not found.
+        /// Updates an existing category.
         /// </summary>
-        public bool Update(CategoryModel model)
+        /// <param name="model">Category model with the updated data.</param>
+        /// <returns><see langword="true"/> if the category was updated; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="model"/> is <see langword="null"/>.</exception>
+        public bool Update(StoreBLL.Models.CategoryModel model)
         {
-            if (model is null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
+            ArgumentNullException.ThrowIfNull(model);
 
             var entity = this.context.Categories.FirstOrDefault(c => c.Id == model.Id);
             if (entity is null)
@@ -86,8 +93,10 @@ namespace StoreBLL.Services
         }
 
         /// <summary>
-        /// Deletes a category by id. Returns true if deleted, false if not found.
+        /// Deletes a category by identifier.
         /// </summary>
+        /// <param name="id">Category identifier.</param>
+        /// <returns><see langword="true"/> if the category was deleted; otherwise, <see langword="false"/>.</returns>
         public bool Delete(int id)
         {
             var entity = this.context.Categories.Find(id);
@@ -102,13 +111,15 @@ namespace StoreBLL.Services
         }
 
         /// <summary>
-        /// Finds categories by name (case sensitivity depends on provider/config).
+        /// Finds categories by name (case sensitivity depends on the database provider and collation).
         /// </summary>
-        public IEnumerable<CategoryModel> FindByName(string name)
+        /// <param name="name">A substring to search for within the category name.</param>
+        /// <returns>Enumeration of categories that match the specified <paramref name="name"/>.</returns>
+        public IEnumerable<StoreBLL.Models.CategoryModel> FindByName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return Array.Empty<CategoryModel>();
+                return Array.Empty<StoreBLL.Models.CategoryModel>();
             }
 
             return this.context.Categories
@@ -118,9 +129,11 @@ namespace StoreBLL.Services
         }
 
         /// <summary>
-        /// Maps an entity to a model. Guarantees non-null name.
+        /// Maps an EF entity to a BLL model and guarantees a non-null name value.
         /// </summary>
-        private static CategoryModel MapToModel(Category e) =>
-            new CategoryModel(e.Id, e.Name ?? string.Empty);
+        /// <param name="e">Category entity.</param>
+        /// <returns>Mapped <see cref="StoreBLL.Models.CategoryModel"/> instance.</returns>
+        private static StoreBLL.Models.CategoryModel MapToModel(Category e) =>
+            new StoreBLL.Models.CategoryModel(e.Id, e.Name ?? string.Empty);
     }
 }
