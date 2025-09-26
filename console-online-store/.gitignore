@@ -21,3 +21,11 @@ TestResults/
 Thumbs.db
 Desktop.ini
 NUL
+
+# Local root artifacts (ignore)
+/.NETCoreApp,Version=v*.AssemblyAttributes.cs
+/store.db
+/dotnet
+/o.Id
+/o.ld
+/NUL
