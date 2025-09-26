@@ -1,4 +1,4 @@
-﻿// Path: C:\Users\SK\source\repos\C#\1414\console-online-store\console-online-store\StoreBLL\Services\CustomerOrderService.cs
+﻿// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Services\CustomerOrderService.cs
 namespace StoreBLL.Services;
 
 using System;
@@ -12,21 +12,16 @@ using StoreDAL.Entities;
 using StoreDAL.Repository;
 
 /// <summary>
-/// Business logic service for customer orders (CRUD + state transitions)
-/// Включає інвентарні побічні ефекти для відміни/підтвердження доставки.
+/// Business logic service for customer orders (CRUD + state transitions).
+/// Includes inventory side-effects for cancel/confirm flows.
 /// </summary>
-public class CustomerOrderService
+public class CustomerOrderService(StoreDbContext context)
 {
     /// <summary>
-    /// Дозволені переходи статусів.
-    /// 1: New
-    /// 2: Cancelled by user (terminal)
-    /// 3: Cancelled by administrator (terminal)
-    /// 4: Confirmed
-    /// 5: Moved to delivery company
-    /// 6: In delivery
-    /// 7: Delivered to client
-    /// 8: Delivery confirmed by client (terminal)
+    /// Allowed order status transitions.
+    /// 1: New; 2: Cancelled by user (terminal); 3: Cancelled by administrator (terminal);
+    /// 4: Confirmed; 5: Moved to delivery company; 6: In delivery; 7: Delivered to client;
+    /// 8: Delivery confirmed by client (terminal).
     /// </summary>
     private static readonly Dictionary<int, int[]> AllowedTransitions = new Dictionary<int, int[]>
     {
@@ -37,17 +32,18 @@ public class CustomerOrderService
         { 7, new[] { 8 } },       // Delivered -> Delivery confirmed by client
     };
 
-    private readonly StoreDbContext context;
-    private readonly CustomerOrderRepository repository;
-    private readonly StockReservationService stockService;
+    // Primary-constructor field.
+    private readonly StoreDbContext context = context ?? throw new ArgumentNullException(nameof(context));
 
-    public CustomerOrderService(StoreDbContext context)
-    {
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
-        this.repository = new CustomerOrderRepository(context);
-        this.stockService = new StockReservationService(context);
-    }
+    // Explicit types (avoid target-typed new to keep analyzers happy).
+    private readonly CustomerOrderRepository repository = new CustomerOrderRepository(context);
+    private readonly StockReservationService stockService = new StockReservationService(context);
 
+    /// <summary>
+    /// Returns a human-readable name for an order status identifier.
+    /// </summary>
+    /// <param name="id">Order status identifier.</param>
+    /// <returns>Human-readable status name.</returns>
     public static string StatusName(int id) =>
         id switch
         {
@@ -62,21 +58,37 @@ public class CustomerOrderService
             _ => "Unknown",
         };
 
+    /// <summary>
+    /// Returns the list of allowed next statuses for the current status.
+    /// </summary>
+    /// <param name="currentStateId">Current order status identifier.</param>
+    /// <returns>Read-only list of allowed next status identifiers, or an empty list.</returns>
     public static IReadOnlyList<int> GetAllowedNextStates(int currentStateId) =>
         AllowedTransitions.TryGetValue(currentStateId, out var arr)
             ? Array.AsReadOnly(arr)
             : Array.Empty<int>();
 
+    /// <summary>
+    /// Checks whether a transition from one status to another is allowed.
+    /// </summary>
+    /// <param name="fromStateId">Current status identifier.</param>
+    /// <param name="toStateId">Target status identifier.</param>
+    /// <returns><see langword="true"/> if transition is allowed; otherwise, <see langword="false"/>.</returns>
     public static bool CanTransition(int fromStateId, int toStateId) =>
         AllowedTransitions.TryGetValue(fromStateId, out var allowed) && allowed.Contains(toStateId);
 
     // ---------- CRUD ----------
 
+    /// <summary>
+    /// Adds a new order entity from the specified model.
+    /// </summary>
+    /// <param name="model">Order model (expected <see cref="CustomerOrderModel"/>).</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="model"/> is not a <see cref="CustomerOrderModel"/>.</exception>
     public void Add(AbstractModel model)
     {
         if (model is not CustomerOrderModel m)
         {
-            throw new ArgumentException("Expected CustomerOrderModel", nameof(model));
+            throw new ArgumentException("Expected CustomerOrderModel.", nameof(model));
         }
 
         var entity = new CustomerOrder(
@@ -89,8 +101,16 @@ public class CustomerOrderService
         m.Id = entity.Id;
     }
 
+    /// <summary>
+    /// Deletes an order by identifier.
+    /// </summary>
+    /// <param name="modelId">Order identifier.</param>
     public void Delete(int modelId) => this.repository.DeleteById(modelId);
 
+    /// <summary>
+    /// Returns all orders as models.
+    /// </summary>
+    /// <returns>Enumeration of orders as <see cref="CustomerOrderModel"/>.</returns>
     public IEnumerable<AbstractModel> GetAll() =>
         this.repository.GetAll().Select(o =>
             new CustomerOrderModel(
@@ -99,6 +119,12 @@ public class CustomerOrderService
                 operationTime: o.OperationTime,
                 orderStateId: o.OrderStateId));
 
+    /// <summary>
+    /// Returns an order by identifier or throws if not found.
+    /// </summary>
+    /// <param name="id">Order identifier.</param>
+    /// <returns>Order model mapped to <see cref="CustomerOrderModel"/>.</returns>
+    /// <exception cref="KeyNotFoundException">Thrown when the order is not found.</exception>
     public AbstractModel GetById(int id)
     {
         var o = this.repository.GetById(id)
@@ -111,11 +137,16 @@ public class CustomerOrderService
             orderStateId: o.OrderStateId);
     }
 
+    /// <summary>
+    /// Updates an existing order from the specified model.
+    /// </summary>
+    /// <param name="model">Order model (expected <see cref="CustomerOrderModel"/>).</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="model"/> is not a <see cref="CustomerOrderModel"/>.</exception>
     public void Update(AbstractModel model)
     {
         if (model is not CustomerOrderModel m)
         {
-            throw new ArgumentException("Expected CustomerOrderModel", nameof(model));
+            throw new ArgumentException("Expected CustomerOrderModel.", nameof(model));
         }
 
         var entity = this.repository.GetById(m.Id);
@@ -131,11 +162,12 @@ public class CustomerOrderService
     }
 
     /// <summary>
-    /// Безпечно змінює стан замовлення з валідацією дозволених переходів
-    /// та інвентарними побічними ефектами:
-    /// - на 3 (cancel admin) → звільняє резерв;
-    /// - на 8 (confirm by client) → списує склад і обнуляє резерв.
+    /// Changes the order status with validation and inventory side-effects.
     /// </summary>
+    /// <param name="orderId">Order identifier.</param>
+    /// <param name="newStateId">Target status identifier.</param>
+    /// <param name="error">Error message if the operation fails.</param>
+    /// <returns><see langword="true"/> if the status was changed; otherwise, <see langword="false"/>.</returns>
     public bool TryChangeState(int orderId, int newStateId, out string error)
     {
         error = string.Empty;
@@ -154,20 +186,20 @@ public class CustomerOrderService
             return false;
         }
 
-        // 1) Save new state
+        // 1) Save new state.
         entity.OrderStateId = newStateId;
         this.repository.Update(entity);
         this.context.SaveChanges();
 
-        // 2) Inventory side-effects
+        // 2) Inventory side-effects.
         if (newStateId == 3)
         {
-            // Admin cancel → release reservations
+            // Admin cancel → release reservations.
             this.stockService.ReleaseOrderReservations(orderId);
         }
         else if (newStateId == 8)
         {
-            // Confirm delivery → decrease stock & zero reservations
+            // Confirm delivery → decrease stock & zero reservations.
             this.stockService.ConfirmOrderDelivery(orderId);
         }
 
@@ -175,9 +207,12 @@ public class CustomerOrderService
     }
 
     /// <summary>
-    /// Скасування власного замовлення користувачем (тільки якщо стан 1: New).
-    /// Спочатку звільняємо резерви, потім міняємо стан на 2.
+    /// Cancels the user's own order (only if state is 1: New).
     /// </summary>
+    /// <param name="orderId">Order identifier.</param>
+    /// <param name="userId">User identifier.</param>
+    /// <param name="error">Error message if the operation fails.</param>
+    /// <returns><see langword="true"/> if the order was canceled; otherwise, <see langword="false"/>.</returns>
     public bool CancelOwnOrder(int orderId, int userId, out string error)
     {
         error = string.Empty;
@@ -211,8 +246,12 @@ public class CustomerOrderService
     }
 
     /// <summary>
-    /// Підтвердження отримання користувачем (7 → 8) з інвентарними ефектами.
+    /// Marks the order as received by the user (7 → 8) with inventory effects.
     /// </summary>
+    /// <param name="orderId">Order identifier.</param>
+    /// <param name="userId">User identifier.</param>
+    /// <param name="error">Error message if the operation fails.</param>
+    /// <returns><see langword="true"/> if the order was marked as received; otherwise, <see langword="false"/>.</returns>
     public bool MarkAsReceived(int orderId, int userId, out string error)
     {
         error = string.Empty;
@@ -244,6 +283,11 @@ public class CustomerOrderService
         return true;
     }
 
+    /// <summary>
+    /// Returns user orders ordered by identifier descending.
+    /// </summary>
+    /// <param name="userId">User identifier.</param>
+    /// <returns>Enumeration of user orders as <see cref="CustomerOrderModel"/>.</returns>
     public IEnumerable<CustomerOrderModel> GetOrdersByUser(int userId) =>
         this.repository.GetAll()
             .Where(o => o.UserId == userId)

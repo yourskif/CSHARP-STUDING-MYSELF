@@ -11,9 +11,27 @@
 *.ruleset  text eol=crlf
 *.json     text eol=crlf
 
-# Unix-стиль (LF) для скриптів/markdown
-*.sh       text eol=lf
-*.ps1      text eol=lf
-*.md       text eol=lf
-*.yml      text eol=lf
-*.yaml     text eol=lf
+# Unix-стиль (LF) для скриптів/markdown/конфігів редактора
+*.sh             text eol=lf
+*.ps1            text eol=lf
+*.md             text eol=lf
+*.yml            text eol=lf
+*.yaml           text eol=lf
+*.editorconfig   text eol=lf
+.gitattributes   text eol=lf
+.gitignore       text eol=lf
+
+# Бінарні/не-текстові — не чіпати (без нормалізації рядків)
+*.png   -text
+*.jpg   -text
+*.jpeg  -text
+*.gif   -text
+*.ico   -text
+*.pdf   -text
+*.zip   -text
+*.7z    -text
+*.rar   -text
+*.dll   -text
+*.exe   -text
+*.pdb   -text
+*.snk   -text
