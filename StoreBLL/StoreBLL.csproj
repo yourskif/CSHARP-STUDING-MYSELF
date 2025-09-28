@@ -1,11 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<!-- Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\StoreBLL.csproj -->
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <NoWarn>SA0001,SA1633</NoWarn>
+    <NoWarn>SA0001,SA1633,SA1000,SA1009,SA1101,SA1124,SA1202,SA1413,SA1503,SA1513</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
