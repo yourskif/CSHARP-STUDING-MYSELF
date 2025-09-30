@@ -2,6 +2,7 @@ namespace StoreBLL.Models
 {
     /// <summary>
     /// Product title (catalog item without SKU/price).
+    /// Links a title to a category.
     /// </summary>
     public class ProductTitleModel : AbstractModel
     {
@@ -18,13 +19,11 @@ namespace StoreBLL.Models
         /// <param name="id">Identifier.</param>
         /// <param name="title">Title text.</param>
         /// <param name="categoryId">Category identifier.</param>
-        /// <param name="manufacturerId">Manufacturer identifier.</param>
-        public ProductTitleModel(int id, string title, int categoryId, int manufacturerId)
+        public ProductTitleModel(int id, string title, int categoryId)
         {
             this.Id = id;
             this.Title = title;
             this.CategoryId = categoryId;
-            this.ManufacturerId = manufacturerId;
         }
 
         /// <summary>
@@ -36,10 +35,5 @@ namespace StoreBLL.Models
         /// Gets or sets category identifier.
         /// </summary>
         public int CategoryId { get; set; }
-
-        /// <summary>
-        /// Gets or sets manufacturer identifier.
-        /// </summary>
-        public int ManufacturerId { get; set; }
     }
 }
