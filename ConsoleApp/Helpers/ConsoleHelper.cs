@@ -1,7 +1,7 @@
-﻿namespace ConsoleApp.Helpers
-{
-    using System;
+﻿using System;
 
+namespace ConsoleApp.Helpers
+{
     /// <summary>
     /// Common console interaction helpers to eliminate code duplication.
     /// </summary>

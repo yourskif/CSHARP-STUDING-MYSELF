@@ -7,30 +7,48 @@ using StoreDAL.Interfaces;
 
 namespace StoreDAL.Repository
 {
+    /// <summary>
+    /// Repository for managing category entities in the database.
+    /// Implements CRUD operations for product categories.
+    /// </summary>
     public class CategoryRepository : ICategoryRepository
     {
         private readonly StoreDbContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryRepository"/> class.
+        /// </summary>
+        /// <param name="context">Database context for accessing category data.</param>
         public CategoryRepository(StoreDbContext context)
         {
             this.context = context;
         }
 
-        // Р”РѕРґР°С‚Рё РЅРѕРІСѓ РєР°С‚РµРіРѕСЂС–СЋ
+        /// <summary>
+        /// Adds a new category to the database and saves changes immediately.
+        /// </summary>
+        /// <param name="entity">Category entity to add.</param>
         public void Add(Category entity)
         {
             this.context.Categories.Add(entity);
             this.context.SaveChanges();
         }
 
-        // Р’РёРґР°Р»РёС‚Рё РєР°С‚РµРіРѕСЂС–СЋ (РїРѕ СЃСѓС‚РЅРѕСЃС‚С–)
+        /// <summary>
+        /// Deletes an existing category from the database and saves changes immediately.
+        /// </summary>
+        /// <param name="entity">Category entity to delete.</param>
         public void Delete(Category entity)
         {
             this.context.Categories.Remove(entity);
             this.context.SaveChanges();
         }
 
-        // Р’РёРґР°Р»РёС‚Рё РєР°С‚РµРіРѕСЂС–СЋ Р·Р° ID
+        /// <summary>
+        /// Deletes a category by its identifier.
+        /// If the category does not exist, no action is taken.
+        /// </summary>
+        /// <param name="id">Unique identifier of the category to delete.</param>
         public void DeleteById(int id)
         {
             var category = this.context.Categories.Find(id);
@@ -41,13 +59,21 @@ namespace StoreDAL.Repository
             }
         }
 
-        // РћС‚СЂРёРјР°С‚Рё РІСЃС– РєР°С‚РµРіРѕСЂС–С—
+        /// <summary>
+        /// Retrieves all categories from the database.
+        /// </summary>
+        /// <returns>Collection of all categories.</returns>
         public IEnumerable<Category> GetAll()
         {
             return this.context.Categories.ToList();
         }
 
-        // РћС‚СЂРёРјР°С‚Рё РєР°С‚РµРіРѕСЂС–С— Р· РїР°РіС–РЅР°С†С–С”СЋ
+        /// <summary>
+        /// Retrieves a paginated list of categories.
+        /// </summary>
+        /// <param name="pageNumber">Page number to retrieve (1-based).</param>
+        /// <param name="rowCount">Number of rows per page.</param>
+        /// <returns>Collection of categories for the specified page.</returns>
         public IEnumerable<Category> GetAll(int pageNumber, int rowCount)
         {
             return this.context.Categories
@@ -56,13 +82,20 @@ namespace StoreDAL.Repository
                           .ToList();
         }
 
-        // РћС‚СЂРёРјР°С‚Рё РєР°С‚РµРіРѕСЂС–СЋ Р·Р° ID
+        /// <summary>
+        /// Retrieves a category by its unique identifier.
+        /// </summary>
+        /// <param name="id">Unique identifier of the category.</param>
+        /// <returns>Category entity if found; otherwise, null.</returns>
         public Category GetById(int id)
         {
             return this.context.Categories.Find(id);
         }
 
-        // РћРЅРѕРІРёС‚Рё РєР°С‚РµРіРѕСЂС–СЋ
+        /// <summary>
+        /// Updates an existing category in the database and saves changes immediately.
+        /// </summary>
+        /// <param name="entity">Category entity with updated values.</param>
         public void Update(Category entity)
         {
             this.context.Categories.Update(entity);

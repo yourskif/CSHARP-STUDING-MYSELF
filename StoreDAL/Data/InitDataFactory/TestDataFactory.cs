@@ -1,7 +1,7 @@
-// Path: C:\Users\SK\source\repos\C#\1313\console-online-store\StoreDAL\Data\InitDataFactory\TestDataFactory.cs
 namespace StoreDAL.Data.InitDataFactory;
 
 using System;
+
 using StoreDAL.Entities;
 
 public sealed class TestDataFactory : AbstractDataFactory
@@ -134,7 +134,77 @@ public sealed class TestDataFactory : AbstractDataFactory
             },
         };
 
-    public override CustomerOrder[] GetCustomerOrderData() => Array.Empty<CustomerOrder>();
+    public override CustomerOrder[] GetCustomerOrderData() =>
+        new[]
+        {
+            // Order #1: New Order (State 1) by user John - reserved 10 apples
+            new CustomerOrder(
+                id: 1,
+                operationTime: "2025-01-15 10:30:00",
+                userId: 2,
+                orderStateId: 1),
 
-    public override OrderDetail[] GetOrderDetailData() => Array.Empty<OrderDetail>();
+            // Order #2: Confirmed (State 4) by user Serge - reserved 15 chips
+            new CustomerOrder(
+                id: 2,
+                operationTime: "2025-01-14 14:20:00",
+                userId: 10,
+                orderStateId: 4),
+
+            // Order #3: In Delivery (State 6) by user John - reserved 5 tomatoes
+            new CustomerOrder(
+                id: 3,
+                operationTime: "2025-01-13 09:15:00",
+                userId: 2,
+                orderStateId: 6),
+
+            // Order #4: Delivered (State 7) by user Serge - ready to confirm
+            new CustomerOrder(
+                id: 4,
+                operationTime: "2025-01-12 16:45:00",
+                userId: 10,
+                orderStateId: 7),
+        };
+
+    public override OrderDetail[] GetOrderDetailData() =>
+        new[]
+        {
+            // Order #1 details: 10 apples
+            new OrderDetail(
+                id: 1,
+                orderId: 1,
+                productId: 1,
+                productAmount: 10,
+                price: 2.50m),
+
+            // Order #2 details: 15 chips
+            new OrderDetail(
+                id: 2,
+                orderId: 2,
+                productId: 3,
+                productAmount: 15,
+                price: 1.40m),
+
+            // Order #3 details: 5 tomatoes
+            new OrderDetail(
+                id: 3,
+                orderId: 3,
+                productId: 4,
+                productAmount: 5,
+                price: 3.20m),
+
+            // Order #4 details: 20 water bottles + 10 chips
+            new OrderDetail(
+                id: 4,
+                orderId: 4,
+                productId: 2,
+                productAmount: 20,
+                price: 0.80m),
+            new OrderDetail(
+                id: 5,
+                orderId: 4,
+                productId: 3,
+                productAmount: 10,
+                price: 1.40m),
+        };
 }
