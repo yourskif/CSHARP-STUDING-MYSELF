@@ -1,4 +1,4 @@
-// Path: C:\Users\SK\source\repos\C#\1414\console-online-store\ConsoleApp\Controllers\UserOrderController.cs
+// Path: console-online-store/ConsoleApp/Controllers/UserOrderController.cs
 namespace ConsoleApp.Controllers;
 
 using System;
@@ -152,6 +152,7 @@ public class UserOrderController
             var title = product.Title?.Title ?? $"Product {product.Id}";
             Console.WriteLine($"  ID: {product.Id} - {title} - ${product.UnitPrice:F2} (Available: {product.AvailableQuantity})");
         }
+
         Console.WriteLine();
 
         while (true)
@@ -214,6 +215,7 @@ public class UserOrderController
             var productName = detail.Product?.Title?.Title ?? $"Product {detail.ProductId}";
             Console.WriteLine($"{productName} x{detail.ProductAmount} @ ${detail.Price:F2} = ${detail.Price * detail.ProductAmount:F2}");
         }
+
         Console.WriteLine(new string('-', 50));
         Console.WriteLine($"TOTAL: ${totalAmount:F2}");
         Console.WriteLine(new string('=', 50));
@@ -360,7 +362,7 @@ public class UserOrderController
         var order = this.context.CustomerOrders
             .Include(o => o.Details)
             .ThenInclude(d => d.Product)
-            .ThenInclude(p => p.Title)
+            .ThenInclude(p => p != null ? p.Title : null)
             .FirstOrDefault(o => o.Id == orderId && o.UserId == user.Id);
 
         if (order == null)
@@ -398,7 +400,7 @@ public class UserOrderController
         Console.WriteLine($"\nCurrent Status: {GetOrderStatusName(order.OrderStateId)}");
 
         var nextStates = CustomerOrderService.GetAllowedNextStates(order.OrderStateId);
-        if (nextStates.Any())
+        if (nextStates.Count > 0)
         {
             Console.WriteLine("\n🔮 What's Next:");
             foreach (var stateId in nextStates)
@@ -444,7 +446,7 @@ public class UserOrderController
             .Include(o => o.Details)
             .ToList();
 
-        if (!orders.Any())
+        if (orders.Count == 0)
         {
             Console.WriteLine("No order history available.");
             Pause();
@@ -493,7 +495,7 @@ public class UserOrderController
             Console.WriteLine($"{GetOrderStatusIcon(group.Key)} {statusName,-28}: {count,3} ({percentage,4:F1}%)");
         }
 
-        if (orders.Any())
+        if (orders.Count > 0)
         {
             Console.WriteLine();
             Console.WriteLine("📅 RECENT ACTIVITY");
@@ -535,7 +537,7 @@ public class UserOrderController
             .OrderByDescending(o => o.Id)
             .ToList();
 
-        if (!cancellableOrders.Any())
+        if (cancellableOrders.Count == 0)
         {
             Console.WriteLine("❌ You have no orders that can be cancelled.");
             Console.WriteLine("💡 Only orders with 'New Order' status can be cancelled.");
@@ -551,6 +553,7 @@ public class UserOrderController
                 .Sum(d => d.Price * d.ProductAmount);
             Console.WriteLine($"  Order #{order.Id} - {order.OperationTime} - ${total:F2}");
         }
+
         Console.WriteLine();
 
         Console.Write("Enter Order ID to cancel: ");
@@ -597,7 +600,7 @@ public class UserOrderController
             .OrderByDescending(o => o.Id)
             .ToList();
 
-        if (!deliveredOrders.Any())
+        if (deliveredOrders.Count == 0)
         {
             Console.WriteLine("❌ You have no orders ready for confirmation.");
             Console.WriteLine("💡 Only orders with 'Delivered to client' status can be marked as received.");
@@ -613,6 +616,7 @@ public class UserOrderController
                 .Sum(d => d.Price * d.ProductAmount);
             Console.WriteLine($"  Order #{order.Id} - {order.OperationTime} - ${total:F2}");
         }
+
         Console.WriteLine();
 
         Console.Write("Enter Order ID: ");
@@ -651,7 +655,7 @@ public class UserOrderController
             (5, "Moved to delivery", "🚚"),
             (6, "In delivery", "🚛"),
             (7, "Delivered", "📦"),
-            (8, "Confirmed by client", "🎉")
+            (8, "Confirmed by client", "🎉"),
         };
 
         Console.WriteLine("📋 Order Progress:");
@@ -661,7 +665,7 @@ public class UserOrderController
         {
             var (id, name, icon) = states[i];
             string status;
-            string connector = i < states.Length - 1 ? " ──→ " : "";
+            string connector = i < states.Length - 1 ? " ──→ " : string.Empty;
 
             if (id == currentStateId)
             {
@@ -710,7 +714,7 @@ public class UserOrderController
         // States in order: 1 -> 4 -> 5 -> 6 -> 7 -> 8
         var stateOrder = new Dictionary<int, int>
         {
-            { 1, 1 }, { 4, 2 }, { 5, 3 }, { 6, 4 }, { 7, 5 }, { 8, 6 }
+            { 1, 1 }, { 4, 2 }, { 5, 3 }, { 6, 4 }, { 7, 5 }, { 8, 6 },
         };
 
         return stateOrder.ContainsKey(stateId) && stateOrder.ContainsKey(currentStateId) &&
@@ -762,12 +766,16 @@ public class UserOrderController
     private static string Trunc(string? s, int max)
     {
         if (string.IsNullOrEmpty(s) || max <= 0)
+        {
             return string.Empty;
+        }
 
         if (s.Length <= max)
+        {
             return s;
+        }
 
-        return s.Substring(0, Math.Max(0, max - 1)) + "…";
+        return string.Concat(s.AsSpan(0, Math.Max(0, max - 1)), "…");
     }
 
     /// <summary>
