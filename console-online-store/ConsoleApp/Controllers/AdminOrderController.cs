@@ -1,4 +1,4 @@
-﻿// Path: C:\Users\SK\source\repos\C#\1414\console-online-store\ConsoleApp\Controllers\AdminOrderController.cs
+﻿// Path: console-online-store/ConsoleApp/Controllers/AdminOrderController.cs
 using System;
 using System.Globalization;
 using System.Linq;
@@ -15,48 +15,26 @@ using StoreDAL.Entities;
 namespace ConsoleApp.Controllers
 {
     /// <summary>
-    /// Enhanced admin orders management controller with advanced status visualization and transition management.
-    /// Provides comprehensive order lifecycle control with visual status flow representation.
+    /// Admin orders management (tabular view, details, cancel, change status).
     /// </summary>
     public sealed class AdminOrderController
     {
-        /// <summary>
-        /// Database context for data operations.
-        /// </summary>
         private readonly StoreDbContext db;
-
-        /// <summary>
-        /// Service for managing stock reservations.
-        /// </summary>
         private readonly StockReservationService stockService;
 
-        /// <summary>
-        /// Service for customer order operations.
-        /// </summary>
-#pragma warning disable CA1859 // Keep interface type for testability and loose coupling (intentional)
+#pragma warning disable CA1859
         private readonly ICustomerOrderService orderService;
 #pragma warning restore CA1859
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AdminOrderController"/> class.
-        /// </summary>
-        /// <param name="db">Database context for operations.</param>
-        /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
         public AdminOrderController(StoreDbContext db)
         {
             this.db = db ?? throw new ArgumentNullException(nameof(db));
             this.stockService = new StockReservationService(db);
-            this.orderService = new CustomerOrderService(db); // concrete creation; typed via interface
+            this.orderService = new CustomerOrderService(db);
         }
 
-        /// <summary>
-        /// Backward-compat alias used by existing menus.
-        /// </summary>
         public void ShowOrders() => this.ShowOrdersSnapshot();
 
-        /// <summary>
-        /// Main entry point for admin order management with enhanced features.
-        /// </summary>
         public void Run()
         {
             var prev = System.Threading.Thread.CurrentThread.CurrentCulture;
@@ -67,13 +45,11 @@ namespace ConsoleApp.Controllers
                 while (true)
                 {
                     Console.Clear();
-                    Console.WriteLine("=== ADMIN: ORDERS MANAGEMENT ===\n");
+                    Console.WriteLine("=== ADMIN: ORDERS ===\n");
                     Console.WriteLine("1. Orders snapshot (table)");
                     Console.WriteLine("2. View order details");
                     Console.WriteLine("3. Cancel order (admin)");
-                    Console.WriteLine("4. Change order status (guided)");
-                    Console.WriteLine("5. Bulk status operations");
-                    Console.WriteLine("6. Order analytics");
+                    Console.WriteLine("4. Change order status (choose allowed)");
                     Console.WriteLine();
                     Console.WriteLine("Esc: Back");
 
@@ -96,14 +72,6 @@ namespace ConsoleApp.Controllers
                         case ConsoleKey.NumPad4:
                             this.ChangeOrderStatusInteractive();
                             break;
-                        case ConsoleKey.D5:
-                        case ConsoleKey.NumPad5:
-                            this.ShowBulkOperations();
-                            break;
-                        case ConsoleKey.D6:
-                        case ConsoleKey.NumPad6:
-                            this.ShowOrderAnalytics();
-                            break;
                         case ConsoleKey.Escape:
                             return;
                     }
@@ -115,9 +83,64 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Shows enhanced orders snapshot with filtering options.
-        /// </summary>
+        private static string UserLabel(User? u)
+        {
+            if (u is null)
+            {
+                return "unknown";
+            }
+
+            string? best =
+                ReadString(u, "DisplayName") ??
+                ReadString(u, "Email") ??
+                ReadString(u, "Login") ??
+                ReadString(u, "Username") ??
+                ReadString(u, "Name");
+
+            return string.IsNullOrWhiteSpace(best) ? $"User#{u.Id}" : best!;
+        }
+
+        private static string? ReadString(object? obj, string propName)
+        {
+            if (obj is null)
+            {
+                return null;
+            }
+
+            var pi = obj.GetType().GetProperty(
+                propName,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+
+            if (pi is null || !pi.CanRead)
+            {
+                return null;
+            }
+
+            return pi.GetValue(obj) as string;
+        }
+
+        private static string Trunc(string? s, int max)
+        {
+            if (string.IsNullOrEmpty(s) || max <= 0)
+            {
+                return string.Empty;
+            }
+
+            if (s.Length <= max)
+            {
+                return s;
+            }
+
+            var take = Math.Max(0, max - 1);
+            return string.Concat(s.AsSpan(0, take), "...");
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey(true);
+        }
+
         private void ShowOrdersSnapshot()
         {
             Console.Clear();
@@ -143,38 +166,195 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            // Show summary statistics
-            var totalOrders = rows.Count;
-            var activeOrders = rows.Count(r => r.OrderStateId >= 1 && r.OrderStateId <= 7 && r.OrderStateId != 2 && r.OrderStateId != 3);
-            var completedOrders = rows.Count(r => r.OrderStateId == 8);
-            var cancelledOrders = rows.Count(r => r.OrderStateId == 2 || r.OrderStateId == 3);
-
-            Console.WriteLine("📊 ORDERS OVERVIEW");
-            Console.WriteLine($"Total: {totalOrders} | Active: {activeOrders} | Completed: {completedOrders} | Cancelled: {cancelledOrders}");
-            Console.WriteLine();
-
             Console.WriteLine($"{"ID",4}  {"Date",19}  {"User",-20}  {"Status",-28}  {"Total",10}");
             Console.WriteLine(new string('-', 4 + 2 + 19 + 2 + 20 + 2 + 28 + 2 + 10));
 
-            foreach (var r in rows.Take(20)) // Limit to prevent screen overflow
+            foreach (var r in rows)
             {
                 var total = (decimal)this.db.OrderDetails
                     .Where(d => d.OrderId == r.Id)
                     .Select(d => (double)d.Price * d.ProductAmount)
                     .Sum();
 
-                var statusIcon = GetOrderStatusIcon(r.OrderStateId);
-                var statusName = CustomerOrderService.StatusName(r.OrderStateId);
-
-                Console.WriteLine($"{r.Id,4}  {r.OperationTime ?? string.Empty,19}  {UserLabel(r.User),-20}  {statusIcon} {statusName,-25}  {total,10:0.00}");
+                Console.WriteLine($"{r.Id,4}  {r.OperationTime ?? string.Empty,19}  {UserLabel(r.User),-20}  {CustomerOrderService.StatusName(r.OrderStateId),-28}  {total,10:0.00}");
             }
 
-            if (rows.Count > 20)
+            Console.WriteLine("\nTip: Use [3] to cancel by ID, [4] to change status.");
+            Pause();
+        }
+
+        private void ShowOrderDetails()
+        {
+            Console.Clear();
+            Console.WriteLine("=== ADMIN: ORDER DETAILS ===\n");
+            Console.Write("Enter Order ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
             {
-                Console.WriteLine($"\n... and {rows.Count - 20} more orders");
+                Console.WriteLine("Invalid ID.");
+                Pause();
+                return;
             }
 
-            Console.WriteLine("\n💡 Tips:");
-            Console.WriteLine("   • Use option 4 to change order status with guided workflow");
-            Console.WriteLine("   • Use option 2 to view detailed order information");
-            Console.WriteLine
+            var order = this.db.CustomerOrders
+                .Include(o => o.User)
+                .FirstOrDefault(o => o.Id == id);
+
+            if (order == null)
+            {
+                Console.WriteLine("Order not found.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine($"\nID: {order.Id}");
+            Console.WriteLine($"Date: {order.OperationTime ?? string.Empty}");
+            Console.WriteLine($"User: {UserLabel(order.User)}");
+            Console.WriteLine($"Status: {CustomerOrderService.StatusName(order.OrderStateId)}");
+
+            var details = this.db.OrderDetails
+                .Include(d => d.Product)
+                .ThenInclude(p => p!.Title)
+                .Where(d => d.OrderId == id)
+                .ToList();
+
+            if (details.Count == 0)
+            {
+                Console.WriteLine("\nNo items.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine("\nItems:");
+            Console.WriteLine($"{"Product",-30}  {"Price",10}  {"Qty",5}  {"Subtotal",10}");
+            Console.WriteLine(new string('-', 30 + 2 + 10 + 2 + 5 + 2 + 10));
+
+            decimal total = 0m;
+            foreach (var d in details)
+            {
+                string name = d.Product?.Title?.Title ?? $"Product {d.ProductId}";
+                decimal sub = d.Price * d.ProductAmount;
+                total += sub;
+                Console.WriteLine($"{Trunc(name, 30),-30}  {d.Price,10:0.00}  {d.ProductAmount,5}  {sub,10:0.00}");
+            }
+
+            Console.WriteLine(new string('-', 30 + 2 + 10 + 2 + 5 + 2 + 10));
+            Console.WriteLine($"{"TOTAL",-30}  {string.Empty,10}  {string.Empty,5}  {total,10:0.00}");
+
+            Pause();
+        }
+
+        private void AdminCancelOrder()
+        {
+            Console.Clear();
+            Console.WriteLine("=== ADMIN: CANCEL ORDER ===\n");
+            Console.Write("Enter Order ID to cancel: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid ID.");
+                Pause();
+                return;
+            }
+
+            var order = this.db.CustomerOrders.FirstOrDefault(o => o.Id == id);
+            if (order == null)
+            {
+                Console.WriteLine("Order not found.");
+                Pause();
+                return;
+            }
+
+            if (order.OrderStateId is 2 or 3 or 8)
+            {
+                Console.WriteLine($"Order already final: {CustomerOrderService.StatusName(order.OrderStateId)}");
+                Pause();
+                return;
+            }
+
+            if (!CustomerOrderService.CanTransition(order.OrderStateId, 3))
+            {
+                var next = string.Join(", ", CustomerOrderService
+                    .GetAllowedNextStates(order.OrderStateId)
+                    .Select(CustomerOrderService.StatusName));
+
+                Console.WriteLine($"Cancel is not allowed from current state ({CustomerOrderService.StatusName(order.OrderStateId)}). Allowed next: [{next}].");
+                Pause();
+                return;
+            }
+
+            if (this.orderService.TryChangeState(id, 3, out var error))
+            {
+                this.stockService.ReleaseOrderReservations(id);
+                Console.WriteLine($"Order {id} cancelled by administrator. Reservations released.");
+            }
+            else
+            {
+                Console.WriteLine(error);
+            }
+
+            Pause();
+        }
+
+        private void ChangeOrderStatusInteractive()
+        {
+            Console.Clear();
+            Console.WriteLine("=== ADMIN: CHANGE ORDER STATUS ===\n");
+            Console.Write("Enter Order ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid ID.");
+                Pause();
+                return;
+            }
+
+            var order = this.db.CustomerOrders.FirstOrDefault(o => o.Id == id);
+            if (order == null)
+            {
+                Console.WriteLine("Order not found.");
+                Pause();
+                return;
+            }
+
+            var allowed = CustomerOrderService.GetAllowedNextStates(order.OrderStateId);
+            if (allowed.Count == 0)
+            {
+                Console.WriteLine($"No allowed transitions from current state: {CustomerOrderService.StatusName(order.OrderStateId)}.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine($"\nCurrent: {CustomerOrderService.StatusName(order.OrderStateId)}");
+            Console.WriteLine("Allowed next states:");
+            for (int i = 0; i < allowed.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {CustomerOrderService.StatusName(allowed[i])} (#{allowed[i]})");
+            }
+
+            Console.Write("\nChoose option: ");
+            if (!int.TryParse(Console.ReadLine(), out int opt) || opt < 1 || opt > allowed.Count)
+            {
+                Console.WriteLine("Invalid option.");
+                Pause();
+                return;
+            }
+
+            int target = allowed[opt - 1];
+
+            if (this.orderService.TryChangeState(id, target, out var error))
+            {
+                if (target == 8)
+                {
+                    var stockSvc = new StockReservationService(this.db);
+                    stockSvc.ConfirmOrderDelivery(id);
+                }
+
+                Console.WriteLine($"Order {id} moved to: {CustomerOrderService.StatusName(target)}");
+            }
+            else
+            {
+                Console.WriteLine(error);
+            }
+
+            Pause();
+        }
+    }
+}

@@ -1,157 +1,157 @@
+// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\ConsoleApp\MenuBuilder\Admin\AdminMainMenu.cs
 using System;
+
 using ConsoleApp.Controllers;
+using ConsoleApp.UI;
+
 using StoreBLL.Services;
+
 using StoreDAL.Data;
 using StoreDAL.Repository;
 
 namespace ConsoleApp.MenuBuilder.Admin
 {
     /// <summary>
-    /// Admin main menu (orders/products/users/diagnostics).
+    /// Admin main menu with enhanced UI and reporting.
     /// </summary>
     public sealed class AdminMainMenu
     {
-        // -------- instance fields --------
         private readonly StoreDbContext db;
 
-        // -------- ctor --------
         public AdminMainMenu(StoreDbContext db)
         {
             this.db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
-        // -------- static members (must be before instance members to satisfy SA1204) --------
-
-        /// <summary>
-        /// Backward compatibility with older code that calls AdminMainMenu.Show(db).
-        /// </summary>
         public static void Show(StoreDbContext db)
         {
             new AdminMainMenu(db).Run();
         }
 
-        // -------- instance members --------
         public void Run()
         {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("=== ADMIN MAIN MENU ===\n");
-                Console.WriteLine("1. Products (manage)");
-                Console.WriteLine("2. Orders (admin)");
-                Console.WriteLine("3. Diagnostics");
-                Console.WriteLine("4. Users Management");
-                Console.WriteLine();
-                Console.WriteLine("Esc: Back");
+            var menu = new ConsoleMenuBuilder()
+                .WithTitle("ADMIN MAIN MENU")
+                .WithHeaderColor(ConsoleColor.Red)
+                .AddItem(ConsoleKey.D1, "Products Management", this.ShowProductManagementMenu)
+                .AddItem(ConsoleKey.D2, "Orders Management", this.ShowOrdersManagement)
+                .AddItem(ConsoleKey.D3, "Users Management", this.ShowUsersManagement)
+                .AddSeparator()
+                .AddItem(ConsoleKey.D4, "Reports & Export", this.ShowReportsMenu)
+                .AddItem(ConsoleKey.D5, "Diagnostics", this.ShowDiagnostics);
 
-                var key = Console.ReadKey(true).Key;
-                switch (key)
-                {
-                    case ConsoleKey.D1:
-                    case ConsoleKey.NumPad1:
-                        this.ShowProductManagementMenu();
-                        break;
-
-                    case ConsoleKey.D2:
-                    case ConsoleKey.NumPad2:
-                        new AdminOrderController(this.db).Run();
-                        break;
-
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
-                        new AdminDiagnosticsController(this.db).Run();
-                        break;
-
-                    case ConsoleKey.D4:
-                    case ConsoleKey.NumPad4:
-                        // open users management submenu
-                        AdminUsersMenu.Show(this.db);
-                        break;
-
-                    case ConsoleKey.Escape:
-                        return;
-                }
-            }
+            menu.Run();
         }
 
         private static void Pause()
         {
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey(true);
+            ConsoleHelper.Pause();
+        }
+
+        private static Action ListAllProductsAction(ProductController controller)
+        {
+            return () =>
+            {
+                controller.ListAllProducts();
+                Pause();
+            };
+        }
+
+        private static Action CreateProductAction(ProductController controller)
+        {
+            return () =>
+            {
+                controller.CreateProduct();
+                Pause();
+            };
+        }
+
+        private static Action UpdateProductAction(ProductController controller)
+        {
+            return () =>
+            {
+                controller.UpdateProduct();
+                Pause();
+            };
+        }
+
+        private static Action DeleteProductAction(ProductController controller)
+        {
+            return () =>
+            {
+                controller.DeleteProduct();
+                Pause();
+            };
+        }
+
+        private static Action SearchProductsAction(ProductController controller)
+        {
+            return () =>
+            {
+                controller.SearchProducts();
+                Pause();
+            };
+        }
+
+        private static Action FilterByCategoryAction(ProductController controller)
+        {
+            return () =>
+            {
+                controller.FilterByCategory();
+                Pause();
+            };
+        }
+
+        private static Action FilterByManufacturerAction(ProductController controller)
+        {
+            return () =>
+            {
+                controller.FilterByManufacturer();
+                Pause();
+            };
+        }
+
+        private void ShowOrdersManagement()
+        {
+            new AdminOrderController(this.db).Run();
+        }
+
+        private void ShowUsersManagement()
+        {
+            AdminUsersMenu.Show(this.db);
+        }
+
+        private void ShowReportsMenu()
+        {
+            new ReportController(this.db).Run();
+        }
+
+        private void ShowDiagnostics()
+        {
+            new AdminDiagnosticsController(this.db).Run();
         }
 
         private void ShowProductManagementMenu()
         {
-            // Services wired with explicit dependencies
             var productRepository = new ProductRepository(this.db);
             var productService = new ProductService(productRepository);
             var categoryService = new CategoryService(this.db);
             var manufacturerService = new ManufacturerService(this.db);
             var productController = new ProductController(productService, categoryService, manufacturerService);
 
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("=== PRODUCT MANAGEMENT ===\n");
-                Console.WriteLine("1. List All Products");
-                Console.WriteLine("2. Add New Product");
-                Console.WriteLine("3. Update Product");
-                Console.WriteLine("4. Delete Product");
-                Console.WriteLine("5. Search Products");
-                Console.WriteLine("6. Filter by Category");
-                Console.WriteLine("7. Filter by Manufacturer");
-                Console.WriteLine();
-                Console.WriteLine("Esc: Back");
+            var menu = new ConsoleMenuBuilder()
+                .WithTitle("PRODUCT MANAGEMENT")
+                .WithHeaderColor(ConsoleColor.Green)
+                .AddItem(ConsoleKey.D1, "List All Products", ListAllProductsAction(productController))
+                .AddItem(ConsoleKey.D2, "Add New Product", CreateProductAction(productController))
+                .AddItem(ConsoleKey.D3, "Update Product", UpdateProductAction(productController))
+                .AddItem(ConsoleKey.D4, "Delete Product", DeleteProductAction(productController))
+                .AddSeparator()
+                .AddItem(ConsoleKey.D5, "Search Products", SearchProductsAction(productController))
+                .AddItem(ConsoleKey.D6, "Filter by Category", FilterByCategoryAction(productController))
+                .AddItem(ConsoleKey.D7, "Filter by Manufacturer", FilterByManufacturerAction(productController));
 
-                var key = Console.ReadKey(true).Key;
-                switch (key)
-                {
-                    case ConsoleKey.D1:
-                    case ConsoleKey.NumPad1:
-                        productController.ListAllProducts();
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D2:
-                    case ConsoleKey.NumPad2:
-                        productController.CreateProduct();
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
-                        productController.UpdateProduct();
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D4:
-                    case ConsoleKey.NumPad4:
-                        productController.DeleteProduct();
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D5:
-                    case ConsoleKey.NumPad5:
-                        productController.SearchProducts();
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D6:
-                    case ConsoleKey.NumPad6:
-                        productController.FilterByCategory();
-                        Pause();
-                        break;
-
-                    case ConsoleKey.D7:
-                    case ConsoleKey.NumPad7:
-                        productController.FilterByManufacturer();
-                        Pause();
-                        break;
-
-                    case ConsoleKey.Escape:
-                        return;
-                }
-            }
+            menu.Run();
         }
     }
 }

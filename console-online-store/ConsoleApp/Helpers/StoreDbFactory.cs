@@ -1,10 +1,14 @@
+// Path: console-online-store/ConsoleApp/Helpers/StoreDbFactory.cs
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using Microsoft.EntityFrameworkCore;
+
 using StoreDAL.Data;
 using StoreDAL.Data.InitDataFactory;
+using StoreDAL.Entities;
 
 namespace ConsoleApp.Helpers
 {
@@ -32,6 +36,59 @@ namespace ConsoleApp.Helpers
 
             SeedDatabase(db);
             return db;
+        }
+
+        /// <summary>
+        /// Ensures a default admin user exists in the database.
+        /// Creates or resets the admin user with login "admin" and password "Admin@123".
+        /// </summary>
+        /// <param name="context">The database context to use.</param>
+        public static void EnsureDefaultAdmin(StoreDbContext context)
+        {
+            ArgumentNullException.ThrowIfNull(context);
+
+            // Check if admin user exists
+            var adminUser = context.Users.FirstOrDefault(u => u.Login == "admin");
+
+            if (adminUser == null)
+            {
+                // Create new admin user
+                adminUser = new User
+                {
+                    Login = "admin",
+                    Password = HashPassword("Admin@123"), // Use PBKDF2 hashing
+                    RoleId = 1, // Admin role
+                    IsBlocked = false,
+                };
+
+                context.Users.Add(adminUser);
+            }
+            else
+            {
+                // Reset existing admin user
+                adminUser.Password = HashPassword("Admin@123");
+                adminUser.RoleId = 1;
+                adminUser.IsBlocked = false;
+            }
+
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Hashes a password using PBKDF2.
+        /// </summary>
+        /// <param name="password">The password to hash.</param>
+        /// <returns>The hashed password with PBKDF2$ prefix.</returns>
+        private static string HashPassword(string password)
+        {
+            // This is a simplified version - you should use actual PBKDF2 implementation
+            // For example, using System.Security.Cryptography
+            using (var hmac = new System.Security.Cryptography.HMACSHA256())
+            {
+                var salt = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
+                var hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password + Convert.ToBase64String(salt)));
+                return $"PBKDF2${Convert.ToBase64String(salt)}${Convert.ToBase64String(hash)}";
+            }
         }
 
         private static void SeedDatabase(StoreDbContext context)

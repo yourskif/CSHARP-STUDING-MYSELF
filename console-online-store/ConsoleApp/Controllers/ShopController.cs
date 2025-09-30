@@ -1,3 +1,4 @@
+// Path: console-online-store/ConsoleApp/Controllers/ShopController.cs
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -176,7 +177,7 @@ namespace ConsoleApp.Controllers
                            (p.Sku?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true))
                 .ToList();
 
-            if (!products.Any())
+            if (products.Count == 0)
             {
                 Console.WriteLine($"No products found for '{searchTerm}'");
                 Pause();
@@ -256,13 +257,14 @@ namespace ConsoleApp.Controllers
                 .OrderBy(name => name)
                 .ToList();
 
-            if (categories.Any())
+            if (categories.Count > 0)
             {
                 Console.WriteLine("Available categories:");
                 for (int i = 0; i < categories.Count; i++)
                 {
                     Console.WriteLine($"  {i + 1}. {categories[i]}");
                 }
+
                 Console.WriteLine();
             }
 
@@ -309,13 +311,14 @@ namespace ConsoleApp.Controllers
                 .OrderBy(name => name)
                 .ToList();
 
-            if (manufacturers.Any())
+            if (manufacturers.Count > 0)
             {
                 Console.WriteLine("Available manufacturers:");
                 for (int i = 0; i < manufacturers.Count; i++)
                 {
                     Console.WriteLine($"  {i + 1}. {manufacturers[i]}");
                 }
+
                 Console.WriteLine();
             }
 
