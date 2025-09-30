@@ -15,17 +15,25 @@ using StoreDAL.Entities;
 namespace ConsoleApp.Controllers
 {
     /// <summary>
-    /// Admin orders management (tabular view, details, cancel, change status).
+    /// Admin orders management controller.
+    /// Provides comprehensive order management including viewing, canceling, status changes, and creation.
     /// </summary>
     public sealed class AdminOrderController
     {
+        // ---------- instance fields ----------
         private readonly StoreDbContext db;
         private readonly StockReservationService stockService;
 
-#pragma warning disable CA1859
+#pragma warning disable CA1859 // Keep interface type for testability and loose coupling (intentional)
         private readonly ICustomerOrderService orderService;
 #pragma warning restore CA1859
 
+        // ---------- ctor ----------
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminOrderController"/> class.
+        /// </summary>
+        /// <param name="db">Database context for order operations.</param>
+        /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
         public AdminOrderController(StoreDbContext db)
         {
             this.db = db ?? throw new ArgumentNullException(nameof(db));
@@ -33,8 +41,17 @@ namespace ConsoleApp.Controllers
             this.orderService = new CustomerOrderService(db);
         }
 
+        // ---------- PUBLIC methods (SA1202: public before private) ----------
+
+        /// <summary>
+        /// Backward-compatible alias used by existing menus.
+        /// </summary>
         public void ShowOrders() => this.ShowOrdersSnapshot();
 
+        /// <summary>
+        /// Main menu loop for admin order operations.
+        /// Displays options and handles navigation for order management.
+        /// </summary>
         public void Run()
         {
             var prev = System.Threading.Thread.CurrentThread.CurrentCulture;
@@ -50,6 +67,7 @@ namespace ConsoleApp.Controllers
                     Console.WriteLine("2. View order details");
                     Console.WriteLine("3. Cancel order (admin)");
                     Console.WriteLine("4. Change order status (choose allowed)");
+                    Console.WriteLine("5. Create new order (as admin)");
                     Console.WriteLine();
                     Console.WriteLine("Esc: Back");
 
@@ -72,6 +90,10 @@ namespace ConsoleApp.Controllers
                         case ConsoleKey.NumPad4:
                             this.ChangeOrderStatusInteractive();
                             break;
+                        case ConsoleKey.D5:
+                        case ConsoleKey.NumPad5:
+                            this.CreateOrderAsAdmin();
+                            break;
                         case ConsoleKey.Escape:
                             return;
                     }
@@ -83,6 +105,14 @@ namespace ConsoleApp.Controllers
             }
         }
 
+        // ---------- PRIVATE static helpers (before private instance methods; SA1204 within 'private') ----------
+
+        /// <summary>
+        /// Gets user display label from user entity.
+        /// Tries multiple property names for compatibility.
+        /// </summary>
+        /// <param name="u">User entity.</param>
+        /// <returns>Display label or fallback string.</returns>
         private static string UserLabel(User? u)
         {
             if (u is null)
@@ -100,6 +130,12 @@ namespace ConsoleApp.Controllers
             return string.IsNullOrWhiteSpace(best) ? $"User#{u.Id}" : best!;
         }
 
+        /// <summary>
+        /// Reads string property value from object using reflection.
+        /// </summary>
+        /// <param name="obj">Object to read from.</param>
+        /// <param name="propName">Property name (case-insensitive).</param>
+        /// <returns>String value or null if not found.</returns>
         private static string? ReadString(object? obj, string propName)
         {
             if (obj is null)
@@ -119,6 +155,12 @@ namespace ConsoleApp.Controllers
             return pi.GetValue(obj) as string;
         }
 
+        /// <summary>
+        /// Truncates string to maximum length with ellipsis.
+        /// </summary>
+        /// <param name="s">String to truncate.</param>
+        /// <param name="max">Maximum length.</param>
+        /// <returns>Truncated string.</returns>
         private static string Trunc(string? s, int max)
         {
             if (string.IsNullOrEmpty(s) || max <= 0)
@@ -135,12 +177,21 @@ namespace ConsoleApp.Controllers
             return string.Concat(s.AsSpan(0, take), "...");
         }
 
+        /// <summary>
+        /// Pauses execution and waits for user input.
+        /// </summary>
         private static void Pause()
         {
             Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey(true);
         }
 
+        // ---------- PRIVATE instance methods ----------
+
+        /// <summary>
+        /// Displays tabular snapshot of all orders.
+        /// Shows order ID, date, user, status, and total amount.
+        /// </summary>
         private void ShowOrdersSnapshot()
         {
             Console.Clear();
@@ -179,10 +230,14 @@ namespace ConsoleApp.Controllers
                 Console.WriteLine($"{r.Id,4}  {r.OperationTime ?? string.Empty,19}  {UserLabel(r.User),-20}  {CustomerOrderService.StatusName(r.OrderStateId),-28}  {total,10:0.00}");
             }
 
-            Console.WriteLine("\nTip: Use [3] to cancel by ID, [4] to change status.");
+            Console.WriteLine("\nTip: Use [3] to cancel by ID, [4] to change status, [5] to create order.");
             Pause();
         }
 
+        /// <summary>
+        /// Displays detailed information about specific order.
+        /// Shows order header and all line items with products and prices.
+        /// </summary>
         private void ShowOrderDetails()
         {
             Console.Clear();
@@ -243,6 +298,10 @@ namespace ConsoleApp.Controllers
             Pause();
         }
 
+        /// <summary>
+        /// Cancels order by administrator.
+        /// Validates permissions and releases stock reservations.
+        /// </summary>
         private void AdminCancelOrder()
         {
             Console.Clear();
@@ -294,6 +353,10 @@ namespace ConsoleApp.Controllers
             Pause();
         }
 
+        /// <summary>
+        /// Interactive order status change with validation.
+        /// Shows allowed transitions and validates before changing.
+        /// </summary>
         private void ChangeOrderStatusInteractive()
         {
             Console.Clear();
@@ -354,6 +417,43 @@ namespace ConsoleApp.Controllers
                 Console.WriteLine(error);
             }
 
+            Pause();
+        }
+
+        /// <summary>
+        /// Creates new order as administrator.
+        /// Delegates to UserOrderController for order creation process.
+        /// </summary>
+        private void CreateOrderAsAdmin()
+        {
+            Console.Clear();
+            Console.WriteLine("=== ADMIN: CREATE NEW ORDER ===\n");
+            Console.WriteLine("Note: You are creating an order with admin privileges.");
+            Console.WriteLine("The order will be assigned to your admin account.");
+            Console.WriteLine();
+
+            // Check if admin is logged in
+            if (UserMenuController.CurrentUser == null)
+            {
+                Console.WriteLine("Error: No user is logged in.");
+                Pause();
+                return;
+            }
+
+            // Check if current user is admin
+            if (UserMenuController.CurrentUser.RoleId != 1)
+            {
+                Console.WriteLine("Error: Only administrators can use this feature.");
+                Pause();
+                return;
+            }
+
+            // Delegate order creation to UserOrderController
+            var orderController = new UserOrderController(this.db);
+            orderController.CreateOrder();
+
+            Console.WriteLine("\nOrder created successfully!");
+            Console.WriteLine("You can view and manage this order in the orders list.");
             Pause();
         }
     }
