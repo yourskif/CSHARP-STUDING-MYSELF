@@ -17,11 +17,13 @@ namespace StoreBLL.Models
         /// </summary>
         /// <param name="id">Identifier.</param>
         /// <param name="title">Title text.</param>
+        /// <param name="categoryId">Category identifier.</param>
         /// <param name="manufacturerId">Manufacturer identifier.</param>
-        public ProductTitleModel(int id, string title, int manufacturerId)
+        public ProductTitleModel(int id, string title, int categoryId, int manufacturerId)
         {
             this.Id = id;
             this.Title = title;
+            this.CategoryId = categoryId;
             this.ManufacturerId = manufacturerId;
         }
 
@@ -29,6 +31,11 @@ namespace StoreBLL.Models
         /// Gets or sets product title text.
         /// </summary>
         public string Title { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets category identifier.
+        /// </summary>
+        public int CategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets manufacturer identifier.
