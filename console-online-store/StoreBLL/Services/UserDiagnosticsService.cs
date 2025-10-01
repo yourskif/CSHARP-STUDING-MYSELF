@@ -134,8 +134,6 @@ public sealed class UserDiagnosticsService
         return this.db.Users.Count();
     }
 
-    // -------- Private helpers --------
-
     private static string GetPasswordPreview(string? password)
     {
         if (string.IsNullOrEmpty(password))

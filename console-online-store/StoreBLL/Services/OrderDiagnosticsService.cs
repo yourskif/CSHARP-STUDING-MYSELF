@@ -16,21 +16,12 @@ using StoreDAL.Entities;
 /// Service for order diagnostics and testing operations.
 /// Provides functionality for order snapshots, demo data seeding, and cleanup.
 /// </summary>
-public sealed class OrderDiagnosticsService
+/// <param name="db">Database context for order operations.</param>
+/// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
+public sealed class OrderDiagnosticsService(StoreDbContext db)
 {
-    private readonly StoreDbContext db;
-    private readonly StockReservationService stockService;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="OrderDiagnosticsService"/> class.
-    /// </summary>
-    /// <param name="db">Database context for order operations.</param>
-    /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
-    public OrderDiagnosticsService(StoreDbContext db)
-    {
-        this.db = db ?? throw new ArgumentNullException(nameof(db));
-        this.stockService = new StockReservationService(db);
-    }
+    private readonly StoreDbContext db = db ?? throw new ArgumentNullException(nameof(db));
+    private readonly StockReservationService stockService = new(db);
 
     /// <summary>
     /// Gets snapshot of all orders with basic information.
@@ -72,11 +63,11 @@ public sealed class OrderDiagnosticsService
 
         if (order.OrderStateId is 2 or 3 or 8)
         {
-            return false; // Already final state
+            return false;
         }
 
         this.stockService.ReleaseOrderReservations(orderId);
-        order.OrderStateId = 3; // Cancelled by administrator
+        order.OrderStateId = 3;
         this.db.SaveChanges();
 
         return true;
@@ -104,7 +95,6 @@ public sealed class OrderDiagnosticsService
 
         string now = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
-        // Order A: New Order for u1
         int amtA1 = Math.Min(3, Math.Max(1, p1.StockQuantity - p1.ReservedQuantity));
         int amtA2 = Math.Min(2, Math.Max(1, p2.StockQuantity - p2.ReservedQuantity));
 
@@ -132,7 +122,6 @@ public sealed class OrderDiagnosticsService
             }
         }
 
-        // Order B: Delivered to client for u2
         var detailsB = new List<OrderDetail>
         {
             new OrderDetail
@@ -197,22 +186,17 @@ public sealed class OrderDiagnosticsService
             .Where(o => openStates.Contains(o.OrderStateId))
             .ToList();
 
-        int closed = 0;
         foreach (var o in openOrders)
         {
             this.stockService.ReleaseOrderReservations(o.Id);
             o.OrderStateId = 3;
-            closed++;
         }
 
-        int zeroed = 0;
-        foreach (var p in this.db.Products)
-        {
-            if (TrySetInt(p, 0, "ReservedQuantity", "Reserved"))
-            {
-                zeroed++;
-            }
-        }
+        int closed = openOrders.Count;
+
+        int zeroed = this.db.Products
+            .AsEnumerable()
+            .Count(p => TrySetInt(p, 0, "ReservedQuantity", "Reserved"));
 
         this.db.SaveChanges();
         return (closed, zeroed);
@@ -229,8 +213,6 @@ public sealed class OrderDiagnosticsService
         int total = this.db.CustomerOrders.Count();
         return (open, total - open);
     }
-
-    // -------- Private helpers --------
 
     private static string GetUserLabel(User? u)
     {
