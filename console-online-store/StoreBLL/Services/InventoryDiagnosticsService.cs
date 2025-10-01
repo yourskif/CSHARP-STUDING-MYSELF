@@ -37,7 +37,7 @@ public sealed class InventoryDiagnosticsService
             .Select(p => new ProductSnapshot
             {
                 Id = p.Id,
-                Title = p.Title != null ? p.Title.Title : $"Product {p.Id}",
+                Title = p.Title != null ? p.Title.Title ?? string.Empty : $"Product {p.Id}",
                 SKU = GetString(p, "SKU", "Sku", "Code", "Article"),
                 Price = GetDecimal(p, "UnitPrice", "Price"),
                 Stock = GetInt(p, "StockQuantity", "Stock", "Quantity", "QuantityInStock", "UnitsInStock"),
@@ -133,8 +133,6 @@ public sealed class InventoryDiagnosticsService
     {
         return this.db.Products.Count();
     }
-
-    // -------- Private helpers --------
 
     private static int GetInt(object obj, params string[] names)
     {
