@@ -97,7 +97,44 @@ public sealed class AdminDiagnosticsController
         }
     }
 
-    // -------- Private UI methods --------
+    private static string Trunc(string? s, int max)
+    {
+        if (string.IsNullOrEmpty(s) || max <= 0)
+        {
+            return string.Empty;
+        }
+
+        if (s.Length <= max)
+        {
+            return s;
+        }
+
+        var take = Math.Max(0, max - 1);
+        return string.Concat(s.AsSpan(0, take), "…");
+    }
+
+    private static string StatusName(int id)
+    {
+        return id switch
+        {
+            1 => "New Order",
+            2 => "Cancelled by user",
+            3 => "Cancelled by administrator",
+            4 => "Confirmed",
+            5 => "Moved to delivery company",
+            6 => "In delivery",
+            7 => "Delivered to client",
+            8 => "Delivery confirmed by client",
+            _ => "Unknown",
+        };
+    }
+
+    private static void Pause()
+    {
+        Console.WriteLine();
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey(true);
+    }
 
     private void HandleMenuChoice(ConsoleKey key)
     {
@@ -169,7 +206,6 @@ public sealed class AdminDiagnosticsController
         Console.WriteLine($"Orders total....... {open + closed}");
         Console.WriteLine($"Open / Closed...... {open} / {closed}");
         Console.WriteLine();
-
         Console.WriteLine($"Low availability (threshold: 5)");
         var lowStock = this.inventoryService.GetLowAvailability(5).ToList();
         if (lowStock.Count == 0)
@@ -428,46 +464,5 @@ public sealed class AdminDiagnosticsController
         Console.WriteLine("All orders removed. Reservations reset to 0.");
 
         Pause();
-    }
-
-    // -------- Static helpers --------
-
-    private static string Trunc(string? s, int max)
-    {
-        if (string.IsNullOrEmpty(s) || max <= 0)
-        {
-            return string.Empty;
-        }
-
-        if (s.Length <= max)
-        {
-            return s;
-        }
-
-        var take = Math.Max(0, max - 1);
-        return string.Concat(s.AsSpan(0, take), "…");
-    }
-
-    private static string StatusName(int id)
-    {
-        return id switch
-        {
-            1 => "New Order",
-            2 => "Cancelled by user",
-            3 => "Cancelled by administrator",
-            4 => "Confirmed",
-            5 => "Moved to delivery company",
-            6 => "In delivery",
-            7 => "Delivered to client",
-            8 => "Delivery confirmed by client",
-            _ => "Unknown",
-        };
-    }
-
-    private static void Pause()
-    {
-        Console.WriteLine();
-        Console.WriteLine("Press any key to continue...");
-        Console.ReadKey(true);
     }
 }
