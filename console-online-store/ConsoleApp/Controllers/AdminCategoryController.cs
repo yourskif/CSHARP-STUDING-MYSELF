@@ -1,18 +1,32 @@
 using System;
 using System.Linq;
+
 using StoreDAL.Data;
 
 namespace ConsoleApp.Controllers
 {
+    /// <summary>
+    /// Controller for administrator category management operations.
+    /// Provides CRUD functionality for product categories.
+    /// </summary>
     public class AdminCategoryController
     {
         private readonly StoreDbContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminCategoryController"/> class.
+        /// </summary>
+        /// <param name="context">Database context for category operations.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="context"/> is null.</exception>
         public AdminCategoryController(StoreDbContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        /// <summary>
+        /// Displays the category management menu and processes user input.
+        /// Provides options to list, add, update, and delete categories.
+        /// </summary>
         public void ShowCategories()
         {
             while (true)
@@ -51,6 +65,10 @@ namespace ConsoleApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Displays a list of all categories with their ID, name, and associated product count.
+        /// Shows a message if no categories are found.
+        /// </summary>
         public void ShowAll()
         {
             Console.Clear();
@@ -74,6 +92,10 @@ namespace ConsoleApp.Controllers
             Pause();
         }
 
+        /// <summary>
+        /// Creates a new product category with user-provided name.
+        /// Validates that the name is not empty and does not already exist (case-insensitive).
+        /// </summary>
         public void CreateCategory()
         {
             Console.Clear();
@@ -112,6 +134,11 @@ namespace ConsoleApp.Controllers
             Pause();
         }
 
+        /// <summary>
+        /// Updates an existing category's name based on user input.
+        /// Validates that the category exists and the new name is not a duplicate (case-insensitive).
+        /// Allows keeping the current name by pressing Enter without input.
+        /// </summary>
         public void UpdateCategory()
         {
             Console.Clear();
@@ -165,6 +192,11 @@ namespace ConsoleApp.Controllers
             Pause();
         }
 
+        /// <summary>
+        /// Deletes a category by ID after user confirmation.
+        /// Prevents deletion if the category has associated products.
+        /// Requires explicit confirmation (yes/y) before deletion.
+        /// </summary>
         public void DeleteCategory()
         {
             Console.Clear();
@@ -214,6 +246,10 @@ namespace ConsoleApp.Controllers
             Pause();
         }
 
+        /// <summary>
+        /// Pauses execution and waits for user to press any key to continue.
+        /// Used for better user experience after displaying information.
+        /// </summary>
         private static void Pause()
         {
             Console.WriteLine("\nPress any key to continue...");

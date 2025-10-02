@@ -1,18 +1,27 @@
 using System;
 using System.Linq;
-using ConsoleApp.Controllers; // for UserMenuController.CurrentUser
+
+using ConsoleApp.Controllers;
+
 using StoreBLL.Models;
 using StoreBLL.Services;
+
 using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.Admin
 {
     /// <summary>
-    /// Console menu for user management by administrator (list/block/unblock/delete/edit).
-    /// Adds confirmations and self-protection (no self-block/self-delete).
+    /// Console menu for user management by administrator.
+    /// Provides functionality for listing, blocking, unblocking, deleting, and editing users.
+    /// Includes self-protection mechanisms to prevent administrators from blocking or deleting themselves.
     /// </summary>
     public static class AdminUsersMenu
     {
+        /// <summary>
+        /// Displays the user management menu and handles administrator actions.
+        /// Provides options for listing, blocking, unblocking, deleting, and editing user profiles.
+        /// </summary>
+        /// <param name="db">Database context for user operations.</param>
         public static void Show(StoreDbContext db)
         {
             var service = new UserService(db);
@@ -210,8 +219,6 @@ namespace ConsoleApp.MenuBuilder.Admin
                                 roleId = parsedRole;
                             }
 
-                            // self-protection: do not allow demote last admin (Р В Р’В»Р В РЎвЂўР В РЎвЂ“Р РЋРІР‚вЂњР В РЎвЂќР В Р’В° Р В Р вЂ  Р РЋР С“Р В Р’ВµР РЋР вЂљР В Р вЂ Р РЋРІР‚вЂњР РЋР С“Р РЋРІР‚вЂњ),
-                            // Р В Р’В°Р В Р’В»Р В Р’Вµ Р В РўвЂР В РЎвЂўР В РўвЂР В Р’В°Р РЋРІР‚С™Р В РЎвЂќР В РЎвЂўР В Р вЂ Р В РЎвЂў Р В Р вЂ¦Р В Р’Вµ Р В РўвЂР В РЎвЂўР В Р’В·Р В Р вЂ Р В РЎвЂўР В Р’В»Р РЋР РЏР РЋРІР‚СњР В РЎВР В РЎвЂў Р РЋР С“Р В РЎвЂўР В Р’В±Р РЋРІР‚вЂњ Р В Р’В·Р В Р вЂ¦Р РЋР РЏР РЋРІР‚С™Р В РЎвЂ Р В Р’В°Р В РўвЂР В РЎВР РЋРІР‚вЂњР В Р вЂ¦Р В РЎвЂќР РЋРЎвЂњ, Р РЋР РЏР В РЎвЂќР РЋРІР‚В°Р В РЎвЂў Р РЋРІР‚В Р В Р’Вµ Р В РЎвЂўР РЋР С“Р РЋРІР‚С™Р В Р’В°Р В Р вЂ¦Р В Р вЂ¦Р РЋРІР‚вЂњР В РІвЂћвЂ“ Р В Р’В°Р В РўвЂР В РЎВР РЋРІР‚вЂњР В Р вЂ¦
                             var input = new UserModel
                             {
                                 Id = current.Id,
@@ -241,6 +248,9 @@ namespace ConsoleApp.MenuBuilder.Admin
             }
         }
 
+        /// <summary>
+        /// Pauses execution and waits for user input.
+        /// </summary>
         private static void Pause()
         {
             Console.WriteLine();
@@ -248,11 +258,16 @@ namespace ConsoleApp.MenuBuilder.Admin
             Console.ReadKey(true);
         }
 
+        /// <summary>
+        /// Prompts user for yes/no confirmation.
+        /// </summary>
+        /// <param name="prompt">Confirmation prompt message.</param>
+        /// <returns>True if user confirms with 'Y' or 'YES' (case-insensitive), false otherwise.</returns>
         private static bool ConfirmYN(string prompt)
         {
             Console.Write($"{prompt} (Y/N): ");
             var s = (Console.ReadLine() ?? string.Empty).Trim().ToUpperInvariant();
-            return s is "y" or "yes";
+            return s is "Y" or "YES";
         }
     }
 }

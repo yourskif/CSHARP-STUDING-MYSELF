@@ -6,9 +6,17 @@ using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.Categories
 {
+    /// <summary>
+    /// Static menu builder for category management with role-based access.
+    /// Provides full CRUD menu for administrators and read-only menu for registered users.
+    /// </summary>
     public static class CategoriesMenu
     {
-        // Р В РЎСџР В РЎвЂўР В Р вЂ Р В Р вЂ¦Р В Р’Вµ Р В РЎВР В Р’ВµР В Р вЂ¦Р РЋР вЂ№ Р В РўвЂР В Р’В»Р РЋР РЏ Admin (CRUD + Р В РЎвЂ”Р В РЎвЂўР РЋРІвЂљВ¬Р РЋРЎвЂњР В РЎвЂќ)
+        /// <summary>
+        /// Displays the full category management menu for administrators.
+        /// Provides options for adding, listing, searching, updating, and deleting categories.
+        /// </summary>
+        /// <param name="db">Database context for category operations.</param>
         public static void Show(StoreDbContext db)
         {
             var controller = new CategoryController(db);
@@ -59,7 +67,11 @@ namespace ConsoleApp.MenuBuilder.Categories
             }
         }
 
-        // Р В Р Р‹Р В РЎвЂ”Р РЋР вЂљР В РЎвЂўР РЋРІР‚В°Р В Р’ВµР В Р вЂ¦Р В Р’Вµ Р В РЎВР В Р’ВµР В Р вЂ¦Р РЋР вЂ№ Р В РўвЂР В Р’В»Р РЋР РЏ Registered User (Р РЋРІР‚С™Р РЋРІР‚вЂњР В Р’В»Р РЋР Р‰Р В РЎвЂќР В РЎвЂ Р В РЎвЂ”Р В Р’ВµР РЋР вЂљР В Р’ВµР В РЎвЂ“Р В Р’В»Р РЋР РЏР В РўвЂ + Р В РЎвЂ”Р В РЎвЂўР РЋРІвЂљВ¬Р РЋРЎвЂњР В РЎвЂќ)
+        /// <summary>
+        /// Displays the read-only category menu for registered users and guests.
+        /// Provides options for listing and searching categories without modification rights.
+        /// </summary>
+        /// <param name="db">Database context for category operations.</param>
         public static void ShowReadOnly(StoreDbContext db)
         {
             var controller = new CategoryController(db);
@@ -92,6 +104,9 @@ namespace ConsoleApp.MenuBuilder.Categories
             }
         }
 
+        /// <summary>
+        /// Pauses execution and waits for user input.
+        /// </summary>
         private static void Pause()
         {
             Console.WriteLine();
