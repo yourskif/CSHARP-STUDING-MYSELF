@@ -17,7 +17,7 @@ public interface ICustomerOrderService : ICrud
     /// <param name="newStateId">The target state identifier to transition to.</param>
     /// <param name="error">Output parameter containing error message if transition fails.</param>
     /// <returns>
-    /// <see langword="true"/> if the state was successfully changed; 
+    /// <see langword="true"/> if the state was successfully changed;
     /// <see langword="false"/> if the transition is not allowed or order not found.
     /// </returns>
     /// <remarks>
@@ -33,7 +33,7 @@ public interface ICustomerOrderService : ICrud
     /// <param name="userId">The unique identifier of the user requesting cancellation.</param>
     /// <param name="error">Output parameter containing error message if cancellation fails.</param>
     /// <returns>
-    /// <see langword="true"/> if the order was successfully cancelled; 
+    /// <see langword="true"/> if the order was successfully cancelled;
     /// <see langword="false"/> if cancellation is not allowed or validation fails.
     /// </returns>
     /// <remarks>
@@ -49,7 +49,7 @@ public interface ICustomerOrderService : ICrud
     /// <param name="userId">The unique identifier of the user confirming receipt.</param>
     /// <param name="error">Output parameter containing error message if operation fails.</param>
     /// <returns>
-    /// <see langword="true"/> if the order was successfully marked as received; 
+    /// <see langword="true"/> if the order was successfully marked as received;
     /// <see langword="false"/> if operation is not allowed or validation fails.
     /// </returns>
     /// <remarks>

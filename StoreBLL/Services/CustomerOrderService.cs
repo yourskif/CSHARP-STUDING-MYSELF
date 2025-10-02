@@ -117,7 +117,7 @@ public class CustomerOrderService : ICustomerOrderService
     /// <param name="fromStateId">Current state identifier.</param>
     /// <param name="toStateId">Target state identifier.</param>
     /// <returns>
-    /// <see langword="true"/> if the transition from <paramref name="fromStateId"/> 
+    /// <see langword="true"/> if the transition from <paramref name="fromStateId"/>
     /// to <paramref name="toStateId"/> is permitted; otherwise <see langword="false"/>.
     /// </returns>
     public static bool CanTransition(int fromStateId, int toStateId) =>
@@ -227,7 +227,7 @@ public class CustomerOrderService : ICustomerOrderService
     /// <param name="newStateId">Target state identifier.</param>
     /// <param name="error">Output parameter containing error message if operation fails.</param>
     /// <returns>
-    /// <see langword="true"/> if state was successfully changed; 
+    /// <see langword="true"/> if state was successfully changed;
     /// <see langword="false"/> if validation failed or order not found.
     /// </returns>
     /// <remarks>
@@ -287,7 +287,7 @@ public class CustomerOrderService : ICustomerOrderService
     /// <param name="userId">User identifier requesting cancellation.</param>
     /// <param name="error">Output parameter containing error message if operation fails.</param>
     /// <returns>
-    /// <see langword="true"/> if order was successfully cancelled; 
+    /// <see langword="true"/> if order was successfully cancelled;
     /// <see langword="false"/> if validation failed or order not found.
     /// </returns>
     /// <remarks>
@@ -339,7 +339,7 @@ public class CustomerOrderService : ICustomerOrderService
     /// <param name="userId">User identifier confirming receipt.</param>
     /// <param name="error">Output parameter containing error message if operation fails.</param>
     /// <returns>
-    /// <see langword="true"/> if order was successfully marked as received; 
+    /// <see langword="true"/> if order was successfully marked as received;
     /// <see langword="false"/> if validation failed or order not found.
     /// </returns>
     /// <remarks>

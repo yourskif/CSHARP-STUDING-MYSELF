@@ -28,19 +28,9 @@ using StoreDAL.Data;
 /// </list>
 /// </para>
 /// </remarks>
-public sealed class StockReservationService
+public sealed class StockReservationService(StoreDbContext context)
 {
-    private readonly StoreDbContext context;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StockReservationService"/> class.
-    /// </summary>
-    /// <param name="context">EF Core database context for inventory operations.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="context"/> is <see langword="null"/>.</exception>
-    public StockReservationService(StoreDbContext context)
-    {
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+    private readonly StoreDbContext context = context ?? throw new ArgumentNullException(nameof(context));
 
     /// <summary>
     /// Releases stock reservations for all products in an order.
@@ -101,6 +91,10 @@ public sealed class StockReservationService
     /// Used when customer confirms receipt of delivered items (order state 8).
     /// </summary>
     /// <param name="orderId">The unique identifier of the order being confirmed.</param>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when attempting to confirm delivery for an order that has already been processed,
+    /// or when insufficient stock/reservations exist for the order quantities.
+    /// </exception>
     /// <remarks>
     /// <para>
     /// This method performs two critical inventory adjustments for each order line:
@@ -112,23 +106,29 @@ public sealed class StockReservationService
     /// <para>
     /// Safety guarantees:
     /// <list type="bullet">
-    /// <item><description>Neither stock nor reservations go below zero</description></item>
-    /// <item><description>Silently handles missing products</description></item>
-    /// <item><description>Idempotent - calling twice releases only once due to zero floor</description></item>
+    /// <item><description>Throws exception if stock or reservations are insufficient (strict control)</description></item>
+    /// <item><description>Prevents double-processing of the same order</description></item>
+    /// <item><description>All-or-nothing transaction (rolls back on any error)</description></item>
     /// <item><description>No action if order has no details</description></item>
     /// </list>
     /// </para>
     /// <para>
     /// Example: Order has 5 units of Product A. After delivery confirmation:
     /// <code>
-    /// Product A: StockQuantity -= 5 (never below 0)
-    /// Product A: ReservedQuantity -= 5 (never below 0)
+    /// Product A: StockQuantity -= 5 (throws if &lt; 5)
+    /// Product A: ReservedQuantity -= 5 (throws if &lt; 5)
     /// Product A: Available = StockQuantity - ReservedQuantity
     /// </code>
     /// </para>
     /// <para>
     /// <b>Important:</b> This operation is final and represents actual inventory consumption.
     /// Ensure this is only called when goods are truly delivered and confirmed by the customer.
+    /// This method enforces strict inventory control and will throw an exception if:
+    /// <list type="bullet">
+    /// <item><description>Stock is insufficient for the order quantity</description></item>
+    /// <item><description>Reservations are insufficient (indicating double-processing)</description></item>
+    /// <item><description>Any product in the order is missing from inventory</description></item>
+    /// </list>
     /// </para>
     /// </remarks>
     public void ConfirmOrderDelivery(int orderId)
@@ -142,24 +142,41 @@ public sealed class StockReservationService
             return;
         }
 
+        // Pre-validate all products before making any changes
         foreach (var d in details)
         {
             var product = this.context.Products.FirstOrDefault(p => p.Id == d.ProductId);
-            if (product is null)
-            {
-                continue;
-            }
+            ArgumentNullException.ThrowIfNull(product, nameof(product));
 
             int qty = d.ProductAmount;
 
-            // Decrease stock (can't go below zero)
-            int newStock = product.StockQuantity - qty;
-            product.StockQuantity = newStock < 0 ? 0 : newStock;
+            // Strict validation: ensure sufficient stock
+            if (product.StockQuantity < qty)
+            {
+                throw new InvalidOperationException(
+                    $"Cannot confirm delivery for order {orderId}: Insufficient stock for product {d.ProductId}. " +
+                    $"Required: {qty}, Available: {product.StockQuantity}. " +
+                    $"This may indicate the order has already been processed.");
+            }
 
-            // Decrease reserved (can't go below zero)
-            // After successful delivery, reservations are fully released for shipped items
-            int newReserved = product.ReservedQuantity - qty;
-            product.ReservedQuantity = newReserved < 0 ? 0 : newReserved;
+            // Strict validation: ensure sufficient reservations
+            if (product.ReservedQuantity < qty)
+            {
+                throw new InvalidOperationException(
+                    $"Cannot confirm delivery for order {orderId}: Insufficient reservations for product {d.ProductId}. " +
+                    $"Required: {qty}, Reserved: {product.ReservedQuantity}. " +
+                    $"This may indicate the order has already been processed or reservations were released prematurely.");
+            }
+        }
+
+        // All validations passed - now apply changes
+        foreach (var d in details)
+        {
+            var product = this.context.Products.First(p => p.Id == d.ProductId);
+            int qty = d.ProductAmount;
+
+            product.StockQuantity -= qty;
+            product.ReservedQuantity -= qty;
         }
 
         this.context.SaveChanges();

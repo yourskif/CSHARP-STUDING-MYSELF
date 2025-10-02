@@ -63,3 +63,23 @@ public sealed class OrderStatesController
     /// Gets the display name of an order state entity using reflection.
     /// Attempts to read from properties: Name, StateName, or Title.
     /// </summary>
+    /// <param name="state">OrderState entity.</param>
+    /// <returns>State name or fallback string.</returns>
+    private static string GetStateName(StoreDAL.Entities.OrderState state)
+    {
+        var nameProperty = state.GetType().GetProperty("Name")
+                          ?? state.GetType().GetProperty("StateName")
+                          ?? state.GetType().GetProperty("Title");
+
+        if (nameProperty != null)
+        {
+            var value = nameProperty.GetValue(state);
+            if (value != null)
+            {
+                return value.ToString() ?? $"State{state.Id}";
+            }
+        }
+
+        return $"State{state.Id}";
+    }
+}
