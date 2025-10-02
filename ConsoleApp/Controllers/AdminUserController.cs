@@ -1,21 +1,35 @@
 using System;
 using System.Linq;
+
 using StoreBLL.Services;
+
 using StoreDAL.Data;
 
 namespace ConsoleApp.Controllers
 {
+    /// <summary>
+    /// Controller for administrator user management operations.
+    /// Provides functionality for viewing, updating, blocking, and deleting users.
+    /// </summary>
     public class AdminUserController
     {
         private readonly StoreDbContext context;
         private readonly UserService userService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminUserController"/> class.
+        /// </summary>
+        /// <param name="context">Database context for user operations.</param>
         public AdminUserController(StoreDbContext context)
         {
             this.context = context;
             this.userService = new UserService(context);
         }
 
+        /// <summary>
+        /// Displays the user management menu and processes administrator actions.
+        /// Provides options to list, view details, update roles, block/unblock, and delete users.
+        /// </summary>
         public void ShowUserManagement()
         {
             while (true)
@@ -59,6 +73,9 @@ namespace ConsoleApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Displays a list of all users with their ID, login, name, role, and status (ACTIVE/BLOCKED).
+        /// </summary>
         private void ListAllUsers()
         {
             Console.Clear();
@@ -78,6 +95,10 @@ namespace ConsoleApp.Controllers
             Console.ReadKey(true);
         }
 
+        /// <summary>
+        /// Displays detailed information about a specific user including orders count.
+        /// Prompts administrator for user ID.
+        /// </summary>
         private void ViewUserDetails()
         {
             Console.Write("Enter user ID: ");
@@ -112,6 +133,10 @@ namespace ConsoleApp.Controllers
             Console.ReadKey(true);
         }
 
+        /// <summary>
+        /// Updates a user's role based on administrator selection.
+        /// Displays available roles and validates the new role ID before applying changes.
+        /// </summary>
         private void UpdateUserRole()
         {
             Console.Write("Enter user ID: ");
@@ -162,6 +187,10 @@ namespace ConsoleApp.Controllers
             Console.ReadKey(true);
         }
 
+        /// <summary>
+        /// Toggles the blocked status of a user account.
+        /// Prevents blocking of administrator accounts (RoleId = 1).
+        /// </summary>
         private void ToggleUserBlock()
         {
             Console.Write("Enter user ID to block/unblock: ");
@@ -197,6 +226,11 @@ namespace ConsoleApp.Controllers
             Console.ReadKey(true);
         }
 
+        /// <summary>
+        /// Deletes a user from the system with confirmation.
+        /// Prevents deletion of administrator accounts (RoleId = 1).
+        /// Requires explicit confirmation if user has existing orders.
+        /// </summary>
         private void DeleteUser()
         {
             Console.Write("Enter user ID to delete: ");
@@ -228,7 +262,7 @@ namespace ConsoleApp.Controllers
             if (orderCount > 0)
             {
                 Console.WriteLine($"User has {orderCount} orders. Delete anyway? (YES/NO)");
-                var confirmation = (Console.ReadLine() ?? string.Empty).Trim().ToUpperInvariant(); // fix CA1308
+                var confirmation = (Console.ReadLine() ?? string.Empty).Trim().ToUpperInvariant();
                 if (confirmation != "YES" && confirmation != "Y")
                 {
                     Console.WriteLine("Deletion cancelled.");
