@@ -38,7 +38,7 @@ namespace StoreDAL.Data
         /// </list>
         /// </para>
         /// <para>
-        /// Database location: The method navigates from the application's base directory 
+        /// Database location: The method navigates from the application's base directory
         /// (e.g., ConsoleApp\bin\Debug\net8.0\) up to the solution root to locate "store.db".
         /// This approach works consistently whether running with F5 in Visual Studio or using "dotnet run".
         /// </para>
