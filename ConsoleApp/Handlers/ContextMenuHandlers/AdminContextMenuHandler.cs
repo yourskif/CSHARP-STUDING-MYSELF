@@ -41,25 +41,22 @@ public class AdminContextMenuHandler : ContextMenuHandler
     public void RemoveItem()
     {
         Console.WriteLine("Input record ID that will be removed");
-        int id = int.Parse(Console.ReadLine()!, CultureInfo.InvariantCulture);
-        this.service.Delete(id);
+        string? input = Console.ReadLine();
+        this.service.Delete(int.Parse(input!, CultureInfo.InvariantCulture));
     }
 
     /// <summary>
     /// Edits an existing item in the data store.
     /// Prompts user for record ID and new data, then updates the record.
     /// </summary>
-    /// <remarks>
-    /// TODO: Implementation needs to retrieve existing record and merge with new data.
-    /// </remarks>
     public void EditItem()
     {
         Console.WriteLine("Input record ID that will be edited");
-        int id = int.Parse(Console.ReadLine()!, CultureInfo.InvariantCulture);
-        var record = this.readModel();
-
-        // TODO
-        this.service.Update(record);
+        string? input = Console.ReadLine();
+        int id = int.Parse(input!, CultureInfo.InvariantCulture);
+        var updatedRecord = this.readModel();
+        updatedRecord.Id = id;
+        this.service.Update(updatedRecord);
     }
 
     /// <summary>
@@ -69,13 +66,12 @@ public class AdminContextMenuHandler : ContextMenuHandler
     /// <returns>Array of tuples containing console key, caption, and action for each menu item.</returns>
     public override (ConsoleKey id, string caption, Action action)[] GenerateMenuItems()
     {
-        (ConsoleKey id, string caption, Action action)[] array =
-            {
-                (ConsoleKey.A, "Add Item", this.AddItem),
-                (ConsoleKey.R, "Remove Item", this.RemoveItem),
-                (ConsoleKey.E, "Edit Item", this.EditItem),
-                (ConsoleKey.V, "View Details", this.GetItemDetails),
-            };
-        return array;
+        return
+        [
+            (ConsoleKey.A, "Add Item", this.AddItem),
+            (ConsoleKey.R, "Remove Item", this.RemoveItem),
+            (ConsoleKey.E, "Edit Item", this.EditItem),
+            (ConsoleKey.V, "View Details", this.GetItemDetails),
+        ];
     }
 }

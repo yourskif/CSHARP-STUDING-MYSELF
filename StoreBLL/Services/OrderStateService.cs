@@ -42,6 +42,7 @@ public class OrderStateService : ICrud
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="context"/> is <see langword="null"/>.</exception>
     public OrderStateService(StoreDbContext context)
     {
+        ArgumentNullException.ThrowIfNull(context);
         this.repository = new OrderStateRepository(context);
     }
 
@@ -57,10 +58,7 @@ public class OrderStateService : ICrud
     /// </remarks>
     public void Add(AbstractModel model)
     {
-        if (model == null)
-        {
-            throw new ArgumentNullException(nameof(model));
-        }
+        ArgumentNullException.ThrowIfNull(model);
 
         var x = (OrderStateModel)model;
         this.repository.Add(new OrderState(x.Id, x.StateName));

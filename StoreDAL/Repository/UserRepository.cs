@@ -27,7 +27,8 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
         public UserRepository(StoreDbContext db)
         {
-            this.db = db ?? throw new ArgumentNullException(nameof(db));
+            ArgumentNullException.ThrowIfNull(db);
+            this.db = db;
         }
 
         // ===== IUserRepository specific =====
@@ -129,10 +130,7 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when entity is null.</exception>
         public void Add(User entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity);
 
             this.db.Users.Add(entity);
         }
@@ -146,10 +144,7 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when entity is null.</exception>
         public void Delete(User entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity);
 
             this.db.Users.Remove(entity);
         }
@@ -178,10 +173,7 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when entity is null.</exception>
         public void Update(User entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity);
 
             var entry = this.db.Entry(entity);
             if (entry.State == EntityState.Detached)
