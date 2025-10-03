@@ -27,7 +27,8 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
         public ProductRepository(StoreDbContext db)
         {
-            this.db = db ?? throw new ArgumentNullException(nameof(db));
+            ArgumentNullException.ThrowIfNull(db);
+            this.db = db;
         }
 
         // ---------- With Includes (required by IProductRepository) ----------
@@ -131,10 +132,7 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when entity is null.</exception>
         public void Add(Product entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity);
 
             this.db.Products.Add(entity);
         }
@@ -148,10 +146,7 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when entity is null.</exception>
         public void Update(Product entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity);
 
             var entry = this.db.Entry(entity);
             if (entry.State == EntityState.Detached)
@@ -171,10 +166,7 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when entity is null.</exception>
         public void Delete(Product entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity);
 
             this.db.Products.Remove(entity);
         }

@@ -28,9 +28,8 @@ namespace ConsoleMenu
         /// <param name="getAll">Function to retrieve all data items for display.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="controller"/> is null.</exception>
         public ContextMenu(AdminContextMenuHandler controller, Func<IEnumerable<AbstractModel>> getAll)
-            : base(controller?.GenerateMenuItems()!)
+            : base(GetMenuItemsOrThrow(controller))
         {
-            ArgumentNullException.ThrowIfNull(controller);
             this.getAll = getAll;
         }
 
@@ -69,6 +68,12 @@ namespace ConsoleMenu
                 resKey = this.RunOnce(ref updateItems);
             }
             while (resKey != ConsoleKey.Escape);
+        }
+
+        private static (ConsoleKey id, string caption, Action action)[] GetMenuItemsOrThrow(AdminContextMenuHandler controller)
+        {
+            ArgumentNullException.ThrowIfNull(controller);
+            return controller.GenerateMenuItems();
         }
     }
 }

@@ -26,7 +26,8 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when context is null.</exception>
         public CategoryRepository(StoreDbContext context)
         {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            ArgumentNullException.ThrowIfNull(context);
+            this.context = context;
         }
 
         /// <summary>
@@ -36,10 +37,7 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when entity is null.</exception>
         public void Add(Category entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity);
 
             this.context.Categories.Add(entity);
             this.context.SaveChanges();
@@ -53,10 +51,7 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when entity is null.</exception>
         public void Delete(Category entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity);
 
             this.context.Categories.Remove(entity);
             this.context.SaveChanges();
@@ -136,10 +131,7 @@ namespace StoreDAL.Repository
         /// <exception cref="ArgumentNullException">Thrown when entity is null.</exception>
         public void Update(Category entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity);
 
             this.context.Categories.Update(entity);
             this.context.SaveChanges();

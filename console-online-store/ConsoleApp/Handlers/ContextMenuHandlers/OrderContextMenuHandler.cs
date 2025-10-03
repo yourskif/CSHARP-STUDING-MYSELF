@@ -33,25 +33,21 @@ public class OrderContextMenuHandler : ContextMenuHandler
     public void RemoveItem()
     {
         Console.WriteLine("Input record ID that will be removed");
-        int id = int.Parse(Console.ReadLine()!, CultureInfo.InvariantCulture);
-        this.service.Delete(id);
+        string? input = Console.ReadLine();
+        this.service.Delete(int.Parse(input!, CultureInfo.InvariantCulture));
     }
 
     /// <summary>
     /// Edits an existing order, typically used for changing order status.
     /// Prompts user for order ID and new data, then updates the order.
     /// </summary>
-    /// <remarks>
-    /// TODO: Implementation needs to retrieve existing order and merge with new data.
-    /// </remarks>
     public void EditItem()
     {
         Console.WriteLine("Input record ID that will be edited");
-        int id = int.Parse(Console.ReadLine()!, CultureInfo.InvariantCulture);
-        var record = this.readModel();
-
-        // TODO
-        this.service.Update(record);
+        string? input = Console.ReadLine();
+        var updatedRecord = this.readModel();
+        updatedRecord.Id = int.Parse(input!, CultureInfo.InvariantCulture);
+        this.service.Update(updatedRecord);
     }
 
     /// <summary>
@@ -59,16 +55,12 @@ public class OrderContextMenuHandler : ContextMenuHandler
     /// Provides options for viewing details and changing order status.
     /// </summary>
     /// <returns>Array of tuples containing console key, caption, and action for each menu item.</returns>
-    /// <remarks>
-    /// Note: Both menu items use ConsoleKey.V, which may cause a conflict. Consider using different keys.
-    /// </remarks>
     public override (ConsoleKey id, string caption, Action action)[] GenerateMenuItems()
     {
-        (ConsoleKey id, string caption, Action action)[] array =
-            {
-                 (ConsoleKey.V, "View Details", this.GetItemDetails),
-                 (ConsoleKey.V, "Change order status", this.EditItem),
-            };
-        return array;
+        return
+        [
+            (ConsoleKey.V, "View Details", this.GetItemDetails),
+            (ConsoleKey.C, "Change order status", this.EditItem),
+        ];
     }
 }

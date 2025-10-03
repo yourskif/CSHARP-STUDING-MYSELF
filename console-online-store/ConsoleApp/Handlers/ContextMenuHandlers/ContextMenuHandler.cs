@@ -44,8 +44,8 @@ public abstract class ContextMenuHandler
     public void GetItemDetails()
     {
         Console.WriteLine("Input record ID for more details");
-        int id = int.Parse(Console.ReadLine()!, CultureInfo.InvariantCulture);
-        Console.WriteLine(this.service.GetById(id));
+        string? input = Console.ReadLine();
+        Console.WriteLine(this.service.GetById(int.Parse(input!, CultureInfo.InvariantCulture)));
     }
 
     /// <summary>
