@@ -1,49 +1,65 @@
 using System;
 
 using ConsoleApp.Controllers;
-
-using StoreBLL.Models;
+using ConsoleApp.MenuBuilder.Categories;
 
 using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.User
 {
     /// <summary>
-    /// Registered user main menu.
+    /// Main menu for registered users with shopping and order management capabilities.
     /// </summary>
     public static class UserMainMenu
     {
-        public static void Run(StoreDbContext db, UserModel? currentUser)
+        /// <summary>
+        /// Shows the user main menu with options for browsing products and managing orders.
+        /// </summary>
+        /// <param name="db">Database context.</param>
+        public static void Show(StoreDbContext db)
         {
-            Console.Clear();
-            Console.WriteLine("=== USER MAIN MENU ===");
-            Console.WriteLine($"User: {currentUser?.Login}");
-            Console.WriteLine();
-            Console.WriteLine("1) Shop");
-            Console.WriteLine("2) My Orders");
-            Console.WriteLine("Esc) Logout");
-            Console.WriteLine("----------------------");
+            var shopController = new ShopController(db);
 
             while (true)
             {
+                Console.Clear();
+                Console.WriteLine("===== USER MENU =====");
+                Console.WriteLine("1. Browse Categories");
+                Console.WriteLine("2. Browse Products");
+                Console.WriteLine("3. My Orders (TODO)");
+                Console.WriteLine("----------------------");
+                Console.WriteLine("Esc: Back");
+
                 var key = Console.ReadKey(true).Key;
                 switch (key)
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        Console.WriteLine("TODO: open Shop...");
+                        CategoriesMenu.ShowReadOnly(db);
                         break;
-
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        Console.WriteLine("TODO: open My Orders...");
+                        shopController.Browse(); // Виправлено - додано ShopController
                         break;
-
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        Console.WriteLine("Orders functionality will be implemented in step3.");
+                        Pause();
+                        break;
                     case ConsoleKey.Escape:
-                        UserMenuController.SetCurrentUser(null); // logout -> back to start screen
                         return;
                 }
             }
+        }
+
+        /// <summary>
+        /// Pauses execution and waits for user input.
+        /// </summary>
+        private static void Pause()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
         }
     }
 }
