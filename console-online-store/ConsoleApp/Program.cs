@@ -1,5 +1,4 @@
-﻿using System;
-
+using System;
 using ConsoleApp.Controllers;
 
 namespace ConsoleApp
@@ -10,7 +9,7 @@ namespace ConsoleApp
         {
             try
             {
-                // Default interactive flow for step2
+                // Interactive flow for step3 testing
                 UserMenuController.Start();
                 return 0;
             }
