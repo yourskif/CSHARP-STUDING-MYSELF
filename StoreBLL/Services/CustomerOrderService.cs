@@ -1,6 +1,4 @@
-﻿// File: StoreBLL/Services/CustomerOrderService.cs
-namespace StoreBLL.Services;
-
+﻿namespace StoreBLL.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +8,12 @@ using StoreBLL.Models;
 
 using StoreDAL.Data;
 using StoreDAL.Entities;
+using StoreDAL.Interfaces;
 using StoreDAL.Repository;
 
-/// <summary>
-/// Service for CustomerOrder business logic.
-/// </summary>
 public class CustomerOrderService : ICrud
 {
-    private readonly CustomerOrderRepository repository;
+    private readonly ICustomerOrderRepository repository;
 
     // Allowed transitions by OrderStateId:
     // 1: New Order
@@ -28,7 +24,7 @@ public class CustomerOrderService : ICrud
     // 6: In delivery
     // 7: Delivered to client
     // 8: Delivery confirmed by client
-    private static readonly Dictionary<int, int[]> AllowedTransitions = new()
+    private static readonly Dictionary<int, int[]> AllowedTransitions = new ()
     {
         [1] = new[] { 2, 3, 4 }, // New -> Canceled(user/admin) or Confirmed
         [4] = new[] { 3, 5 },    // Confirmed -> Canceled by admin or Moved to delivery
@@ -55,12 +51,13 @@ public class CustomerOrderService : ICrud
             operationTime: m.OperationTime ?? DateTime.UtcNow.ToString("u"),
             userId: m.UserId,
             orderStateId: m.OrderStateId);
-
         this.repository.Add(entity);
-        m.Id = entity.Id;
     }
 
-    public void Delete(int modelId) => this.repository.DeleteById(modelId);
+    public void Delete(int modelId)
+    {
+        this.repository.DeleteById(modelId);
+    }
 
     public IEnumerable<AbstractModel> GetAll()
     {
@@ -72,7 +69,7 @@ public class CustomerOrderService : ICrud
                 orderStateId: o.OrderStateId));
     }
 
-    public AbstractModel? GetById(int id)
+    public AbstractModel GetById(int id)
     {
         var o = this.repository.GetById(id);
         if (o == null)
@@ -107,8 +104,9 @@ public class CustomerOrderService : ICrud
         this.repository.Update(entity);
     }
 
-    /// <summary>Низькорівневий перехід стану (із валідацією).</summary>
-    private bool TryChangeState(int orderId, int newStateId)
+    /// <summary>Безпечно змінює стан з валідацією дозволених переходів.</summary>
+    /// <returns></returns>
+    public bool TryChangeState(int orderId, int newStateId)
     {
         var entity = this.repository.GetById(orderId);
         if (entity == null)
@@ -123,93 +121,6 @@ public class CustomerOrderService : ICrud
 
         entity.OrderStateId = newStateId;
         this.repository.Update(entity);
-        return true;
-    }
-
-    /// <summary>Скасування замовлення користувачем (-> stateId = 2).</summary>
-    public bool CancelOwnOrder(int orderId, int userId, out string? error)
-    {
-        error = null;
-
-        var order = this.repository.GetById(orderId);
-        if (order == null)
-        {
-            error = "Order not found.";
-            return false;
-        }
-
-        if (order.UserId != userId)
-        {
-            error = "You can cancel only your own order.";
-            return false;
-        }
-
-        if (order.OrderStateId is 2 or 3 or 8)
-        {
-            error = "This order is already terminal and cannot be canceled.";
-            return false;
-        }
-
-        if (!this.TryChangeState(orderId, 2))
-        {
-            error = $"State transition from {order.OrderStateId} to 2 is not allowed.";
-            return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>Скасування замовлення адміністратором (-> stateId = 3).</summary>
-    public bool CancelByAdmin(int orderId, out string? error)
-    {
-        error = null;
-
-        var order = this.repository.GetById(orderId);
-        if (order == null)
-        {
-            error = "Order not found.";
-            return false;
-        }
-
-        if (order.OrderStateId is 2 or 3 or 8)
-        {
-            error = "This order is already terminal and cannot be canceled.";
-            return false;
-        }
-
-        if (!this.TryChangeState(orderId, 3))
-        {
-            error = $"State transition from {order.OrderStateId} to 3 is not allowed.";
-            return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>Зміна статусу адміністратором (відповідно до дозволених переходів).</summary>
-    public bool ChangeStateByAdmin(int orderId, int newStateId, out string? error)
-    {
-        error = null;
-
-        var order = this.repository.GetById(orderId);
-        if (order == null)
-        {
-            error = "Order not found.";
-            return false;
-        }
-
-        if (order.OrderStateId is 2 or 3 or 8)
-        {
-            error = "This order is terminal and its status cannot be changed.";
-            return false;
-        }
-
-        if (!this.TryChangeState(orderId, newStateId))
-        {
-            error = $"State transition from {order.OrderStateId} to {newStateId} is not allowed.";
-            return false;
-        }
-
         return true;
     }
 }

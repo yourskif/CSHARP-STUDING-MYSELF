@@ -4,6 +4,6 @@ using System.Threading.Tasks;
 
 using StoreDAL.Entities;
 
-public interface ICustomerOrderRepository : IRepository<CustomerOrder>
+public interface IManufacturerRepository : IRepository<Manufacturer>
 {
 }

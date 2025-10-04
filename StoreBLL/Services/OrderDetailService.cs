@@ -1,5 +1,4 @@
 ﻿namespace StoreBLL.Services;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +33,7 @@ public class OrderDetailService : ICrud
             productId: m.ProductId,
             price: m.Price,
             amount: m.ProductAmount);
-
         this.repository.Add(entity);
-        m.Id = entity.Id; // sync back
     }
 
     public void Delete(int modelId)
@@ -51,11 +48,11 @@ public class OrderDetailService : ICrud
                 id: x.Id,
                 orderId: x.OrderId,
                 productId: x.ProductId,
-                amount: x.ProductAmount,
-                price: x.Price));
+                price: x.Price,
+                amount: x.ProductAmount));
     }
 
-    public AbstractModel? GetById(int id)
+    public AbstractModel GetById(int id)
     {
         var x = this.repository.GetById(id);
         if (x == null)
@@ -67,8 +64,8 @@ public class OrderDetailService : ICrud
             id: x.Id,
             orderId: x.OrderId,
             productId: x.ProductId,
-            amount: x.ProductAmount,
-            price: x.Price);
+            price: x.Price,
+            amount: x.ProductAmount);
     }
 
     public void Update(AbstractModel model)

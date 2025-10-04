@@ -6,71 +6,144 @@ using StoreBLL.Models;
 using StoreBLL.Services;
 
 using StoreDAL.Data;
-using StoreDAL.Repository;
+using StoreDAL.Repository; // ProductRepository
 
 namespace ConsoleApp.Controllers
 {
-    /// <summary>
-    /// Shop controller used by console UI to browse products.
-    /// </summary>
     public class ShopController
     {
         private readonly ProductService productService;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ShopController"/> class.
-        /// Accepts DbContext and constructs repository internally.
-        /// </summary>
-        /// <param name="ctx">Database context.</param>
-        public ShopController(StoreDbContext ctx)
+        public ShopController(StoreDbContext context)
         {
-            ArgumentNullException.ThrowIfNull(ctx);
-            var productRepo = new ProductRepository(ctx);
-            this.productService = new ProductService(productRepo);
+            this.productService = new ProductService(new ProductRepository(context));
         }
 
         /// <summary>
-        /// Returns all products as a List (UI expects List).
+        /// Entry point for guest browsing: shows a small menu with actions.
         /// </summary>
-        /// <returns>List of all products.</returns>
-        public List<ProductModel> GetAll()
+        public void Browse()
         {
-            return this.productService.GetAll()
-                                     ?.OfType<ProductModel>()
-                                     .ToList()
-                   ?? new List<ProductModel>();
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("===== CATALOG =====");
+                Console.WriteLine("1. List all products");
+                Console.WriteLine("2. View product details");
+                Console.WriteLine("3. Browse by category");
+                Console.WriteLine("-------------------");
+                Console.WriteLine("Esc: Back");
+
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        Console.Clear();
+                        this.ShowAll();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        Console.Clear();
+                        this.ShowDetails();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        Console.Clear();
+                        this.BrowseByCategory();
+                        Pause();
+                        break;
+
+                    case ConsoleKey.Escape:
+                        return;
+                }
+            }
         }
 
         /// <summary>
-        /// Method expected by GuestMainMenu. Returns all items.
+        /// Print all products in a simple table.
         /// </summary>
-        /// <returns>List of all products.</returns>
-        public List<ProductModel> ShowAll()
+        public void ShowAll()
         {
-            return GetAll();
+            Console.WriteLine("=== Products ===");
+            IEnumerable<ProductModel> items = this.productService.GetAll();
+            foreach (var p in items)
+            {
+                Console.WriteLine($"{p.Id}: {p.Title} | SKU: {p.Sku} | Price: {p.Price} | Stock: {p.Stock}");
+            }
         }
 
         /// <summary>
-        /// Filter by category name is not supported at BLL level now.
-        /// Returns all products to keep build green.
+        /// Print details for a single product, chosen by Id.
         /// </summary>
-        /// <param name="categoryName">Category name (currently ignored).</param>
-        /// <returns>List of all products.</returns>
-        public List<ProductModel> GetByCategory(string categoryName)
+        public void ShowDetails()
         {
-            // CategoryName property is not present on ProductModel in your BLL,
-            // so we cannot filter here safely. Return all to avoid compile-time errors.
-            return GetAll();
+            Console.Write("Enter product Id: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid Id.");
+                return;
+            }
+
+            ProductModel? p = this.productService.GetById(id);
+            if (p is null)
+            {
+                Console.WriteLine("Not found.");
+                return;
+            }
+
+            Console.WriteLine("=== Product Details ===");
+            Console.WriteLine($"Id:           {p.Id}");
+            Console.WriteLine($"Title:        {p.Title}");
+            Console.WriteLine($"SKU:          {p.Sku}");
+            Console.WriteLine($"Description:  {p.Description}");
+            Console.WriteLine($"Category:     {p.Category?.Name}");
+            Console.WriteLine($"Manufacturer: {p.Manufacturer?.Name}");
+            Console.WriteLine($"Price:        {p.Price}");
+            Console.WriteLine($"Stock:        {p.Stock}");
         }
 
         /// <summary>
-        /// Returns single product by id or null if not found.
+        /// Filter products by category name (case-insensitive).
         /// </summary>
-        /// <param name="id">Product ID.</param>
-        /// <returns>Product model or null.</returns>
-        public ProductModel? GetById(int id)
+        public void BrowseByCategory()
         {
-            return this.productService.GetById(id) as ProductModel;
+            Console.Write("Enter category name: ");
+            string? category = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                Console.WriteLine("Category cannot be empty.");
+                return;
+            }
+
+            var list = this.productService
+                .GetAll()
+                .Where(p => string.Equals(p.Category?.Name, category, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            if (list.Count == 0)
+            {
+                Console.WriteLine("No products in this category.");
+                return;
+            }
+
+            Console.WriteLine($"=== Products in category \"{category}\" ===");
+            foreach (var p in list)
+            {
+                Console.WriteLine($"{p.Id}: {p.Title} | SKU: {p.Sku} | Price: {p.Price} | Stock: {p.Stock}");
+            }
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
         }
     }
 }

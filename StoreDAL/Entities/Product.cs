@@ -1,52 +1,121 @@
-﻿// C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreDAL\Entities\Product.cs
-namespace StoreDAL.Entities;
+﻿namespace StoreDAL.Entities;
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 /// <summary>
-/// Product row. Prices live in <see cref="UnitPrice"/>, stock in <see cref="Stock"/>.
-/// Title text is stored in related <see cref="ProductTitle"/> (fallback: <see cref="Description"/>).
+/// Product entity representing individual product items with pricing and stock information.
+/// Related to ProductTitle for display name and category information.
 /// </summary>
 [Table("products")]
 public class Product : BaseEntity
 {
-    public Product() : base() { }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Product"/> class.
+    /// Parameterless constructor for Entity Framework.
+    /// </summary>
+    public Product() : base()
+    {
+        this.Description = string.Empty;
+        this.OrderDetails = new List<OrderDetail>();
+    }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Product"/> class with price only.
+    /// Legacy constructor for backward compatibility.
+    /// </summary>
+    /// <param name="id">Product identifier.</param>
+    /// <param name="titleId">Product title identifier.</param>
+    /// <param name="manufacturerId">Manufacturer identifier.</param>
+    /// <param name="description">Product description.</param>
+    /// <param name="price">Unit price.</param>
+    public Product(int id, int titleId, int manufacturerId, string description, decimal price)
+        : base(id)
+    {
+        this.TitleId = titleId;
+        this.ManufacturerId = manufacturerId;
+        this.Description = description ?? string.Empty;
+        this.UnitPrice = price;
+        this.Stock = 0; // Default stock
+        this.OrderDetails = new List<OrderDetail>();
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Product"/> class with full parameters.
+    /// Main constructor for creating products with all necessary data.
+    /// </summary>
+    /// <param name="id">Product identifier.</param>
+    /// <param name="titleId">Product title identifier.</param>
+    /// <param name="manufacturerId">Manufacturer identifier.</param>
+    /// <param name="description">Product description.</param>
+    /// <param name="price">Unit price.</param>
+    /// <param name="stock">Stock quantity.</param>
     public Product(int id, int titleId, int manufacturerId, string description, decimal price, int stock)
         : base(id)
     {
         this.TitleId = titleId;
         this.ManufacturerId = manufacturerId;
-        this.Description = description;
+        this.Description = description ?? string.Empty;
         this.UnitPrice = price;
         this.Stock = stock;
+        this.OrderDetails = new List<OrderDetail>();
     }
 
+    /// <summary>
+    /// Gets or sets the product title identifier.
+    /// References ProductTitle entity for display name and category.
+    /// </summary>
     [Column("product_title_id")]
     public int TitleId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the manufacturer identifier.
+    /// References Manufacturer entity for brand information.
+    /// </summary>
     [Column("manufacturer_id")]
     public int ManufacturerId { get; set; }
 
-    /// <summary>Unit price in the smallest currency unit.</summary>
+    /// <summary>
+    /// Gets or sets the unit price of the product.
+    /// Stored as decimal for precise monetary calculations.
+    /// </summary>
     [Column("unit_price")]
     public decimal UnitPrice { get; set; }
 
-    /// <summary>Free text fallback/title; used by legacy UI.</summary>
+    /// <summary>
+    /// Gets or sets the product description.
+    /// Additional details about the product for customers.
+    /// </summary>
     [Column("comment")]
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; set; }
 
-    /// <summary>Current stock quantity.</summary>
+    /// <summary>
+    /// Gets or sets the stock quantity available.
+    /// Current inventory level for this product.
+    /// </summary>
     [Column("stock_qty")]
     public int Stock { get; set; }
 
-    // Navigation
-    [ForeignKey(nameof(TitleId))]
+    // Navigation Properties
+
+    /// <summary>
+    /// Gets or sets the related product title.
+    /// Contains display name and category information.
+    /// </summary>
+    [ForeignKey("TitleId")]
     public ProductTitle? Title { get; set; }
 
-    [ForeignKey(nameof(ManufacturerId))]
+    /// <summary>
+    /// Gets or sets the related manufacturer.
+    /// Contains brand and company information.
+    /// </summary>
+    [ForeignKey("ManufacturerId")]
     public Manufacturer? Manufacturer { get; set; }
 
-    public virtual IList<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    /// <summary>
+    /// Gets or sets the collection of order details that reference this product.
+    /// Used for tracking product sales history.
+    /// </summary>
+    public virtual IList<OrderDetail> OrderDetails { get; set; }
 }
