@@ -1,4 +1,4 @@
-﻿namespace StoreDAL.Entities
+namespace StoreDAL.Entities
 {
     public abstract class BaseEntity
     {

@@ -1,10 +1,16 @@
-﻿namespace StoreDAL.Entities;
+namespace StoreDAL.Entities;
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
+/// <summary>
+/// Application user (admin or registered/guest).
+/// </summary>
 [Table("users")]
 public class User : BaseEntity
 {
-    public User() : base()
+    public User()
+        : base()
     {
     }
 
@@ -18,23 +24,26 @@ public class User : BaseEntity
         this.RoleId = roleId;
     }
 
-    [Column("first_name")]
-    public string Name { get; set; }
+    [Column("name")]
+    public string Name { get; set; } = string.Empty;
 
     [Column("last_name")]
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
 
     [Column("login")]
-    public string Login { get; set; }
+    public string Login { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets stored as hash in the DB (seeded via hashing step).
+    /// </summary>
     [Column("password")]
-    public string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
 
-    [Column("user_role_id")]
+    [Column("role_id")]
     public int RoleId { get; set; }
 
-    [ForeignKey("RoleId")]
-    public UserRole Role { get; set; }
+    [Column("is_blocked")]
+    public bool IsBlocked { get; set; }
 
-    public virtual IList<CustomerOrder> Orders { get; set; }
+    public virtual IList<CustomerOrder> Orders { get; set; } = new List<CustomerOrder>();
 }

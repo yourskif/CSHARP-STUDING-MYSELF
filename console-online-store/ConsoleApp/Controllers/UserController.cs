@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using StoreBLL.Models;
 using StoreBLL.Services;
@@ -17,16 +17,6 @@ namespace ConsoleApp.Controllers
         public UserController(StoreDbContext context)
         {
             this.service = new UserService(context);
-        }
-
-        /// <summary>
-        /// Pauses execution and waits for user input.
-        /// </summary>
-        private static void Pause()
-        {
-            Console.WriteLine();
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
         }
 
         /// <summary>
@@ -57,7 +47,7 @@ namespace ConsoleApp.Controllers
                     return;
                 }
 
-                Console.WriteLine($"Registration successful!");
+                Console.WriteLine("Registration successful!");
                 Console.WriteLine($"Welcome, {created.FirstName} {created.LastName}!");
                 Console.WriteLine($"Your login: {created.Login}");
                 Console.WriteLine("You can now log in as a registered user.");
@@ -128,14 +118,9 @@ namespace ConsoleApp.Controllers
                     currentPassword,
                     newPassword);
 
-                if (success)
-                {
-                    Console.WriteLine("Password changed successfully!");
-                }
-                else
-                {
-                    Console.WriteLine("Failed to change password. Please check your current password.");
-                }
+                Console.WriteLine(success
+                    ? "Password changed successfully!"
+                    : "Failed to change password. Please check your current password.");
             }
             catch (Exception ex)
             {
@@ -207,6 +192,16 @@ namespace ConsoleApp.Controllers
                         return;
                 }
             }
+        }
+
+        /// <summary>
+        /// Pauses execution and waits for user input.
+        /// </summary>
+        private static void Pause()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
         }
 
         /// <summary>

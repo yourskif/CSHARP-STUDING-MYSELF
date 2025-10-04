@@ -1,7 +1,7 @@
-﻿namespace StoreBLL.Models
+// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Models\ProductModel.csnamespace StoreBLL.Models
 {
     /// <summary>
-    /// Full product model (concrete item with SKU/price/stock).
+    /// Full product model with reservation support.
     /// </summary>
     public class ProductModel : AbstractModel
     {
@@ -24,7 +24,8 @@
             string sku,
             string description,
             decimal price,
-            int stock)
+            int stock,
+            int reserved = 0)
             : base(id)
         {
             this.Title = title;
@@ -34,6 +35,7 @@
             this.Description = description;
             this.Price = price;
             this.Stock = stock;
+            this.Reserved = reserved;
         }
 
         /// <summary>
@@ -48,7 +50,8 @@
             string sku,
             string description,
             decimal price,
-            int stock)
+            int stock,
+            int reserved = 0)
             : base(id)
         {
             this.Title = title;
@@ -58,6 +61,7 @@
             this.Description = description;
             this.Price = price;
             this.Stock = stock;
+            this.Reserved = reserved;
         }
 
         /// <summary>
@@ -91,8 +95,18 @@
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Gets or sets units in stock.
+        /// Gets or sets total units in stock.
         /// </summary>
         public int Stock { get; set; }
+
+        /// <summary>
+        /// Gets or sets reserved units (in active orders).
+        /// </summary>
+        public int Reserved { get; set; }
+
+        /// <summary>
+        /// Gets available units (Stock - Reserved).
+        /// </summary>
+        public int Available => this.Stock - this.Reserved;
     }
 }

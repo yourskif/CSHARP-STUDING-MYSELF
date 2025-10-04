@@ -29,6 +29,7 @@ namespace ConsoleApp.MenuBuilder.User
                     Console.WriteLine($"Welcome, {UserMenuController.CurrentUser.FirstName} {UserMenuController.CurrentUser.LastName}!");
                     Console.WriteLine();
                 }
+
                 Console.WriteLine("1. Browse Categories");
                 Console.WriteLine("2. Browse Products");
                 Console.WriteLine("3. My Orders");
@@ -49,7 +50,9 @@ namespace ConsoleApp.MenuBuilder.User
                         break;
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
-                        UserOrderController.ShowOrderMenu(db);
+                        // Create instance of UserOrderController and open its menu
+                        var orderController = new UserOrderController(db);
+                        orderController.ShowOrderMenu();
                         break;
                     case ConsoleKey.D4:
                     case ConsoleKey.NumPad4:
@@ -80,18 +83,16 @@ namespace ConsoleApp.MenuBuilder.User
             Console.WriteLine();
 
             Console.Write("New First Name (leave empty to keep current): ");
-            string firstName = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(firstName))
-            {
-                firstName = UserMenuController.CurrentUser.FirstName;
-            }
+            string? firstNameInput = Console.ReadLine();
+            string firstName = string.IsNullOrWhiteSpace(firstNameInput)
+                ? UserMenuController.CurrentUser.FirstName
+                : firstNameInput.Trim();
 
             Console.Write("New Last Name (leave empty to keep current): ");
-            string lastName = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(lastName))
-            {
-                lastName = UserMenuController.CurrentUser.LastName;
-            }
+            string? lastNameInput = Console.ReadLine();
+            string lastName = string.IsNullOrWhiteSpace(lastNameInput)
+                ? UserMenuController.CurrentUser.LastName
+                : lastNameInput.Trim();
 
             try
             {
@@ -104,16 +105,16 @@ namespace ConsoleApp.MenuBuilder.User
                     UserMenuController.CurrentUser.FirstName = firstName;
                     UserMenuController.CurrentUser.LastName = lastName;
 
-                    Console.WriteLine("✅ Profile updated successfully!");
+                    Console.WriteLine("✓ Profile updated successfully!");
                 }
                 else
                 {
-                    Console.WriteLine("❌ Failed to update profile.");
+                    Console.WriteLine("✗ Failed to update profile.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error: {ex.Message}");
+                Console.WriteLine($"✗ Error: {ex.Message}");
             }
 
             Pause();

@@ -6,9 +6,17 @@ using StoreDAL.Data;
 
 namespace ConsoleApp.MenuBuilder.Categories
 {
+    /// <summary>
+    /// Static menu builder for category management with role-based access.
+    /// Provides full CRUD menu for administrators and read-only menu for registered users.
+    /// </summary>
     public static class CategoriesMenu
     {
-        // РџРѕРІРЅРµ РјРµРЅСЋ РґР»СЏ Admin (CRUD + РїРѕС€СѓРє)
+        /// <summary>
+        /// Displays the full category management menu for administrators.
+        /// Provides options for adding, listing, searching, updating, and deleting categories.
+        /// </summary>
+        /// <param name="db">Database context for category operations.</param>
         public static void Show(StoreDbContext db)
         {
             var controller = new CategoryController(db);
@@ -59,7 +67,11 @@ namespace ConsoleApp.MenuBuilder.Categories
             }
         }
 
-        // РЎРїСЂРѕС‰РµРЅРµ РјРµРЅСЋ РґР»СЏ Registered User (С‚С–Р»СЊРєРё РїРµСЂРµРіР»СЏРґ + РїРѕС€СѓРє)
+        /// <summary>
+        /// Displays the read-only category menu for registered users and guests.
+        /// Provides options for listing and searching categories without modification rights.
+        /// </summary>
+        /// <param name="db">Database context for category operations.</param>
         public static void ShowReadOnly(StoreDbContext db)
         {
             var controller = new CategoryController(db);
@@ -92,6 +104,9 @@ namespace ConsoleApp.MenuBuilder.Categories
             }
         }
 
+        /// <summary>
+        /// Pauses execution and waits for user input.
+        /// </summary>
         private static void Pause()
         {
             Console.WriteLine();
