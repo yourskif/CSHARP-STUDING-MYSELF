@@ -1,145 +1,295 @@
-﻿using System;
+﻿// Path: console-online-store/StoreDAL/Data/StoreDbFactory.cs
+using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using Microsoft.EntityFrameworkCore;
 
 using StoreDAL.Data.InitDataFactory;
+using StoreDAL.Entities;
+using StoreDAL.Security;
 
 namespace StoreDAL.Data
 {
     /// <summary>
-    /// Factory class for creating and configuring <see cref="StoreDbContext"/> instances.
-    /// Handles database initialization, connection setup, and initial data seeding for the application.
+    /// Factory for creating and seeding StoreDbContext with test data.
+    /// Includes password hashing and a guaranteed default admin account.
     /// </summary>
-    /// <remarks>
-    /// This factory centralizes database context creation logic and ensures consistent configuration
-    /// across the application. It automatically locates the database file at the solution root,
-    /// creates the database schema if it doesn't exist, and seeds initial reference data.
-    /// The factory uses SQLite as the database provider with a file-based database stored as "store.db".
-    /// </remarks>
     public static class StoreDbFactory
     {
         /// <summary>
-        /// Creates and configures a new <see cref="StoreDbContext"/> instance with database initialization.
+        /// Creates a StoreDbContext with default database path.
         /// </summary>
-        /// <returns>
-        /// A fully configured and initialized <see cref="StoreDbContext"/> instance ready for use.
-        /// The database schema is created if it doesn't exist, and initial data is seeded for empty tables.
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// This method performs the following operations:
-        /// <list type="number">
-        /// <item><description>Locates the database file at the solution root directory</description></item>
-        /// <item><description>Configures SQLite connection with the database path</description></item>
-        /// <item><description>Creates database schema if it doesn't exist (EnsureCreated)</description></item>
-        /// <item><description>Seeds initial reference data for empty tables</description></item>
-        /// </list>
-        /// </para>
-        /// <para>
-        /// Database location: The method navigates from the application's base directory
-        /// (e.g., ConsoleApp\bin\Debug\net8.0\) up to the solution root to locate "store.db".
-        /// This approach works consistently whether running with F5 in Visual Studio or using "dotnet run".
-        /// </para>
-        /// </remarks>
-        public static StoreDbContext Create()
+        /// <param name="databaseFile">Optional custom database file path.</param>
+        /// <returns>Configured and seeded StoreDbContext.</returns>
+        public static StoreDbContext Create(string? databaseFile = null)
         {
-            // Always use store.db at the solution root (works with both F5 and dotnet run)
-            var baseDir = AppContext.BaseDirectory; // e.g., ...\ConsoleApp\bin\Debug\net8.0\
-            var dbPath = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "store.db"));
-
-            var options = new DbContextOptionsBuilder<StoreDbContext>()
-                .UseSqlite($"Data Source={dbPath}")
-                .Options;
-
-            var factory = new TestDataFactory();
-            var ctx = new StoreDbContext(options, factory);
-
-            ctx.Database.EnsureCreated();
-            SeedIfEmpty(ctx, factory);
-            return ctx;
+            return CreateDbContext(databaseFile);
         }
 
         /// <summary>
-        /// Seeds the database with initial data on a per-table basis.
-        /// Only adds data to tables that are currently empty, preserving existing data.
+        /// Creates a StoreDbContext with optional custom database path.
+        /// Ensures database is created and seeded.
         /// </summary>
-        /// <param name="ctx">The database context to seed.</param>
-        /// <param name="f">The data factory providing initial data sets.</param>
-        /// <remarks>
-        /// <para>
-        /// This method implements safe, idempotent seeding by checking if each table is empty
-        /// before adding data. This approach allows the method to be called multiple times
-        /// without duplicating data and is safe for databases with partial existing data.
-        /// </para>
-        /// <para>
-        /// Seeding order follows foreign key dependencies to prevent constraint violations:
-        /// <list type="number">
-        /// <item><description>Reference data: Categories, Manufacturers, OrderStates, UserRoles</description></item>
-        /// <item><description>Users (depends on UserRoles)</description></item>
-        /// <item><description>ProductTitles (depends on Categories)</description></item>
-        /// <item><description>Products (depends on ProductTitles and Manufacturers)</description></item>
-        /// <item><description>CustomerOrders (depends on Users and OrderStates)</description></item>
-        /// <item><description>OrderDetails (depends on CustomerOrders and Products)</description></item>
-        /// </list>
-        /// </para>
-        /// <para>
-        /// All changes are committed in a single transaction via <c>SaveChanges()</c> at the end.
-        /// If seeding fails, the database remains in its original state (transactional safety).
-        /// </para>
-        /// </remarks>
-        private static void SeedIfEmpty(StoreDbContext ctx, AbstractDataFactory f)
+        /// <param name="databaseFile">Optional custom database file path.</param>
+        /// <returns>Configured and seeded StoreDbContext.</returns>
+        public static StoreDbContext CreateDbContext(string? databaseFile = null)
         {
-            // Seed reference data first (no dependencies)
-            if (!ctx.Categories.Any())
+            string baseDir = AppContext.BaseDirectory;
+            string root = FindSolutionRoot(baseDir) ?? baseDir;
+            string dbPath = databaseFile ?? Path.Combine(root, "store.db");
+
+            var options = new DbContextOptionsBuilder<StoreDbContext>()
+                .UseSqlite($"Data Source={dbPath}")
+                .EnableSensitiveDataLogging()
+                .Options;
+
+            var factory = new TestDataFactory();
+            var db = new StoreDbContext(options, factory);
+
+            db.Database.EnsureCreated();
+
+            SeedDatabase(db);
+            return db;
+        }
+
+        /// <summary>
+        /// Ensure there is an admin user with RoleId=1 and password Admin@123.
+        /// If exists, fixes role/password if needed.
+        /// </summary>
+        /// <param name="context">Database context to check/update.</param>
+        /// <exception cref="ArgumentNullException">Thrown when context is null.</exception>
+        public static void EnsureDefaultAdmin(StoreDbContext context)
+        {
+            ArgumentNullException.ThrowIfNull(context);
+
+            const string adminLogin = "admin";
+            const string adminPassword = "Admin@123";
+
+            var admin = context.Users.FirstOrDefault(u => u.Login == adminLogin);
+
+            if (admin == null)
             {
-                ctx.Categories.AddRange(f.GetCategoryData());
+                var adminHash = PasswordHasher.HashPassword(adminPassword);
+                var newAdmin = new User
+                {
+                    Login = adminLogin,
+                    Password = adminHash,
+                    RoleId = 1,
+                    Name = "Admin",
+                    LastName = "Root",
+                    IsBlocked = false,
+                };
+
+                context.Users.Add(newAdmin);
+                context.SaveChanges();
+                return;
             }
 
-            if (!ctx.Manufacturers.Any())
+            bool changed = false;
+
+            if (admin.RoleId != 1)
             {
-                ctx.Manufacturers.AddRange(f.GetManufacturerData());
+                admin.RoleId = 1;
+                changed = true;
             }
 
-            if (!ctx.UserRoles.Any())
+            if (!PasswordHasher.VerifyPassword(adminPassword, admin.Password))
             {
-                ctx.UserRoles.AddRange(f.GetUserRoleData());
+                admin.Password = PasswordHasher.HashPassword(adminPassword);
+                changed = true;
             }
 
-            if (!ctx.OrderStates.Any())
+            if (admin.IsBlocked)
             {
-                ctx.OrderStates.AddRange(f.GetOrderStateData());
+                admin.IsBlocked = false;
+                changed = true;
             }
 
-            // Seed entities with foreign key dependencies
-            if (!ctx.Users.Any())
+            if (changed)
             {
-                ctx.Users.AddRange(f.GetUserData());
+                context.SaveChanges();
+            }
+        }
+
+        private static void SeedDatabase(StoreDbContext context)
+        {
+            try
+            {
+                var factory = new TestDataFactory();
+
+                SeedReferenceData(context, factory);
+                SeedMainEntities(context, factory);
+
+                // Ensure default admin exists and is correct.
+                EnsureDefaultAdmin(context);
+
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Warning: Failed to seed database: {ex.Message}");
+            }
+        }
+
+        private static void SeedReferenceData(StoreDbContext context, TestDataFactory factory)
+        {
+            // UserRoles
+            var existingRoleIds = context.UserRoles.Select(r => r.Id).ToHashSet();
+            var rolesToAdd = factory.GetUserRoleData()
+                .Where(role => !existingRoleIds.Contains(role.Id))
+                .ToList();
+            if (rolesToAdd.Count > 0)
+            {
+                context.UserRoles.AddRange(rolesToAdd);
             }
 
-            if (!ctx.ProductTitles.Any())
+            // OrderStates
+            var existingStateIds = context.OrderStates.Select(s => s.Id).ToHashSet();
+            var statesToAdd = factory.GetOrderStateData()
+                .Where(state => !existingStateIds.Contains(state.Id))
+                .ToList();
+            if (statesToAdd.Count > 0)
             {
-                ctx.ProductTitles.AddRange(f.GetProductTitleData());
+                context.OrderStates.AddRange(statesToAdd);
             }
 
-            if (!ctx.Products.Any())
+            // Categories
+            var existingCategoryIds = context.Categories.Select(c => c.Id).ToHashSet();
+            var categoriesToAdd = factory.GetCategoryData()
+                .Where(cat => !existingCategoryIds.Contains(cat.Id))
+                .ToList();
+            if (categoriesToAdd.Count > 0)
             {
-                ctx.Products.AddRange(f.GetProductData());
+                context.Categories.AddRange(categoriesToAdd);
             }
 
-            if (!ctx.CustomerOrders.Any())
+            // Manufacturers
+            var existingManufacturerIds = context.Manufacturers.Select(m => m.Id).ToHashSet();
+            var manufacturersToAdd = factory.GetManufacturerData()
+                .Where(m => !existingManufacturerIds.Contains(m.Id))
+                .ToList();
+            if (manufacturersToAdd.Count > 0)
             {
-                ctx.CustomerOrders.AddRange(f.GetCustomerOrderData());
+                context.Manufacturers.AddRange(manufacturersToAdd);
             }
 
-            if (!ctx.OrderDetails.Any())
+            context.SaveChanges();
+        }
+
+        private static void SeedMainEntities(StoreDbContext context, TestDataFactory factory)
+        {
+            // Users: upgrade existing to PBKDF2; add missing as hashed.
+            var existingUsers = context.Users.ToList();
+            bool upgraded = false;
+
+            foreach (var u in existingUsers)
             {
-                ctx.OrderDetails.AddRange(f.GetOrderDetailData());
+                if (!LooksHashed(u.Password))
+                {
+                    u.Password = PasswordHasher.HashPassword(u.Password);
+                    upgraded = true;
+                }
             }
 
-            // Commit all changes in a single transaction
-            ctx.SaveChanges();
+            if (upgraded)
+            {
+                context.SaveChanges();
+            }
+
+            var existingUserIds = existingUsers.Select(u => u.Id).ToHashSet();
+
+            var usersRaw = factory.GetUserData().ToList();
+            foreach (var u in usersRaw)
+            {
+                if (!LooksHashed(u.Password))
+                {
+                    u.Password = PasswordHasher.HashPassword(u.Password);
+                }
+            }
+
+            var usersToAdd = usersRaw
+                .Where(u => !existingUserIds.Contains(u.Id))
+                .ToList();
+
+            if (usersToAdd.Count > 0)
+            {
+                context.Users.AddRange(usersToAdd);
+            }
+
+            // ProductTitles
+            var existingTitleIds = context.ProductTitles.Select(t => t.Id).ToHashSet();
+            var titlesToAdd = factory.GetProductTitleData()
+                .Where(t => !existingTitleIds.Contains(t.Id))
+                .ToList();
+            if (titlesToAdd.Count > 0)
+            {
+                context.ProductTitles.AddRange(titlesToAdd);
+            }
+
+            // Products
+            var existingProductIds = context.Products.Select(p => p.Id).ToHashSet();
+            var productsToAdd = factory.GetProductData()
+                .Where(p => !existingProductIds.Contains(p.Id))
+                .ToList();
+            if (productsToAdd.Count > 0)
+            {
+                context.Products.AddRange(productsToAdd);
+            }
+
+            // Orders
+            var existingOrderIds = context.CustomerOrders.Select(o => o.Id).ToHashSet();
+            var ordersToAdd = factory.GetCustomerOrderData()
+                .Where(o => !existingOrderIds.Contains(o.Id))
+                .ToList();
+            if (ordersToAdd.Count > 0)
+            {
+                context.CustomerOrders.AddRange(ordersToAdd);
+            }
+
+            // OrderDetails
+            var existingDetailIds = context.OrderDetails.Select(od => od.Id).ToHashSet();
+            var detailsToAdd = factory.GetOrderDetailData()
+                .Where(od => !existingDetailIds.Contains(od.Id))
+                .ToList();
+            if (detailsToAdd.Count > 0)
+            {
+                context.OrderDetails.AddRange(detailsToAdd);
+            }
+        }
+
+        /// <summary>Detects whether a string already looks like a hash.</summary>
+        private static bool LooksHashed(string? s)
+        {
+            if (string.IsNullOrWhiteSpace(s))
+            {
+                return false;
+            }
+
+            if (s.StartsWith("PBKDF2$", StringComparison.Ordinal))
+            {
+                return true;
+            }
+
+            return Regex.IsMatch(s, "^[0-9a-fA-F]{64}$");
+        }
+
+        private static string? FindSolutionRoot(string start)
+        {
+            var dir = new DirectoryInfo(start);
+
+            while (dir != null)
+            {
+                if (dir.EnumerateFiles("*.sln", SearchOption.TopDirectoryOnly).Any())
+                {
+                    return dir.FullName;
+                }
+
+                dir = dir.Parent;
+            }
+
+            return null;
         }
     }
 }
