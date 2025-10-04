@@ -1,458 +1,259 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+// Path: console-online-store/ConsoleApp/Controllers/AdminDiagnosticsController.cs
+namespace ConsoleApp.Controllers;
+
+using System;
 using System.Linq;
-using System.Reflection;
 
-// Keep alias directives sorted to satisfy SA1211.
-using DalCustomerOrder = StoreDAL.Entities.CustomerOrder;
-using DalOrderDetail = StoreDAL.Entities.OrderDetail;
-using DalProduct = StoreDAL.Entities.Product;
-using DalUser = StoreDAL.Entities.User;
-using StoreDbContext = StoreDAL.Data.StoreDbContext;
+using Microsoft.EntityFrameworkCore;
 
-namespace ConsoleApp.Controllers
+using StoreDAL.Data;
+
+/// <summary>
+/// Admin diagnostics and system utilities.
+/// </summary>
+public class AdminDiagnosticsController
 {
-    /// <summary>
-    /// Admin diagnostics screen.
-    /// Reflection-friendly and defensive against missing properties.
-    /// </summary>
-    public sealed class AdminDiagnosticsController
+    private readonly StoreDbContext db;
+
+    public AdminDiagnosticsController(StoreDbContext context)
     {
-        // Diagnostics parameters (can be adjusted while running).
-        private readonly StoreDbContext _db;
-        private int _topDays = 30;            // Default period for "Top sellers".
-        private int _lowStockThreshold = 2;   // Threshold for "Low stock" alert.
+        this.db = context ?? throw new ArgumentNullException(nameof(context));
+    }
 
-        public AdminDiagnosticsController(StoreDbContext db)
-        {
-            _db = db ?? throw new ArgumentNullException(nameof(db));
-        }
+    /// <summary>
+    /// Backward-compatible alias for ShowDiagnostics.
+    /// </summary>
+    public void Run() => this.ShowDiagnostics();
 
-        /// <summary>
-        /// One-shot diagnostics (non-interactive).
-        /// </summary>
-        public void RunOnce()
+    /// <summary>
+    /// Shows diagnostics menu.
+    /// </summary>
+    public void ShowDiagnostics()
+    {
+        while (true)
         {
             Console.Clear();
-            PrintHeader();
-            PrintCounts();
-            PrintOrdersByState();
-            PrintTopSellers(_topDays);
-            PrintLowStock(_lowStockThreshold);
-            PrintDataIssues();
-        }
+            Console.WriteLine("=== SYSTEM DIAGNOSTICS ===");
+            Console.WriteLine();
+            Console.WriteLine("1. Database Statistics");
+            Console.WriteLine("2. Check Database Integrity");
+            Console.WriteLine("3. Reset Admin Password");
+            Console.WriteLine("4. View Connection Info");
+            Console.WriteLine();
+            Console.WriteLine("Esc: Back to Main Menu");
 
-        /// <summary>
-        /// Interactive diagnostics loop with [R]efresh and [Q]/Esc back.
-        /// </summary>
-        public void Run()
-        {
-            while (true)
+            var key = Console.ReadKey(true).Key;
+            switch (key)
             {
-                Console.Clear();
-                PrintHeader();
-
-                try
-                {
-                    PrintCounts();
-                    PrintOrdersByState();
-                    PrintTopSellers(_topDays);
-                    PrintLowStock(_lowStockThreshold);
-                    PrintDataIssues();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("An error occurred while computing diagnostics:");
-                    Console.WriteLine(ex.Message);
-                }
-
-                Console.WriteLine();
-                Console.WriteLine("[R] Refresh    [P] Period for Top sellers (7/30/60)    [Q]/Esc Back");
-
-                var key = Console.ReadKey(intercept: true).Key;
-
-                if (key == ConsoleKey.Q || key == ConsoleKey.Escape)
-                {
+                case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
+                    this.ShowDatabaseStatistics();
+                    break;
+                case ConsoleKey.D2:
+                case ConsoleKey.NumPad2:
+                    this.CheckDatabaseIntegrity();
+                    break;
+                case ConsoleKey.D3:
+                case ConsoleKey.NumPad3:
+                    this.ResetAdminPassword();
+                    break;
+                case ConsoleKey.D4:
+                case ConsoleKey.NumPad4:
+                    this.ShowConnectionInfo();
+                    break;
+                case ConsoleKey.Escape:
                     return;
-                }
-
-                if (key == ConsoleKey.R)
-                {
-                    continue;
-                }
-
-                if (key == ConsoleKey.P)
-                {
-                    Console.WriteLine();
-                    Console.Write("Enter days (e.g., 7 / 30 / 60): ");
-                    if (int.TryParse(Console.ReadLine(), NumberStyles.Integer, CultureInfo.CurrentCulture, out var days) && days > 0)
-                    {
-                        _topDays = days;
-                    }
-                }
             }
         }
+    }
 
-        private static void PrintHeader()
+    private static void Pause()
+    {
+        Console.WriteLine("\nPress any key to continue...");
+        Console.ReadKey(true);
+    }
+
+    private void ShowDatabaseStatistics()
+    {
+        Console.Clear();
+        Console.WriteLine("=== DATABASE STATISTICS ===\n");
+
+        try
         {
-            Console.WriteLine("=== DIAGNOSTICS ===");
-            Console.WriteLine($"UTC Now: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}  |  Local: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
-            Console.WriteLine(new string('-', 62));
-        }
+            var userCount = this.db.Users.Count();
+            var productCount = this.db.Products.Count();
+            var orderCount = this.db.CustomerOrders.Count();
+            var categoryCount = this.db.Categories.Count();
+            var manufacturerCount = this.db.Manufacturers.Count();
 
-        private void PrintCounts()
-        {
-            var userCount = SafeCount<DalUser>();
-            var productCount = SafeCount<DalProduct>();
-            var orderCount = SafeCount<DalCustomerOrder>();
+            var totalStock = this.db.Products.Sum(p => (long)p.StockQuantity);
+            var totalReserved = this.db.Products.Sum(p => (long)p.ReservedQuantity);
 
-            Console.WriteLine("Overview");
-            Console.WriteLine(Row("Users total", userCount.ToString(CultureInfo.InvariantCulture)));
-            Console.WriteLine(Row("Products total", productCount.ToString(CultureInfo.InvariantCulture)));
-            Console.WriteLine(Row("Orders total", orderCount.ToString(CultureInfo.InvariantCulture)));
+            Console.WriteLine($"Users:          {userCount}");
+            Console.WriteLine($"Products:       {productCount}");
+            Console.WriteLine($"Orders:         {orderCount}");
+            Console.WriteLine($"Categories:     {categoryCount}");
+            Console.WriteLine($"Manufacturers:  {manufacturerCount}");
             Console.WriteLine();
+            Console.WriteLine($"Total Stock:    {totalStock}");
+            Console.WriteLine($"Reserved:       {totalReserved}");
+            Console.WriteLine($"Available:      {totalStock - totalReserved}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
         }
 
-        private void PrintOrdersByState()
+        Pause();
+    }
+
+    private void CheckDatabaseIntegrity()
+    {
+        Console.Clear();
+        Console.WriteLine("=== DATABASE INTEGRITY CHECK ===\n");
+
+        try
         {
-            Console.WriteLine("Orders by state");
+            var issues = 0;
 
-            var orders = _db.Set<DalCustomerOrder>().ToList();
-            var stateProp = FindProp(typeof(DalCustomerOrder), "State", "OrderState", "Status");
-
-            if (stateProp == null)
-            {
-                Console.WriteLine("  (State property not found on CustomerOrder)");
-                Console.WriteLine();
-                return;
-            }
-
-            var grouped = orders
-                .Select(o => stateProp.GetValue(o))
-                .GroupBy(state => state?.ToString() ?? "(null)")
-                .Select(g => new { State = g.Key, Count = g.Count() })
-                .OrderByDescending(x => x.Count)
+            // Check for negative stock
+            var negativeStock = this.db.Products
+                .Where(p => p.StockQuantity < 0)
                 .ToList();
 
-            if (grouped.Count == 0)
+            if (negativeStock.Count > 0)
             {
-                Console.WriteLine("  (No orders)");
-            }
-            else
-            {
-                foreach (var row in grouped)
+                Console.WriteLine($"⚠ Found {negativeStock.Count} products with negative stock:");
+                foreach (var p in negativeStock)
                 {
-                    Console.WriteLine(Row(row.State, row.Count.ToString(CultureInfo.InvariantCulture)));
+                    Console.WriteLine($"  - Product {p.Id}: Stock = {p.StockQuantity}");
                 }
-            }
 
-            Console.WriteLine();
-        }
-
-        private void PrintTopSellers(int days)
-        {
-            Console.WriteLine($"Top sellers (last {days} days)");
-
-            var orders = _db.Set<DalCustomerOrder>().ToList();
-            var orderDetails = _db.Set<DalOrderDetail>().ToList();
-            var products = _db.Set<DalProduct>().ToList();
-
-            var orderIdProp = FindProp(typeof(DalCustomerOrder), "Id", "CustomerOrderId", "OrderId");
-            var orderDateProp = FindProp(typeof(DalCustomerOrder), "OperationTimeUtc", "CreatedAtUtc", "OrderDate", "CreatedAt", "CreatedOn", "Date");
-            var detailOrderIdProp = FindProp(typeof(DalOrderDetail), "OrderId", "CustomerOrderId");
-            var detailProductIdProp = FindProp(typeof(DalOrderDetail), "ProductId", "ItemId");
-            var detailQtyProp = FindProp(typeof(DalOrderDetail), "Quantity", "Qty", "Count", "Amount");
-            var productIdProp = FindProp(typeof(DalProduct), "Id", "ProductId");
-            var productNameProp = FindProp(typeof(DalProduct), "Name", "Title", "ProductName");
-
-            var nowUtc = DateTime.UtcNow;
-            var fromUtc = nowUtc.AddDays(-days);
-
-            if (orderIdProp == null || detailOrderIdProp == null || detailProductIdProp == null || detailQtyProp == null)
-            {
-                Console.WriteLine("  (Required properties not found: CustomerOrder.Id / OrderDetail.OrderId / OrderDetail.ProductId / OrderDetail.Quantity)");
-                Console.WriteLine();
-                return;
+                issues++;
             }
 
-            var allowedOrderIds = new HashSet<object>();
-            foreach (var o in orders)
-            {
-                if (orderDateProp == null)
-                {
-                    var oidAny = orderIdProp.GetValue(o);
-                    if (oidAny != null)
-                    {
-                        allowedOrderIds.Add(oidAny);
-                    }
-                }
-                else
-                {
-                    var raw = orderDateProp.GetValue(o);
-                    DateTime? dt = raw as DateTime?;
-                    if (raw is DateTime d)
-                    {
-                        dt = d;
-                    }
-
-                    var oid = orderIdProp.GetValue(o);
-                    if (dt.HasValue && dt.Value.ToUniversalTime() >= fromUtc && dt.Value.ToUniversalTime() <= nowUtc && oid != null)
-                    {
-                        allowedOrderIds.Add(oid);
-                    }
-                }
-            }
-
-            var productIdToName = new Dictionary<object, string>();
-            foreach (var p in products)
-            {
-                var id = productIdProp?.GetValue(p);
-                if (id == null)
-                {
-                    continue;
-                }
-
-                var nameRaw = productNameProp?.GetValue(p)?.ToString();
-                var fallback = Convert.ToString(id, CultureInfo.InvariantCulture) ?? "(null)";
-                var finalName = !string.IsNullOrWhiteSpace(nameRaw) ? nameRaw! : fallback;
-
-                productIdToName[id] = finalName;
-            }
-
-            var totals = new Dictionary<object, double>();
-            foreach (var d in orderDetails)
-            {
-                var oid = detailOrderIdProp.GetValue(d);
-                if (oid == null || !allowedOrderIds.Contains(oid))
-                {
-                    continue;
-                }
-
-                var pid = detailProductIdProp.GetValue(d);
-                if (pid == null)
-                {
-                    continue;
-                }
-
-                var q = ConvertToDouble(detailQtyProp.GetValue(d));
-                if (q <= 0)
-                {
-                    continue;
-                }
-
-                if (!totals.TryGetValue(pid, out var cur))
-                {
-                    cur = 0;
-                }
-
-                totals[pid] = cur + q;
-            }
-
-            var top = totals
-                .OrderByDescending(kv => kv.Value)
-                .Take(10)
-                .Select((kv, i) =>
-                {
-                    string productName;
-                    var hasName = productIdToName.TryGetValue(kv.Key, out var nm);
-                    if (!hasName || string.IsNullOrWhiteSpace(nm))
-                    {
-                        productName = kv.Key?.ToString() ?? "(null)";
-                    }
-                    else
-                    {
-                        productName = nm;
-                    }
-
-                    return new
-                    {
-                        Rank = i + 1,
-                        Product = productName,
-                        Quantity = kv.Value,
-                    };
-                })
+            // Check for negative reservations
+            var negativeReserved = this.db.Products
+                .Where(p => p.ReservedQuantity < 0)
                 .ToList();
 
-            if (top.Count == 0)
+            if (negativeReserved.Count > 0)
             {
-                Console.WriteLine("  (No data)");
+                Console.WriteLine($"⚠ Found {negativeReserved.Count} products with negative reservations:");
+                foreach (var p in negativeReserved)
+                {
+                    Console.WriteLine($"  - Product {p.Id}: Reserved = {p.ReservedQuantity}");
+                }
+
+                issues++;
+            }
+
+            // Check for reservations > stock
+            var invalidReservations = this.db.Products
+                .Where(p => p.ReservedQuantity > p.StockQuantity)
+                .ToList();
+
+            if (invalidReservations.Count > 0)
+            {
+                Console.WriteLine($"⚠ Found {invalidReservations.Count} products with reservations > stock:");
+                foreach (var p in invalidReservations)
+                {
+                    Console.WriteLine($"  - Product {p.Id}: Stock = {p.StockQuantity}, Reserved = {p.ReservedQuantity}");
+                }
+
+                issues++;
+            }
+
+            // Check for orphaned order details
+            var orderIds = this.db.CustomerOrders.Select(o => o.Id).ToHashSet();
+            var orphanedDetails = this.db.OrderDetails
+                .Where(od => !orderIds.Contains(od.OrderId))
+                .ToList();
+
+            if (orphanedDetails.Count > 0)
+            {
+                Console.WriteLine($"⚠ Found {orphanedDetails.Count} orphaned order details");
+                issues++;
+            }
+
+            // Check for blocked admin
+            var blockedAdmins = this.db.Users
+                .Where(u => u.RoleId == 1 && u.IsBlocked)
+                .ToList();
+
+            if (blockedAdmins.Count > 0)
+            {
+                Console.WriteLine($"⚠ Found {blockedAdmins.Count} blocked administrator accounts:");
+                foreach (var admin in blockedAdmins)
+                {
+                    Console.WriteLine($"  - {admin.Login}");
+                }
+
+                issues++;
+            }
+
+            if (issues == 0)
+            {
+                Console.WriteLine("✓ No integrity issues found!");
             }
             else
             {
-                foreach (var row in top)
-                {
-                    Console.WriteLine(Row($"{row.Rank}. {row.Product}", row.Quantity.ToString(CultureInfo.CurrentCulture)));
-                }
+                Console.WriteLine($"\nTotal issues: {issues}");
             }
-
-            Console.WriteLine();
         }
-
-        private void PrintLowStock(int threshold)
+        catch (Exception ex)
         {
-            Console.WriteLine($"Stock alerts (<= {threshold})");
-
-            var products = _db.Set<DalProduct>().ToList();
-            var idProp = FindProp(typeof(DalProduct), "Id", "ProductId");
-            var nameProp = FindProp(typeof(DalProduct), "Name", "Title", "ProductName");
-            var stockProp = FindProp(typeof(DalProduct), "Stock", "QuantityInStock", "QtyInStock", "Count", "Available");
-
-            if (idProp == null || stockProp == null)
-            {
-                Console.WriteLine("  (Required properties not found: Product.Id/ProductId and Product.Stock/QuantityInStock/...)");
-                Console.WriteLine();
-                return;
-            }
-
-            var lows = new List<(string Name, double Stock)>();
-            foreach (var p in products)
-            {
-                var stock = ConvertToDouble(stockProp.GetValue(p));
-                if (stock <= threshold)
-                {
-                    var name = nameProp?.GetValue(p)?.ToString();
-                    if (string.IsNullOrWhiteSpace(name))
-                    {
-                        name = Convert.ToString(idProp.GetValue(p), CultureInfo.InvariantCulture) ?? "(null)";
-                    }
-
-                    lows.Add((name!, stock));
-                }
-            }
-
-            if (lows.Count == 0)
-            {
-                Console.WriteLine("  (No low stock)");
-            }
-            else
-            {
-                foreach (var row in lows.OrderBy(x => x.Stock).ThenBy(x => x.Name))
-                {
-                    Console.WriteLine(Row(row.Name, row.Stock.ToString(CultureInfo.CurrentCulture)));
-                }
-            }
-
-            Console.WriteLine();
+            Console.WriteLine($"Error during check: {ex.Message}");
         }
 
-        private void PrintDataIssues()
+        Pause();
+    }
+
+    private void ResetAdminPassword()
+    {
+        Console.Clear();
+        Console.WriteLine("=== RESET ADMIN PASSWORD ===\n");
+
+        try
         {
-            Console.WriteLine("Data issues");
-
-            var orders = _db.Set<DalCustomerOrder>().ToList();
-            var orderDetails = _db.Set<DalOrderDetail>().ToList();
-            var products = _db.Set<DalProduct>().ToList();
-
-            var orderIdProp = FindProp(typeof(DalCustomerOrder), "Id", "CustomerOrderId", "OrderId");
-            var detailOrderIdProp = FindProp(typeof(DalOrderDetail), "OrderId", "CustomerOrderId");
-            var detailProductIdProp = FindProp(typeof(DalOrderDetail), "ProductId", "ItemId");
-            var productIdProp = FindProp(typeof(DalProduct), "Id", "ProductId");
-
-            if (detailOrderIdProp == null || detailProductIdProp == null)
-            {
-                Console.WriteLine("  (OrderDetail.OrderId/ProductId not found)");
-                Console.WriteLine();
-                return;
-            }
-
-            var orderIds = new HashSet<object>(
-                orders.Select(o => orderIdProp?.GetValue(o)).OfType<object>());
-
-            var productIds = new HashSet<object>(
-                products.Select(p => productIdProp?.GetValue(p)).OfType<object>());
-
-            var missingOrder = 0;
-            var missingProduct = 0;
-
-            foreach (var d in orderDetails)
-            {
-                var oid = detailOrderIdProp.GetValue(d);
-                if (oid == null || !orderIds.Contains(oid))
-                {
-                    missingOrder++;
-                }
-
-                var pid = detailProductIdProp.GetValue(d);
-                if (pid == null || !productIds.Contains(pid))
-                {
-                    missingProduct++;
-                }
-            }
-
-            if (missingOrder == 0 && missingProduct == 0)
-            {
-                Console.WriteLine("  No issues detected.");
-            }
-            else
-            {
-                if (missingOrder > 0)
-                {
-                    Console.WriteLine(Row("OrderDetails referencing missing CustomerOrder", missingOrder.ToString(CultureInfo.InvariantCulture)));
-                }
-
-                if (missingProduct > 0)
-                {
-                    Console.WriteLine(Row("OrderDetails referencing missing Product", missingProduct.ToString(CultureInfo.InvariantCulture)));
-                }
-            }
-
-            Console.WriteLine();
+            StoreDAL.Data.StoreDbFactory.EnsureDefaultAdmin(this.db);
+            Console.WriteLine("✓ Admin account reset successfully!");
+            Console.WriteLine("  Login: admin");
+            Console.WriteLine("  Password: Admin@123");
         }
-
-        // ---------- Small helpers ----------
-
-        private int SafeCount<TEntity>() where TEntity : class
+        catch (Exception ex)
         {
-            return _db.Set<TEntity>().Count();
+            Console.WriteLine($"✗ Error: {ex.Message}");
         }
 
-        private static string Row(string left, string right, int width = 50)
+        Pause();
+    }
+
+    private void ShowConnectionInfo()
+    {
+        Console.Clear();
+        Console.WriteLine("=== DATABASE CONNECTION INFO ===\n");
+
+        try
         {
-            left ??= string.Empty;
-            right ??= string.Empty;
+            var connection = this.db.Database.GetDbConnection();
+            Console.WriteLine($"Provider:     SQLite");
+            Console.WriteLine($"Database:     {connection.Database}");
+            Console.WriteLine($"Data Source:  {connection.DataSource}");
+            Console.WriteLine($"State:        {connection.State}");
 
-            if (left.Length >= width)
+            Console.WriteLine("\nTables:");
+            var tableNames = new[] { "Users", "Products", "CustomerOrders", "OrderDetails", "Categories", "Manufacturers" };
+            foreach (var table in tableNames)
             {
-                return left + " " + right;
+                Console.WriteLine($"  - {table}");
             }
-
-            return left + new string('.', Math.Max(1, width - left.Length)) + " " + right;
         }
-
-        private static PropertyInfo? FindProp(Type type, params string[] candidates)
+        catch (Exception ex)
         {
-            foreach (var name in candidates)
-            {
-                var p = type.GetProperty(
-                    name,
-                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-
-                if (p != null)
-                {
-                    return p;
-                }
-            }
-
-            return null;
+            Console.WriteLine($"Error: {ex.Message}");
         }
 
-        private static double ConvertToDouble(object? value)
-        {
-            if (value == null)
-            {
-                return 0;
-            }
-
-            try
-            {
-                return Convert.ToDouble(value, CultureInfo.InvariantCulture);
-            }
-            catch
-            {
-                return 0;
-            }
-        }
+        Pause();
     }
 }

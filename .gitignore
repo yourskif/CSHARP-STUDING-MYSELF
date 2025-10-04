@@ -366,4 +366,4 @@ MigrationBackup/
 *.suo
 store.db
 ConsoleApp/bin/*/store.db
-ConsoleApp/bin/*/*/store.db
+ConsoleApp/bin/*/*/store.dbnul

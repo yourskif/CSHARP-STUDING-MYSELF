@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Helpers
+namespace ConsoleApp.Helpers
 {
     /// <summary>
     /// Helper class for mapping OrderStateId to readable state names for UI display.

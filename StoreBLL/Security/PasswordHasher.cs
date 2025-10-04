@@ -1,4 +1,5 @@
-﻿namespace StoreBLL.Security
+// Full path: StoreBLL/Security/PasswordHasher.cs
+namespace StoreBLL.Security
 {
     using System;
     using System.Security.Cryptography;
@@ -11,7 +12,6 @@
     /// </summary>
     public static class PasswordHasher
     {
-        // --- constants (must be placed before non-constant members for SA1203) ---
         private const int SaltSize = 16;          // 128-bit
         private const int KeySize = 32;           // 256-bit
         private const int Iterations = 100_000;   // PBKDF2 iterations
@@ -19,7 +19,6 @@
         private const string Delimiter = "$";
         private const string Scheme = "PBKDF2";
 
-        // Readonly struct value (HashAlgorithmName cannot be const)
         private static readonly HashAlgorithmName Algorithm = HashAlgorithmName.SHA256;
 
         /// <summary>
@@ -30,10 +29,7 @@
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="password"/> is null.</exception>
         public static string Hash(string password)
         {
-            if (password is null)
-            {
-                throw new ArgumentNullException(nameof(password));
-            }
+            ArgumentNullException.ThrowIfNull(password);
 
             using var rng = RandomNumberGenerator.Create();
             var salt = new byte[SaltSize];
@@ -64,10 +60,7 @@
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="password"/> is null.</exception>
         public static bool Verify(string password, string hash)
         {
-            if (password is null)
-            {
-                throw new ArgumentNullException(nameof(password));
-            }
+            ArgumentNullException.ThrowIfNull(password);
 
             if (string.IsNullOrWhiteSpace(hash))
             {
@@ -96,8 +89,7 @@
             }
 
             // Legacy fallback: compare with SHA-256 hex (uppercase/lowercase ignored).
-            using var sha = SHA256.Create();
-            var computed = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var computed = SHA256.HashData(Encoding.UTF8.GetBytes(password));
             var hex = BitConverter.ToString(computed).Replace("-", string.Empty, StringComparison.Ordinal);
             return string.Equals(hex, hash, StringComparison.OrdinalIgnoreCase);
         }

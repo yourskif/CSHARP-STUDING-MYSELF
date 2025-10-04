@@ -8,16 +8,26 @@ using StoreDAL.Data;
 
 namespace ConsoleApp.Controllers
 {
+    /// <summary>
+    /// Controller for category operations in console application.
+    /// Provides functionality for displaying, adding, searching, updating, and deleting categories.
+    /// </summary>
     public class CategoryController
     {
         private readonly CategoryService service;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryController"/> class.
+        /// </summary>
+        /// <param name="context">Database context for category operations.</param>
         public CategoryController(StoreDbContext context)
         {
             this.service = new CategoryService(context);
         }
 
-        // РџРѕРєР°Р·Р°С‚Рё РІСЃС– РєР°С‚РµРіРѕСЂС–С—
+        /// <summary>
+        /// Displays all categories with their ID and name.
+        /// </summary>
         public void ShowAll()
         {
             Console.WriteLine("=== Categories ===");
@@ -28,7 +38,10 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        // Р”РѕРґР°С‚Рё РєР°С‚РµРіРѕСЂС–СЋ
+        /// <summary>
+        /// Adds a new category based on user input.
+        /// Validates that the category name is not empty before adding.
+        /// </summary>
         public void AddCategory()
         {
             Console.Write("Enter category name: ");
@@ -46,7 +59,10 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("Category added successfully.");
         }
 
-        // РџРѕС€СѓРє Р·Р° РЅР°Р·РІРѕСЋ
+        /// <summary>
+        /// Searches for categories by name (case-insensitive partial match).
+        /// Displays all matching categories with their ID and name.
+        /// </summary>
         public void SearchByName()
         {
             Console.Write("Enter name to search: ");
@@ -68,7 +84,10 @@ namespace ConsoleApp.Controllers
             }
         }
 
-        // Р РµРґР°РіСѓРІР°С‚Рё РєР°С‚РµРіРѕСЂС–СЋ
+        /// <summary>
+        /// Updates an existing category's name based on user input.
+        /// Validates that both ID is valid and new name is not empty.
+        /// </summary>
         public void UpdateCategory()
         {
             Console.Write("Enter category ID to update: ");
@@ -93,7 +112,10 @@ namespace ConsoleApp.Controllers
             Console.WriteLine("Category updated successfully.");
         }
 
-        // Р’РёРґР°Р»РёС‚Рё РєР°С‚РµРіРѕСЂС–СЋ
+        /// <summary>
+        /// Deletes a category by ID based on user input.
+        /// Validates that the ID is valid before attempting deletion.
+        /// </summary>
         public void DeleteCategory()
         {
             Console.Write("Enter category ID to delete: ");
