@@ -1,217 +1,358 @@
+﻿// Path: console-online-store/ConsoleApp/Controllers/UserMenuController.cs
+namespace ConsoleApp.Controllers;
+
 using System;
-using ConsoleApp.Helpers;
-using ConsoleApp.MenuBuilder.Admin;
-using ConsoleApp.MenuBuilder.Guest;
-using ConsoleApp.MenuBuilder.User;
+
 using StoreBLL.Models;
 using StoreBLL.Services;
+
 using StoreDAL.Data;
 
-// Alias to avoid ambiguity with ConsoleApp.Helpers.StoreDbFactory
-using DalStoreDbFactory = StoreDAL.Data.StoreDbFactory;
-
-namespace ConsoleApp.Controllers
+/// <summary>
+/// Main menu controller for user operations.
+/// Manages authentication and navigation.
+/// </summary>
+public static class UserMenuController
 {
+    public static StoreDbContext? Context { get; set; }
+
+    public static UserModel? CurrentUser { get; private set; }
+
     /// <summary>
-    /// Main menu controller for handling user authentication and navigation.
+    /// Sets the current user (for login/logout operations).
     /// </summary>
-    public static class UserMenuController
+    /// <param name="user">User to set as current, or null to logout.</param>
+    public static void SetCurrentUser(UserModel? user)
     {
-        /// <summary>
-        /// Gets the global database context for all controllers.
-        /// </summary>
-        public static StoreDbContext Context { get; private set; } = null!;
+        CurrentUser = user;
+    }
 
-        /// <summary>
-        /// Gets the currently logged-in user.
-        /// </summary>
-        public static UserModel? CurrentUser { get; private set; }
+    /// <summary>App entry: main menu loop.</summary>
+    public static void Start()
+    {
+        Context = StoreDAL.Data.StoreDbFactory.Create();
 
-        /// <summary>
-        /// Sets the current user session.
-        /// </summary>
-        /// <param name="user">User to set as current, or null to logout.</param>
-        public static void SetCurrentUser(UserModel? user)
+        while (true)
         {
+            Console.Clear();
+            if (CurrentUser == null)
+            {
+                ShowGuestMenu();
+            }
+            else
+            {
+                ShowUserMenu();
+            }
+        }
+    }
+
+    /// <summary>Guest menu: login or register.</summary>
+    private static void ShowGuestMenu()
+    {
+        Console.WriteLine("=== ONLINE STORE ===");
+        Console.WriteLine();
+        Console.WriteLine("1. Login");
+        Console.WriteLine("2. Register");
+        Console.WriteLine("3. Browse Products (Guest)");
+        Console.WriteLine();
+        Console.WriteLine("Esc: Exit");
+
+        var key = Console.ReadKey(true).Key;
+        switch (key)
+        {
+            case ConsoleKey.D1:
+            case ConsoleKey.NumPad1:
+                Login();
+                break;
+            case ConsoleKey.D2:
+            case ConsoleKey.NumPad2:
+                Register();
+                break;
+            case ConsoleKey.D3:
+            case ConsoleKey.NumPad3:
+                BrowseProductsAsGuest();
+                break;
+            case ConsoleKey.Escape:
+                Environment.Exit(0);
+                break;
+        }
+    }
+
+    /// <summary>Logged-in user menu: role-based navigation.</summary>
+    private static void ShowUserMenu()
+    {
+        if (Context == null)
+        {
+            Console.WriteLine("Error: Database context not initialized.");
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+            Environment.Exit(1);
+            return;
+        }
+
+        Console.WriteLine($"=== ONLINE STORE ===");
+        Console.WriteLine($"Logged in as: {CurrentUser?.Login} ({GetRoleName(CurrentUser?.RoleId ?? 0)})");
+        Console.WriteLine();
+
+        if (CurrentUser?.RoleId == 1)
+        {
+            ShowAdminMenu();
+        }
+        else
+        {
+            ShowRegisteredUserMenu();
+        }
+    }
+
+    private static void ShowAdminMenu()
+    {
+        Console.WriteLine("1. Manage Users");
+        Console.WriteLine("2. Manage Products");
+        Console.WriteLine("3. Manage Categories");
+        Console.WriteLine("4. Manage Orders");
+        Console.WriteLine("5. System Diagnostics");
+        Console.WriteLine();
+        Console.WriteLine("L: Logout");
+        Console.WriteLine("Esc: Exit");
+
+        var key = Console.ReadKey(true).Key;
+        switch (key)
+        {
+            case ConsoleKey.D1:
+            case ConsoleKey.NumPad1:
+                new AdminUserController(Context!).ShowUserManagement();
+                break;
+            case ConsoleKey.D2:
+            case ConsoleKey.NumPad2:
+                MenuBuilder.Admin.AdminMainMenu.Show(Context!);
+                break;
+            case ConsoleKey.D3:
+            case ConsoleKey.NumPad3:
+                new AdminCategoryController(Context!).ShowCategories();
+                break;
+            case ConsoleKey.D4:
+            case ConsoleKey.NumPad4:
+                new AdminOrderController(Context!).Run();
+                break;
+            case ConsoleKey.D5:
+            case ConsoleKey.NumPad5:
+                new AdminDiagnosticsController(Context!).ShowDiagnostics();
+                break;
+            case ConsoleKey.L:
+                Logout();
+                break;
+            case ConsoleKey.Escape:
+                Environment.Exit(0);
+                break;
+        }
+    }
+
+    private static void ShowRegisteredUserMenu()
+    {
+        Console.WriteLine("1. Browse Products");
+        Console.WriteLine("2. My Orders");
+        Console.WriteLine("3. My Profile");
+        Console.WriteLine();
+        Console.WriteLine("L: Logout");
+        Console.WriteLine("Esc: Exit");
+
+        var key = Console.ReadKey(true).Key;
+        switch (key)
+        {
+            case ConsoleKey.D1:
+            case ConsoleKey.NumPad1:
+                MenuBuilder.User.UserMainMenu.Show(Context!);
+                break;
+            case ConsoleKey.D2:
+            case ConsoleKey.NumPad2:
+                new UserOrderController(Context!).ShowOrderMenu();
+                break;
+            case ConsoleKey.D3:
+            case ConsoleKey.NumPad3:
+                new UserController(Context!).ShowProfileUpdateMenu();
+                break;
+            case ConsoleKey.L:
+                Logout();
+                break;
+            case ConsoleKey.Escape:
+                Environment.Exit(0);
+                break;
+        }
+    }
+
+    private static void Login()
+    {
+        Console.Clear();
+        Console.WriteLine("=== LOGIN ===");
+
+        Console.Write("Login: ");
+        var login = Console.ReadLine();
+
+        Console.Write("Password: ");
+        var password = ReadPassword();
+        Console.WriteLine();
+
+        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+        {
+            Console.WriteLine("Login and password cannot be empty!");
+            Pause();
+            return;
+        }
+
+        if (Context == null)
+        {
+            Console.WriteLine("Error: Database context not initialized.");
+            Pause();
+            return;
+        }
+
+        var userService = new UserService(Context);
+
+        var user = userService.Authenticate(login, password);
+        if (user != null)
+        {
+            if (user.IsBlocked)
+            {
+                Console.WriteLine("Your account is blocked. Contact administrator.");
+                Pause();
+                return;
+            }
+
             CurrentUser = user;
+            Console.WriteLine($"Welcome, {user.Login}!");
+            Pause();
         }
-
-        /// <summary>
-        /// Main entry point for the application.
-        /// </summary>
-        public static void Start()
+        else
         {
-            // Use DAL factory via alias to remove ambiguity
-            Context = DalStoreDbFactory.Create();
-
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("===== ONLINE STORE =====");
-                Console.WriteLine("1. Admin Login");
-                Console.WriteLine("2. User Login");
-                Console.WriteLine("3. Guest");
-                Console.WriteLine("-------------------------");
-                Console.WriteLine("Esc: Exit");
-
-                var key = Console.ReadKey(true).Key;
-                switch (key)
-                {
-                    case ConsoleKey.D1:
-                    case ConsoleKey.NumPad1:
-                        if (LoginAsAdmin())
-                        {
-                            AdminMainMenu.Show(Context);
-                        }
-
-                        break;
-                    case ConsoleKey.D2:
-                    case ConsoleKey.NumPad2:
-                        if (LoginAsUser())
-                        {
-                            UserMainMenu.Show(Context);
-                        }
-
-                        break;
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
-                        GuestMainMenu.Show(Context);
-                        break;
-                    case ConsoleKey.Escape:
-                        Context.Dispose();
-                        return;
-                }
-            }
+            Console.WriteLine("Invalid login or password!");
+            Pause();
         }
+    }
 
-        /// <summary>
-        /// Handles admin login.
-        /// </summary>
-        /// <returns>True if login successful, false otherwise.</returns>
-        private static bool LoginAsAdmin()
+    private static void Register()
+    {
+        Console.Clear();
+        Console.WriteLine("=== REGISTER ===");
+
+        Console.Write("Login: ");
+        var login = Console.ReadLine();
+
+        Console.Write("Password: ");
+        var password = ReadPassword();
+        Console.WriteLine();
+
+        Console.Write("Confirm Password: ");
+        var confirmPassword = ReadPassword();
+        Console.WriteLine();
+
+        if (password != confirmPassword)
         {
-            Console.Clear();
-            Console.WriteLine("=== Admin Login ===");
-            Console.Write("Login: ");
-            string login = Console.ReadLine() ?? string.Empty;
-
-            Console.Write("Password: ");
-            string password = Console.ReadLine() ?? string.Empty;
-
-            try
-            {
-                // TEMPORARY BYPASS FOR TESTING - Remove after fixing PasswordHasher
-                if (login.Equals("admin", StringComparison.OrdinalIgnoreCase))
-                {
-                    var testAdmin = new UserModel
-                    {
-                        Id = 1,
-                        FirstName = "Admin",
-                        LastName = "Root",
-                        Login = "admin",
-                        Password = "bypassed",
-                        RoleId = 1,
-                    };
-
-                    SetCurrentUser(testAdmin);
-                    Console.WriteLine($"Welcome, Admin {testAdmin.FirstName}!");
-                    Console.WriteLine("[TESTING MODE: Authentication bypassed]");
-                    Pause();
-                    return true;
-                }
-
-                // END OF TEMPORARY BYPASS
-                var userService = new UserService(Context);
-                var user = userService.Authenticate(login, password);
-
-                if (user != null && user.RoleId == 1)
-                {
-                    SetCurrentUser(user);
-                    Console.WriteLine($"Welcome, Admin {user.FirstName}!");
-                    Pause();
-                    return true;
-                }
-
-                Console.WriteLine("Invalid admin credentials or insufficient privileges.");
-                Pause();
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Login error: {ex.Message}");
-                Pause();
-                return false;
-            }
+            Console.WriteLine("Passwords do not match!");
+            Pause();
+            return;
         }
 
-        /// <summary>
-        /// Handles user login.
-        /// </summary>
-        /// <returns>True if login successful, false otherwise.</returns>
-        private static bool LoginAsUser()
+        Console.Write("First Name: ");
+        var firstName = Console.ReadLine();
+
+        Console.Write("Last Name: ");
+        var lastName = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(login) ||
+            string.IsNullOrWhiteSpace(password) ||
+            string.IsNullOrWhiteSpace(firstName) ||
+            string.IsNullOrWhiteSpace(lastName))
         {
-            Console.Clear();
-            Console.WriteLine("=== User Login ===");
-            Console.Write("Login: ");
-            string login = Console.ReadLine() ?? string.Empty;
-
-            Console.Write("Password: ");
-            string password = Console.ReadLine() ?? string.Empty;
-
-            try
-            {
-                // TEMPORARY BYPASS FOR TESTING - Remove after fixing PasswordHasher
-                if (login.Equals("user", StringComparison.OrdinalIgnoreCase))
-                {
-                    var testUser = new UserModel
-                    {
-                        Id = 2,
-                        FirstName = "John",
-                        LastName = "Doe",
-                        Login = "user",
-                        Password = "bypassed",
-                        RoleId = 2,
-                    };
-
-                    SetCurrentUser(testUser);
-                    Console.WriteLine($"Welcome, {testUser.FirstName} {testUser.LastName}!");
-                    Console.WriteLine("[TESTING MODE: Authentication bypassed]");
-                    Pause();
-                    return true;
-                }
-
-                // END OF TEMPORARY BYPASS
-                var userService = new UserService(Context);
-                var user = userService.Authenticate(login, password);
-
-                if (user != null && user.RoleId == 2)
-                {
-                    SetCurrentUser(user);
-                    Console.WriteLine($"Welcome, {user.FirstName} {user.LastName}!");
-                    Pause();
-                    return true;
-                }
-
-                Console.WriteLine("Invalid user credentials.");
-                Pause();
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Login error: {ex.Message}");
-                Pause();
-                return false;
-            }
+            Console.WriteLine("All fields are required!");
+            Pause();
+            return;
         }
 
-        /// <summary>
-        /// Pauses execution and waits for user input.
-        /// </summary>
-        private static void Pause()
+        if (Context == null)
         {
-            Console.WriteLine();
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
+            Console.WriteLine("Error: Database context not initialized.");
+            Pause();
+            return;
         }
+
+        var userService = new UserService(Context);
+
+        try
+        {
+            var newUser = userService.Register(firstName, lastName, login, password);
+
+            if (newUser == null)
+            {
+                Console.WriteLine("Registration failed. Login might already exist.");
+            }
+            else
+            {
+                Console.WriteLine("Registration successful! You can now login.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Registration error: {ex.Message}");
+        }
+
+        Pause();
+    }
+
+    private static void Logout()
+    {
+        CurrentUser = null;
+        Console.Clear();
+        Console.WriteLine("You have been logged out.");
+        Pause();
+    }
+
+    private static void BrowseProductsAsGuest()
+    {
+        if (Context == null)
+        {
+            Console.WriteLine("Error: Database context not initialized.");
+            Pause();
+            return;
+        }
+
+        MenuBuilder.User.UserMainMenu.Show(Context);
+    }
+
+    private static string ReadPassword()
+    {
+        var password = string.Empty;
+        ConsoleKeyInfo key;
+
+        do
+        {
+            key = Console.ReadKey(true);
+
+            if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+            {
+                password += key.KeyChar;
+                Console.Write("*");
+            }
+            else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+            {
+                password = password[..^1];
+                Console.Write("\b \b");
+            }
+        }
+        while (key.Key != ConsoleKey.Enter);
+
+        return password;
+    }
+
+    private static string GetRoleName(int roleId) => roleId switch
+    {
+        1 => "Administrator",
+        2 => "Registered User",
+        _ => "Guest",
+    };
+
+    private static void Pause()
+    {
+        Console.WriteLine("\nPress any key to continue...");
+        Console.ReadKey(true);
     }
 }

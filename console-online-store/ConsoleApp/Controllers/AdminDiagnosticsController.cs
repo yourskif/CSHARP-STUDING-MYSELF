@@ -2,466 +2,257 @@
 namespace ConsoleApp.Controllers;
 
 using System;
-using System.Globalization;
 using System.Linq;
 
-using StoreBLL.Services;
+using Microsoft.EntityFrameworkCore;
 
 using StoreDAL.Data;
 
 /// <summary>
-/// Admin diagnostics controller (refactored).
-/// Thin UI layer that delegates business logic to specialized services.
-/// Provides menu navigation and output formatting for diagnostic operations.
+/// Admin diagnostics and system utilities.
 /// </summary>
-public sealed class AdminDiagnosticsController
+public class AdminDiagnosticsController
 {
     private readonly StoreDbContext db;
-    private readonly InventoryDiagnosticsService inventoryService;
-    private readonly OrderDiagnosticsService orderService;
-    private readonly UserDiagnosticsService userService;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AdminDiagnosticsController"/> class.
-    /// </summary>
-    /// <param name="db">Database context for diagnostics operations.</param>
-    /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
-    public AdminDiagnosticsController(StoreDbContext db)
+    public AdminDiagnosticsController(StoreDbContext context)
     {
-        this.db = db ?? throw new ArgumentNullException(nameof(db));
-        this.inventoryService = new InventoryDiagnosticsService(db);
-        this.orderService = new OrderDiagnosticsService(db);
-        this.userService = new UserDiagnosticsService(db);
+        this.db = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     /// <summary>
-    /// Main menu loop for diagnostics operations.
-    /// Displays menu and handles user navigation.
+    /// Backward-compatible alias for ShowDiagnostics.
     /// </summary>
-    public void Run()
+    public void Run() => this.ShowDiagnostics();
+
+    /// <summary>
+    /// Shows diagnostics menu.
+    /// </summary>
+    public void ShowDiagnostics()
     {
-        var prev = System.Threading.Thread.CurrentThread.CurrentCulture;
-        System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
-        try
+        while (true)
         {
-            while (true)
+            Console.Clear();
+            Console.WriteLine("=== SYSTEM DIAGNOSTICS ===");
+            Console.WriteLine();
+            Console.WriteLine("1. Database Statistics");
+            Console.WriteLine("2. Check Database Integrity");
+            Console.WriteLine("3. Reset Admin Password");
+            Console.WriteLine("4. View Connection Info");
+            Console.WriteLine();
+            Console.WriteLine("Esc: Back to Main Menu");
+
+            var key = Console.ReadKey(true).Key;
+            switch (key)
             {
-                Console.Clear();
-                Console.WriteLine("=== ADMIN: DIAGNOSTICS ===");
-                Console.WriteLine($"UTC Now: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}");
-                Console.WriteLine(new string('-', 78));
-
-                try
-                {
-                    this.PrintOverview();
-                    Console.WriteLine(new string('-', 78));
-                    Console.WriteLine("[1] Products snapshot");
-                    Console.WriteLine("[2] Rebuild Reserved from OPEN orders");
-                    Console.WriteLine("[3] CLEAR ALL reservations (demo reset)");
-                    Console.WriteLine("[4] Find stock anomalies (Reserved>Stock / Available<0)");
-                    Console.WriteLine("[5] RESET DEMO (close open orders + zero reservations)");
-                    Console.WriteLine("[6] Orders snapshot (table)");
-                    Console.WriteLine("[7] Admin cancel order by ID");
-                    Console.WriteLine("[8] Users: Show (hash check)");
-                    Console.WriteLine("[9] Users: Reset default admin (admin / Admin@123)");
-                    Console.WriteLine("[0] Seed DEMO orders");
-                    Console.WriteLine("[C] Clear ALL orders (delete) + reset reservations");
-                    Console.WriteLine();
-                    Console.WriteLine("[R] Refresh    [Q]/Esc Back");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Application error: {ex.Message}");
-                    Console.WriteLine("[R] Refresh    [Q]/Esc Back");
-                }
-
-                var key = Console.ReadKey(true).Key;
-
-                if (key == ConsoleKey.Q || key == ConsoleKey.Escape)
-                {
+                case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
+                    this.ShowDatabaseStatistics();
+                    break;
+                case ConsoleKey.D2:
+                case ConsoleKey.NumPad2:
+                    this.CheckDatabaseIntegrity();
+                    break;
+                case ConsoleKey.D3:
+                case ConsoleKey.NumPad3:
+                    this.ResetAdminPassword();
+                    break;
+                case ConsoleKey.D4:
+                case ConsoleKey.NumPad4:
+                    this.ShowConnectionInfo();
+                    break;
+                case ConsoleKey.Escape:
                     return;
-                }
-
-                if (key == ConsoleKey.R)
-                {
-                    continue;
-                }
-
-                this.HandleMenuChoice(key);
             }
         }
-        finally
-        {
-            System.Threading.Thread.CurrentThread.CurrentCulture = prev;
-        }
-    }
-
-    private static string Trunc(string? s, int max)
-    {
-        if (string.IsNullOrEmpty(s) || max <= 0)
-        {
-            return string.Empty;
-        }
-
-        if (s.Length <= max)
-        {
-            return s;
-        }
-
-        var take = Math.Max(0, max - 1);
-        return string.Concat(s.AsSpan(0, take), "…");
-    }
-
-    private static string StatusName(int id)
-    {
-        return id switch
-        {
-            1 => "New Order",
-            2 => "Cancelled by user",
-            3 => "Cancelled by administrator",
-            4 => "Confirmed",
-            5 => "Moved to delivery company",
-            6 => "In delivery",
-            7 => "Delivered to client",
-            8 => "Delivery confirmed by client",
-            _ => "Unknown",
-        };
     }
 
     private static void Pause()
     {
-        Console.WriteLine();
-        Console.WriteLine("Press any key to continue...");
+        Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey(true);
     }
 
-    private void HandleMenuChoice(ConsoleKey key)
-    {
-        switch (key)
-        {
-            case ConsoleKey.D1:
-            case ConsoleKey.NumPad1:
-                this.ShowProductsSnapshot();
-                break;
-
-            case ConsoleKey.D2:
-            case ConsoleKey.NumPad2:
-                this.RebuildReservedFromOpenOrders();
-                break;
-
-            case ConsoleKey.D3:
-            case ConsoleKey.NumPad3:
-                this.ClearAllReservations();
-                break;
-
-            case ConsoleKey.D4:
-            case ConsoleKey.NumPad4:
-                this.ShowAnomalies();
-                break;
-
-            case ConsoleKey.D5:
-            case ConsoleKey.NumPad5:
-                this.ResetDemo();
-                break;
-
-            case ConsoleKey.D6:
-            case ConsoleKey.NumPad6:
-                this.OrdersSnapshot();
-                break;
-
-            case ConsoleKey.D7:
-            case ConsoleKey.NumPad7:
-                this.AdminCancelOrderById();
-                break;
-
-            case ConsoleKey.D8:
-            case ConsoleKey.NumPad8:
-                this.ShowUsersHash();
-                break;
-
-            case ConsoleKey.D9:
-            case ConsoleKey.NumPad9:
-                this.ResetDefaultAdmin();
-                break;
-
-            case ConsoleKey.D0:
-            case ConsoleKey.NumPad0:
-                this.SeedDemoOrders();
-                break;
-
-            case ConsoleKey.C:
-                this.ClearAllOrders();
-                break;
-        }
-    }
-
-    private void PrintOverview()
-    {
-        var (open, closed) = this.orderService.GetOrderCounts();
-
-        Console.WriteLine("Overview");
-        Console.WriteLine($"Users total........ {this.userService.GetTotalUserCount()}");
-        Console.WriteLine($"Products total..... {this.inventoryService.GetTotalProductCount()}");
-        Console.WriteLine($"Orders total....... {open + closed}");
-        Console.WriteLine($"Open / Closed...... {open} / {closed}");
-        Console.WriteLine();
-        Console.WriteLine($"Low availability (threshold: 5)");
-        var lowStock = this.inventoryService.GetLowAvailability(5).ToList();
-        if (lowStock.Count == 0)
-        {
-            Console.WriteLine("  No low availability alerts");
-        }
-        else
-        {
-            foreach (var p in lowStock)
-            {
-                Console.WriteLine($"  #{p.Id,-3} {Trunc(p.Title, 30),-30} | Stock:{p.Stock,5} | Reserved:{p.Reserved,5} | Available:{p.Available,5}");
-            }
-        }
-
-        Console.WriteLine();
-    }
-
-    private void ShowProductsSnapshot()
+    private void ShowDatabaseStatistics()
     {
         Console.Clear();
-        Console.WriteLine("=== DIAGNOSTICS: PRODUCTS SNAPSHOT ===\n");
-
-        var products = this.inventoryService.GetProductsSnapshot().ToList();
-
-        Console.WriteLine($"{"ID",3}  {"Title",-30}  {"SKU",-14}  {"Price",12}  {"Stock",7}  {"Reserved",9}  {"Available",10}");
-        Console.WriteLine(new string('-', 3 + 2 + 30 + 2 + 14 + 2 + 12 + 2 + 7 + 2 + 9 + 2 + 10));
-
-        foreach (var p in products)
-        {
-            Console.WriteLine($"{p.Id,3}  {Trunc(p.Title, 30),-30}  {Trunc(p.SKU, 14),-14}  {p.Price,12:0.00}  {p.Stock,7}  {p.Reserved,9}  {p.Available,10}");
-        }
-
-        Pause();
-    }
-
-    private void RebuildReservedFromOpenOrders()
-    {
-        Console.Clear();
-        Console.WriteLine("=== DIAGNOSTICS: REBUILD RESERVED FROM OPEN ORDERS ===\n");
+        Console.WriteLine("=== DATABASE STATISTICS ===\n");
 
         try
         {
-            int updated = this.inventoryService.RebuildReservedFromOpenOrders();
-            Console.WriteLine($"Reserved rebuilt for {updated} product(s).");
+            var userCount = this.db.Users.Count();
+            var productCount = this.db.Products.Count();
+            var orderCount = this.db.CustomerOrders.Count();
+            var categoryCount = this.db.Categories.Count();
+            var manufacturerCount = this.db.Manufacturers.Count();
+
+            var totalStock = this.db.Products.Sum(p => (long)p.StockQuantity);
+            var totalReserved = this.db.Products.Sum(p => (long)p.ReservedQuantity);
+
+            Console.WriteLine($"Users:          {userCount}");
+            Console.WriteLine($"Products:       {productCount}");
+            Console.WriteLine($"Orders:         {orderCount}");
+            Console.WriteLine($"Categories:     {categoryCount}");
+            Console.WriteLine($"Manufacturers:  {manufacturerCount}");
+            Console.WriteLine();
+            Console.WriteLine($"Total Stock:    {totalStock}");
+            Console.WriteLine($"Reserved:       {totalReserved}");
+            Console.WriteLine($"Available:      {totalStock - totalReserved}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Application error: {ex.Message}");
+            Console.WriteLine($"Error: {ex.Message}");
         }
 
         Pause();
     }
 
-    private void ClearAllReservations()
+    private void CheckDatabaseIntegrity()
     {
         Console.Clear();
-        Console.WriteLine("=== DIAGNOSTICS: CLEAR ALL RESERVATIONS ===\n");
-        Console.Write("Are you sure? This will set ReservedQuantity=0 for ALL products. [y/N]: ");
-        var key = Console.ReadKey(true).Key;
-        Console.WriteLine();
-
-        if (key != ConsoleKey.Y)
-        {
-            Console.WriteLine("Aborted.");
-            Pause();
-            return;
-        }
+        Console.WriteLine("=== DATABASE INTEGRITY CHECK ===\n");
 
         try
         {
-            int updated = this.inventoryService.ClearAllReservations();
-            Console.WriteLine($"Cleared reservations for {updated} product(s).");
+            var issues = 0;
+
+            // Check for negative stock
+            var negativeStock = this.db.Products
+                .Where(p => p.StockQuantity < 0)
+                .ToList();
+
+            if (negativeStock.Count > 0)
+            {
+                Console.WriteLine($"⚠ Found {negativeStock.Count} products with negative stock:");
+                foreach (var p in negativeStock)
+                {
+                    Console.WriteLine($"  - Product {p.Id}: Stock = {p.StockQuantity}");
+                }
+
+                issues++;
+            }
+
+            // Check for negative reservations
+            var negativeReserved = this.db.Products
+                .Where(p => p.ReservedQuantity < 0)
+                .ToList();
+
+            if (negativeReserved.Count > 0)
+            {
+                Console.WriteLine($"⚠ Found {negativeReserved.Count} products with negative reservations:");
+                foreach (var p in negativeReserved)
+                {
+                    Console.WriteLine($"  - Product {p.Id}: Reserved = {p.ReservedQuantity}");
+                }
+
+                issues++;
+            }
+
+            // Check for reservations > stock
+            var invalidReservations = this.db.Products
+                .Where(p => p.ReservedQuantity > p.StockQuantity)
+                .ToList();
+
+            if (invalidReservations.Count > 0)
+            {
+                Console.WriteLine($"⚠ Found {invalidReservations.Count} products with reservations > stock:");
+                foreach (var p in invalidReservations)
+                {
+                    Console.WriteLine($"  - Product {p.Id}: Stock = {p.StockQuantity}, Reserved = {p.ReservedQuantity}");
+                }
+
+                issues++;
+            }
+
+            // Check for orphaned order details
+            var orderIds = this.db.CustomerOrders.Select(o => o.Id).ToHashSet();
+            var orphanedDetails = this.db.OrderDetails
+                .Where(od => !orderIds.Contains(od.OrderId))
+                .ToList();
+
+            if (orphanedDetails.Count > 0)
+            {
+                Console.WriteLine($"⚠ Found {orphanedDetails.Count} orphaned order details");
+                issues++;
+            }
+
+            // Check for blocked admin
+            var blockedAdmins = this.db.Users
+                .Where(u => u.RoleId == 1 && u.IsBlocked)
+                .ToList();
+
+            if (blockedAdmins.Count > 0)
+            {
+                Console.WriteLine($"⚠ Found {blockedAdmins.Count} blocked administrator accounts:");
+                foreach (var admin in blockedAdmins)
+                {
+                    Console.WriteLine($"  - {admin.Login}");
+                }
+
+                issues++;
+            }
+
+            if (issues == 0)
+            {
+                Console.WriteLine("✓ No integrity issues found!");
+            }
+            else
+            {
+                Console.WriteLine($"\nTotal issues: {issues}");
+            }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Application error: {ex.Message}");
+            Console.WriteLine($"Error during check: {ex.Message}");
         }
 
         Pause();
     }
 
-    private void ShowAnomalies()
+    private void ResetAdminPassword()
     {
         Console.Clear();
-        Console.WriteLine("=== DIAGNOSTICS: STOCK ANOMALIES ===\n");
+        Console.WriteLine("=== RESET ADMIN PASSWORD ===\n");
 
-        var anomalies = this.inventoryService.GetAnomalies().ToList();
-
-        if (anomalies.Count == 0)
+        try
         {
-            Console.WriteLine("No anomalies found.");
+            StoreDAL.Data.StoreDbFactory.EnsureDefaultAdmin(this.db);
+            Console.WriteLine("✓ Admin account reset successfully!");
+            Console.WriteLine("  Login: admin");
+            Console.WriteLine("  Password: Admin@123");
         }
-        else
+        catch (Exception ex)
         {
-            foreach (var p in anomalies)
+            Console.WriteLine($"✗ Error: {ex.Message}");
+        }
+
+        Pause();
+    }
+
+    private void ShowConnectionInfo()
+    {
+        Console.Clear();
+        Console.WriteLine("=== DATABASE CONNECTION INFO ===\n");
+
+        try
+        {
+            var connection = this.db.Database.GetDbConnection();
+            Console.WriteLine($"Provider:     SQLite");
+            Console.WriteLine($"Database:     {connection.Database}");
+            Console.WriteLine($"Data Source:  {connection.DataSource}");
+            Console.WriteLine($"State:        {connection.State}");
+
+            Console.WriteLine("\nTables:");
+            var tableNames = new[] { "Users", "Products", "CustomerOrders", "OrderDetails", "Categories", "Manufacturers" };
+            foreach (var table in tableNames)
             {
-                Console.WriteLine($"#{p.Id,3}  {Trunc(p.Title, 30),-30} | Stock:{p.Stock,5} | Reserved:{p.Reserved,5} | Available:{p.Available,5}");
+                Console.WriteLine($"  - {table}");
             }
         }
-
-        Pause();
-    }
-
-    private void ResetDemo()
-    {
-        Console.Clear();
-        Console.WriteLine("=== DIAGNOSTICS: RESET DEMO ===");
-        Console.WriteLine("This will:");
-        Console.WriteLine(" - set all OPEN orders to 'Cancelled by administrator' (state 3)");
-        Console.WriteLine(" - set ReservedQuantity=0 for ALL products\n");
-        Console.Write("Proceed? [y/N]: ");
-        var key = Console.ReadKey(true).Key;
-        Console.WriteLine();
-
-        if (key != ConsoleKey.Y)
+        catch (Exception ex)
         {
-            Console.WriteLine("Aborted.");
-            Pause();
-            return;
+            Console.WriteLine($"Error: {ex.Message}");
         }
-
-        var (closed, zeroed) = this.orderService.ResetDemo();
-        Console.WriteLine($"Closed open orders: {closed}");
-        Console.WriteLine($"Zeroed reservations for products: {zeroed}");
-        Console.WriteLine("Demo state has been reset.");
-
-        Pause();
-    }
-
-    private void OrdersSnapshot()
-    {
-        Console.Clear();
-        Console.WriteLine("=== DIAGNOSTICS: ORDERS SNAPSHOT ===\n");
-
-        var orders = this.orderService.GetOrdersSnapshot().ToList();
-
-        if (orders.Count == 0)
-        {
-            Console.WriteLine("No orders found.");
-            Pause();
-            return;
-        }
-
-        Console.WriteLine($"{"ID",4}  {"Date",19}  {"User",-20}  {"Status",-28}  {"Total",10}");
-        Console.WriteLine(new string('-', 4 + 2 + 19 + 2 + 20 + 2 + 28 + 2 + 10));
-
-        foreach (var o in orders)
-        {
-            Console.WriteLine($"{o.Id,4}  {o.Date,19}  {o.UserName,-20}  {StatusName(o.OrderStateId),-28}  {o.Total,10:0.00}");
-        }
-
-        Console.WriteLine();
-        Console.WriteLine("Tip: Use [7] to cancel by ID.");
-        Pause();
-    }
-
-    private void AdminCancelOrderById()
-    {
-        Console.Clear();
-        Console.WriteLine("=== DIAGNOSTICS: ADMIN CANCEL ORDER ===");
-        Console.Write("Enter Order ID to cancel: ");
-
-        if (!int.TryParse(Console.ReadLine(), out int id))
-        {
-            Console.WriteLine("Invalid ID.");
-            Pause();
-            return;
-        }
-
-        if (this.orderService.CancelOrderById(id))
-        {
-            Console.WriteLine($"Order {id} cancelled by admin and reservations released.");
-        }
-        else
-        {
-            Console.WriteLine("Order not found or cannot be cancelled (already in final state).");
-        }
-
-        Pause();
-    }
-
-    private void ShowUsersHash()
-    {
-        Console.Clear();
-        Console.WriteLine("=== USERS (hash check) ===\n");
-
-        var users = this.userService.GetUsersWithHashInfo().ToList();
-
-        if (users.Count == 0)
-        {
-            Console.WriteLine("No users.");
-            Pause();
-            return;
-        }
-
-        Console.WriteLine($"{"ID",4}  {"Login",-16}  {"Role",4}  {"Hash?",-6}  {"Preview",-28}");
-        Console.WriteLine(new string('-', 4 + 2 + 16 + 2 + 4 + 2 + 6 + 2 + 28));
-
-        foreach (var u in users)
-        {
-            Console.WriteLine($"{u.Id,4}  {u.Login,-16}  {u.RoleId,4}  {(u.IsHashed ? "YES" : "NO"),-6}  {u.PasswordPreview,-28}");
-        }
-
-        Pause();
-    }
-
-    private void ResetDefaultAdmin()
-    {
-        Console.Clear();
-        Console.WriteLine("=== RESET DEFAULT ADMIN ===\n");
-
-        var admin = this.userService.ResetDefaultAdmin();
-
-        Console.WriteLine($"Admin fixed: Id={admin.Id}, RoleId={admin.RoleId}, Hash={(admin.IsHashed ? "YES" : "NO")}");
-        Console.WriteLine("Use credentials: admin / Admin@123");
-
-        Pause();
-    }
-
-    private void SeedDemoOrders()
-    {
-        Console.Clear();
-        Console.WriteLine("=== SEED DEMO ORDERS ===\n");
-
-        int created = this.orderService.SeedDemoOrders();
-
-        if (created == 0)
-        {
-            Console.WriteLine("Not enough products to seed.");
-        }
-        else
-        {
-            Console.WriteLine($"Created {created} demo order(s).");
-            Console.WriteLine("Open Orders snapshot to verify.");
-        }
-
-        Pause();
-    }
-
-    private void ClearAllOrders()
-    {
-        Console.Clear();
-        Console.WriteLine("=== CLEAR ALL ORDERS ===\n");
-        Console.Write("This will DELETE all orders and zero all reservations. Proceed? [y/N]: ");
-        var key = Console.ReadKey(true).Key;
-        Console.WriteLine();
-
-        if (key != ConsoleKey.Y)
-        {
-            Console.WriteLine("Aborted.");
-            Pause();
-            return;
-        }
-
-        this.orderService.ClearAllOrders();
-        Console.WriteLine("All orders removed. Reservations reset to 0.");
 
         Pause();
     }
