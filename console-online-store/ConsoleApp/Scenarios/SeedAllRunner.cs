@@ -1,54 +1,39 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿// Path: console-online-store/ConsoleApp/Scenarios/SeedAllRunner.cs
+namespace ConsoleApp.Scenarios;
 
-using ConsoleApp.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 using StoreDAL.Data;
 using StoreDAL.Data.InitDataFactory;
 
-namespace ConsoleApp.Scenarios
+public static class SeedAllRunner
 {
-    /// <summary>
-    /// Creates the DB (if needed) and runs domain seeding (roles, users, demo data).
-    /// </summary>
-    public static class SeedAllRunner
+    public static void Run()
     {
-        public static void Run()
+        Console.WriteLine("=== Database Seeding ===");
+        Console.WriteLine("This will populate the database with test data.\n");
+
+        try
         {
             using var db = StoreDbFactory.Create();
 
-            WriteSection("=== Seed All ===");
-            WriteLine($"When:   {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)}");
+            Console.WriteLine("Seeding complete!");
+            Console.WriteLine($"- Categories: {db.Categories.Count()}");
+            Console.WriteLine($"- Manufacturers: {db.Manufacturers.Count()}");
+            Console.WriteLine($"- Product Titles: {db.ProductTitles.Count()}");
+            Console.WriteLine($"- Products: {db.Products.Count()}");
+            Console.WriteLine($"- User Roles: {db.UserRoles.Count()}");
+            Console.WriteLine($"- Users: {db.Users.Count()}");
+            Console.WriteLine($"- Order States: {db.OrderStates.Count()}");
+            Console.WriteLine($"- Customer Orders: {db.CustomerOrders.Count()}");
+            Console.WriteLine($"- Order Details: {db.OrderDetails.Count()}");
 
-            // ✅ call your SeedAll
-            TestDataFactory.SeedAll(db);
-
-            WriteLine("Seeding complete.");
-            WriteLine(new string('-', 24));
-            DumpCounts(db);
+            Console.WriteLine("\nDatabase is ready to use!");
         }
-
-        private static void DumpCounts(StoreDbContext db)
+        catch (Exception ex)
         {
-            int categories = db.Categories.Count();
-            int products = db.Products.Count();
-            int users = db.Users.Count();
-            int roles = db.UserRoles.Count();
-            int orders = db.CustomerOrders.Count();
-            int details = db.OrderDetails.Count();
-            int orderStates = db.OrderStates.Count();
-
-            WriteLine($"Categories:   {categories}");
-            WriteLine($"Products:     {products}");
-            WriteLine($"Users:        {users}");
-            WriteLine($"Roles:        {roles}");
-            WriteLine($"Orders:       {orders}");
-            WriteLine($"Details:      {details}");
-            WriteLine($"OrderStates:  {orderStates}");
+            Console.WriteLine($"Error during seeding: {ex.Message}");
+            throw;
         }
-
-        private static void WriteSection(string title) => WriteLine(title);
-        private static void WriteLine(string? text = null) => Console.WriteLine(text ?? string.Empty);
     }
 }

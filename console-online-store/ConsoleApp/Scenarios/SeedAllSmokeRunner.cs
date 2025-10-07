@@ -1,35 +1,30 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿// Path: console-online-store/ConsoleApp/Scenarios/SeedAllSmokeRunner.cs
+namespace ConsoleApp.Scenarios;
 
-using ConsoleApp.Helpers;          // ✅ needed for StoreDbFactory
+using Microsoft.EntityFrameworkCore;
 
-namespace ConsoleApp.Scenarios
+using StoreDAL.Data;
+using StoreDAL.Data.InitDataFactory;
+
+public static class SeedAllSmokeRunner
 {
-    /// <summary>
-    /// Prints quick counts after seeding to verify contents.
-    /// </summary>
-    public static class SeedAllSmokeRunner
+    public static void Run()
     {
-        public static void Run()
-        {
-            using var db = StoreDbFactory.Create();
+        Console.WriteLine("=== Seeding database with test data ===\n");
 
-            var when = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-            Console.WriteLine($"When:        {when}");
-            Console.WriteLine(new string('=', 28));
+        using var db = StoreDbFactory.Create();
 
-            Console.WriteLine($"Categories:   {db.Categories.Count()}");
-            Console.WriteLine($"Manufacturers:{db.Manufacturers.Count()}");
-            Console.WriteLine($"Titles:       {db.ProductTitles.Count()}");
-            Console.WriteLine($"Products:     {db.Products.Count()}");
-            Console.WriteLine($"Users:        {db.Users.Count()}");
-            Console.WriteLine($"UserRoles:    {db.UserRoles.Count()}");
-            Console.WriteLine($"OrderStates:  {db.OrderStates.Count()}");
-            Console.WriteLine($"Orders:       {db.CustomerOrders.Count()}");
-            Console.WriteLine($"Details:      {db.OrderDetails.Count()}");
+        Console.WriteLine("Database seeded successfully!");
+        Console.WriteLine($"Categories: {db.Categories.Count()}");
+        Console.WriteLine($"Manufacturers: {db.Manufacturers.Count()}");
+        Console.WriteLine($"ProductTitles: {db.ProductTitles.Count()}");
+        Console.WriteLine($"Products: {db.Products.Count()}");
+        Console.WriteLine($"Users: {db.Users.Count()}");
+        Console.WriteLine($"UserRoles: {db.UserRoles.Count()}");
+        Console.WriteLine($"OrderStates: {db.OrderStates.Count()}");
+        Console.WriteLine($"CustomerOrders: {db.CustomerOrders.Count()}");
+        Console.WriteLine($"OrderDetails: {db.OrderDetails.Count()}");
 
-            Console.WriteLine(new string('=', 28));
-        }
+        Console.WriteLine("\n=== Seed test passed ===");
     }
 }

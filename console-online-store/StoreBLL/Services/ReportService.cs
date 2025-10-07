@@ -1,4 +1,4 @@
-﻿// Path: console-online-store/StoreBLL/Services/ReportService.cs
+﻿''// Path: console-online-store/StoreBLL/Services/ReportService.cs
 namespace StoreBLL.Services;
 
 using System;

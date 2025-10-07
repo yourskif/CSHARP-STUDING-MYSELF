@@ -1,48 +1,44 @@
-﻿using System;
-using System.Linq;
+﻿// Path: console-online-store/ConsoleApp/Scenarios/AdminOrderStateCrudSmokeRunner.cs
+namespace ConsoleApp.Scenarios;
 
-using ConsoleApp.Helpers;
+using StoreBLL.Services;
 
 using StoreDAL.Data;
-using StoreDAL.Entities;
 
-namespace ConsoleApp.Scenarios
+public static class AdminOrderStateCrudSmokeRunner
 {
-    /// <summary>
-    /// Підсів типових станів замовлення при першому запуску (ідемпотентно) і вивід лічильника.
-    /// Відповідає Program.cs: раннер void.
-    /// </summary>
-    public static class AdminOrderStateCrudSmokeRunner
+    public static void Run()
     {
-        public static void Run()
+        using var db = StoreDbFactory.Create();
+        var service = new OrderStateService(db);
+
+        Console.WriteLine("=== Admin: Order State CRUD (smoke test) ===\n");
+
+        // GetAll
+        var all = service.GetAll().ToList();
+        Console.WriteLine($"GetAll returned {all.Count} states:");
+        foreach (var s in all)
         {
-            Console.WriteLine("=== Admin OrderState CRUD Smoke ===");
-            Console.WriteLine($"When:        {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
-            Console.WriteLine($"BaseDir:     {AppContext.BaseDirectory}");
-            Console.WriteLine("========================");
-
-            using var db = StoreDbFactory.Create();
-
-            var count = db.OrderStates.Count();
-            if (count == 0)
-            {
-                var states = new[]
-                {
-                    new OrderState { Name = "New" },
-                    new OrderState { Name = "Processing" },
-                    new OrderState { Name = "Shipped" },
-                    new OrderState { Name = "Completed" },
-                    new OrderState { Name = "Cancelled" },
-                };
-
-                db.OrderStates.AddRange(states);
-                db.SaveChanges();
-                Console.WriteLine($"Seeded {states.Length} order states.");
-            }
-
-            Console.WriteLine($"OrderStates count: {db.OrderStates.Count()}");
-            Console.WriteLine("OK.");
-            Console.WriteLine("======================================");
+            var model = (StoreBLL.Models.OrderStateModel)s;
+            Console.WriteLine($"  {model.Id}: {model.StateName}");
         }
+
+        Console.WriteLine();
+
+        // Get by id
+        Console.WriteLine("Testing GetById for states 1..8:");
+        var state1 = (StoreBLL.Models.OrderStateModel)service.GetById(1);
+        var state2 = (StoreBLL.Models.OrderStateModel)service.GetById(2);
+        var state3 = (StoreBLL.Models.OrderStateModel)service.GetById(3);
+        var state4 = (StoreBLL.Models.OrderStateModel)service.GetById(4);
+        var state5 = (StoreBLL.Models.OrderStateModel)service.GetById(5);
+
+        Console.WriteLine($"State 1: {state1.StateName}");
+        Console.WriteLine($"State 2: {state2.StateName}");
+        Console.WriteLine($"State 3: {state3.StateName}");
+        Console.WriteLine($"State 4: {state4.StateName}");
+        Console.WriteLine($"State 5: {state5.StateName}");
+
+        Console.WriteLine("\n=== Order State CRUD test passed ===");
     }
 }

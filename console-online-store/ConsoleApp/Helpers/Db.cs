@@ -1,23 +1,20 @@
-﻿using System.IO;
+﻿// Path: console-online-store/ConsoleApp/Helpers/Db.cs
+namespace ConsoleApp.Helpers;
 
 using Microsoft.EntityFrameworkCore;
 
 using StoreDAL.Data;
+using StoreDAL.Data.InitDataFactory;
 
-namespace ConsoleApp.Helpers
+public static class Db
 {
-    public static class Db
+    public static StoreDbContext CreateContext()
     {
-        public static StoreDbContext Create()
-        {
-            // кладемо SQLite-файл поруч із виконуваним
-            var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "store.db");
+        var options = new DbContextOptionsBuilder<StoreDbContext>()
+            .UseSqlite("Data Source=store.db")
+            .Options;
 
-            var options = new DbContextOptionsBuilder<StoreDbContext>()
-                .UseSqlite($"Data Source={dbPath}")
-                .Options;
-
-            return new StoreDbContext(options);
-        }
+        var factory = new TestDataFactory();
+        return new StoreDbContext(options, factory);
     }
 }

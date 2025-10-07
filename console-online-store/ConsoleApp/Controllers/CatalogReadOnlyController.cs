@@ -1,124 +1,130 @@
-﻿using System;
-using System.Linq;
+﻿// Path: console-online-store/ConsoleApp/Controllers/CatalogReadOnlyController.cs
+namespace ConsoleApp.Controllers;
+
+using Microsoft.EntityFrameworkCore;
 
 using StoreDAL.Data;
+using StoreDAL.Entities;
 
-namespace ConsoleApp.Controllers
+public static class CatalogReadOnlyController
 {
-    /// <summary>
-    /// Read-only catalog browser for Guest/User (no cart/actions yet).
-    /// </summary>
-    public static class CatalogReadOnlyController
+    public static void ShowCategories(StoreDbContext db)
     {
-        /// <summary>
-        /// Entry point: show categories and drill down to products.
-        /// </summary>
-        public static void Browse(StoreDbContext db)
+        var categories = db.Categories
+            .AsNoTracking()
+            .OrderBy(c => c.Id)
+            .ToList();
+
+        Console.WriteLine("\n=== Categories ===");
+        if (categories.Count == 0)
         {
-            ArgumentNullException.ThrowIfNull(db);
-
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("=== CATEGORIES ===");
-
-                // IMPORTANT: materialize BEFORE adding indexes — EF can't translate Select with (value, index)
-                var cats = db.Categories
-                    .OrderBy(c => c.Name)
-                    .Select(c => new { c.Id, c.Name })
-                    .ToList();
-
-                if (cats.Count == 0)
-                {
-                    Console.WriteLine("No categories yet.");
-                    Console.WriteLine("Esc) Back");
-                    if (Console.ReadKey(true).Key == ConsoleKey.Escape) return;
-                    continue;
-                }
-
-                for (int i = 0; i < cats.Count; i++)
-                    Console.WriteLine($"{i + 1}) {cats[i].Name}");
-
-                Console.WriteLine("Esc) Back");
-                var key = Console.ReadKey(true).Key;
-
-                if (key == ConsoleKey.Escape)
-                    return;
-
-                int idx = KeyToIndex(key, cats.Count);
-                if (idx >= 0)
-                {
-                    var cat = cats[idx];
-                    ShowProductsInCategory(db, cat.Id, cat.Name);
-                }
-            }
+            Console.WriteLine("No categories found.");
+            return;
         }
 
-        private static void ShowProductsInCategory(StoreDbContext db, int categoryId, string categoryName)
+        foreach (var cat in categories)
         {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine($"=== PRODUCTS: {categoryName} ===");
+            Console.WriteLine($"{cat.Id}: {cat.Name}");
+        }
+    }
 
-                // Use an explicit join to avoid relying on navigation Includes.
-                var prods = (
-                    from p in db.Products
-                    join t in db.ProductTitles on p.TitleId equals t.Id
-                    join m in db.Manufacturers on p.ManufacturerId equals m.Id
-                    where t.CategoryId == categoryId
-                    orderby t.Title, m.Name
-                    select new
-                    {
-                        p.Id,
-                        Title = t.Title,
-                        Manufacturer = m.Name,
-                        p.UnitPrice,
-                        p.Stock
-                    })
-                    .ToList();
+    public static void ShowCategoriesWithProductCount(StoreDbContext db)
+    {
+        var categories = db.Categories
+            .AsNoTracking()
+            .OrderBy(c => c.Id)
+            .ToList();
 
-                if (prods.Count == 0)
-                {
-                    Console.WriteLine("No products in this category.");
-                }
-                else
-                {
-                    for (int i = 0; i < prods.Count; i++)
-                    {
-                        var x = prods[i];
-                        Console.WriteLine($"{i + 1}) {x.Title} / {x.Manufacturer} | Price: {x.UnitPrice:0.##} | Stock: {x.Stock}");
-                    }
-                }
-
-                Console.WriteLine("Esc) Back");
-                if (Console.ReadKey(true).Key == ConsoleKey.Escape)
-                    return;
-            }
+        Console.WriteLine("\n=== Categories with Product Count ===");
+        if (categories.Count == 0)
+        {
+            Console.WriteLine("No categories found.");
         }
 
-        /// <summary>
-        /// Convert number key to zero-based index (1..n -> 0..n-1). Returns -1 if not a number or out of range.
-        /// </summary>
-        private static int KeyToIndex(ConsoleKey key, int count)
+        foreach (var cat in categories)
         {
-            int digit = key switch
-            {
-                ConsoleKey.D1 or ConsoleKey.NumPad1 => 1,
-                ConsoleKey.D2 or ConsoleKey.NumPad2 => 2,
-                ConsoleKey.D3 or ConsoleKey.NumPad3 => 3,
-                ConsoleKey.D4 or ConsoleKey.NumPad4 => 4,
-                ConsoleKey.D5 or ConsoleKey.NumPad5 => 5,
-                ConsoleKey.D6 or ConsoleKey.NumPad6 => 6,
-                ConsoleKey.D7 or ConsoleKey.NumPad7 => 7,
-                ConsoleKey.D8 or ConsoleKey.NumPad8 => 8,
-                ConsoleKey.D9 or ConsoleKey.NumPad9 => 9,
-                _ => -1
-            };
+            var count = db.ProductTitles.Count(pt => pt.CategoryId == cat.Id);
+            Console.WriteLine($"{cat.Id}: {cat.Name} ({count} product titles)");
+        }
 
-            if (digit <= 0) return -1;
-            int idx = digit - 1;
-            return (idx >= 0 && idx < count) ? idx : -1;
+        Console.WriteLine("\nPress key to select category or ESC to return...");
+        var key = Console.ReadKey(true);
+        if (key.Key == ConsoleKey.Escape)
+        {
+            return;
+        }
+
+        if (int.TryParse(key.KeyChar.ToString(), out var categoryId))
+        {
+            var category = categories.FirstOrDefault(c => c.Id == categoryId);
+            if (category != null)
+            {
+                ShowProductsInCategory(db, categoryId, category.Name ?? "Unknown");
+            }
+        }
+    }
+
+    public static void ShowProductsInCategory(StoreDbContext db, int categoryId, string categoryName)
+    {
+        var products = db.Products
+            .Include(p => p.Title)
+            .Include(p => p.Manufacturer)
+            .Where(p => p.Title != null && p.Title.CategoryId == categoryId)
+            .AsNoTracking()
+            .OrderBy(p => p.Id)
+            .Select(p => new
+            {
+                p.Id,
+                Title = p.Title!.Title ?? "Unknown",
+                Manufacturer = p.Manufacturer!.Name ?? "Unknown",
+                p.UnitPrice,
+                p.StockQuantity,
+                p.ReservedQuantity,
+                Available = p.StockQuantity - p.ReservedQuantity,
+            })
+            .ToList();
+
+        Console.WriteLine($"\n=== Products in category: {categoryName} ===");
+        if (products.Count == 0)
+        {
+            Console.WriteLine("No products in this category.");
+            return;
+        }
+
+        foreach (var p in products)
+        {
+            Console.WriteLine($"[{p.Id}] {p.Title} by {p.Manufacturer}");
+            Console.WriteLine($"    Price: ${p.UnitPrice:F2} | Stock: {p.StockQuantity} | Reserved: {p.ReservedQuantity} | Available: {p.Available}");
+        }
+    }
+
+    public static void ShowAllProducts(StoreDbContext db)
+    {
+        var products = db.Products
+            .Include(p => p.Title)
+                .ThenInclude(t => t!.Category)
+            .Include(p => p.Manufacturer)
+            .AsNoTracking()
+            .OrderBy(p => p.Id)
+            .ToList();
+
+        Console.WriteLine("\n=== All Products ===");
+        if (products.Count == 0)
+        {
+            Console.WriteLine("No products found.");
+            return;
+        }
+
+        foreach (var p in products)
+        {
+            var title = p.Title?.Title ?? "Unknown";
+            var category = p.Title?.Category?.Name ?? "No category";
+            var manufacturer = p.Manufacturer?.Name ?? "Unknown";
+            var available = p.StockQuantity - p.ReservedQuantity;
+
+            Console.WriteLine($"[{p.Id}] {title}");
+            Console.WriteLine($"    Category: {category} | Manufacturer: {manufacturer}");
+            Console.WriteLine($"    Price: ${p.UnitPrice:F2} | Stock: {p.StockQuantity} | Reserved: {p.ReservedQuantity} | Available: {available}");
         }
     }
 }
