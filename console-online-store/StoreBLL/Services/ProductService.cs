@@ -115,7 +115,7 @@
                 ReservedQuantity = 0,
             };
 
-            this.context.Products.Add(p); // ⚠️ Використовуємо context замість repository
+            this.context.Products.Add(p); // NOTE: Using context directly instead of repository
             this.context.SaveChanges();
 
             return MapToModel(p);
@@ -170,7 +170,7 @@
                 return false;
             }
 
-            this.context.Products.Remove(p); // ⚠️ Використовуємо context замість repository
+            this.context.Products.Remove(p); // NOTE: Using context directly instead of repository
             this.context.SaveChanges();
             return true;
         }

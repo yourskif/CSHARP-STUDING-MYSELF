@@ -1,8 +1,8 @@
 namespace StoreBLL.Models
 {
     /// <summary>
-    /// Detailed product model (СЂРѕР·С€РёСЂСЋС” ProductModel).
-    /// Р’РёРєРѕСЂРёСЃС‚РѕРІСѓС”С‚СЊСЃСЏ СЃРµСЂРІС–СЃРѕРј РґР»СЏ РїРѕРІРµСЂРЅРµРЅРЅСЏ РґРµС‚Р°Р»СЊРЅРѕС— С–РЅС„РѕСЂРјР°С†С–С— РїСЂРѕ С‚РѕРІР°СЂ.
+    /// Detailed product model (extends ProductModel).
+    /// Currently functionally identical to ProductModel - maintained for potential future extensions.
     /// </summary>
     public class ProductDetailsModel : ProductModel
     {
@@ -32,7 +32,7 @@ namespace StoreBLL.Models
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductDetailsModel"/> class.
-        /// Initializes a new instance with string category/manufacturer (РґР»СЏ СЃСѓРјС–СЃРЅРѕСЃС‚С– Р·С– СЃС‚Р°СЂРёРјРё РІРёРєР»РёРєР°РјРё).
+        /// Initializes a new instance with string category/manufacturer (for compatibility with legacy callers).
         /// </summary>
         public ProductDetailsModel(
             int id,

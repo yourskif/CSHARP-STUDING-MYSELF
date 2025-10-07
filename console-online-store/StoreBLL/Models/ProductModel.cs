@@ -1,4 +1,4 @@
-// Path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Models\ProductModel.csnamespace StoreBLL.Models
+namespace StoreBLL.Models
 {
     /// <summary>
     /// Full product model with reservation support.
