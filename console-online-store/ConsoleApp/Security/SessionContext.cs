@@ -8,8 +8,11 @@ namespace ConsoleApp.Security
     public static class SessionContext
     {
         public static bool IsAuthenticated { get; private set; }
+
         public static int? UserId { get; private set; }
+
         public static string UserName { get; private set; } = string.Empty;
+
         public static string RoleName { get; private set; } = "Guest";
 
         public static void SignIn(int userId, string userName, string roleName)

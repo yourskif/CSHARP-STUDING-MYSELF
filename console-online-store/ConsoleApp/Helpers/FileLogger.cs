@@ -89,6 +89,7 @@ namespace ConsoleApp.Helpers
                 {
                     consoleWrapped = new NonDisposableTextWriter(originalConsoleOut);
                     teeWriter = new MultiTextWriter(consoleWrapped, fileWriter!);
+
                     // Власність передано в MultiTextWriter → щоб не подвійно не звільнити в finally
                     consoleWrapped = null;
                     Console.SetOut(teeWriter);
@@ -246,9 +247,13 @@ namespace ConsoleApp.Helpers
             public override Encoding Encoding => this.inner.Encoding;
 
             public override void Write(char value) => this.inner.Write(value);
+
             public override void Write(string? value) => this.inner.Write(value);
+
             public override void Write(char[] buffer, int index, int count) => this.inner.Write(buffer, index, count);
+
             public override void WriteLine(string? value) => this.inner.WriteLine(value);
+
             public override void Flush() => this.inner.Flush();
 
             protected override void Dispose(bool disposing)

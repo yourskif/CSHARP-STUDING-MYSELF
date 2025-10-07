@@ -35,8 +35,8 @@ namespace StoreDAL.Repository
 
         public virtual IEnumerable<T> GetAll(int pageNumber, int rowCount)
         {
-            if (pageNumber <= 0) throw new ArgumentOutOfRangeException(nameof(pageNumber));
-            if (rowCount <= 0) throw new ArgumentOutOfRangeException(nameof(rowCount));
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageNumber);
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(rowCount);
 
             return this.set.AsNoTracking()
                 .Skip((pageNumber - 1) * rowCount)

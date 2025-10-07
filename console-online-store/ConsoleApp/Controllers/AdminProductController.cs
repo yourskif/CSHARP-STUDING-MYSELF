@@ -166,7 +166,6 @@ public class AdminProductController
     }
 
     // ---------- Input helpers ----------
-
     private static void Pause(string message)
     {
         Console.WriteLine(message);

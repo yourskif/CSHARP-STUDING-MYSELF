@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 using ConsoleApp.Helpers;
@@ -17,14 +18,13 @@ namespace ConsoleApp.Scenarios
         public static int Run()
         {
             Console.WriteLine("=== Admin CRUD Smoke ===");
-            Console.WriteLine($"When:        {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+            Console.WriteLine($"When:        {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)}");
             Console.WriteLine($"BaseDir:     {AppContext.BaseDirectory}");
             Console.WriteLine("========================");
 
             try
             {
                 using var db = StoreDbFactory.Create();
-
                 var before = db.Categories.Count();
                 Console.WriteLine($"Categories before: {before}");
 
@@ -37,7 +37,6 @@ namespace ConsoleApp.Scenarios
                         new Category { Name = "Household" },
                         new Category { Name = "Personal Care" },
                     };
-
                     db.Categories.AddRange(seeds);
                     db.SaveChanges();
                     Console.WriteLine($"Seeded {seeds.Length} categories.");
@@ -45,7 +44,7 @@ namespace ConsoleApp.Scenarios
                 else
                 {
                     // Невелика CRUD-операція для перевірки запису.
-                    var cat = new Category { Name = "Temp " + DateTime.Now.ToString("HHmmss") };
+                    var cat = new Category { Name = "Temp " + DateTime.Now.ToString("HHmmss", CultureInfo.InvariantCulture) };
                     db.Categories.Add(cat);
                     db.SaveChanges();
                     Console.WriteLine($"Created Category Id: {cat.Id}");
