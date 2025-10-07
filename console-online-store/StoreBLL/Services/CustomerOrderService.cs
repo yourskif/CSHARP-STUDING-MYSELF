@@ -50,6 +50,11 @@ namespace StoreBLL.Services
             this.logger = logger ?? NullLogger<CustomerOrderService>.Instance;
         }
 
+        /// <summary>
+        /// Gets the human-readable name for an order state ID.
+        /// </summary>
+        /// <param name="id">Order state identifier (1-8).</param>
+        /// <returns>Descriptive name of the order state, or "Unknown" if ID is invalid.</returns>
         public static string StatusName(int id) =>
             id switch
             {
@@ -64,14 +69,30 @@ namespace StoreBLL.Services
                 _ => "Unknown",
             };
 
+        /// <summary>
+        /// Gets the list of allowed next states for a given current state.
+        /// </summary>
+        /// <param name="currentStateId">Current order state identifier.</param>
+        /// <returns>Read-only list of allowed next state IDs, or empty list if no transitions are allowed.</returns>
         public static IReadOnlyList<int> GetAllowedNextStates(int currentStateId) =>
             AllowedTransitions.TryGetValue(currentStateId, out var arr)
                 ? Array.AsReadOnly(arr)
                 : Array.Empty<int>();
 
+        /// <summary>
+        /// Checks if a state transition is valid according to the order workflow rules.
+        /// </summary>
+        /// <param name="fromStateId">Source state identifier.</param>
+        /// <param name="toStateId">Target state identifier.</param>
+        /// <returns><see langword="true"/> if the transition is allowed; otherwise, <see langword="false"/>.</returns>
         public static bool CanTransition(int fromStateId, int toStateId) =>
             AllowedTransitions.TryGetValue(fromStateId, out var allowed) && allowed.Contains(toStateId);
 
+        /// <summary>
+        /// Adds a new customer order to the database.
+        /// </summary>
+        /// <param name="model">Customer order model containing order details.</param>
+        /// <exception cref="ArgumentException">Thrown when model is not of type CustomerOrderModel.</exception>
         public void Add(AbstractModel model)
         {
             if (model is not CustomerOrderModel m)
@@ -92,12 +113,21 @@ namespace StoreBLL.Services
             this.logger.LogInformation("Order {OrderId} created for user {UserId} with state {StateId}", entity.Id, m.UserId, m.OrderStateId);
         }
 
+        /// <summary>
+        /// Deletes a customer order from the database by ID.
+        /// </summary>
+        /// <param name="modelId">Order identifier to delete.</param>
+        /// <remarks>WARNING: This method does not automatically release stock reservations. Ensure reservations are handled before deletion.</remarks>
         public void Delete(int modelId)
         {
             this.logger.LogWarning("Deleting order {OrderId}. Ensure reservations are released manually.", modelId);
             this.repository.DeleteById(modelId);
         }
 
+        /// <summary>
+        /// Retrieves all customer orders from the database.
+        /// </summary>
+        /// <returns>Collection of all customer order models.</returns>
         public IEnumerable<AbstractModel> GetAll() =>
             this.repository.GetAll().Select(o =>
                 new CustomerOrderModel(
@@ -106,6 +136,12 @@ namespace StoreBLL.Services
                     operationTime: o.OperationTime,
                     orderStateId: o.OrderStateId));
 
+        /// <summary>
+        /// Retrieves a customer order by its identifier.
+        /// </summary>
+        /// <param name="id">Order identifier.</param>
+        /// <returns>Customer order model with the specified ID.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when order with specified ID does not exist.</exception>
         public AbstractModel GetById(int id)
         {
             var o = this.repository.GetById(id)
@@ -118,6 +154,11 @@ namespace StoreBLL.Services
                 orderStateId: o.OrderStateId);
         }
 
+        /// <summary>
+        /// Updates an existing customer order in the database.
+        /// </summary>
+        /// <param name="model">Customer order model with updated values.</param>
+        /// <exception cref="ArgumentException">Thrown when model is not of type CustomerOrderModel.</exception>
         public void Update(AbstractModel model)
         {
             if (model is not CustomerOrderModel m)
@@ -140,6 +181,14 @@ namespace StoreBLL.Services
             this.logger.LogInformation("Order {OrderId} updated", m.Id);
         }
 
+        /// <summary>
+        /// Attempts to change the state of an order according to workflow rules.
+        /// Automatically handles stock reservations and releases based on state transitions.
+        /// </summary>
+        /// <param name="orderId">Order identifier.</param>
+        /// <param name="newStateId">Target state identifier.</param>
+        /// <param name="error">Output parameter containing error description if transition fails.</param>
+        /// <returns><see langword="true"/> if state was changed successfully; otherwise, <see langword="false"/>.</returns>
         public bool TryChangeState(int orderId, int newStateId, out string error)
         {
             error = string.Empty;
@@ -195,6 +244,14 @@ namespace StoreBLL.Services
             return true;
         }
 
+        /// <summary>
+        /// Allows a user to cancel their own order if it is in "New Order" state.
+        /// Automatically releases all stock reservations associated with the order.
+        /// </summary>
+        /// <param name="orderId">Order identifier.</param>
+        /// <param name="userId">User identifier attempting to cancel the order.</param>
+        /// <param name="error">Output parameter containing error description if cancellation fails.</param>
+        /// <returns><see langword="true"/> if order was cancelled successfully; otherwise, <see langword="false"/>.</returns>
         public bool CancelOwnOrder(int orderId, int userId, out string error)
         {
             error = string.Empty;
@@ -242,6 +299,15 @@ namespace StoreBLL.Services
             return true;
         }
 
+        /// <summary>
+        /// Allows a user to mark their order as received (confirm delivery).
+        /// Only orders in "Delivered to client" state can be confirmed.
+        /// Automatically finalizes stock operations when delivery is confirmed.
+        /// </summary>
+        /// <param name="orderId">Order identifier.</param>
+        /// <param name="userId">User identifier attempting to confirm receipt.</param>
+        /// <param name="error">Output parameter containing error description if confirmation fails.</param>
+        /// <returns><see langword="true"/> if delivery was confirmed successfully; otherwise, <see langword="false"/>.</returns>
         public bool MarkAsReceived(int orderId, int userId, out string error)
         {
             error = string.Empty;
@@ -290,6 +356,11 @@ namespace StoreBLL.Services
             return true;
         }
 
+        /// <summary>
+        /// Retrieves all orders for a specific user, ordered by ID descending (most recent first).
+        /// </summary>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>Collection of customer order models belonging to the specified user.</returns>
         public IEnumerable<CustomerOrderModel> GetOrdersByUser(int userId) =>
             this.repository.GetAll()
                 .Where(o => o.UserId == userId)
