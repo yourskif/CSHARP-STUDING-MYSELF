@@ -1,9 +1,11 @@
+// Path: console-online-store/StoreDAL/Entities/Category.cs
 namespace StoreDAL.Entities;
 
 using System.ComponentModel.DataAnnotations.Schema;
 
 /// <summary>
-/// Product category.
+/// Product category entity.
+/// Table structure matches TZ diagram exactly.
 /// </summary>
 [Table("categories")]
 public class Category : BaseEntity
@@ -19,6 +21,10 @@ public class Category : BaseEntity
         this.Name = name;
     }
 
-    [Column("name")]
+    /// <summary>
+    /// Gets or sets the category name.
+    /// Database column: category_name (per TZ diagram)
+    /// </summary>
+    [Column("category_name")]
     public string? Name { get; set; }
 }

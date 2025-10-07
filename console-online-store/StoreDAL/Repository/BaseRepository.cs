@@ -1,4 +1,4 @@
-﻿// StoreDAL/Repository/BaseRepository.cs
+﻿// Path: console-online-store/StoreDAL/Repository/BaseRepository.cs
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 using StoreDAL.Data;
+using StoreDAL.Entities;
 using StoreDAL.Interfaces;
 
 namespace StoreDAL.Repository
@@ -13,15 +14,14 @@ namespace StoreDAL.Repository
     /// <summary>
     /// EF Core base repository providing generic CRUD operations.
     /// </summary>
-    /// <typeparam name="T">Entity type.</typeparam>
+    /// <typeparam name="T">Entity type that inherits from BaseEntity.</typeparam>
     public class BaseRepository<T> : IRepository<T>
-        where T : class
+        where T : BaseEntity
     {
         protected readonly StoreDbContext context;
         protected readonly DbSet<T> set;
 
         public BaseRepository(StoreDbContext context)
-            : base()
         {
             ArgumentNullException.ThrowIfNull(context);
             this.context = context;
@@ -44,35 +44,40 @@ namespace StoreDAL.Repository
                 .ToList();
         }
 
-        public virtual T? GetById(int id)
+        public virtual T GetById(int id)
         {
             return this.set.Find(id);
         }
 
-        public virtual int Create(T entity)
+        public virtual void Add(T entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             this.set.Add(entity);
-            return this.context.SaveChanges();
+            this.context.SaveChanges();
         }
 
-        public virtual bool Update(T entity)
+        public virtual void Delete(T entity)
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            this.set.Remove(entity);
+            this.context.SaveChanges();
+        }
+
+        public virtual void DeleteById(int id)
+        {
+            var entity = this.set.Find(id);
+            if (entity != null)
+            {
+                this.set.Remove(entity);
+                this.context.SaveChanges();
+            }
+        }
+
+        public virtual void Update(T entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             this.set.Update(entity);
-            return this.context.SaveChanges() > 0;
-        }
-
-        public virtual bool Delete(int id)
-        {
-            var entity = this.set.Find(id);
-            if (entity is null)
-            {
-                return false;
-            }
-
-            this.set.Remove(entity);
-            return this.context.SaveChanges() > 0;
+            this.context.SaveChanges();
         }
     }
 }
