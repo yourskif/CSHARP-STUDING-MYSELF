@@ -1,4 +1,4 @@
-﻿// Path: console-online-store/StoreDAL/UnitOfWork/UnitOfWork.cs
+﻿// Path: console-online-store/StoreDAL/UnitOfWork/StoreUnitOfWork.cs
 using System;
 using System.Threading.Tasks;
 
@@ -14,16 +14,29 @@ namespace StoreDAL.UnitOfWork
     /// Unit of Work implementation that coordinates multiple repositories and manages transactions.
     /// Ensures all changes across repositories are saved atomically.
     /// </summary>
+    /// <remarks>
+    /// ARCHITECTURAL NOTE:
+    /// This implementation provides both repository access AND direct context access.
+    ///
+    /// Design Choice: Hybrid Pattern
+    /// - Services use Context property for complex EF Core queries (Include, EF.Functions, etc.)
+    /// - Repositories handle basic CRUD without SaveChanges
+    /// - UnitOfWork.SaveChanges() provides transaction boundary
+    ///
+    /// Benefits:
+    /// + Full EF Core feature access (no leaky abstractions)
+    /// + Clear transaction boundaries
+    /// + Testable through IStoreUnitOfWork interface
+    /// + Flexible for complex business logic
+    /// </remarks>
     public sealed class StoreUnitOfWork : IStoreUnitOfWork
     {
         private readonly StoreDbContext context;
         private IDbContextTransaction? transaction;
-
         private IProductRepository? products;
         private IUserRepository? users;
         private ICustomerOrderRepository? orders;
         private IOrderDetailRepository? orderDetails;
-
         private bool disposed;
 
         /// <summary>
@@ -35,6 +48,9 @@ namespace StoreDAL.UnitOfWork
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
+
+        /// <inheritdoc/>
+        public StoreDbContext Context => this.context;
 
         /// <inheritdoc/>
         public IProductRepository Products =>

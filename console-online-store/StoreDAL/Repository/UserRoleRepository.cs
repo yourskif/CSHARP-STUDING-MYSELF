@@ -32,10 +32,9 @@ namespace StoreDAL.Repository
 
         /// <summary>
         /// Gets a user role by name using case-sensitive comparison.
-        /// Uses EF.Property to access the Name property for querying.
         /// </summary>
         public UserRole? GetByName(string name) =>
-            this.context.UserRoles.FirstOrDefault(r => EF.Property<string>(r, "Name") == name);
+            this.context.UserRoles.FirstOrDefault(r => r.RoleName == name);
 
         /// <summary>
         /// Gets all user roles from the database.

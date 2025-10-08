@@ -1,4 +1,4 @@
-﻿// Path: C:\Users\SK\source\repos\C#\1414\console-online-store\StoreBLL\Services\StockReservationService.cs
+﻿// Path: console-online-store/StoreBLL/Services/StockReservationService.cs
 namespace StoreBLL.Services;
 
 using System;
@@ -6,7 +6,7 @@ using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Stock reservations and delivery confirmation helpers.
@@ -14,11 +14,16 @@ using StoreDAL.Data;
 /// </summary>
 public sealed class StockReservationService
 {
-    private readonly StoreDbContext context;
+    private readonly IStoreUnitOfWork unitOfWork;
 
-    public StockReservationService(StoreDbContext context)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StockReservationService"/> class.
+    /// </summary>
+    /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+    /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+    public StockReservationService(IStoreUnitOfWork unitOfWork)
     {
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
     /// <summary>
@@ -27,7 +32,7 @@ public sealed class StockReservationService
     /// </summary>
     public void ReleaseOrderReservations(int orderId)
     {
-        var details = this.context.OrderDetails
+        var details = this.unitOfWork.Context.OrderDetails
             .Where(d => d.OrderId == orderId)
             .ToList();
 
@@ -38,7 +43,7 @@ public sealed class StockReservationService
 
         // Fetch needed products in one query
         var pids = details.Select(d => d.ProductId).Distinct().ToList();
-        var products = this.context.Products
+        var products = this.unitOfWork.Context.Products
             .Where(p => pids.Contains(p.Id))
             .ToDictionary(p => p.Id);
 
@@ -56,7 +61,7 @@ public sealed class StockReservationService
             p.ReservedQuantity = newReserved < 0 ? 0 : newReserved;
         }
 
-        this.context.SaveChanges();
+        this.unitOfWork.SaveChanges();
     }
 
     /// <summary>
@@ -66,7 +71,7 @@ public sealed class StockReservationService
     public void ConfirmOrderDelivery(int orderId)
     {
         // CRITICAL: Check if order is already confirmed (state 8)
-        var order = this.context.CustomerOrders
+        var order = this.unitOfWork.Context.CustomerOrders
             .AsNoTracking()
             .FirstOrDefault(o => o.Id == orderId);
 
@@ -83,7 +88,7 @@ public sealed class StockReservationService
             return;
         }
 
-        var details = this.context.OrderDetails
+        var details = this.unitOfWork.Context.OrderDetails
             .Where(d => d.OrderId == orderId)
             .ToList();
 
@@ -93,7 +98,7 @@ public sealed class StockReservationService
         }
 
         var pids = details.Select(d => d.ProductId).Distinct().ToList();
-        var products = this.context.Products
+        var products = this.unitOfWork.Context.Products
             .Where(p => pids.Contains(p.Id))
             .ToDictionary(p => p.Id);
 
@@ -113,6 +118,6 @@ public sealed class StockReservationService
             p.StockQuantity = Math.Max(0, newStock);
         }
 
-        this.context.SaveChanges();
+        this.unitOfWork.SaveChanges();
     }
 }

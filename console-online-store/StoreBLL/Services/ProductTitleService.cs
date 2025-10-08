@@ -1,3 +1,4 @@
+// Path: console-online-store/StoreBLL/Services/ProductTitleService.cs
 namespace StoreBLL.Services;
 
 using System;
@@ -9,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using StoreBLL.Interfaces;
 using StoreBLL.Models;
 
-using StoreDAL.Data;
 using StoreDAL.Entities;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Service for managing product titles (catalog items without SKU/price).
@@ -19,16 +20,16 @@ using StoreDAL.Entities;
 /// </summary>
 public sealed class ProductTitleService : ICrud
 {
-    private readonly StoreDbContext context;
+    private readonly IStoreUnitOfWork unitOfWork;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProductTitleService"/> class.
     /// </summary>
-    /// <param name="context">EF Core database context.</param>
-    /// <exception cref="ArgumentNullException">Thrown when context is null.</exception>
-    public ProductTitleService(StoreDbContext context)
+    /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+    /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+    public ProductTitleService(IStoreUnitOfWork unitOfWork)
     {
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
     /// <summary>
@@ -37,7 +38,7 @@ public sealed class ProductTitleService : ICrud
     /// <returns>Collection of product title models ordered by Id.</returns>
     public IEnumerable<AbstractModel> GetAll()
     {
-        return this.context.ProductTitles
+        return this.unitOfWork.Context.ProductTitles
             .AsNoTracking()
             .OrderBy(pt => pt.Id)
             .Select(pt => new ProductTitleModel(pt.Id, pt.Title ?? string.Empty, pt.CategoryId))
@@ -52,7 +53,7 @@ public sealed class ProductTitleService : ICrud
     /// <exception cref="KeyNotFoundException">Thrown when product title with specified id is not found.</exception>
     public AbstractModel GetById(int id)
     {
-        var pt = this.context.ProductTitles
+        var pt = this.unitOfWork.Context.ProductTitles
             .AsNoTracking()
             .FirstOrDefault(p => p.Id == id);
 
@@ -84,7 +85,7 @@ public sealed class ProductTitleService : ICrud
         }
 
         // Validate that category exists
-        if (!this.context.Categories.Any(c => c.Id == m.CategoryId))
+        if (!this.unitOfWork.Context.Categories.Any(c => c.Id == m.CategoryId))
         {
             throw new InvalidOperationException($"Category with id {m.CategoryId} not found.");
         }
@@ -95,8 +96,8 @@ public sealed class ProductTitleService : ICrud
             CategoryId = m.CategoryId,
         };
 
-        this.context.ProductTitles.Add(entity);
-        this.context.SaveChanges();
+        this.unitOfWork.Context.ProductTitles.Add(entity);
+        this.unitOfWork.SaveChanges();
 
         // Update model Id with generated value
         m.Id = entity.Id;
@@ -117,7 +118,7 @@ public sealed class ProductTitleService : ICrud
             throw new ArgumentException("Expected ProductTitleModel", nameof(model));
         }
 
-        var entity = this.context.ProductTitles.Find(m.Id);
+        var entity = this.unitOfWork.Context.ProductTitles.Find(m.Id);
         if (entity == null)
         {
             throw new KeyNotFoundException($"ProductTitle with id {m.Id} not found.");
@@ -129,14 +130,14 @@ public sealed class ProductTitleService : ICrud
         }
 
         // Validate that category exists
-        if (!this.context.Categories.Any(c => c.Id == m.CategoryId))
+        if (!this.unitOfWork.Context.Categories.Any(c => c.Id == m.CategoryId))
         {
             throw new InvalidOperationException($"Category with id {m.CategoryId} not found.");
         }
 
         entity.Title = m.Title;
         entity.CategoryId = m.CategoryId;
-        this.context.SaveChanges();
+        this.unitOfWork.SaveChanges();
     }
 
     /// <summary>
@@ -147,14 +148,14 @@ public sealed class ProductTitleService : ICrud
     /// <exception cref="InvalidOperationException">Thrown when product title has products referencing it.</exception>
     public void Delete(int modelId)
     {
-        var entity = this.context.ProductTitles.Find(modelId);
+        var entity = this.unitOfWork.Context.ProductTitles.Find(modelId);
         if (entity == null)
         {
             return; // Idempotent delete - no error if already deleted
         }
 
         // Check if any products reference this title
-        var productsCount = this.context.Products
+        var productsCount = this.unitOfWork.Context.Products
             .Count(p => p.ProductTitleId == modelId);
 
         if (productsCount > 0)
@@ -163,7 +164,7 @@ public sealed class ProductTitleService : ICrud
                 $"Cannot delete product title '{entity.Title}' (ID: {modelId}) because it has {productsCount} product(s) referencing it. Remove or reassign products first.");
         }
 
-        this.context.ProductTitles.Remove(entity);
-        this.context.SaveChanges();
+        this.unitOfWork.Context.ProductTitles.Remove(entity);
+        this.unitOfWork.SaveChanges();
     }
 }

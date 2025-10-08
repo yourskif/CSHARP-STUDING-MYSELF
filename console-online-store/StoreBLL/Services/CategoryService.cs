@@ -1,4 +1,4 @@
-﻿// Full path: C:\Users\SK\source\repos\C#\CSHARP-STUDING-MYSELF\console-online-store\StoreBLL\Services\CategoryService.cs
+﻿// Path: console-online-store/StoreBLL/Services/CategoryService.cs
 namespace StoreBLL.Services
 {
     using System;
@@ -9,8 +9,8 @@ namespace StoreBLL.Services
 
     using StoreBLL.Models;
 
-    using StoreDAL.Data;
     using StoreDAL.Entities;
+    using StoreDAL.UnitOfWork;
 
     /// <summary>
     /// Service for working with categories (EF Core).
@@ -20,17 +20,17 @@ namespace StoreBLL.Services
     /// </summary>
     public sealed class CategoryService
     {
-        private readonly StoreDbContext context;
+        private readonly IStoreUnitOfWork unitOfWork;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CategoryService"/> class.
         /// </summary>
-        /// <param name="context">EF Core database context.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="context"/> is <see langword="null"/>.</exception>
-        public CategoryService(StoreDbContext context)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="unitOfWork"/> is <see langword="null"/>.</exception>
+        public CategoryService(IStoreUnitOfWork unitOfWork)
         {
-            ArgumentNullException.ThrowIfNull(context);
-            this.context = context;
+            ArgumentNullException.ThrowIfNull(unitOfWork);
+            this.unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace StoreBLL.Services
         /// <returns>Collection of all categories as <see cref="CategoryModel"/> instances.</returns>
         public IEnumerable<CategoryModel> GetAll()
         {
-            return this.context.Categories
+            return this.unitOfWork.Context.Categories
                 .AsNoTracking()
                 .OrderBy(c => c.Id)
                 .Select(c => new CategoryModel(c.Id, c.Name ?? string.Empty))
@@ -56,7 +56,7 @@ namespace StoreBLL.Services
         /// </returns>
         public CategoryModel? GetById(int id)
         {
-            var entity = this.context.Categories
+            var entity = this.unitOfWork.Context.Categories
                 .AsNoTracking()
                 .FirstOrDefault(c => c.Id == id);
 
@@ -82,7 +82,7 @@ namespace StoreBLL.Services
             }
 
             // Check for duplicate name (case-insensitive)
-            if (this.context.Categories.Any(c => c.Name != null && c.Name.ToLower() == model.Name.ToLower()))
+            if (this.unitOfWork.Context.Categories.Any(c => c.Name != null && c.Name.ToLower() == model.Name.ToLower()))
             {
                 throw new InvalidOperationException($"Category with name '{model.Name}' already exists.");
             }
@@ -92,8 +92,8 @@ namespace StoreBLL.Services
                 Name = model.Name,
             };
 
-            this.context.Categories.Add(entity);
-            this.context.SaveChanges();
+            this.unitOfWork.Context.Categories.Add(entity);
+            this.unitOfWork.SaveChanges();
 
             return new CategoryModel(entity.Id, entity.Name ?? string.Empty);
         }
@@ -111,7 +111,7 @@ namespace StoreBLL.Services
         {
             ArgumentNullException.ThrowIfNull(model);
 
-            var entity = this.context.Categories.FirstOrDefault(c => c.Id == model.Id);
+            var entity = this.unitOfWork.Context.Categories.FirstOrDefault(c => c.Id == model.Id);
             if (entity is null)
             {
                 return false;
@@ -123,13 +123,13 @@ namespace StoreBLL.Services
             }
 
             // Check for duplicate name (case-insensitive, excluding current entity)
-            if (this.context.Categories.Any(c => c.Id != model.Id && c.Name != null && c.Name.ToLower() == model.Name.ToLower()))
+            if (this.unitOfWork.Context.Categories.Any(c => c.Id != model.Id && c.Name != null && c.Name.ToLower() == model.Name.ToLower()))
             {
                 throw new InvalidOperationException($"Category with name '{model.Name}' already exists.");
             }
 
             entity.Name = model.Name;
-            this.context.SaveChanges();
+            this.unitOfWork.SaveChanges();
             return true;
         }
 
@@ -142,14 +142,14 @@ namespace StoreBLL.Services
         /// <exception cref="InvalidOperationException">Thrown when category has products referencing it.</exception>
         public bool Delete(int id)
         {
-            var entity = this.context.Categories.Find(id);
+            var entity = this.unitOfWork.Context.Categories.Find(id);
             if (entity is null)
             {
                 return false;
             }
 
             // Check if any product titles reference this category
-            var productTitlesCount = this.context.ProductTitles.Count(pt => pt.CategoryId == id);
+            var productTitlesCount = this.unitOfWork.Context.ProductTitles.Count(pt => pt.CategoryId == id);
 
             if (productTitlesCount > 0)
             {
@@ -157,8 +157,8 @@ namespace StoreBLL.Services
                     $"Cannot delete category '{entity.Name}' (ID: {id}) because it has {productTitlesCount} product title(s) referencing it. Remove or reassign product titles first.");
             }
 
-            this.context.Categories.Remove(entity);
-            this.context.SaveChanges();
+            this.unitOfWork.Context.Categories.Remove(entity);
+            this.unitOfWork.SaveChanges();
             return true;
         }
 
@@ -175,7 +175,7 @@ namespace StoreBLL.Services
                 return Array.Empty<CategoryModel>();
             }
 
-            return this.context.Categories
+            return this.unitOfWork.Context.Categories
                 .AsNoTracking()
                 .Where(c => c.Name != null && EF.Functions.Like(c.Name, $"%{name}%"))
                 .OrderBy(c => c.Id)

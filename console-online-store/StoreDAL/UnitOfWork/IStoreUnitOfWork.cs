@@ -1,47 +1,57 @@
-﻿// Path: console-online-store/StoreDAL/UnitOfWork/IUnitOfWork.cs
+﻿// Path: console-online-store/StoreDAL/UnitOfWork/IStoreUnitOfWork.cs
 using System;
 using System.Threading.Tasks;
 
+using StoreDAL.Data;
 using StoreDAL.Interfaces;
 
 namespace StoreDAL.UnitOfWork
 {
     /// <summary>
-    /// Unit of Work pattern interface for coordinating repository operations.
-    /// Provides centralized transaction management and ensures all changes are saved atomically.
+    /// Unit of Work pattern contract that coordinates multiple repositories and manages transactions.
+    /// Provides centralized access to repositories and database context.
     /// </summary>
     public interface IStoreUnitOfWork : IDisposable
     {
         /// <summary>
-        /// Gets the product repository.
+        /// Gets the underlying database context.
+        /// Provides direct access for complex queries and EF Core features not exposed through repositories.
+        /// </summary>
+        StoreDbContext Context { get; }
+
+        /// <summary>
+        /// Gets the product repository for managing product entities.
         /// </summary>
         IProductRepository Products { get; }
 
         /// <summary>
-        /// Gets the user repository.
+        /// Gets the user repository for managing user entities.
         /// </summary>
         IUserRepository Users { get; }
 
         /// <summary>
-        /// Gets the customer order repository.
+        /// Gets the customer order repository for managing order entities.
         /// </summary>
         ICustomerOrderRepository Orders { get; }
 
         /// <summary>
-        /// Gets the order detail repository.
+        /// Gets the order detail repository for managing order detail entities.
         /// </summary>
         IOrderDetailRepository OrderDetails { get; }
 
         /// <summary>
-        /// Saves all pending changes to the database.
+        /// Saves all changes made in this unit of work to the database.
         /// </summary>
-        /// <returns>Number of state entries written to the database.</returns>
+        /// <returns>The number of state entries written to the database.</returns>
         int SaveChanges();
 
         /// <summary>
-        /// Asynchronously saves all pending changes to the database.
+        /// Asynchronously saves all changes made in this unit of work to the database.
         /// </summary>
-        /// <returns>A task that represents the asynchronous save operation. The task result contains the number of state entries written to the database.</returns>
+        /// <returns>
+        /// A task that represents the asynchronous save operation.
+        /// The task result contains the number of state entries written to the database.
+        /// </returns>
         Task<int> SaveChangesAsync();
 
         /// <summary>

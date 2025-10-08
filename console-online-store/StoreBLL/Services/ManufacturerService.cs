@@ -1,171 +1,163 @@
-namespace StoreBLL.Services;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Microsoft.EntityFrameworkCore;
-
-using StoreBLL.Interfaces;
-using StoreBLL.Models;
-
-using StoreDAL.Data;
-using StoreDAL.Entities;
-
-/// <summary>
-/// Service for managing manufacturers with full CRUD operations.
-/// Provides business logic layer for manufacturer entities including validation and integrity checks.
-/// </summary>
-public sealed class ManufacturerService : ICrud
+// Path: console-online-store/StoreBLL/Services/ManufacturerService.cs
+namespace StoreBLL.Services
 {
-    private readonly StoreDbContext context;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Microsoft.EntityFrameworkCore;
+
+    using StoreBLL.Models;
+
+    using StoreDAL.Entities;
+    using StoreDAL.UnitOfWork;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ManufacturerService"/> class.
+    /// Service for managing manufacturers in the business logic layer.
+    /// Provides CRUD operations with validation and referential integrity checks.
     /// </summary>
-    /// <param name="context">EF Core database context.</param>
-    /// <exception cref="ArgumentNullException">Thrown when context is null.</exception>
-    public ManufacturerService(StoreDbContext context)
+    public sealed class ManufacturerService
     {
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+        private readonly IStoreUnitOfWork unitOfWork;
 
-    /// <summary>
-    /// Gets all manufacturers from the database.
-    /// </summary>
-    /// <returns>Collection of manufacturer models.</returns>
-    public IEnumerable<AbstractModel> GetAll()
-    {
-        return this.context.Manufacturers
-            .AsNoTracking()
-            .Select(m => new ManufacturerModel(m.Id, m.Name ?? string.Empty))
-            .ToList();
-    }
-
-    /// <summary>
-    /// Gets a manufacturer by its unique identifier.
-    /// </summary>
-    /// <param name="id">Manufacturer identifier.</param>
-    /// <returns>Manufacturer model.</returns>
-    /// <exception cref="KeyNotFoundException">Thrown when manufacturer with specified id is not found.</exception>
-    public AbstractModel GetById(int id)
-    {
-        var manufacturer = this.context.Manufacturers
-            .AsNoTracking()
-            .FirstOrDefault(m => m.Id == id);
-
-        if (manufacturer == null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ManufacturerService"/> class.
+        /// </summary>
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="unitOfWork"/> is <see langword="null"/>.</exception>
+        public ManufacturerService(IStoreUnitOfWork unitOfWork)
         {
-            throw new KeyNotFoundException($"Manufacturer with id {id} not found.");
+            ArgumentNullException.ThrowIfNull(unitOfWork);
+            this.unitOfWork = unitOfWork;
         }
 
-        return new ManufacturerModel(manufacturer.Id, manufacturer.Name ?? string.Empty);
-    }
-
-    /// <summary>
-    /// Adds a new manufacturer to the database.
-    /// </summary>
-    /// <param name="model">Manufacturer model containing data to add.</param>
-    /// <exception cref="ArgumentException">Thrown when model is not ManufacturerModel or name is empty.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when manufacturer with the same name already exists.</exception>
-    public void Add(AbstractModel model)
-    {
-        if (model is not ManufacturerModel m)
+        /// <summary>
+        /// Returns all manufacturers ordered by identifier.
+        /// Uses AsNoTracking for read-only operations to improve performance.
+        /// </summary>
+        /// <returns>Collection of all manufacturers as <see cref="ManufacturerModel"/> instances.</returns>
+        public IEnumerable<ManufacturerModel> GetAll()
         {
-            throw new ArgumentException("Expected ManufacturerModel", nameof(model));
+            return this.unitOfWork.Context.Manufacturers
+                .AsNoTracking()
+                .OrderBy(m => m.Id)
+                .Select(m => new ManufacturerModel { Id = m.Id, Name = m.Name ?? string.Empty })
+                .ToList();
         }
 
-        if (string.IsNullOrWhiteSpace(m.Name))
+        /// <summary>
+        /// Returns a manufacturer by its unique identifier.
+        /// </summary>
+        /// <param name="id">Manufacturer identifier.</param>
+        /// <returns>
+        /// <see cref="ManufacturerModel"/> instance when found; otherwise, <see langword="null"/>.
+        /// </returns>
+        public ManufacturerModel? GetById(int id)
         {
-            throw new ArgumentException("Manufacturer name cannot be empty.", nameof(model));
+            var entity = this.unitOfWork.Context.Manufacturers
+                .AsNoTracking()
+                .FirstOrDefault(m => m.Id == id);
+
+            return entity == null ? null : new ManufacturerModel { Id = entity.Id, Name = entity.Name ?? string.Empty };
         }
 
-        // Check for duplicate name (case-insensitive)
-        bool exists = this.context.Manufacturers
-            .Any(man => man.Name != null && man.Name.ToLower() == m.Name.ToLower());
-
-        if (exists)
+        /// <summary>
+        /// Adds a new manufacturer to the database.
+        /// Validates that the manufacturer name is not empty and does not already exist.
+        /// </summary>
+        /// <param name="model">Manufacturer model to add.</param>
+        /// <returns>Created manufacturer model with assigned identifier.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="model"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown when manufacturer name is null or whitespace.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when a manufacturer with the same name already exists.</exception>
+        public ManufacturerModel Add(ManufacturerModel model)
         {
-            throw new InvalidOperationException($"Manufacturer with name '{m.Name}' already exists.");
+            ArgumentNullException.ThrowIfNull(model);
+
+            if (string.IsNullOrWhiteSpace(model.Name))
+            {
+                throw new ArgumentException("Manufacturer name cannot be empty.", nameof(model));
+            }
+
+            // Check for duplicate name (case-insensitive)
+            if (this.unitOfWork.Context.Manufacturers.Any(m => m.Name != null && m.Name.ToLower() == model.Name.ToLower()))
+            {
+                throw new InvalidOperationException($"Manufacturer with name '{model.Name}' already exists.");
+            }
+
+            var entity = new Manufacturer
+            {
+                Name = model.Name,
+            };
+
+            this.unitOfWork.Context.Manufacturers.Add(entity);
+            this.unitOfWork.SaveChanges();
+
+            return new ManufacturerModel { Id = entity.Id, Name = entity.Name ?? string.Empty };
         }
 
-        var entity = new Manufacturer
+        /// <summary>
+        /// Updates an existing manufacturer in the database.
+        /// Validates that the new name is not empty and does not conflict with existing manufacturers.
+        /// </summary>
+        /// <param name="model">Manufacturer model with the updated data.</param>
+        /// <returns><see langword="true"/> if the manufacturer was updated; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="model"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown when manufacturer name is null or whitespace.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when another manufacturer with the same name already exists.</exception>
+        public bool Update(ManufacturerModel model)
         {
-            Name = m.Name,
-        };
+            ArgumentNullException.ThrowIfNull(model);
 
-        this.context.Manufacturers.Add(entity);
-        this.context.SaveChanges();
+            var entity = this.unitOfWork.Context.Manufacturers.FirstOrDefault(m => m.Id == model.Id);
+            if (entity is null)
+            {
+                return false;
+            }
 
-        // Update model Id with generated value
-        m.Id = entity.Id;
-    }
+            if (string.IsNullOrWhiteSpace(model.Name))
+            {
+                throw new ArgumentException("Manufacturer name cannot be empty.", nameof(model));
+            }
 
-    /// <summary>
-    /// Updates an existing manufacturer in the database.
-    /// </summary>
-    /// <param name="model">Manufacturer model with updated data.</param>
-    /// <exception cref="ArgumentException">Thrown when model is not ManufacturerModel or name is empty.</exception>
-    /// <exception cref="KeyNotFoundException">Thrown when manufacturer with specified id is not found.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when another manufacturer with the same name already exists.</exception>
-    public void Update(AbstractModel model)
-    {
-        if (model is not ManufacturerModel m)
-        {
-            throw new ArgumentException("Expected ManufacturerModel", nameof(model));
+            // Check for duplicate name (case-insensitive, excluding current entity)
+            if (this.unitOfWork.Context.Manufacturers.Any(m => m.Id != model.Id && m.Name != null && m.Name.ToLower() == model.Name.ToLower()))
+            {
+                throw new InvalidOperationException($"Manufacturer with name '{model.Name}' already exists.");
+            }
+
+            entity.Name = model.Name;
+            this.unitOfWork.SaveChanges();
+            return true;
         }
 
-        var entity = this.context.Manufacturers.Find(m.Id);
-        if (entity == null)
+        /// <summary>
+        /// Deletes a manufacturer by its identifier.
+        /// Ensures referential integrity by preventing deletion of manufacturers referenced by products.
+        /// </summary>
+        /// <param name="id">Manufacturer identifier.</param>
+        /// <returns><see langword="true"/> if the manufacturer was deleted; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when manufacturer has products referencing it.</exception>
+        public bool Delete(int id)
         {
-            throw new KeyNotFoundException($"Manufacturer with id {m.Id} not found.");
+            var entity = this.unitOfWork.Context.Manufacturers.Find(id);
+            if (entity is null)
+            {
+                return false;
+            }
+
+            // Check if any products reference this manufacturer
+            var productsCount = this.unitOfWork.Context.Products.Count(p => p.ManufacturerId == id);
+
+            if (productsCount > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Cannot delete manufacturer '{entity.Name}' (ID: {id}) because it has {productsCount} product(s) referencing it. Remove or reassign products first.");
+            }
+
+            this.unitOfWork.Context.Manufacturers.Remove(entity);
+            this.unitOfWork.SaveChanges();
+            return true;
         }
-
-        if (string.IsNullOrWhiteSpace(m.Name))
-        {
-            throw new ArgumentException("Manufacturer name cannot be empty.", nameof(model));
-        }
-
-        // Check for duplicate name (case-insensitive, excluding current entity)
-        bool exists = this.context.Manufacturers
-            .Any(man => man.Id != m.Id &&
-                        man.Name != null &&
-                        man.Name.ToLower() == m.Name.ToLower());
-
-        if (exists)
-        {
-            throw new InvalidOperationException($"Manufacturer with name '{m.Name}' already exists.");
-        }
-
-        entity.Name = m.Name;
-        this.context.SaveChanges();
-    }
-
-    /// <summary>
-    /// Deletes a manufacturer from the database.
-    /// Ensures referential integrity by preventing deletion of manufacturers referenced by products.
-    /// </summary>
-    /// <param name="modelId">Manufacturer identifier to delete.</param>
-    /// <exception cref="InvalidOperationException">Thrown when manufacturer has products referencing it.</exception>
-    public void Delete(int modelId)
-    {
-        var entity = this.context.Manufacturers.Find(modelId);
-        if (entity == null)
-        {
-            return; // Idempotent delete - no error if already deleted
-        }
-
-        // Check if any products reference this manufacturer
-        var productsCount = this.context.Products
-            .Count(p => p.ManufacturerId == modelId);
-
-        if (productsCount > 0)
-        {
-            throw new InvalidOperationException(
-                $"Cannot delete manufacturer '{entity.Name}' (ID: {modelId}) because it has {productsCount} product(s) referencing it. Remove or reassign products first.");
-        }
-
-        this.context.Manufacturers.Remove(entity);
-        this.context.SaveChanges();
     }
 }

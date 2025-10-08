@@ -1,130 +1,145 @@
-namespace StoreBLL.Services;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using StoreBLL.Interfaces;
-using StoreBLL.Models;
-
-using StoreDAL.Data;
-using StoreDAL.Entities;
-using StoreDAL.Interfaces;
-using StoreDAL.Repository;
-
-/// <summary>
-/// Service for managing user roles with full CRUD operations.
-/// Provides business logic layer for user role entities which define access permissions in the system.
-/// </summary>
-/// <remarks>
-/// Standard user roles include:
-/// <list type="bullet">
-/// <item><description>1 - Admin: Full system access including user management and configuration</description></item>
-/// <item><description>2 - Registered: Standard user with ordering capabilities</description></item>
-/// <item><description>3 - Guest: Limited access for browsing products only</description></item>
-/// </list>
-/// User roles are typically predefined but can be extended for custom access control scenarios.
-/// </remarks>
-public class UserRoleService : ICrud
+// Path: console-online-store/StoreBLL/Services/UserRoleService.cs
+namespace StoreBLL.Services
 {
-    private readonly IUserRoleRepository repository;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using StoreBLL.Models;
+
+    using StoreDAL.Entities;
+    using StoreDAL.Interfaces;
+    using StoreDAL.UnitOfWork;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UserRoleService"/> class.
+    /// Service for managing user roles in the business logic layer.
+    /// Provides CRUD operations for user roles with validation.
     /// </summary>
-    /// <param name="context">EF Core database context for user role operations.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="context"/> is <see langword="null"/>.</exception>
-    public UserRoleService(StoreDbContext context)
+    public sealed class UserRoleService
     {
-        this.repository = new UserRoleRepository(context);
-    }
+        private readonly IStoreUnitOfWork unitOfWork;
+        private readonly IUserRoleRepository repository;
 
-    /// <summary>
-    /// Adds a new user role to the database.
-    /// </summary>
-    /// <param name="model">User role model containing data to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="model"/> is <see langword="null"/>.</exception>
-    /// <exception cref="ArgumentException">Thrown when <paramref name="model"/> is not of type <see cref="UserRoleModel"/>.</exception>
-    /// <remarks>
-    /// The role name should be unique and descriptive of the permissions it grants.
-    /// </remarks>
-    public void Add(AbstractModel model)
-    {
-        if (model is not UserRoleModel m)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRoleService"/> class.
+        /// </summary>
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="unitOfWork"/> is <see langword="null"/>.</exception>
+        public UserRoleService(IStoreUnitOfWork unitOfWork)
         {
-            throw new ArgumentException("Expected UserRoleModel", nameof(model));
+            ArgumentNullException.ThrowIfNull(unitOfWork);
+            this.unitOfWork = unitOfWork;
+            this.repository = new StoreDAL.Repository.UserRoleRepository(unitOfWork.Context);
         }
 
-        // Map BLL -> DAL
-        this.repository.Add(new UserRole(m.Id, m.RoleName));
-        this.repository.SaveChanges();
-    }
-
-    /// <summary>
-    /// Deletes a user role by its identifier.
-    /// </summary>
-    /// <param name="modelId">The unique identifier of the user role to delete.</param>
-    /// <remarks>
-    /// Warning: Deleting a user role that is referenced by existing users may cause data integrity issues.
-    /// Ensure no users are assigned to this role before deletion, or reassign them to another role.
-    /// </remarks>
-    public void Delete(int modelId)
-    {
-        this.repository.DeleteById(modelId);
-        this.repository.SaveChanges();
-    }
-
-    /// <summary>
-    /// Retrieves all user roles from the database.
-    /// </summary>
-    /// <returns>
-    /// Collection of all user roles as <see cref="AbstractModel"/> instances.
-    /// Returns the complete set of roles defined in the system.
-    /// </returns>
-    public IEnumerable<AbstractModel> GetAll()
-    {
-        // Map DAL -> BLL
-        return this.repository
-            .GetAll()
-            .Select(x => (AbstractModel)new UserRoleModel(x.Id, x.RoleName))
-            .ToList();
-    }
-
-    /// <summary>
-    /// Retrieves a single user role by its unique identifier.
-    /// </summary>
-    /// <param name="id">The unique identifier of the user role.</param>
-    /// <returns>The user role model with the specified identifier.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when user role with specified <paramref name="id"/> is not found.</exception>
-    public AbstractModel GetById(int id)
-    {
-        var res = this.repository.GetById(id)
-                  ?? throw new InvalidOperationException($"UserRole with id={id} not found");
-
-        // Map DAL -> BLL
-        return new UserRoleModel(res.Id, res.RoleName);
-    }
-
-    /// <summary>
-    /// Updates an existing user role in the database.
-    /// </summary>
-    /// <param name="model">User role model with updated data.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="model"/> is <see langword="null"/>.</exception>
-    /// <exception cref="ArgumentException">Thrown when <paramref name="model"/> is not of type <see cref="UserRoleModel"/>.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when user role with specified id is not found.</exception>
-    /// <remarks>
-    /// Changing role names that are hardcoded in the application logic may cause unexpected behavior.
-    /// Consider the impact on existing authorization checks before modifying system roles.
-    /// </remarks>
-    public void Update(AbstractModel model)
-    {
-        if (model is not UserRoleModel m)
+        /// <summary>
+        /// Gets all user roles.
+        /// </summary>
+        /// <returns>Collection of all user roles as <see cref="UserRoleModel"/> instances.</returns>
+        public IEnumerable<UserRoleModel> GetAll()
         {
-            throw new ArgumentException("Expected UserRoleModel", nameof(model));
+            return this.repository.GetAll()
+                .Select(r => new UserRoleModel { Id = r.Id, RoleName = r.RoleName })
+                .ToList();
         }
 
-        // Map BLL -> DAL
-        this.repository.Update(new UserRole(m.Id, m.RoleName));
-        this.repository.SaveChanges();
+        /// <summary>
+        /// Gets a user role by its unique identifier.
+        /// </summary>
+        /// <param name="id">Role identifier.</param>
+        /// <returns>
+        /// <see cref="UserRoleModel"/> instance when found; otherwise, <see langword="null"/>.
+        /// </returns>
+        public UserRoleModel? GetById(int id)
+        {
+            var entity = this.repository.GetById(id);
+            return entity == null ? null : new UserRoleModel { Id = entity.Id, RoleName = entity.RoleName };
+        }
+
+        /// <summary>
+        /// Gets a user role by name.
+        /// </summary>
+        /// <param name="name">Role name.</param>
+        /// <returns>
+        /// <see cref="UserRoleModel"/> instance when found; otherwise, <see langword="null"/>.
+        /// </returns>
+        public UserRoleModel? GetByName(string name)
+        {
+            var entity = this.repository.GetByName(name);
+            return entity == null ? null : new UserRoleModel { Id = entity.Id, RoleName = entity.RoleName };
+        }
+
+        /// <summary>
+        /// Adds a new user role.
+        /// Validates that the role name is not empty.
+        /// </summary>
+        /// <param name="model">Role model to add.</param>
+        /// <returns>Created role model with assigned identifier.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="model"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown when role name is null or whitespace.</exception>
+        public UserRoleModel Add(UserRoleModel model)
+        {
+            ArgumentNullException.ThrowIfNull(model);
+
+            if (string.IsNullOrWhiteSpace(model.RoleName))
+            {
+                throw new ArgumentException("Role name cannot be empty.", nameof(model));
+            }
+
+            var entity = new UserRole { RoleName = model.RoleName };
+            this.repository.Add(entity);
+            this.unitOfWork.SaveChanges();
+
+            return new UserRoleModel { Id = entity.Id, RoleName = entity.RoleName };
+        }
+
+        /// <summary>
+        /// Updates an existing user role.
+        /// Validates that the new name is not empty.
+        /// </summary>
+        /// <param name="model">Role model with updated data.</param>
+        /// <returns><see langword="true"/> if the role was updated; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="model"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown when role name is null or whitespace.</exception>
+        public bool Update(UserRoleModel model)
+        {
+            ArgumentNullException.ThrowIfNull(model);
+
+            var entity = this.repository.GetById(model.Id);
+            if (entity is null)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(model.RoleName))
+            {
+                throw new ArgumentException("Role name cannot be empty.", nameof(model));
+            }
+
+            entity.RoleName = model.RoleName;
+            this.repository.Update(entity);
+            this.unitOfWork.SaveChanges();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Deletes a user role by its identifier.
+        /// </summary>
+        /// <param name="id">Role identifier.</param>
+        /// <returns><see langword="true"/> if the role was deleted; otherwise, <see langword="false"/>.</returns>
+        public bool Delete(int id)
+        {
+            var entity = this.repository.GetById(id);
+            if (entity is null)
+            {
+                return false;
+            }
+
+            this.repository.DeleteById(id);
+            this.unitOfWork.SaveChanges();
+
+            return true;
+        }
     }
 }
