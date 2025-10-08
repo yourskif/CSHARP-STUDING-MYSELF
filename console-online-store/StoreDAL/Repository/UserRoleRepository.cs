@@ -1,3 +1,4 @@
+// Path: console-online-store/StoreDAL/Repository/UserRoleRepository.cs
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +12,7 @@ namespace StoreDAL.Repository
 {
     /// <summary>
     /// Repository implementation for user role management.
-    /// Provides CRUD operations and role lookup by name.
+    /// Uses Unit of Work pattern - does not call SaveChanges internally.
     /// </summary>
     public class UserRoleRepository : IUserRoleRepository
     {
@@ -43,15 +44,13 @@ namespace StoreDAL.Repository
             this.context.UserRoles.AsNoTracking().ToList();
 
         /// <summary>
-        /// Adds a new user role to the database.
-        /// Changes are not persisted until SaveChanges is called.
+        /// Adds a new user role. Changes are not persisted until SaveChanges is called.
         /// </summary>
         public void Add(UserRole role) =>
             this.context.UserRoles.Add(role);
 
         /// <summary>
-        /// Updates an existing user role in the database.
-        /// Changes are not persisted until SaveChanges is called.
+        /// Updates an existing user role. Changes are not persisted until SaveChanges is called.
         /// </summary>
         public void Update(UserRole role) =>
             this.context.UserRoles.Update(role);
@@ -69,10 +68,5 @@ namespace StoreDAL.Repository
                 this.context.UserRoles.Remove(entity);
             }
         }
-
-        /// <summary>
-        /// Persists all pending changes to the database.
-        /// </summary>
-        public void SaveChanges() => this.context.SaveChanges();
     }
 }

@@ -1,3 +1,4 @@
+// Path: console-online-store/StoreDAL/Interfaces/IUserRoleRepository.cs
 using System.Collections.Generic;
 
 using StoreDAL.Entities;
@@ -7,6 +8,7 @@ namespace StoreDAL.Interfaces
     /// <summary>
     /// Repository contract for user role management.
     /// Provides CRUD operations and role lookup by name.
+    /// Uses Unit of Work pattern - SaveChanges is called externally.
     /// </summary>
     public interface IUserRoleRepository
     {
@@ -40,10 +42,5 @@ namespace StoreDAL.Interfaces
         /// Deletes a user role by its identifier.
         /// </summary>
         void DeleteById(int id);
-
-        /// <summary>
-        /// Persists all pending changes to the database.
-        /// </summary>
-        void SaveChanges();
     }
 }

@@ -13,6 +13,7 @@ namespace StoreDAL.Repository
 {
     /// <summary>
     /// EF Core base repository providing generic CRUD operations.
+    /// Uses Unit of Work pattern - does not call SaveChanges internally.
     /// </summary>
     /// <typeparam name="T">Entity type that inherits from BaseEntity.</typeparam>
     public class BaseRepository<T> : IRepository<T>
@@ -49,35 +50,43 @@ namespace StoreDAL.Repository
             return this.set.Find(id);
         }
 
+        /// <summary>
+        /// Adds entity to the context. Changes are not persisted until SaveChanges is called.
+        /// </summary>
         public virtual void Add(T entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             this.set.Add(entity);
-            this.context.SaveChanges();
         }
 
+        /// <summary>
+        /// Removes entity from the context. Changes are not persisted until SaveChanges is called.
+        /// </summary>
         public virtual void Delete(T entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             this.set.Remove(entity);
-            this.context.SaveChanges();
         }
 
+        /// <summary>
+        /// Removes entity by ID from the context. Changes are not persisted until SaveChanges is called.
+        /// </summary>
         public virtual void DeleteById(int id)
         {
             var entity = this.set.Find(id);
             if (entity != null)
             {
                 this.set.Remove(entity);
-                this.context.SaveChanges();
             }
         }
 
+        /// <summary>
+        /// Updates entity in the context. Changes are not persisted until SaveChanges is called.
+        /// </summary>
         public virtual void Update(T entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             this.set.Update(entity);
-            this.context.SaveChanges();
         }
     }
 }
