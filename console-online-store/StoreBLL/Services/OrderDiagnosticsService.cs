@@ -9,19 +9,28 @@ using System.Reflection;
 
 using Microsoft.EntityFrameworkCore;
 
-using StoreDAL.Data;
 using StoreDAL.Entities;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Service for order diagnostics and testing operations.
 /// Provides functionality for order snapshots, demo data seeding, and cleanup.
 /// </summary>
-/// <param name="db">Database context for order operations.</param>
-/// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
-public sealed class OrderDiagnosticsService(StoreDbContext db)
+public sealed class OrderDiagnosticsService
 {
-    private readonly StoreDbContext db = db ?? throw new ArgumentNullException(nameof(db));
-    private readonly StockReservationService stockService = new(db);
+    private readonly IStoreUnitOfWork unitOfWork;
+    private readonly StockReservationService stockService;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="OrderDiagnosticsService"/> class.
+    /// </summary>
+    /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+    /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+    public OrderDiagnosticsService(IStoreUnitOfWork unitOfWork)
+    {
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.stockService = new StockReservationService(unitOfWork);
+    }
 
     /// <summary>
     /// Gets snapshot of all orders with basic information.
@@ -29,7 +38,7 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
     /// <returns>Enumerable of order snapshots.</returns>
     public IEnumerable<OrderSnapshot> GetOrdersSnapshot()
     {
-        var rows = this.db.CustomerOrders
+        var rows = this.unitOfWork.Context.CustomerOrders
             .AsNoTracking()
             .Include(o => o.User)
             .OrderByDescending(o => o.Id)
@@ -41,7 +50,7 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
             Date = r.OperationTime,
             OrderStateId = r.OrderStateId,
             UserName = GetUserLabel(r.User),
-            Total = (decimal)this.db.OrderDetails
+            Total = (decimal)this.unitOfWork.Context.OrderDetails
                 .Where(d => d.OrderId == r.Id)
                 .Select(d => (double)d.Price * d.ProductAmount)
                 .Sum(),
@@ -55,7 +64,7 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
     /// <returns>True if cancelled successfully; false otherwise.</returns>
     public bool CancelOrderById(int orderId)
     {
-        var order = this.db.CustomerOrders.FirstOrDefault(o => o.Id == orderId);
+        var order = this.unitOfWork.Context.CustomerOrders.FirstOrDefault(o => o.Id == orderId);
         if (order == null)
         {
             return false;
@@ -68,7 +77,7 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
 
         this.stockService.ReleaseOrderReservations(orderId);
         order.OrderStateId = 3;
-        this.db.SaveChanges();
+        this.unitOfWork.SaveChanges();
 
         return true;
     }
@@ -80,13 +89,13 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
     /// <returns>Count of orders created.</returns>
     public int SeedDemoOrders()
     {
-        var u1 = this.db.Users.FirstOrDefault(u => u.RoleId != 1) ?? this.db.Users.First();
-        var u2 = this.db.Users.Where(u => u.Id != u1.Id).FirstOrDefault(u => u.RoleId != 1)
-                 ?? this.db.Users.OrderBy(u => u.Id).First();
+        var u1 = this.unitOfWork.Context.Users.FirstOrDefault(u => u.RoleId != 1) ?? this.unitOfWork.Context.Users.First();
+        var u2 = this.unitOfWork.Context.Users.Where(u => u.Id != u1.Id).FirstOrDefault(u => u.RoleId != 1)
+                 ?? this.unitOfWork.Context.Users.OrderBy(u => u.Id).First();
 
-        var p1 = this.db.Products.OrderBy(p => p.Id).FirstOrDefault();
-        var p2 = this.db.Products.OrderBy(p => p.Id).Skip(1).FirstOrDefault();
-        var p3 = this.db.Products.OrderBy(p => p.Id).Skip(2).FirstOrDefault();
+        var p1 = this.unitOfWork.Context.Products.OrderBy(p => p.Id).FirstOrDefault();
+        var p2 = this.unitOfWork.Context.Products.OrderBy(p => p.Id).Skip(1).FirstOrDefault();
+        var p3 = this.unitOfWork.Context.Products.OrderBy(p => p.Id).Skip(2).FirstOrDefault();
 
         if (p1 == null || p2 == null)
         {
@@ -110,12 +119,12 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
             },
         };
 
-        this.db.CustomerOrders.Add(orderA);
-        this.db.SaveChanges();
+        this.unitOfWork.Context.CustomerOrders.Add(orderA);
+        this.unitOfWork.SaveChanges();
 
         foreach (var d in orderA.Details)
         {
-            var prod = this.db.Products.Find(d.ProductId);
+            var prod = this.unitOfWork.Context.Products.Find(d.ProductId);
             if (prod != null)
             {
                 prod.ReservedQuantity += d.ProductAmount;
@@ -150,11 +159,11 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
             Details = detailsB,
         };
 
-        this.db.CustomerOrders.Add(orderB);
-        this.db.SaveChanges();
+        this.unitOfWork.Context.CustomerOrders.Add(orderB);
+        this.unitOfWork.SaveChanges();
 
         this.stockService.ConfirmOrderDelivery(orderB.Id);
-        this.db.SaveChanges();
+        this.unitOfWork.SaveChanges();
 
         return 2;
     }
@@ -165,14 +174,14 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
     /// </summary>
     public void ClearAllOrders()
     {
-        foreach (var p in this.db.Products)
+        foreach (var p in this.unitOfWork.Context.Products)
         {
             p.ReservedQuantity = 0;
         }
 
-        this.db.OrderDetails.RemoveRange(this.db.OrderDetails);
-        this.db.CustomerOrders.RemoveRange(this.db.CustomerOrders);
-        this.db.SaveChanges();
+        this.unitOfWork.Context.OrderDetails.RemoveRange(this.unitOfWork.Context.OrderDetails);
+        this.unitOfWork.Context.CustomerOrders.RemoveRange(this.unitOfWork.Context.CustomerOrders);
+        this.unitOfWork.SaveChanges();
     }
 
     /// <summary>
@@ -182,7 +191,7 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
     public (int ClosedOrders, int ZeroedProducts) ResetDemo()
     {
         var openStates = new[] { 1, 4, 5, 6 };
-        var openOrders = this.db.CustomerOrders
+        var openOrders = this.unitOfWork.Context.CustomerOrders
             .Where(o => openStates.Contains(o.OrderStateId))
             .ToList();
 
@@ -194,11 +203,11 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
 
         int closed = openOrders.Count;
 
-        int zeroed = this.db.Products
+        int zeroed = this.unitOfWork.Context.Products
             .AsEnumerable()
             .Count(p => TrySetInt(p, 0, "ReservedQuantity", "Reserved"));
 
-        this.db.SaveChanges();
+        this.unitOfWork.SaveChanges();
         return (closed, zeroed);
     }
 
@@ -209,8 +218,8 @@ public sealed class OrderDiagnosticsService(StoreDbContext db)
     public (int Open, int Closed) GetOrderCounts()
     {
         var openStates = new[] { 1, 4, 5, 6 };
-        int open = this.db.CustomerOrders.Count(o => openStates.Contains(o.OrderStateId));
-        int total = this.db.CustomerOrders.Count();
+        int open = this.unitOfWork.Context.CustomerOrders.Count(o => openStates.Contains(o.OrderStateId));
+        int total = this.unitOfWork.Context.CustomerOrders.Count();
         return (open, total - open);
     }
 

@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using StoreDAL.Data;
 using StoreDAL.Entities;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Service for inventory diagnostics and stock management operations.
@@ -15,25 +15,21 @@ using StoreDAL.Entities;
 /// </summary>
 public sealed class InventoryDiagnosticsService
 {
-    private readonly StoreDbContext db;
+    private readonly IStoreUnitOfWork unitOfWork;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InventoryDiagnosticsService"/> class.
     /// </summary>
-    /// <param name="db">Database context for inventory operations.</param>
-    /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
-    public InventoryDiagnosticsService(StoreDbContext db)
+    /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+    /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+    public InventoryDiagnosticsService(IStoreUnitOfWork unitOfWork)
     {
-        this.db = db ?? throw new ArgumentNullException(nameof(db));
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    /// <summary>
-    /// Gets snapshot of all products with inventory details.
-    /// </summary>
-    /// <returns>Enumerable of product snapshots with stock, reserved, and available quantities.</returns>
     public IEnumerable<ProductSnapshot> GetProductsSnapshot()
     {
-        return this.db.Products
+        return this.unitOfWork.Context.Products
             .Select(p => new ProductSnapshot
             {
                 Id = p.Id,
@@ -47,11 +43,6 @@ public sealed class InventoryDiagnosticsService
             .ToList();
     }
 
-    /// <summary>
-    /// Gets products with low availability based on threshold.
-    /// </summary>
-    /// <param name="threshold">Minimum available quantity threshold.</param>
-    /// <returns>Enumerable of products with available quantity at or below threshold.</returns>
     public IEnumerable<ProductSnapshot> GetLowAvailability(int threshold)
     {
         return this.GetProductsSnapshot()
@@ -61,24 +52,19 @@ public sealed class InventoryDiagnosticsService
             .Take(10);
     }
 
-    /// <summary>
-    /// Rebuilds reserved quantities from open orders.
-    /// Recalculates reservation counters based on actual order details.
-    /// </summary>
-    /// <returns>Number of products updated.</returns>
     public int RebuildReservedFromOpenOrders()
     {
-        var openStates = new[] { 1, 4, 5, 6 }; // New, Confirmed, Moved to delivery, In delivery
+        var openStates = new[] { 1, 4, 5, 6 };
 
         var reservedByProduct = (
-            from d in this.db.OrderDetails
-            join o in this.db.CustomerOrders on d.OrderId equals o.Id
+            from d in this.unitOfWork.Context.OrderDetails
+            join o in this.unitOfWork.Context.CustomerOrders on d.OrderId equals o.Id
             where openStates.Contains(o.OrderStateId)
             group d by d.ProductId into g
             select new { ProductId = g.Key, Reserved = g.Sum(x => x.ProductAmount) })
             .ToDictionary(x => x.ProductId, x => x.Reserved);
 
-        var products = this.db.Products.ToList();
+        var products = this.unitOfWork.Context.Products.ToList();
         int updated = 0;
 
         foreach (var p in products)
@@ -91,18 +77,14 @@ public sealed class InventoryDiagnosticsService
             }
         }
 
-        this.db.SaveChanges();
+        this.unitOfWork.SaveChanges();
         return updated;
     }
 
-    /// <summary>
-    /// Clears all product reservations setting reserved quantity to zero.
-    /// </summary>
-    /// <returns>Number of products updated.</returns>
     public int ClearAllReservations()
     {
         int updated = 0;
-        foreach (var p in this.db.Products)
+        foreach (var p in this.unitOfWork.Context.Products)
         {
             if (TrySetInt(p, 0, "ReservedQuantity", "Reserved"))
             {
@@ -110,14 +92,10 @@ public sealed class InventoryDiagnosticsService
             }
         }
 
-        this.db.SaveChanges();
+        this.unitOfWork.SaveChanges();
         return updated;
     }
 
-    /// <summary>
-    /// Gets products with stock anomalies (negative available or reserved exceeds stock).
-    /// </summary>
-    /// <returns>Enumerable of products with inventory anomalies.</returns>
     public IEnumerable<ProductSnapshot> GetAnomalies()
     {
         return this.GetProductsSnapshot()
@@ -125,13 +103,9 @@ public sealed class InventoryDiagnosticsService
             .OrderBy(x => x.Id);
     }
 
-    /// <summary>
-    /// Gets total count of products in inventory.
-    /// </summary>
-    /// <returns>Total product count.</returns>
     public int GetTotalProductCount()
     {
-        return this.db.Products.Count();
+        return this.unitOfWork.Context.Products.Count();
     }
 
     private static int GetInt(object obj, params string[] names)
@@ -246,44 +220,20 @@ public sealed class InventoryDiagnosticsService
         return obj.GetType().GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
     }
 
-    /// <summary>
-    /// Represents product snapshot with inventory details.
-    /// </summary>
     public class ProductSnapshot
     {
-        /// <summary>
-        /// Gets or sets product ID.
-        /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets product title.
-        /// </summary>
         public string Title { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets or sets product SKU.
-        /// </summary>
         public string SKU { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets or sets product price.
-        /// </summary>
         public decimal Price { get; set; }
 
-        /// <summary>
-        /// Gets or sets total stock quantity.
-        /// </summary>
         public int Stock { get; set; }
 
-        /// <summary>
-        /// Gets or sets reserved quantity.
-        /// </summary>
         public int Reserved { get; set; }
 
-        /// <summary>
-        /// Gets available quantity (Stock - Reserved).
-        /// </summary>
         public int Available => this.Stock - this.Reserved;
     }
 }

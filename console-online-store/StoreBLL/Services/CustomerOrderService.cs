@@ -11,9 +11,8 @@ namespace StoreBLL.Services
     using StoreBLL.Interfaces;
     using StoreBLL.Models;
 
-    using StoreDAL.Data;
     using StoreDAL.Entities;
-    using StoreDAL.Repository;
+    using StoreDAL.UnitOfWork;
 
     /// <summary>
     /// Business logic service for customer order management with comprehensive logging.
@@ -31,22 +30,20 @@ namespace StoreBLL.Services
             { 7, new[] { 8 } },       // Delivered -> Delivery confirmed by client
         };
 
-        private readonly StoreDbContext context;
-        private readonly CustomerOrderRepository repository;
+        private readonly IStoreUnitOfWork unitOfWork;
         private readonly StockReservationService stockService;
         private readonly ILogger<CustomerOrderService> logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerOrderService"/> class.
         /// </summary>
-        /// <param name="context">EF Core database context for order operations.</param>
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
         /// <param name="logger">Logger instance (optional, uses NullLogger if not provided).</param>
-        /// <exception cref="ArgumentNullException">Thrown when context is null.</exception>
-        public CustomerOrderService(StoreDbContext context, ILogger<CustomerOrderService>? logger = null)
+        /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+        public CustomerOrderService(IStoreUnitOfWork unitOfWork, ILogger<CustomerOrderService>? logger = null)
         {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
-            this.repository = new CustomerOrderRepository(context);
-            this.stockService = new StockReservationService(context);
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.stockService = new StockReservationService(unitOfWork);
             this.logger = logger ?? NullLogger<CustomerOrderService>.Instance;
         }
 
@@ -107,7 +104,8 @@ namespace StoreBLL.Services
                 userId: m.UserId,
                 orderStateId: m.OrderStateId);
 
-            this.repository.Add(entity);
+            this.unitOfWork.Orders.Add(entity);
+            this.unitOfWork.SaveChanges();
             m.Id = entity.Id;
 
             this.logger.LogInformation("Order {OrderId} created for user {UserId} with state {StateId}", entity.Id, m.UserId, m.OrderStateId);
@@ -121,7 +119,8 @@ namespace StoreBLL.Services
         public void Delete(int modelId)
         {
             this.logger.LogWarning("Deleting order {OrderId}. Ensure reservations are released manually.", modelId);
-            this.repository.DeleteById(modelId);
+            this.unitOfWork.Orders.DeleteById(modelId);
+            this.unitOfWork.SaveChanges();
         }
 
         /// <summary>
@@ -129,7 +128,7 @@ namespace StoreBLL.Services
         /// </summary>
         /// <returns>Collection of all customer order models.</returns>
         public IEnumerable<AbstractModel> GetAll() =>
-            this.repository.GetAll().Select(o =>
+            this.unitOfWork.Orders.GetAll().Select(o =>
                 new CustomerOrderModel(
                     id: o.Id,
                     userId: o.UserId,
@@ -144,7 +143,7 @@ namespace StoreBLL.Services
         /// <exception cref="KeyNotFoundException">Thrown when order with specified ID does not exist.</exception>
         public AbstractModel GetById(int id)
         {
-            var o = this.repository.GetById(id)
+            var o = this.unitOfWork.Orders.GetById(id)
                 ?? throw new KeyNotFoundException($"Order with id {id} was not found.");
 
             return new CustomerOrderModel(
@@ -166,7 +165,7 @@ namespace StoreBLL.Services
                 throw new ArgumentException("Expected CustomerOrderModel", nameof(model));
             }
 
-            var entity = this.repository.GetById(m.Id);
+            var entity = this.unitOfWork.Orders.GetById(m.Id);
             if (entity == null)
             {
                 this.logger.LogWarning("Attempted to update non-existent order {OrderId}", m.Id);
@@ -176,7 +175,8 @@ namespace StoreBLL.Services
             entity.UserId = m.UserId;
             entity.OperationTime = m.OperationTime ?? entity.OperationTime;
             entity.OrderStateId = m.OrderStateId;
-            this.repository.Update(entity);
+            this.unitOfWork.Orders.Update(entity);
+            this.unitOfWork.SaveChanges();
 
             this.logger.LogInformation("Order {OrderId} updated", m.Id);
         }
@@ -193,7 +193,7 @@ namespace StoreBLL.Services
         {
             error = string.Empty;
 
-            var entity = this.repository.GetById(orderId);
+            var entity = this.unitOfWork.Orders.GetById(orderId);
             if (entity == null)
             {
                 error = "Order not found.";
@@ -233,8 +233,8 @@ namespace StoreBLL.Services
 
             // THEN save new state
             entity.OrderStateId = newStateId;
-            this.repository.Update(entity);
-            this.context.SaveChanges();
+            this.unitOfWork.Orders.Update(entity);
+            this.unitOfWork.SaveChanges();
 
             this.logger.LogInformation(
                 "Order {OrderId} state changed successfully to {NewState}",
@@ -256,7 +256,7 @@ namespace StoreBLL.Services
         {
             error = string.Empty;
 
-            var entity = this.repository.GetById(orderId);
+            var entity = this.unitOfWork.Orders.GetById(orderId);
             if (entity == null)
             {
                 error = "Order not found.";
@@ -292,8 +292,8 @@ namespace StoreBLL.Services
             this.stockService.ReleaseOrderReservations(orderId);
 
             entity.OrderStateId = 2;
-            this.repository.Update(entity);
-            this.context.SaveChanges();
+            this.unitOfWork.Orders.Update(entity);
+            this.unitOfWork.SaveChanges();
 
             this.logger.LogInformation("Order {OrderId} cancelled by user {UserId}", orderId, userId);
             return true;
@@ -312,7 +312,7 @@ namespace StoreBLL.Services
         {
             error = string.Empty;
 
-            var entity = this.repository.GetById(orderId);
+            var entity = this.unitOfWork.Orders.GetById(orderId);
             if (entity == null)
             {
                 error = "Order not found.";
@@ -349,8 +349,8 @@ namespace StoreBLL.Services
 
             // THEN change to state 8
             entity.OrderStateId = 8;
-            this.repository.Update(entity);
-            this.context.SaveChanges();
+            this.unitOfWork.Orders.Update(entity);
+            this.unitOfWork.SaveChanges();
 
             this.logger.LogInformation("Order {OrderId} marked as received by user {UserId}", orderId, userId);
             return true;
@@ -362,7 +362,7 @@ namespace StoreBLL.Services
         /// <param name="userId">User identifier.</param>
         /// <returns>Collection of customer order models belonging to the specified user.</returns>
         public IEnumerable<CustomerOrderModel> GetOrdersByUser(int userId) =>
-            this.repository.GetAll()
+            this.unitOfWork.Orders.GetAll()
                 .Where(o => o.UserId == userId)
                 .Select(o => new CustomerOrderModel(
                     id: o.Id,

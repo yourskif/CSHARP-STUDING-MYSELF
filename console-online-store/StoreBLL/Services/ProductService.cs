@@ -1,4 +1,5 @@
-﻿namespace StoreBLL.Services
+﻿// Path: console-online-store/StoreBLL/Services/ProductService.cs
+namespace StoreBLL.Services
 {
     using System;
     using System.Collections.Generic;
@@ -8,49 +9,35 @@
 
     using StoreBLL.Models;
 
-    using StoreDAL.Data;
     using StoreDAL.Entities;
-    using StoreDAL.Interfaces;
-    using StoreDAL.Repository;
+    using StoreDAL.UnitOfWork;
 
     /// <summary>
-    /// Product business logic with EF Core context for write operations.
+    /// Product business logic with Unit of Work for transaction management.
     /// </summary>
     public sealed class ProductService
     {
-        private readonly IProductRepository repository;
-        private readonly StoreDbContext context;
+        private readonly IStoreUnitOfWork unitOfWork;
 
-        public ProductService(IProductRepository repository)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductService"/> class.
+        /// </summary>
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+        public ProductService(IStoreUnitOfWork unitOfWork)
         {
-            this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
-
-            // Extract context from repository using reflection
-            var contextField = repository.GetType().GetField("db", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-            if (contextField == null)
-            {
-                contextField = repository.GetType().GetField("context", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-            }
-
-            this.context = contextField?.GetValue(repository) as StoreDbContext
-                ?? throw new InvalidOperationException("Cannot access DbContext from repository");
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public ProductService()
-            : this(new ProductRepository(StoreDbFactory.Create()))
-        {
-        }
-
-        // ===== Public API =====
         public List<ProductModel> GetAll()
         {
-            var list = this.repository.GetAllWithIncludes() ?? Array.Empty<Product>();
+            var list = this.unitOfWork.Products.GetAllWithIncludes() ?? Array.Empty<Product>();
             return list.Select(MapToModel).ToList();
         }
 
         public ProductModel? GetById(int id)
         {
-            var entity = this.repository.GetByIdWithIncludes(id);
+            var entity = this.unitOfWork.Products.GetByIdWithIncludes(id);
             return entity is null ? null : MapToModel(entity);
         }
 
@@ -73,18 +60,17 @@
                 throw new ArgumentOutOfRangeException(nameof(stock));
             }
 
-            // Find or create ProductTitle
-            var productTitle = this.context.ProductTitles
+            var productTitle = this.unitOfWork.Context.ProductTitles
                 .FirstOrDefault(pt => pt.Title == title);
 
             if (productTitle == null)
             {
-                var cat = this.context.Categories.FirstOrDefault(c => c.Name == category);
+                var cat = this.unitOfWork.Context.Categories.FirstOrDefault(c => c.Name == category);
                 if (cat == null)
                 {
                     cat = new Category { Name = category };
-                    this.context.Categories.Add(cat);
-                    this.context.SaveChanges();
+                    this.unitOfWork.Context.Categories.Add(cat);
+                    this.unitOfWork.SaveChanges();
                 }
 
                 productTitle = new ProductTitle
@@ -92,17 +78,16 @@
                     Title = title,
                     CategoryId = cat.Id,
                 };
-                this.context.ProductTitles.Add(productTitle);
-                this.context.SaveChanges();
+                this.unitOfWork.Context.ProductTitles.Add(productTitle);
+                this.unitOfWork.SaveChanges();
             }
 
-            // Find or create Manufacturer
-            var manu = this.context.Manufacturers.FirstOrDefault(m => m.Name == manufacturer);
+            var manu = this.unitOfWork.Context.Manufacturers.FirstOrDefault(m => m.Name == manufacturer);
             if (manu == null)
             {
                 manu = new Manufacturer { Name = manufacturer };
-                this.context.Manufacturers.Add(manu);
-                this.context.SaveChanges();
+                this.unitOfWork.Context.Manufacturers.Add(manu);
+                this.unitOfWork.SaveChanges();
             }
 
             var p = new Product
@@ -115,8 +100,8 @@
                 ReservedQuantity = 0,
             };
 
-            this.context.Products.Add(p); // NOTE: Using context directly instead of repository
-            this.context.SaveChanges();
+            this.unitOfWork.Context.Products.Add(p);
+            this.unitOfWork.SaveChanges();
 
             return MapToModel(p);
         }
@@ -141,7 +126,7 @@
                 throw new ArgumentOutOfRangeException(nameof(stock));
             }
 
-            var p = this.context.Products
+            var p = this.unitOfWork.Context.Products
                 .Include(p => p.Title)
                 .Include(p => p.Manufacturer)
                 .FirstOrDefault(p => p.Id == id);
@@ -157,25 +142,24 @@
             p.StockQuantity = stock;
             p.Description = description ?? string.Empty;
 
-            this.context.SaveChanges();
+            this.unitOfWork.SaveChanges();
 
             return MapToModel(p);
         }
 
         public bool Delete(int id)
         {
-            var p = this.context.Products.FirstOrDefault(p => p.Id == id);
+            var p = this.unitOfWork.Context.Products.FirstOrDefault(p => p.Id == id);
             if (p is null)
             {
                 return false;
             }
 
-            this.context.Products.Remove(p); // NOTE: Using context directly instead of repository
-            this.context.SaveChanges();
+            this.unitOfWork.Context.Products.Remove(p);
+            this.unitOfWork.SaveChanges();
             return true;
         }
 
-        // ===== Mapping =====
         private static ProductModel MapToModel(Product p)
         {
             var titleText = p.Title?.Title ?? $"Product {p.Id}";

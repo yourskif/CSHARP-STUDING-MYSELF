@@ -1,4 +1,4 @@
-// Path: C:\Users\SK\source\repos\C#\1313\console-online-store\StoreBLL\Services\UserService.cs
+// Path: console-online-store/StoreBLL/Services/UserService.cs
 namespace StoreBLL.Services;
 
 using System;
@@ -9,10 +9,8 @@ using StoreBLL.Interfaces;
 using StoreBLL.Models;
 using StoreBLL.Security;
 
-using StoreDAL.Data;
 using StoreDAL.Entities;
-using StoreDAL.Interfaces;
-using StoreDAL.Repository;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Business logic service for user management operations:
@@ -20,11 +18,16 @@ using StoreDAL.Repository;
 /// </summary>
 public class UserService : ICrud
 {
-    private readonly IUserRepository repository;
+    private readonly IStoreUnitOfWork unitOfWork;
 
-    public UserService(StoreDbContext context)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserService"/> class.
+    /// </summary>
+    /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+    /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+    public UserService(IStoreUnitOfWork unitOfWork)
     {
-        this.repository = new UserRepository(context);
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
     public void Add(AbstractModel model)
@@ -45,20 +48,20 @@ public class UserService : ICrud
             IsBlocked = m.IsBlocked,
         };
 
-        this.repository.Add(entity);
-        this.repository.SaveChanges();
+        this.unitOfWork.Users.Add(entity);
+        this.unitOfWork.SaveChanges();
         m.Id = entity.Id;
     }
 
     public void Delete(int modelId)
     {
-        var entity = this.repository.GetById(modelId);
+        var entity = this.unitOfWork.Users.GetById(modelId);
         if (entity == null)
         {
             throw new InvalidOperationException("User not found.");
         }
 
-        if (this.repository.HasOrders(modelId))
+        if (this.unitOfWork.Users.HasOrders(modelId))
         {
             throw new InvalidOperationException("Cannot delete a user who has existing orders. Consider blocking instead.");
         }
@@ -68,13 +71,13 @@ public class UserService : ICrud
             throw new InvalidOperationException("Cannot delete an administrator account.");
         }
 
-        this.repository.DeleteById(modelId);
-        this.repository.SaveChanges();
+        this.unitOfWork.Users.DeleteById(modelId);
+        this.unitOfWork.SaveChanges();
     }
 
     public IEnumerable<AbstractModel> GetAll()
     {
-        return this.repository.GetAll().Select(u =>
+        return this.unitOfWork.Users.GetAll().Select(u =>
             new UserModel
             {
                 Id = u.Id,
@@ -87,10 +90,9 @@ public class UserService : ICrud
             });
     }
 
-    // NOTE: Return type is non-nullable to match ICrud; throw if not found.
     public AbstractModel GetById(int id)
     {
-        var u = this.repository.GetById(id)
+        var u = this.unitOfWork.Users.GetById(id)
             ?? throw new KeyNotFoundException($"User with id {id} not found.");
 
         return new UserModel
@@ -112,7 +114,7 @@ public class UserService : ICrud
             throw new ArgumentException("Expected UserModel", nameof(model));
         }
 
-        var entity = this.repository.GetById(m.Id);
+        var entity = this.unitOfWork.Users.GetById(m.Id);
         if (entity == null)
         {
             throw new KeyNotFoundException($"User with id {m.Id} not found.");
@@ -124,8 +126,8 @@ public class UserService : ICrud
         entity.Password = m.Password;
         entity.RoleId = m.RoleId;
 
-        this.repository.Update(entity);
-        this.repository.SaveChanges();
+        this.unitOfWork.Users.Update(entity);
+        this.unitOfWork.SaveChanges();
     }
 
     public UserModel? Register(string firstName, string lastName, string login, string password)
@@ -150,7 +152,7 @@ public class UserService : ICrud
             throw new ArgumentException("Password cannot be empty.", nameof(password));
         }
 
-        var existingUser = this.repository.FindByLogin(login);
+        var existingUser = this.unitOfWork.Users.FindByLogin(login);
         if (existingUser != null)
         {
             return null;
@@ -166,8 +168,8 @@ public class UserService : ICrud
             password: passwordHash,
             roleId: 2);
 
-        this.repository.Add(userEntity);
-        this.repository.SaveChanges();
+        this.unitOfWork.Users.Add(userEntity);
+        this.unitOfWork.SaveChanges();
 
         return new UserModel
         {
@@ -188,7 +190,7 @@ public class UserService : ICrud
             return null;
         }
 
-        var userEntity = this.repository.FindByLogin(login);
+        var userEntity = this.unitOfWork.Users.FindByLogin(login);
         if (userEntity == null)
         {
             return null;
@@ -223,7 +225,7 @@ public class UserService : ICrud
             return false;
         }
 
-        var userEntity = this.repository.GetById(userId);
+        var userEntity = this.unitOfWork.Users.GetById(userId);
         if (userEntity == null)
         {
             return false;
@@ -231,8 +233,8 @@ public class UserService : ICrud
 
         userEntity.Name = firstName.Trim();
         userEntity.LastName = lastName.Trim();
-        this.repository.Update(userEntity);
-        this.repository.SaveChanges();
+        this.unitOfWork.Users.Update(userEntity);
+        this.unitOfWork.SaveChanges();
 
         return true;
     }
@@ -244,7 +246,7 @@ public class UserService : ICrud
             return false;
         }
 
-        var userEntity = this.repository.GetById(userId);
+        var userEntity = this.unitOfWork.Users.GetById(userId);
         if (userEntity == null)
         {
             return false;
@@ -256,16 +258,15 @@ public class UserService : ICrud
         }
 
         userEntity.Password = PasswordHasher.HashPassword(newPassword);
-        this.repository.Update(userEntity);
-        this.repository.SaveChanges();
+        this.unitOfWork.Users.Update(userEntity);
+        this.unitOfWork.SaveChanges();
 
         return true;
     }
 
-    // ===== Admin actions =====
     public bool BlockUser(int userId)
     {
-        var userEntity = this.repository.GetById(userId);
+        var userEntity = this.unitOfWork.Users.GetById(userId);
         if (userEntity == null)
         {
             return false;
@@ -274,8 +275,8 @@ public class UserService : ICrud
         if (!userEntity.IsBlocked)
         {
             userEntity.IsBlocked = true;
-            this.repository.Update(userEntity);
-            this.repository.SaveChanges();
+            this.unitOfWork.Users.Update(userEntity);
+            this.unitOfWork.SaveChanges();
         }
 
         return true;
@@ -283,7 +284,7 @@ public class UserService : ICrud
 
     public bool UnblockUser(int userId)
     {
-        var userEntity = this.repository.GetById(userId);
+        var userEntity = this.unitOfWork.Users.GetById(userId);
         if (userEntity == null)
         {
             return false;
@@ -292,22 +293,18 @@ public class UserService : ICrud
         if (userEntity.IsBlocked)
         {
             userEntity.IsBlocked = false;
-            this.repository.Update(userEntity);
-            this.repository.SaveChanges();
+            this.unitOfWork.Users.Update(userEntity);
+            this.unitOfWork.SaveChanges();
         }
 
         return true;
     }
 
-    /// <summary>
-    /// Admin updates user profile (first/last name, optional login and roleId) with safety checks.
-    /// Returns true on success; false with error message otherwise.
-    /// </summary>
     public bool UpdateByAdmin(UserModel input, out string error)
     {
         error = string.Empty;
 
-        var entity = this.repository.GetById(input.Id);
+        var entity = this.unitOfWork.Users.GetById(input.Id);
         if (entity == null)
         {
             error = "User not found.";
@@ -322,11 +319,10 @@ public class UserService : ICrud
             return false;
         }
 
-        // Optional login change with uniqueness check
         var login = (input.Login ?? string.Empty).Trim();
         if (!string.IsNullOrEmpty(login) && !string.Equals(login, entity.Login, StringComparison.Ordinal))
         {
-            var exists = this.repository.FindByLogin(login);
+            var exists = this.unitOfWork.Users.FindByLogin(login);
             if (exists != null && exists.Id != entity.Id)
             {
                 error = "Login is already taken.";
@@ -336,7 +332,6 @@ public class UserService : ICrud
             entity.Login = login;
         }
 
-        // Optional role change (1 = admin, 2 = user) with "last admin" guard
         int newRoleId = input.RoleId == 0 ? entity.RoleId : input.RoleId;
         if (newRoleId != entity.RoleId)
         {
@@ -346,10 +341,9 @@ public class UserService : ICrud
                 return false;
             }
 
-            // prevent removing the last administrator
             if (entity.RoleId == 1 && newRoleId != 1)
             {
-                var admins = this.repository.GetAll().Count(u => u.RoleId == 1);
+                var admins = this.unitOfWork.Users.GetAll().Count(u => u.RoleId == 1);
                 if (admins <= 1)
                 {
                     error = "Cannot remove the last administrator.";
@@ -363,8 +357,8 @@ public class UserService : ICrud
         entity.Name = first;
         entity.LastName = last;
 
-        this.repository.Update(entity);
-        this.repository.SaveChanges();
+        this.unitOfWork.Users.Update(entity);
+        this.unitOfWork.SaveChanges();
         return true;
     }
 }

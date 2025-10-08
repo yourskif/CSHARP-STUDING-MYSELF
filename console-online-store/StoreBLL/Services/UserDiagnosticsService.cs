@@ -7,8 +7,8 @@ using System.Linq;
 
 using StoreBLL.Security;
 
-using StoreDAL.Data;
 using StoreDAL.Entities;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Service for user diagnostics and admin operations.
@@ -16,25 +16,21 @@ using StoreDAL.Entities;
 /// </summary>
 public sealed class UserDiagnosticsService
 {
-    private readonly StoreDbContext db;
+    private readonly IStoreUnitOfWork unitOfWork;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UserDiagnosticsService"/> class.
     /// </summary>
-    /// <param name="db">Database context for user operations.</param>
-    /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
-    public UserDiagnosticsService(StoreDbContext db)
+    /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+    /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+    public UserDiagnosticsService(IStoreUnitOfWork unitOfWork)
     {
-        this.db = db ?? throw new ArgumentNullException(nameof(db));
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    /// <summary>
-    /// Gets all users with password hash information.
-    /// </summary>
-    /// <returns>Enumerable of users with hash verification status.</returns>
     public IEnumerable<UserHashInfo> GetUsersWithHashInfo()
     {
-        return this.db.Users
+        return this.unitOfWork.Context.Users
             .OrderBy(u => u.Id)
             .Take(100)
             .ToList()
@@ -48,21 +44,15 @@ public sealed class UserDiagnosticsService
             });
     }
 
-    /// <summary>
-    /// Resets default admin account to standard credentials.
-    /// Sets login to "admin" and password to "Admin@123" with proper hashing.
-    /// </summary>
-    /// <returns>Information about reset admin account.</returns>
     public UserHashInfo ResetDefaultAdmin()
     {
         const string adminLogin = "admin";
         const string adminPassword = "Admin@123";
 
-        var admin = this.db.Users.FirstOrDefault(u => u.Login == adminLogin);
+        var admin = this.unitOfWork.Context.Users.FirstOrDefault(u => u.Login == adminLogin);
 
         if (admin == null)
         {
-            // Create new admin user
             var adminHash = PasswordHasher.HashPassword(adminPassword);
             var newAdmin = new User
             {
@@ -74,8 +64,8 @@ public sealed class UserDiagnosticsService
                 IsBlocked = false,
             };
 
-            this.db.Users.Add(newAdmin);
-            this.db.SaveChanges();
+            this.unitOfWork.Context.Users.Add(newAdmin);
+            this.unitOfWork.SaveChanges();
 
             return new UserHashInfo
             {
@@ -87,7 +77,6 @@ public sealed class UserDiagnosticsService
             };
         }
 
-        // Fix existing admin
         bool changed = false;
 
         if (admin.RoleId != 1)
@@ -110,7 +99,7 @@ public sealed class UserDiagnosticsService
 
         if (changed)
         {
-            this.db.SaveChanges();
+            this.unitOfWork.SaveChanges();
         }
 
         bool hashed = admin.Password?.StartsWith("PBKDF2$", StringComparison.Ordinal) == true;
@@ -125,13 +114,9 @@ public sealed class UserDiagnosticsService
         };
     }
 
-    /// <summary>
-    /// Gets total count of users.
-    /// </summary>
-    /// <returns>Total user count.</returns>
     public int GetTotalUserCount()
     {
-        return this.db.Users.Count();
+        return this.unitOfWork.Context.Users.Count();
     }
 
     private static string GetPasswordPreview(string? password)
@@ -144,34 +129,16 @@ public sealed class UserDiagnosticsService
         return password.Length > 28 ? password[..28] : password;
     }
 
-    /// <summary>
-    /// Represents user with password hash information.
-    /// </summary>
     public class UserHashInfo
     {
-        /// <summary>
-        /// Gets or sets user ID.
-        /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets user login.
-        /// </summary>
         public string Login { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets or sets user role ID.
-        /// </summary>
         public int RoleId { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether password is hashed with PBKDF2.
-        /// </summary>
         public bool IsHashed { get; set; }
 
-        /// <summary>
-        /// Gets or sets password preview (first 28 characters).
-        /// </summary>
         public string PasswordPreview { get; set; } = string.Empty;
     }
 }
