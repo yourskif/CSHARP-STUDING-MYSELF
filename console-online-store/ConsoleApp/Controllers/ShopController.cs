@@ -7,8 +7,7 @@ using System.Linq;
 using StoreBLL.Models;
 using StoreBLL.Services;
 
-using StoreDAL.Data;
-using StoreDAL.Repository;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.Controllers
 {
@@ -26,15 +25,12 @@ namespace ConsoleApp.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="ShopController"/> class.
         /// </summary>
-        /// <param name="db">Database context for operations.</param>
-        /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
-        public ShopController(StoreDbContext db)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+        public ShopController(IStoreUnitOfWork unitOfWork)
         {
-            ArgumentNullException.ThrowIfNull(db);
-
-            // Build repository and service from provided DbContext
-            var productRepository = new ProductRepository(db);
-            this.productService = new ProductService(productRepository);
+            ArgumentNullException.ThrowIfNull(unitOfWork);
+            this.productService = new ProductService(unitOfWork);
         }
 
         /// <summary>

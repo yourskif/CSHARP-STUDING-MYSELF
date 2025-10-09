@@ -3,7 +3,7 @@ using System.Linq;
 
 using StoreBLL.Services;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.Controllers
 {
@@ -13,17 +13,17 @@ namespace ConsoleApp.Controllers
     /// </summary>
     public class AdminUserController
     {
-        private readonly StoreDbContext context;
+        private readonly IStoreUnitOfWork unitOfWork;
         private readonly UserService userService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminUserController"/> class.
         /// </summary>
-        /// <param name="context">Database context for user operations.</param>
-        public AdminUserController(StoreDbContext context)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        public AdminUserController(IStoreUnitOfWork unitOfWork)
         {
-            this.context = context;
-            this.userService = new UserService(context);
+            this.unitOfWork = unitOfWork;
+            this.userService = new UserService(unitOfWork);
         }
 
         /// <summary>
@@ -81,8 +81,8 @@ namespace ConsoleApp.Controllers
             Console.Clear();
             Console.WriteLine("=== ALL USERS ===");
 
-            var users = this.context.Users.ToList();
-            var roles = this.context.UserRoles.ToList();
+            var users = this.unitOfWork.Context.Users.ToList();
+            var roles = this.unitOfWork.Context.UserRoles.ToList();
 
             foreach (var user in users)
             {
@@ -109,7 +109,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var user = this.context.Users.Find(userId);
+            var user = this.unitOfWork.Context.Users.Find(userId);
             if (user == null)
             {
                 Console.WriteLine("User not found.");
@@ -117,8 +117,8 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var role = this.context.UserRoles.Find(user.RoleId);
-            var orderCount = this.context.CustomerOrders.Count(o => o.UserId == userId);
+            var role = this.unitOfWork.Context.UserRoles.Find(user.RoleId);
+            var orderCount = this.unitOfWork.Context.CustomerOrders.Count(o => o.UserId == userId);
 
             Console.Clear();
             Console.WriteLine("=== USER DETAILS ===");
@@ -147,7 +147,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var user = this.context.Users.Find(userId);
+            var user = this.unitOfWork.Context.Users.Find(userId);
             if (user == null)
             {
                 Console.WriteLine("User not found.");
@@ -158,7 +158,7 @@ namespace ConsoleApp.Controllers
             Console.WriteLine($"Current role ID: {user.RoleId}");
             Console.WriteLine("Available roles:");
 
-            var roles = this.context.UserRoles.ToList();
+            var roles = this.unitOfWork.Context.UserRoles.ToList();
             foreach (var role in roles)
             {
                 Console.WriteLine($"{role.Id}. {role.RoleName}");
@@ -180,7 +180,7 @@ namespace ConsoleApp.Controllers
             }
 
             user.RoleId = newRoleId;
-            this.context.SaveChanges();
+            this.unitOfWork.SaveChanges();
 
             Console.WriteLine("✓ User role updated successfully.");
             Console.WriteLine("\nPress any key to continue...");
@@ -201,7 +201,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var user = this.context.Users.Find(userId);
+            var user = this.unitOfWork.Context.Users.Find(userId);
             if (user == null)
             {
                 Console.WriteLine("User not found.");
@@ -218,7 +218,7 @@ namespace ConsoleApp.Controllers
             }
 
             user.IsBlocked = !user.IsBlocked;
-            this.context.SaveChanges();
+            this.unitOfWork.SaveChanges();
 
             string status = user.IsBlocked ? "blocked" : "unblocked";
             Console.WriteLine($"✓ User {user.Login} has been {status}.");
@@ -241,7 +241,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var user = this.context.Users.Find(userId);
+            var user = this.unitOfWork.Context.Users.Find(userId);
             if (user == null)
             {
                 Console.WriteLine("User not found.");
@@ -258,7 +258,7 @@ namespace ConsoleApp.Controllers
             }
 
             // Check if user has orders
-            var orderCount = this.context.CustomerOrders.Count(o => o.UserId == userId);
+            var orderCount = this.unitOfWork.Context.CustomerOrders.Count(o => o.UserId == userId);
             if (orderCount > 0)
             {
                 Console.WriteLine($"User has {orderCount} orders. Delete anyway? (YES/NO)");
@@ -271,8 +271,8 @@ namespace ConsoleApp.Controllers
                 }
             }
 
-            this.context.Users.Remove(user);
-            this.context.SaveChanges();
+            this.unitOfWork.Context.Users.Remove(user);
+            this.unitOfWork.SaveChanges();
 
             Console.WriteLine($"✓ User {user.Login} deleted successfully.");
             Console.WriteLine("\nPress any key to continue...");

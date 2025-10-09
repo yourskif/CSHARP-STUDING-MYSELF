@@ -6,18 +6,18 @@ using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Admin diagnostics and system utilities.
 /// </summary>
 public class AdminDiagnosticsController
 {
-    private readonly StoreDbContext db;
+    private readonly IStoreUnitOfWork unitOfWork;
 
-    public AdminDiagnosticsController(StoreDbContext context)
+    public AdminDiagnosticsController(IStoreUnitOfWork unitOfWork)
     {
-        this.db = context ?? throw new ArgumentNullException(nameof(context));
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
     /// <summary>
@@ -80,14 +80,14 @@ public class AdminDiagnosticsController
 
         try
         {
-            var userCount = this.db.Users.Count();
-            var productCount = this.db.Products.Count();
-            var orderCount = this.db.CustomerOrders.Count();
-            var categoryCount = this.db.Categories.Count();
-            var manufacturerCount = this.db.Manufacturers.Count();
+            var userCount = this.unitOfWork.Context.Users.Count();
+            var productCount = this.unitOfWork.Context.Products.Count();
+            var orderCount = this.unitOfWork.Context.CustomerOrders.Count();
+            var categoryCount = this.unitOfWork.Context.Categories.Count();
+            var manufacturerCount = this.unitOfWork.Context.Manufacturers.Count();
 
-            var totalStock = this.db.Products.Sum(p => (long)p.StockQuantity);
-            var totalReserved = this.db.Products.Sum(p => (long)p.ReservedQuantity);
+            var totalStock = this.unitOfWork.Context.Products.Sum(p => (long)p.StockQuantity);
+            var totalReserved = this.unitOfWork.Context.Products.Sum(p => (long)p.ReservedQuantity);
 
             Console.WriteLine($"Users:          {userCount}");
             Console.WriteLine($"Products:       {productCount}");
@@ -117,7 +117,7 @@ public class AdminDiagnosticsController
             var issues = 0;
 
             // Check for negative stock
-            var negativeStock = this.db.Products
+            var negativeStock = this.unitOfWork.Context.Products
                 .Where(p => p.StockQuantity < 0)
                 .ToList();
 
@@ -133,7 +133,7 @@ public class AdminDiagnosticsController
             }
 
             // Check for negative reservations
-            var negativeReserved = this.db.Products
+            var negativeReserved = this.unitOfWork.Context.Products
                 .Where(p => p.ReservedQuantity < 0)
                 .ToList();
 
@@ -149,7 +149,7 @@ public class AdminDiagnosticsController
             }
 
             // Check for reservations > stock
-            var invalidReservations = this.db.Products
+            var invalidReservations = this.unitOfWork.Context.Products
                 .Where(p => p.ReservedQuantity > p.StockQuantity)
                 .ToList();
 
@@ -165,8 +165,8 @@ public class AdminDiagnosticsController
             }
 
             // Check for orphaned order details
-            var orderIds = this.db.CustomerOrders.Select(o => o.Id).ToHashSet();
-            var orphanedDetails = this.db.OrderDetails
+            var orderIds = this.unitOfWork.Context.CustomerOrders.Select(o => o.Id).ToHashSet();
+            var orphanedDetails = this.unitOfWork.Context.OrderDetails
                 .Where(od => !orderIds.Contains(od.OrderId))
                 .ToList();
 
@@ -177,7 +177,7 @@ public class AdminDiagnosticsController
             }
 
             // Check for blocked admin
-            var blockedAdmins = this.db.Users
+            var blockedAdmins = this.unitOfWork.Context.Users
                 .Where(u => u.RoleId == 1 && u.IsBlocked)
                 .ToList();
 
@@ -216,7 +216,7 @@ public class AdminDiagnosticsController
 
         try
         {
-            StoreDAL.Data.StoreDbFactory.EnsureDefaultAdmin(this.db);
+            StoreDAL.Data.StoreDbFactory.EnsureDefaultAdmin(this.unitOfWork.Context);
             Console.WriteLine("✓ Admin account reset successfully!");
             Console.WriteLine("  Login: admin");
             Console.WriteLine("  Password: Admin@123");
@@ -236,7 +236,7 @@ public class AdminDiagnosticsController
 
         try
         {
-            var connection = this.db.Database.GetDbConnection();
+            var connection = this.unitOfWork.Context.Database.GetDbConnection();
             Console.WriteLine($"Provider:     SQLite");
             Console.WriteLine($"Database:     {connection.Database}");
             Console.WriteLine($"Data Source:  {connection.DataSource}");

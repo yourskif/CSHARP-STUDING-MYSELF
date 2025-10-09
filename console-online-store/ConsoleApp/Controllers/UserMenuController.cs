@@ -6,7 +6,7 @@ using System;
 using StoreBLL.Models;
 using StoreBLL.Services;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Main menu controller for user operations.
@@ -14,7 +14,7 @@ using StoreDAL.Data;
 /// </summary>
 public static class UserMenuController
 {
-    public static StoreDbContext? Context { get; set; }
+    public static IStoreUnitOfWork? UnitOfWork { get; set; }
 
     public static UserModel? CurrentUser { get; private set; }
 
@@ -30,7 +30,11 @@ public static class UserMenuController
     /// <summary>App entry: main menu loop.</summary>
     public static void Start()
     {
-        Context = StoreDAL.Data.StoreDbFactory.Create();
+#pragma warning disable CA2000 // Context is intentionally kept alive for entire application lifetime
+        // Create context and wrap in UnitOfWork - kept alive for entire app lifetime
+        var context = StoreDAL.Data.StoreDbFactory.Create();
+        UnitOfWork = new StoreDAL.UnitOfWork.StoreUnitOfWork(context);
+#pragma warning restore CA2000
 
         while (true)
         {
@@ -81,7 +85,7 @@ public static class UserMenuController
     /// <summary>Logged-in user menu: role-based navigation.</summary>
     private static void ShowUserMenu()
     {
-        if (Context == null)
+        if (UnitOfWork == null)
         {
             Console.WriteLine("Error: Database context not initialized.");
             Console.WriteLine("Press any key to exit...");
@@ -120,23 +124,23 @@ public static class UserMenuController
         {
             case ConsoleKey.D1:
             case ConsoleKey.NumPad1:
-                new AdminUserController(Context!).ShowUserManagement();
+                new AdminUserController(UnitOfWork!).ShowUserManagement();
                 break;
             case ConsoleKey.D2:
             case ConsoleKey.NumPad2:
-                MenuBuilder.Admin.AdminMainMenu.Show(Context!);
+                MenuBuilder.Admin.AdminMainMenu.Show(UnitOfWork!);
                 break;
             case ConsoleKey.D3:
             case ConsoleKey.NumPad3:
-                new AdminCategoryController(Context!).ShowCategories();
+                new AdminCategoryController(UnitOfWork!).ShowCategories();
                 break;
             case ConsoleKey.D4:
             case ConsoleKey.NumPad4:
-                new AdminOrderController(Context!).Run();
+                new AdminOrderController(UnitOfWork!).Run();
                 break;
             case ConsoleKey.D5:
             case ConsoleKey.NumPad5:
-                new AdminDiagnosticsController(Context!).ShowDiagnostics();
+                new AdminDiagnosticsController(UnitOfWork!).ShowDiagnostics();
                 break;
             case ConsoleKey.L:
                 Logout();
@@ -161,15 +165,15 @@ public static class UserMenuController
         {
             case ConsoleKey.D1:
             case ConsoleKey.NumPad1:
-                MenuBuilder.User.UserMainMenu.Show(Context!);
+                MenuBuilder.User.UserMainMenu.Show(UnitOfWork!);
                 break;
             case ConsoleKey.D2:
             case ConsoleKey.NumPad2:
-                new UserOrderController(Context!).ShowOrderMenu();
+                new UserOrderController(UnitOfWork!).ShowOrderMenu();
                 break;
             case ConsoleKey.D3:
             case ConsoleKey.NumPad3:
-                new UserController(Context!).ShowProfileUpdateMenu();
+                new UserController(UnitOfWork!).ShowProfileUpdateMenu();
                 break;
             case ConsoleKey.L:
                 Logout();
@@ -199,14 +203,14 @@ public static class UserMenuController
             return;
         }
 
-        if (Context == null)
+        if (UnitOfWork == null)
         {
             Console.WriteLine("Error: Database context not initialized.");
             Pause();
             return;
         }
 
-        var userService = new UserService(Context);
+        var userService = new UserService(UnitOfWork);
 
         var user = userService.Authenticate(login, password);
         if (user != null)
@@ -268,14 +272,14 @@ public static class UserMenuController
             return;
         }
 
-        if (Context == null)
+        if (UnitOfWork == null)
         {
             Console.WriteLine("Error: Database context not initialized.");
             Pause();
             return;
         }
 
-        var userService = new UserService(Context);
+        var userService = new UserService(UnitOfWork);
 
         try
         {
@@ -308,14 +312,14 @@ public static class UserMenuController
 
     private static void BrowseProductsAsGuest()
     {
-        if (Context == null)
+        if (UnitOfWork == null)
         {
             Console.WriteLine("Error: Database context not initialized.");
             Pause();
             return;
         }
 
-        MenuBuilder.User.UserMainMenu.Show(Context);
+        MenuBuilder.User.UserMainMenu.Show(UnitOfWork);
     }
 
     private static string ReadPassword()

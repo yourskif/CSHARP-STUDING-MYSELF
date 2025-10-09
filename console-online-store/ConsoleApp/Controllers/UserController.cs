@@ -3,7 +3,7 @@ using System;
 using StoreBLL.Models;
 using StoreBLL.Services;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.Controllers
 {
@@ -14,9 +14,9 @@ namespace ConsoleApp.Controllers
     {
         private readonly UserService service;
 
-        public UserController(StoreDbContext context)
+        public UserController(IStoreUnitOfWork unitOfWork)
         {
-            this.service = new UserService(context);
+            this.service = new UserService(unitOfWork);
         }
 
         /// <summary>

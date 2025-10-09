@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using StoreBLL.Models;
 using StoreBLL.Services;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.Controllers
 {
@@ -19,10 +19,10 @@ namespace ConsoleApp.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="CategoryController"/> class.
         /// </summary>
-        /// <param name="context">Database context for category operations.</param>
-        public CategoryController(StoreDbContext context)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        public CategoryController(IStoreUnitOfWork unitOfWork)
         {
-            this.service = new CategoryService(context);
+            this.service = new CategoryService(unitOfWork);
         }
 
         /// <summary>

@@ -112,13 +112,13 @@ namespace StoreDAL.Repository
         /// </summary>
         /// <param name="id">User identifier.</param>
         /// <returns>User entity with Orders navigation property populated.</returns>
-        /// <exception cref="InvalidOperationException">Thrown when user with specified id is not found.</exception>
+        /// <exception cref="KeyNotFoundException">Thrown when user with specified id is not found.</exception>
         public User GetById(int id)
         {
-            // Non-null by contract: First(...) throws if not found
             return this.db.Users
                 .Include(u => u.Orders)
-                .First(u => u.Id == id);
+                .FirstOrDefault(u => u.Id == id)
+                ?? throw new KeyNotFoundException($"User with id {id} not found.");
         }
 
         /// <summary>

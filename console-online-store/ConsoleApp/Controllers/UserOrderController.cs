@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore;
 using StoreBLL.Interfaces;
 using StoreBLL.Services;
 
-using StoreDAL.Data;
 using StoreDAL.Entities;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Controller for user order management operations.
 /// </summary>
 public class UserOrderController
 {
-    private readonly StoreDbContext context;
+    private readonly IStoreUnitOfWork unitOfWork;
     private readonly StockReservationService stockService;
 
 #pragma warning disable CA1859 // Keep interface type for testability and loose coupling (intentional)
@@ -29,19 +29,20 @@ public class UserOrderController
     /// <summary>
     /// Initializes a new instance of the <see cref="UserOrderController"/> class.
     /// </summary>
-    /// <param name="context">Database context.</param>
-    public UserOrderController(StoreDbContext context)
+    /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+    public UserOrderController(IStoreUnitOfWork unitOfWork)
     {
-        this.context = context;
-        this.stockService = new StockReservationService(context);
-        this.orderService = new CustomerOrderService(context);
+        ArgumentNullException.ThrowIfNull(unitOfWork);
+        this.unitOfWork = unitOfWork;
+        this.stockService = new StockReservationService(unitOfWork);
+        this.orderService = new CustomerOrderService(unitOfWork);
     }
 
     /// <summary>
     /// Overloaded method for compatibility with UserMainMenu.
     /// </summary>
-    /// <param name="context">Database context.</param>
-    public void ShowOrderMenu(StoreDbContext context)
+    /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+    public void ShowOrderMenu(IStoreUnitOfWork unitOfWork)
     {
         this.ShowOrderMenu();
     }
@@ -129,7 +130,7 @@ public class UserOrderController
             }
 
             // Use AsNoTracking for read-only check
-            var product = this.context.Products
+            var product = this.unitOfWork.Context.Products
                 .AsNoTracking()
                 .FirstOrDefault(p => p.Id == productId);
 
@@ -170,20 +171,20 @@ public class UserOrderController
 
         // Phase 2: ATOMIC order creation with stock reservation
         // Using transaction to ensure all-or-nothing operation
-        using var transaction = this.context.Database.BeginTransaction();
+        this.unitOfWork.BeginTransaction();
         try
         {
             // Check and reserve ALL products atomically
             foreach (var detail in orderDetails)
             {
                 // Get fresh product data within transaction
-                var product = this.context.Products
+                var product = this.unitOfWork.Context.Products
                     .FirstOrDefault(p => p.Id == detail.ProductId);
 
                 if (product == null)
                 {
-                    transaction.Rollback();
-                    Console.WriteLine($"⚠ Product {detail.ProductId} no longer exists.");
+                    this.unitOfWork.Rollback();
+                    Console.WriteLine($"✖ Product {detail.ProductId} no longer exists.");
                     Console.WriteLine("Order creation aborted.");
                     Pause();
                     return;
@@ -192,8 +193,8 @@ public class UserOrderController
                 // Critical check: verify stock availability
                 if (detail.ProductAmount > product.AvailableQuantity)
                 {
-                    transaction.Rollback();
-                    Console.WriteLine($"⚠ Product {product.Id}: requested {detail.ProductAmount}, " +
+                    this.unitOfWork.Rollback();
+                    Console.WriteLine($"✖ Product {product.Id}: requested {detail.ProductAmount}, " +
                                     $"but only {product.AvailableQuantity} available now.");
                     Console.WriteLine("Order creation aborted. No changes were applied.");
                     Pause();
@@ -214,9 +215,9 @@ public class UserOrderController
                 Details = orderDetails,
             };
 
-            this.context.CustomerOrders.Add(order);
-            this.context.SaveChanges();
-            transaction.Commit();
+            this.unitOfWork.Context.CustomerOrders.Add(order);
+            this.unitOfWork.SaveChanges();
+            this.unitOfWork.Commit();
 
             Console.WriteLine($"\n✓ Order created successfully!");
             Console.WriteLine($"Order ID: {order.Id}");
@@ -224,7 +225,7 @@ public class UserOrderController
         }
         catch (Exception ex)
         {
-            transaction.Rollback();
+            this.unitOfWork.Rollback();
             Console.WriteLine($"✗ Error creating order: {ex.Message}");
         }
 
@@ -247,7 +248,7 @@ public class UserOrderController
             return;
         }
 
-        var orders = this.context.CustomerOrders
+        var orders = this.unitOfWork.Context.CustomerOrders
             .Where(o => o.UserId == user.Id)
             .OrderByDescending(o => o.Id)
             .ToList();
@@ -266,7 +267,7 @@ public class UserOrderController
         foreach (var order in orders)
         {
             // SQLite cannot aggregate decimal directly: double -> decimal
-            var total = (decimal)this.context.OrderDetails
+            var total = (decimal)this.unitOfWork.Context.OrderDetails
                 .Where(d => d.OrderId == order.Id)
                 .Select(d => (double)d.Price * d.ProductAmount)
                 .Sum();

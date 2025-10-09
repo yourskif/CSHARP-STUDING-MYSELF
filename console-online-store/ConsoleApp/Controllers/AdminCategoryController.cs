@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.Controllers
 {
@@ -11,16 +11,16 @@ namespace ConsoleApp.Controllers
     /// </summary>
     public class AdminCategoryController
     {
-        private readonly StoreDbContext context;
+        private readonly IStoreUnitOfWork unitOfWork;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminCategoryController"/> class.
         /// </summary>
-        /// <param name="context">Database context for category operations.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="context"/> is null.</exception>
-        public AdminCategoryController(StoreDbContext context)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="unitOfWork"/> is null.</exception>
+        public AdminCategoryController(IStoreUnitOfWork unitOfWork)
         {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace ConsoleApp.Controllers
             Console.Clear();
             Console.WriteLine("=== ALL CATEGORIES ===");
 
-            var categories = this.context.Categories.ToList();
+            var categories = this.unitOfWork.Context.Categories.ToList();
             if (categories.Count == 0)
             {
                 Console.WriteLine("No categories found.");
@@ -83,7 +83,7 @@ namespace ConsoleApp.Controllers
             {
                 foreach (var category in categories)
                 {
-                    var productCount = this.context.ProductTitles.Count(pt => pt.CategoryId == category.Id);
+                    var productCount = this.unitOfWork.Context.ProductTitles.Count(pt => pt.CategoryId == category.Id);
                     var name = category.Name ?? "(unnamed)";
                     Console.WriteLine($"ID: {category.Id} | Name: {name} | Products: {productCount}");
                 }
@@ -112,7 +112,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            bool exists = this.context.Categories.Any(c =>
+            bool exists = this.unitOfWork.Context.Categories.Any(c =>
                 c.Name != null && string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
 
             if (exists)
@@ -127,8 +127,8 @@ namespace ConsoleApp.Controllers
                 Name = name,
             };
 
-            this.context.Categories.Add(category);
-            this.context.SaveChanges();
+            this.unitOfWork.Context.Categories.Add(category);
+            this.unitOfWork.SaveChanges();
 
             Console.WriteLine($"✓ Category '{name}' created successfully with ID: {category.Id}");
             Pause();
@@ -153,7 +153,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var category = this.context.Categories.Find(categoryId);
+            var category = this.unitOfWork.Context.Categories.Find(categoryId);
             if (category == null)
             {
                 Console.WriteLine("Category not found.");
@@ -168,7 +168,7 @@ namespace ConsoleApp.Controllers
 
             if (!string.IsNullOrWhiteSpace(newName))
             {
-                bool exists = this.context.Categories.Any(c =>
+                bool exists = this.unitOfWork.Context.Categories.Any(c =>
                     c.Id != categoryId &&
                     c.Name != null &&
                     string.Equals(c.Name, newName, StringComparison.OrdinalIgnoreCase));
@@ -181,7 +181,7 @@ namespace ConsoleApp.Controllers
                 }
 
                 category.Name = newName;
-                this.context.SaveChanges();
+                this.unitOfWork.SaveChanges();
                 Console.WriteLine("✓ Category updated successfully.");
             }
             else
@@ -211,7 +211,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var category = this.context.Categories.Find(categoryId);
+            var category = this.unitOfWork.Context.Categories.Find(categoryId);
             if (category == null)
             {
                 Console.WriteLine("Category not found.");
@@ -219,7 +219,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var productCount = this.context.ProductTitles.Count(pt => pt.CategoryId == categoryId);
+            var productCount = this.unitOfWork.Context.ProductTitles.Count(pt => pt.CategoryId == categoryId);
             if (productCount > 0)
             {
                 Console.WriteLine($"Cannot delete category '{category.Name ?? "(unnamed)"}' - it has {productCount} products.");
@@ -234,8 +234,8 @@ namespace ConsoleApp.Controllers
             if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(confirmation, "y", StringComparison.OrdinalIgnoreCase))
             {
-                this.context.Categories.Remove(category);
-                this.context.SaveChanges();
+                this.unitOfWork.Context.Categories.Remove(category);
+                this.unitOfWork.SaveChanges();
                 Console.WriteLine($"✓ Category '{category.Name ?? "(unnamed)"}' deleted successfully.");
             }
             else

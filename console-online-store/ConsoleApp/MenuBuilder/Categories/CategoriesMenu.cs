@@ -2,7 +2,7 @@ using System;
 
 using ConsoleApp.Controllers;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.MenuBuilder.Categories
 {
@@ -16,10 +16,10 @@ namespace ConsoleApp.MenuBuilder.Categories
         /// Displays the full category management menu for administrators.
         /// Provides options for adding, listing, searching, updating, and deleting categories.
         /// </summary>
-        /// <param name="db">Database context for category operations.</param>
-        public static void Show(StoreDbContext db)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        public static void Show(IStoreUnitOfWork unitOfWork)
         {
-            var controller = new CategoryController(db);
+            var controller = new CategoryController(unitOfWork);
 
             while (true)
             {
@@ -71,10 +71,10 @@ namespace ConsoleApp.MenuBuilder.Categories
         /// Displays the read-only category menu for registered users and guests.
         /// Provides options for listing and searching categories without modification rights.
         /// </summary>
-        /// <param name="db">Database context for category operations.</param>
-        public static void ShowReadOnly(StoreDbContext db)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        public static void ShowReadOnly(IStoreUnitOfWork unitOfWork)
         {
-            var controller = new CategoryController(db);
+            var controller = new CategoryController(unitOfWork);
 
             while (true)
             {

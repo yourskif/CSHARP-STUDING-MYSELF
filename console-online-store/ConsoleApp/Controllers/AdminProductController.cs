@@ -8,24 +8,23 @@ using System.Collections.Generic;
 
 using StoreBLL.Models;
 using StoreBLL.Services;
-using StoreDAL.Data;
 using StoreDAL.Entities;
-using StoreDAL.Repository;
+using StoreDAL.UnitOfWork;
 
 /// <summary>
 /// Admin flows for managing products in console UI (list, add, edit, delete).
-/// Uses ProductService directly for operations and DbContext to help pick FK IDs.
+/// Uses ProductService directly for operations and UnitOfWork to help pick FK IDs.
 /// </summary>
 public class AdminProductController
 {
-    private readonly StoreDbContext db;
+    private readonly IStoreUnitOfWork unitOfWork;
     private readonly ProductService productService;
 
-    public AdminProductController(StoreDbContext db)
+    public AdminProductController(IStoreUnitOfWork unitOfWork)
     {
-        ArgumentNullException.ThrowIfNull(db);
-        this.db = db;
-        this.productService = new ProductService(new ProductRepository(db));
+        ArgumentNullException.ThrowIfNull(unitOfWork);
+        this.unitOfWork = unitOfWork;
+        this.productService = new ProductService(unitOfWork);
     }
 
     // ---------- LIST ----------

@@ -6,7 +6,7 @@ using ConsoleApp.Controllers;
 using StoreBLL.Models;
 using StoreBLL.Services;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.MenuBuilder.Admin
 {
@@ -21,10 +21,10 @@ namespace ConsoleApp.MenuBuilder.Admin
         /// Displays the user management menu and handles administrator actions.
         /// Provides options for listing, blocking, unblocking, deleting, and editing user profiles.
         /// </summary>
-        /// <param name="db">Database context for user operations.</param>
-        public static void Show(StoreDbContext db)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        public static void Show(IStoreUnitOfWork unitOfWork)
         {
-            var service = new UserService(db);
+            var service = new UserService(unitOfWork);
 
             while (true)
             {

@@ -3,7 +3,7 @@
 using ConsoleApp.Controllers;
 using ConsoleApp.MenuBuilder.Categories;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.MenuBuilder.User
 {
@@ -15,10 +15,10 @@ namespace ConsoleApp.MenuBuilder.User
         /// <summary>
         /// Shows the user main menu with options for browsing products and managing orders.
         /// </summary>
-        /// <param name="db">Database context.</param>
-        public static void Show(StoreDbContext db)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        public static void Show(IStoreUnitOfWork unitOfWork)
         {
-            var shopController = new ShopController(db);
+            var shopController = new ShopController(unitOfWork);
 
             while (true)
             {
@@ -42,7 +42,7 @@ namespace ConsoleApp.MenuBuilder.User
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        CategoriesMenu.ShowReadOnly(db);
+                        CategoriesMenu.ShowReadOnly(unitOfWork);
                         break;
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
@@ -51,12 +51,12 @@ namespace ConsoleApp.MenuBuilder.User
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
                         // Create instance of UserOrderController and open its menu
-                        var orderController = new UserOrderController(db);
+                        var orderController = new UserOrderController(unitOfWork);
                         orderController.ShowOrderMenu();
                         break;
                     case ConsoleKey.D4:
                     case ConsoleKey.NumPad4:
-                        ShowUpdateProfile(db);
+                        ShowUpdateProfile(unitOfWork);
                         break;
                     case ConsoleKey.Escape:
                         UserMenuController.SetCurrentUser(null); // Logout
@@ -68,7 +68,7 @@ namespace ConsoleApp.MenuBuilder.User
         /// <summary>
         /// Shows profile update menu for the current user.
         /// </summary>
-        private static void ShowUpdateProfile(StoreDbContext db)
+        private static void ShowUpdateProfile(IStoreUnitOfWork unitOfWork)
         {
             if (UserMenuController.CurrentUser == null)
             {
@@ -96,7 +96,7 @@ namespace ConsoleApp.MenuBuilder.User
 
             try
             {
-                var userController = new UserController(db);
+                var userController = new UserController(unitOfWork);
                 var updated = userController.UpdateProfile(UserMenuController.CurrentUser.Id, firstName, lastName);
 
                 if (updated)

@@ -3,7 +3,7 @@
 using StoreBLL.Models;
 using StoreBLL.Services;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.Controllers
 {
@@ -17,11 +17,11 @@ namespace ConsoleApp.Controllers
         /// Returns authenticated <see cref="UserModel"/> or null on failure.
         /// Also sets <see cref="UserMenuController.SetCurrentUser(UserModel?)"/> on success.
         /// </summary>
-        public static UserModel? Login(StoreDbContext db)
+        public static UserModel? Login(IStoreUnitOfWork unitOfWork)
         {
-            ArgumentNullException.ThrowIfNull(db);
+            ArgumentNullException.ThrowIfNull(unitOfWork);
 
-            var userService = new UserService(db);
+            var userService = new UserService(unitOfWork);
 
             Console.Clear();
             Console.WriteLine("=== SIGN IN ===");

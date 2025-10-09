@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using StoreBLL.Interfaces;
 using StoreBLL.Services;
 
-using StoreDAL.Data;
 using StoreDAL.Entities;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.Controllers
 {
@@ -21,7 +21,7 @@ namespace ConsoleApp.Controllers
     public sealed class AdminOrderController
     {
         // ---------- instance fields ----------
-        private readonly StoreDbContext db;
+        private readonly IStoreUnitOfWork unitOfWork;
         private readonly StockReservationService stockService;
 
 #pragma warning disable CA1859 // Keep interface type for testability and loose coupling (intentional)
@@ -32,13 +32,13 @@ namespace ConsoleApp.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminOrderController"/> class.
         /// </summary>
-        /// <param name="db">Database context for order operations.</param>
-        /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
-        public AdminOrderController(StoreDbContext db)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+        public AdminOrderController(IStoreUnitOfWork unitOfWork)
         {
-            this.db = db ?? throw new ArgumentNullException(nameof(db));
-            this.stockService = new StockReservationService(db);
-            this.orderService = new CustomerOrderService(db);
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.stockService = new StockReservationService(unitOfWork);
+            this.orderService = new CustomerOrderService(unitOfWork);
         }
 
         // ---------- PUBLIC methods (SA1202: public before private) ----------
@@ -197,7 +197,7 @@ namespace ConsoleApp.Controllers
             Console.Clear();
             Console.WriteLine("=== ADMIN: ORDERS SNAPSHOT ===\n");
 
-            var rows = this.db.CustomerOrders
+            var rows = this.unitOfWork.Context.CustomerOrders
                 .AsNoTracking()
                 .Include(o => o.User)
                 .OrderByDescending(o => o.Id)
@@ -222,7 +222,7 @@ namespace ConsoleApp.Controllers
 
             foreach (var r in rows)
             {
-                var total = (decimal)this.db.OrderDetails
+                var total = (decimal)this.unitOfWork.Context.OrderDetails
                     .Where(d => d.OrderId == r.Id)
                     .Select(d => (double)d.Price * d.ProductAmount)
                     .Sum();
@@ -250,7 +250,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var order = this.db.CustomerOrders
+            var order = this.unitOfWork.Context.CustomerOrders
                 .Include(o => o.User)
                 .FirstOrDefault(o => o.Id == id);
 
@@ -266,7 +266,7 @@ namespace ConsoleApp.Controllers
             Console.WriteLine($"User: {UserLabel(order.User)}");
             Console.WriteLine($"Status: {CustomerOrderService.StatusName(order.OrderStateId)}");
 
-            var details = this.db.OrderDetails
+            var details = this.unitOfWork.Context.OrderDetails
                 .Include(d => d.Product)
                 .ThenInclude(p => p!.Title)
                 .Where(d => d.OrderId == id)
@@ -314,7 +314,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var order = this.db.CustomerOrders.FirstOrDefault(o => o.Id == id);
+            var order = this.unitOfWork.Context.CustomerOrders.FirstOrDefault(o => o.Id == id);
             if (order == null)
             {
                 Console.WriteLine("Order not found.");
@@ -369,7 +369,7 @@ namespace ConsoleApp.Controllers
                 return;
             }
 
-            var order = this.db.CustomerOrders.FirstOrDefault(o => o.Id == id);
+            var order = this.unitOfWork.Context.CustomerOrders.FirstOrDefault(o => o.Id == id);
             if (order == null)
             {
                 Console.WriteLine("Order not found.");
@@ -406,7 +406,7 @@ namespace ConsoleApp.Controllers
             {
                 if (target == 8)
                 {
-                    var stockSvc = new StockReservationService(this.db);
+                    var stockSvc = new StockReservationService(this.unitOfWork);
                     stockSvc.ConfirmOrderDelivery(id);
                 }
 
@@ -449,7 +449,7 @@ namespace ConsoleApp.Controllers
             }
 
             // Delegate order creation to UserOrderController
-            var orderController = new UserOrderController(this.db);
+            var orderController = new UserOrderController(this.unitOfWork);
             orderController.CreateOrder();
 
             Console.WriteLine("\nOrder created successfully!");

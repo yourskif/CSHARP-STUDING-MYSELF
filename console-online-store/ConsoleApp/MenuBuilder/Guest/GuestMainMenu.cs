@@ -3,7 +3,7 @@ using System;
 using ConsoleApp.Controllers;
 using ConsoleApp.MenuBuilder.Categories;
 
-using StoreDAL.Data;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.MenuBuilder.Guest
 {
@@ -16,11 +16,11 @@ namespace ConsoleApp.MenuBuilder.Guest
         /// <summary>
         /// Displays the main menu for guest users with enhanced product browsing options.
         /// </summary>
-        /// <param name="db">Database context for data operations.</param>
-        public static void Show(StoreDbContext db)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        public static void Show(IStoreUnitOfWork unitOfWork)
         {
-            var userController = new UserController(db);
-            var shopController = new ShopController(db);
+            var userController = new UserController(unitOfWork);
+            var shopController = new ShopController(unitOfWork);
 
             while (true)
             {
@@ -41,7 +41,7 @@ namespace ConsoleApp.MenuBuilder.Guest
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        CategoriesMenu.ShowReadOnly(db);
+                        CategoriesMenu.ShowReadOnly(unitOfWork);
                         break;
 
                     case ConsoleKey.D2:

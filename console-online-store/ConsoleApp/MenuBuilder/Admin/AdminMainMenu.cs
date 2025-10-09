@@ -5,8 +5,7 @@ using ConsoleApp.Controllers;
 
 using StoreBLL.Services;
 
-using StoreDAL.Data;
-using StoreDAL.Repository;
+using StoreDAL.UnitOfWork;
 
 namespace ConsoleApp.MenuBuilder.Admin
 {
@@ -17,28 +16,28 @@ namespace ConsoleApp.MenuBuilder.Admin
     public sealed class AdminMainMenu
     {
         // -------- instance fields --------
-        private readonly StoreDbContext db;
+        private readonly IStoreUnitOfWork unitOfWork;
 
         // -------- ctor --------
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminMainMenu"/> class.
         /// </summary>
-        /// <param name="db">Database context for admin operations.</param>
-        /// <exception cref="ArgumentNullException">Thrown when db is null.</exception>
-        public AdminMainMenu(StoreDbContext db)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        /// <exception cref="ArgumentNullException">Thrown when unitOfWork is null.</exception>
+        public AdminMainMenu(IStoreUnitOfWork unitOfWork)
         {
-            this.db = db ?? throw new ArgumentNullException(nameof(db));
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         // -------- static members (must be before instance members to satisfy SA1204) --------
 
         /// <summary>
-        /// Backward compatibility with older code that calls AdminMainMenu.Show(db).
+        /// Backward compatibility with older code that calls AdminMainMenu.Show(unitOfWork).
         /// </summary>
-        /// <param name="db">Database context.</param>
-        public static void Show(StoreDbContext db)
+        /// <param name="unitOfWork">Unit of Work for transaction management.</param>
+        public static void Show(IStoreUnitOfWork unitOfWork)
         {
-            new AdminMainMenu(db).Run();
+            new AdminMainMenu(unitOfWork).Run();
         }
 
         // -------- instance members --------
@@ -71,17 +70,17 @@ namespace ConsoleApp.MenuBuilder.Admin
 
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        new AdminOrderController(this.db).Run();
+                        new AdminOrderController(this.unitOfWork).Run();
                         break;
 
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
-                        new AdminDiagnosticsController(this.db).Run();
+                        new AdminDiagnosticsController(this.unitOfWork).Run();
                         break;
 
                     case ConsoleKey.D4:
                     case ConsoleKey.NumPad4:
-                        AdminUsersMenu.Show(this.db);
+                        AdminUsersMenu.Show(this.unitOfWork);
                         break;
 
                     case ConsoleKey.D5:
@@ -111,10 +110,9 @@ namespace ConsoleApp.MenuBuilder.Admin
         private void ShowProductManagementMenu()
         {
             // Services wired with explicit dependencies
-            var productRepository = new ProductRepository(this.db);
-            var productService = new ProductService(productRepository);
-            var categoryService = new CategoryService(this.db);
-            var manufacturerService = new ManufacturerService(this.db);
+            var productService = new ProductService(this.unitOfWork);
+            var categoryService = new CategoryService(this.unitOfWork);
+            var manufacturerService = new ManufacturerService(this.unitOfWork);
             var productController = new ProductController(productService, categoryService, manufacturerService);
 
             while (true)
@@ -211,7 +209,7 @@ namespace ConsoleApp.MenuBuilder.Admin
             }
 
             // Delegate order creation to UserOrderController
-            var orderController = new UserOrderController(this.db);
+            var orderController = new UserOrderController(this.unitOfWork);
             orderController.CreateOrder();
 
             Console.WriteLine("\nOrder created successfully!");
