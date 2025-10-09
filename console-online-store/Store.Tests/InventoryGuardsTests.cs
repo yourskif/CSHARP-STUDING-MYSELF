@@ -15,9 +15,11 @@ public class InventoryGuardsTests
     [Fact]
     public void DoubleMoveTo8_IsRejected_AndCountersUnchanged()
     {
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
+            var ctx = unitOfWork.Context;
+
             // Take a product without initial reservations
             var product = ctx.Products
                 .OrderBy(p => p.Id)
@@ -31,7 +33,7 @@ public class InventoryGuardsTests
             // Create New(1) order + detail
             var order = new CustomerOrder { UserId = 2, OperationTime = DateTime.UtcNow.ToString("u"), OrderStateId = 1 };
             ctx.CustomerOrders.Add(order);
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             ctx.OrderDetails.Add(new OrderDetail
             {
@@ -40,14 +42,14 @@ public class InventoryGuardsTests
                 ProductAmount = q,
                 Price = product.UnitPrice,
             });
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Reserve for New order, as in UI
             var pForReserve = ctx.Products.First(p => p.Id == productId);
             pForReserve.ReservedQuantity += q;
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
-            var svc = new CustomerOrderService(ctx);
+            var svc = new CustomerOrderService(unitOfWork);
             Assert.True(svc.TryChangeState(order.Id, 4, out var e1), e1);
             Assert.True(svc.TryChangeState(order.Id, 5, out var e2), e2);
             Assert.True(svc.TryChangeState(order.Id, 6, out var e3), e3);
@@ -74,9 +76,11 @@ public class InventoryGuardsTests
     [Fact]
     public void ReleaseTwice_NeverGoesNegative_AndKeepsStock()
     {
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
+            var ctx = unitOfWork.Context;
+
             var product = ctx.Products
                 .OrderBy(p => p.Id)
                 .First(p => p.ReservedQuantity == 0 && p.StockQuantity >= 5);
@@ -88,7 +92,7 @@ public class InventoryGuardsTests
 
             var order = new CustomerOrder { UserId = 2, OperationTime = DateTime.UtcNow.ToString("u"), OrderStateId = 1 };
             ctx.CustomerOrders.Add(order);
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             ctx.OrderDetails.Add(new OrderDetail
             {
@@ -97,14 +101,14 @@ public class InventoryGuardsTests
                 ProductAmount = q,
                 Price = product.UnitPrice,
             });
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Reserve for New
             var p = ctx.Products.First(p => p.Id == productId);
             p.ReservedQuantity += q; // 0 -> 3
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
-            var stockSvc = new StockReservationService(ctx);
+            var stockSvc = new StockReservationService(unitOfWork);
 
             // Release twice
             stockSvc.ReleaseOrderReservations(order.Id);
@@ -120,9 +124,11 @@ public class InventoryGuardsTests
     [Fact]
     public void ConfirmDeliveryTwice_DoesNotDecrementStockTwice()
     {
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
+            var ctx = unitOfWork.Context;
+
             var product = ctx.Products.First(p => p.StockQuantity >= 20);
             int productId = product.Id;
             int q = 10;
@@ -136,7 +142,7 @@ public class InventoryGuardsTests
                 OrderStateId = 7, // Delivered
             };
             ctx.CustomerOrders.Add(order);
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             ctx.OrderDetails.Add(new OrderDetail
             {
@@ -145,9 +151,9 @@ public class InventoryGuardsTests
                 ProductAmount = q,
                 Price = product.UnitPrice,
             });
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
-            var stockSvc = new StockReservationService(ctx);
+            var stockSvc = new StockReservationService(unitOfWork);
 
             // First confirmation (state is 7, should process)
             stockSvc.ConfirmOrderDelivery(order.Id);
@@ -158,7 +164,7 @@ public class InventoryGuardsTests
             // Change order state to 8 (confirmed)
             var orderToUpdate = ctx.CustomerOrders.First(o => o.Id == order.Id);
             orderToUpdate.OrderStateId = 8;
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Second confirmation attempt (state is now 8, should skip)
             stockSvc.ConfirmOrderDelivery(order.Id);

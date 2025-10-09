@@ -24,10 +24,10 @@ namespace Store.Tests
         public void Register_CreatesNewUserWithHashedPassword()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 string firstName = "John";
                 string lastName = "Doe";
                 string login = "johndoe";
@@ -65,10 +65,10 @@ namespace Store.Tests
         public void Register_RejectsDuplicateLogin()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 string login = "duplicateuser";
 
                 // Create first user
@@ -94,10 +94,10 @@ namespace Store.Tests
         public void Register_ValidatesRequiredFields()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
 
                 // Act & Assert - empty firstName
                 Assert.Throws<ArgumentException>(() =>
@@ -129,10 +129,10 @@ namespace Store.Tests
         public void Authenticate_SucceedsWithCorrectCredentials()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 string login = "testuser";
                 string password = "TestPass123!";
 
@@ -161,10 +161,10 @@ namespace Store.Tests
         public void Authenticate_FailsWithWrongPassword()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 string login = "testuser";
                 string correctPassword = "CorrectPass123";
                 string wrongPassword = "WrongPass456";
@@ -191,10 +191,10 @@ namespace Store.Tests
         public void Authenticate_FailsForNonExistentUser()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
 
                 // Act
                 var result = service.Authenticate("nonexistent", "password");
@@ -216,10 +216,10 @@ namespace Store.Tests
         public void Authenticate_FailsForBlockedUser()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 string login = "blockeduser";
                 string password = "Password123";
 
@@ -248,10 +248,10 @@ namespace Store.Tests
         public void Authenticate_HandlesNullOrEmptyCredentials()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
 
                 // Act & Assert
                 Assert.Null(service.Authenticate(null, "password"));
@@ -274,10 +274,10 @@ namespace Store.Tests
         public void UpdateProfile_ModifiesUserInformation()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 var user = service.Register("Original", "Name", "testuser", "Password123");
 
                 // Act
@@ -305,10 +305,10 @@ namespace Store.Tests
         public void UpdateProfile_ValidatesInputFields()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 var user = service.Register("Test", "User", "testuser", "Password123");
 
                 // Act & Assert
@@ -330,10 +330,10 @@ namespace Store.Tests
         public void ChangePassword_ValidatesOldPassword()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 string oldPassword = "OldPass123";
                 string newPassword = "NewPass456";
 
@@ -367,10 +367,10 @@ namespace Store.Tests
         public void ChangePassword_FailsWithWrongOldPassword()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 string correctPassword = "CorrectPass123";
                 string wrongOldPassword = "WrongPass";
                 string newPassword = "NewPass456";
@@ -401,10 +401,10 @@ namespace Store.Tests
         public void BlockUser_PreventsAuthentication()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 string login = "testuser";
                 string password = "Password123";
 
@@ -434,10 +434,10 @@ namespace Store.Tests
         public void UnblockUser_RestoresAuthentication()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 string login = "testuser";
                 string password = "Password123";
 
@@ -468,10 +468,10 @@ namespace Store.Tests
         public void GetAll_ReturnsAllUsers()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
 
                 // Act
                 var users = service.GetAll().Cast<UserModel>().ToList();
@@ -494,10 +494,10 @@ namespace Store.Tests
         public void GetById_ReturnsCorrectUser()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
                 var created = service.Register("Test", "User", "testuser", "Password123");
 
                 // Act
@@ -522,13 +522,13 @@ namespace Store.Tests
         public void GetById_ThrowsForNonExistentUser()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new UserService(ctx);
+                var service = new UserService(unitOfWork);
 
-                // Act & Assert - UserRepository throws InvalidOperationException when user not found
-                Assert.Throws<InvalidOperationException>(() => service.GetById(99999));
+                // Act & Assert - UserRepository throws KeyNotFoundException when user not found
+                Assert.Throws<KeyNotFoundException>(() => service.GetById(99999));
             }
             finally
             {

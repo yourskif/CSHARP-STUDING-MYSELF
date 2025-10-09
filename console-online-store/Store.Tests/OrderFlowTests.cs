@@ -24,9 +24,11 @@ public class OrderFlowTests
     [Fact]
     public void HappyPath_New_To_8_ConfirmsAndZeroesReservations()
     {
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
+            var ctx = unitOfWork.Context;
+
             // Take a product without initial reservations (in seed data there are such products, e.g. #2)
             var product = ctx.Products.AsNoTracking()
                 .OrderBy(p => p.Id)
@@ -45,7 +47,7 @@ public class OrderFlowTests
                 OrderStateId = 1,
             };
             ctx.CustomerOrders.Add(order);
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Add order line
             ctx.OrderDetails.Add(new OrderDetail
@@ -55,15 +57,15 @@ public class OrderFlowTests
                 ProductAmount = q,
                 Price = product.UnitPrice,
             });
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Simulate reservation when creating New order (as in real UI)
             var pForReserve = ctx.Products.First(p => p.Id == productId);
             pForReserve.ReservedQuantity += q; // 0 + 10
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Progress through states to 8
-            var orderSvc = new CustomerOrderService(ctx);
+            var orderSvc = new CustomerOrderService(unitOfWork);
             Assert.True(orderSvc.TryChangeState(order.Id, 4, out var e1), e1);
             Assert.True(orderSvc.TryChangeState(order.Id, 5, out var e2), e2);
             Assert.True(orderSvc.TryChangeState(order.Id, 6, out var e3), e3);
@@ -91,9 +93,11 @@ public class OrderFlowTests
     [Fact]
     public void ForbiddenTransition_FromNew_To6_IsRejected_WithAllowedList()
     {
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
+            var ctx = unitOfWork.Context;
+
             var order = new CustomerOrder
             {
                 UserId = 2,
@@ -101,9 +105,9 @@ public class OrderFlowTests
                 OrderStateId = 1, // New
             };
             ctx.CustomerOrders.Add(order);
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
-            var svc = new CustomerOrderService(ctx);
+            var svc = new CustomerOrderService(unitOfWork);
             var ok = svc.TryChangeState(order.Id, 6, out var error);
 
             Assert.False(ok);
@@ -122,9 +126,11 @@ public class OrderFlowTests
     [Fact]
     public void AdminCancel_ReleasesReservations_StockUnchanged_Status3()
     {
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
+            var ctx = unitOfWork.Context;
+
             // Product without initial reservations
             var product = ctx.Products.AsNoTracking()
                 .OrderBy(p => p.Id)
@@ -143,7 +149,7 @@ public class OrderFlowTests
                 OrderStateId = 1,
             };
             ctx.CustomerOrders.Add(order);
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Order line
             ctx.OrderDetails.Add(new OrderDetail
@@ -153,18 +159,18 @@ public class OrderFlowTests
                 ProductAmount = q,
                 Price = product.UnitPrice,
             });
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Reserve for New order
             var pForReserve = ctx.Products.First(p => p.Id == productId);
             pForReserve.ReservedQuantity += q; // 0 + 10
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Admin cancellation: release reservations, don't touch stock, status 3
-            var stockSvc = new StockReservationService(ctx);
+            var stockSvc = new StockReservationService(unitOfWork);
             stockSvc.ReleaseOrderReservations(order.Id);
 
-            var orderSvc = new CustomerOrderService(ctx);
+            var orderSvc = new CustomerOrderService(unitOfWork);
             Assert.True(orderSvc.TryChangeState(order.Id, 3, out var err), err);
 
             var pAfter = ctx.Products.AsNoTracking().First(p => p.Id == productId);
@@ -184,9 +190,11 @@ public class OrderFlowTests
     [Fact]
     public void AtomicReservation_PreventsOverselling_WithConcurrentOrders()
     {
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
+            var ctx = unitOfWork.Context;
+
             // Setup: Find a product with limited stock
             var product = ctx.Products
                 .OrderBy(p => p.Id)
@@ -197,7 +205,7 @@ public class OrderFlowTests
 
             // Set stock to exactly 10 available
             product.StockQuantity = initialReserved + 10;
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Scenario: Two orders trying to reserve 6 units each
             // Only first should succeed (10 available, 6+6 > 10)
@@ -210,7 +218,7 @@ public class OrderFlowTests
                 OrderStateId = 1,
             };
             ctx.CustomerOrders.Add(order1);
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Simulate transaction: check and reserve
             var p1 = ctx.Products.First(p => p.Id == productId);
@@ -224,7 +232,7 @@ public class OrderFlowTests
                 ProductAmount = 6,
                 Price = product.UnitPrice,
             });
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Verify: 4 units remain available
             var afterOrder1 = ctx.Products.AsNoTracking().First(p => p.Id == productId);
@@ -238,7 +246,7 @@ public class OrderFlowTests
                 OrderStateId = 1,
             };
             ctx.CustomerOrders.Add(order2);
-            ctx.SaveChanges();
+            unitOfWork.SaveChanges();
 
             // Simulate transaction check
             var p2 = ctx.Products.First(p => p.Id == productId);

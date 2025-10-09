@@ -21,10 +21,10 @@ namespace Store.Tests
         public void GetAll_ReturnsAllCategories()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new CategoryService(ctx);
+                var service = new CategoryService(unitOfWork);
 
                 // Act
                 var categories = service.GetAll().ToList();
@@ -47,10 +47,10 @@ namespace Store.Tests
         public void GetById_ReturnsCorrectCategory()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new CategoryService(ctx);
+                var service = new CategoryService(unitOfWork);
 
                 // Act
                 var category = service.GetById(1);
@@ -73,10 +73,10 @@ namespace Store.Tests
         public void Add_CreatesNewCategory()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new CategoryService(ctx);
+                var service = new CategoryService(unitOfWork);
                 var model = new CategoryModel(0, "Test Category");
 
                 // Act
@@ -101,10 +101,10 @@ namespace Store.Tests
         public void Update_ModifiesExistingCategory()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new CategoryService(ctx);
+                var service = new CategoryService(unitOfWork);
                 var model = new CategoryModel(1, "Updated Category");
 
                 // Act
@@ -129,10 +129,10 @@ namespace Store.Tests
         public void Delete_RemovesCategory()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new CategoryService(ctx);
+                var service = new CategoryService(unitOfWork);
                 var newCategory = service.Add(new CategoryModel(0, "To Delete"));
 
                 // Act
@@ -156,10 +156,10 @@ namespace Store.Tests
         public void FindByName_ReturnsMatchingCategories()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new CategoryService(ctx);
+                var service = new CategoryService(unitOfWork);
                 service.Add(new CategoryModel(0, "Fruits Fresh"));
                 service.Add(new CategoryModel(0, "Vegetables Fresh"));
 
@@ -184,10 +184,10 @@ namespace Store.Tests
         public void FindByName_WithNoMatches_ReturnsEmptyList()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new CategoryService(ctx);
+                var service = new CategoryService(unitOfWork);
 
                 // Act
                 var results = service.FindByName("NonExistentCategory").ToList();
@@ -209,10 +209,10 @@ namespace Store.Tests
         public void Update_WithNonExistentId_ReturnsFalse()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new CategoryService(ctx);
+                var service = new CategoryService(unitOfWork);
                 var model = new CategoryModel(99999, "Non Existent");
 
                 // Act
@@ -235,10 +235,10 @@ namespace Store.Tests
         public void Delete_WithNonExistentId_ReturnsFalse()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new CategoryService(ctx);
+                var service = new CategoryService(unitOfWork);
 
                 // Act
                 var result = service.Delete(99999);

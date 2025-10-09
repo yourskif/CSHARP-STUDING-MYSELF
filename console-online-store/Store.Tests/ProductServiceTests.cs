@@ -22,10 +22,10 @@ namespace Store.Tests
         public void GetAll_ReturnsAllProducts()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new ProductService(new StoreDAL.Repository.ProductRepository(ctx));
+                var service = new ProductService(unitOfWork);
 
                 // Act
                 var products = service.GetAll();
@@ -48,10 +48,10 @@ namespace Store.Tests
         public void GetById_ReturnsCorrectProduct()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new ProductService(new StoreDAL.Repository.ProductRepository(ctx));
+                var service = new ProductService(unitOfWork);
 
                 // Act
                 var product = service.GetById(1);
@@ -74,10 +74,10 @@ namespace Store.Tests
         public void Add_CreatesNewProduct()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new ProductService(new StoreDAL.Repository.ProductRepository(ctx));
+                var service = new ProductService(unitOfWork);
 
                 // Act
                 var newProduct = service.Add(
@@ -108,10 +108,10 @@ namespace Store.Tests
         public void Update_ModifiesExistingProduct()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new ProductService(new StoreDAL.Repository.ProductRepository(ctx));
+                var service = new ProductService(unitOfWork);
 
                 // Act
                 var updated = service.Update(
@@ -143,10 +143,10 @@ namespace Store.Tests
         public void Delete_RemovesProduct()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new ProductService(new StoreDAL.Repository.ProductRepository(ctx));
+                var service = new ProductService(unitOfWork);
                 var newProduct = service.Add("Delete Me", "fruits", "GreenFarm", "DEL-001", "To delete", 5.0m, 10);
 
                 // Act
@@ -170,10 +170,10 @@ namespace Store.Tests
         public void Add_WithNegativePrice_ThrowsException()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new ProductService(new StoreDAL.Repository.ProductRepository(ctx));
+                var service = new ProductService(unitOfWork);
 
                 // Act & Assert
                 Assert.Throws<ArgumentOutOfRangeException>(() =>
@@ -193,10 +193,10 @@ namespace Store.Tests
         public void Add_WithNegativeStock_ThrowsException()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new ProductService(new StoreDAL.Repository.ProductRepository(ctx));
+                var service = new ProductService(unitOfWork);
 
                 // Act & Assert
                 Assert.Throws<ArgumentOutOfRangeException>(() =>
@@ -216,10 +216,10 @@ namespace Store.Tests
         public void Add_SetsReservedQuantityToZero()
         {
             // Arrange
-            var (ctx, cleanup) = TestDbHelper.CreateContext();
+            var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
             try
             {
-                var service = new ProductService(new StoreDAL.Repository.ProductRepository(ctx));
+                var service = new ProductService(unitOfWork);
 
                 // Act
                 var product = service.Add("Test", "fruits", "GreenFarm", "T-001", "Desc", 10m, 50);

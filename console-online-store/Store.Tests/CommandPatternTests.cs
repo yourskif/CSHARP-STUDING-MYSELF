@@ -13,10 +13,10 @@ public class CommandPatternTests
     public void CommandHistory_ExecuteAndUndo_Works()
     {
         // Arrange
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
-            var orderService = new CustomerOrderService(ctx);
+            var orderService = new CustomerOrderService(unitOfWork);
             var history = new CommandHistory();
 
             var order = new CustomerOrderModel
@@ -50,10 +50,10 @@ public class CommandPatternTests
     public void CommandHistory_GetHistory_ReturnsDescriptions()
     {
         // Arrange
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
-            var orderService = new CustomerOrderService(ctx);
+            var orderService = new CustomerOrderService(unitOfWork);
             var history = new CommandHistory();
 
             var order1 = new CustomerOrderModel { UserId = 2, OrderStateId = 1, OperationTime = DateTime.UtcNow.ToString("u") };
@@ -76,10 +76,10 @@ public class CommandPatternTests
     public void CommandHistory_MaxSize_LimitsHistory()
     {
         // Arrange
-        var (ctx, cleanup) = TestDbHelper.CreateContext();
+        var (unitOfWork, cleanup) = TestDbHelper.CreateUnitOfWork();
         try
         {
-            var orderService = new CustomerOrderService(ctx);
+            var orderService = new CustomerOrderService(unitOfWork);
             var history = new CommandHistory(maxHistorySize: 2);
 
             // Act - Add 3 commands
